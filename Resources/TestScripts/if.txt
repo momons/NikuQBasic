@@ -1,0 +1,100 @@
+' イコール
+var a
+a = 0
+if 1 = 1 then
+  a = 1
+endif
+========================
+' ノットイコール
+var a
+a = 0
+if 2 <> 1 then
+  a = 1
+endif
+========================
+' 小なり
+var a
+a = 0
+if 1 < 2 then
+  a = 1
+endif
+========================
+' 小なりイコール
+var a
+a = 0
+if 2 <= 2 then
+  a = 1
+endif
+========================
+' 大なり
+var a
+a = 0
+if 2 > 1 then
+  a = 1
+endif
+========================
+' 大なりイコール
+var a
+a = 0
+if 2 >= 2 then
+  a = 1
+endif
+========================
+' and
+var a
+a = 0
+if 1 = 1 and 2 = 2 then
+  a = 1
+endif
+========================
+' or
+var a
+a = 0
+if 1 = 2 or 2 = 2 then
+  a = 1
+endif
+========================
+' xor
+var a
+a = 0
+if 1 = 2 xor 2 = 2 then
+  a = 1
+endif
+========================
+' not
+var a
+a = 0
+if not 1 = 2 then
+  a = 1
+endif
+========================
+' else
+var a
+if 1 = 2 then
+  a = 0
+else
+  a = 1
+endif
+========================
+' elseif
+var a
+if 1 = 2 then
+  a = 0
+elseif 2 = 2 then
+  a = 1
+else
+  a = 0
+endif
+========================
+' elseifその２
+var a
+if 1 = 2 then
+  a = 0
+elseif 2 = 3 then
+  a = 0
+elseif 2 = 2 then
+  a = 1
+else
+  a = 0
+endif
+

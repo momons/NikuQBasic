@@ -109,4 +109,10 @@
 	XCTAssertEqual(interpreter->variables["a"], "1");
 }
 
+/// 変数の２重定義はコンパイルエラー
+- (void)test11 {
+	interpreter = new QBInterpreter(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
 @end
