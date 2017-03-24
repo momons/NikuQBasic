@@ -4,6 +4,7 @@ proj.ios_mac/mac
 xcuserdata
 proj.android
 proj.android-studio
-Resources
+Resources/*
+!Resources/TestScripts
 素材
 ._*

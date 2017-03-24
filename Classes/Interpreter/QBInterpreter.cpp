@@ -20,6 +20,8 @@
 #include "QBInterpreterSubFunction.h"
 #include "QBInterpreterStringFunctions.h"
 #include "QBInterpreterNetFunctions.h"
+#include "QBInterpreterValidation.h"
+#include "StringUtil.h"
 
 /**
  *  コンストラクタ
@@ -94,7 +96,6 @@ void QBInterpreter::initAndRun(const bool run) {
 	execOffset = 0;
 	pushBacked.shrink_to_fit();
 	initGlobalVariable();
-	initLocalVariable();
 	if (!run) {
 		compileSymbols.clear();
 		compileExecOffsets.clear();
@@ -109,15 +110,6 @@ void QBInterpreter::initAndRun(const bool run) {
 		gosubPushBacked.shrink_to_fit();
 		gosubExecOffset.shrink_to_fit();
 	}
-	if (!gosubLocalVariable.empty()) {
-		for(auto it = gosubLocalVariable.begin();it != gosubLocalVariable.end();it++){
-			for (int i = 0;i < MAX_COUNT_VARIABLE;i++) {
-				it[i]->shrink_to_fit();
-			}
-			gosubLocalVariable.erase(it);
-		}
-		gosubLocalVariable.shrink_to_fit();
-	}
 	
 	// 実行
 	while(statement(run));
@@ -127,20 +119,7 @@ void QBInterpreter::initAndRun(const bool run) {
  *  グローバル変数を初期化
  */
 void QBInterpreter::initGlobalVariable() {
-	for (int i = 0;i < MAX_COUNT_VARIABLE;i++) {
-		globalVariable[i].clear();
-		globalVariable[i].shrink_to_fit();
-	}
-}
-
-/**
- *  ローカル変数を初期化
- */
-void QBInterpreter::initLocalVariable() {
-	for (int i = 0;i < MAX_COUNT_VARIABLE;i++) {
-		localVariable[i].clear();
-		localVariable[i].shrink_to_fit();
-	}
+	variables.clear();
 }
 
 /**
@@ -389,13 +368,13 @@ string QBInterpreter::addsub(const bool run) {
             string num2 = muldiv(run);
 			if (isNumeric(num) && isNumeric(num2)) {
 				// 数値同士の足し算
-				num = toString(stof(num) + stof(num2));
+				num = StringUtil::toString(stof(num) + stof(num2));
 			} else {
 				// 文字列の足し算
                 num += num2;
             }
         } else if(sym.compare("-") == 0) {
-            num = toString(stof(num) - stof(muldiv(run)));
+            num = StringUtil::toString(stof(num) - stof(muldiv(run)));
         } else {
             break;
         }
@@ -419,13 +398,13 @@ string QBInterpreter::muldiv(const bool run) {
     string sym = getSymbol();
     while (true) {
         if (sym.compare("*") == 0) {
-            num = toString(stof(num) * stof(factor(run)));
+            num = StringUtil::toString(stof(num) * stof(factor(run)));
         } else if(sym.compare("/") == 0) {
             int num2 = stof(factor(run));
-            num = toString(stof(num) / (run ? num2 : 1));
+            num = StringUtil::toString(stof(num) / (run ? num2 : 1));
         } else if(sym.compare("%") == 0) {
             int num2 = stof(factor(run));
-            num = toString(stoi(num) % (run ? num2 : 1));
+            num = StringUtil::toString(stoi(num) % (run ? num2 : 1));
         } else {
             break;
         }
@@ -445,15 +424,11 @@ string QBInterpreter::factor(const bool run) {
     
     string sym = getSymbol();
     
-    // 変数かも
-    if (sym.length() == 1) {
-        const char *cstr = sym.c_str();
-        char ch = cstr[0];
-		if (isupper(ch)) {
-			return run ? globalVariable[ch - 'A'] : "1";
-		} else if (islower(ch)) {
-            return run ? localVariable[ch - 'a'] : "1";
-        } else if(ch == '(') {
+	if (variables.find(sym) != variables.end()) {
+		// 変数
+		return run ? variables[sym] : "1";
+	} else if (sym.length() == 1) {
+		if(sym.c_str()[0] == '(') {
             string num = expression(run);
             match(")");
             return num;
@@ -475,7 +450,7 @@ string QBInterpreter::factor(const bool run) {
     
     // 数値ならば
 	if (isNumeric(sym)) {
-		return toString(stof(sym));
+		return StringUtil::toString(stof(sym));
 	}
 	
     if (sym.find("\"") == 0) {
@@ -516,22 +491,29 @@ bool QBInterpreter::statement(const bool run) {
         return false;
     }
 
-    // 1文字抽出
-    const char *cstr = sym.c_str();
-    char ch = cstr[0];
-    
-    if (sym.length() == 1 && isalpha(ch)) {
-        // 変数
-        match("=");
-        string num = expression(run);
-        if (run) {
-			if (isupper(ch)) {
-				globalVariable[ch - 'A'] = num;
-			} else {
-				localVariable[ch - 'a'] = num;
+	if(variables.find(sym) != variables.end()) {
+		// 変数
+		match("=");
+		string num = expression(run);
+		if (run) {
+			variables[sym] = num;
+		}
+		return true;
+	} else if(sym.compare("var") == 0) {
+		// 変数宣言
+		sym = getSymbol();
+		if (!run) {
+			// 名前が不適切
+			if (!QBInterpreterValidation::isValidVariableName(sym)) {
+				setThrow("変数名が不適切です。");
 			}
-        }
-        return true;
+			// すでに宣言済み
+			if (variables.find(sym) != variables.end()) {
+				setThrow("変数が２重に定義されています。");
+			}
+		}
+		variables[sym] = "";
+		return true;
     } else if(sym.compare("if") == 0) {
         // if文
         bool b = !(expression(run).compare("0") == 0);
@@ -566,7 +548,6 @@ bool QBInterpreter::statement(const bool run) {
 		sym = getSymbol();
 		if (!run) {
 			// 保存
-//※			labelName[sym] = execOffset;
 			labelName[sym] = (int)compileSymbols.size();
 		}
         return true;
@@ -584,19 +565,11 @@ bool QBInterpreter::statement(const bool run) {
             if (sym.compare("gosub") == 0) {
                 // ローカル変数に行数とプッシュバック変数を退避
 				gosubPushBacked.push_back(pushBacked);
-//※				gosubExecOffset.push_back(execOffset);
 				gosubExecOffset.push_back(compileOffset);
-				string localVariable[MAX_COUNT_VARIABLE];
-				for (int i = 0;i < MAX_COUNT_VARIABLE;i++) {
-					localVariable[i] = localVariable[i];
-				}
 				gosubLocalVariable.push_back(localVariable);
-				// ローカル変数を初期化
-				initLocalVariable();
             }
 			compileOffset = loc;
             execOffset = compileExecOffsets[loc];
-//※			execOffset = loc;
 			pushBacked.clear();
         }
         return true;
@@ -614,11 +587,6 @@ bool QBInterpreter::statement(const bool run) {
 			pushBacked = *(gosubPushBacked.end() - 1);
 			compileOffset = *(gosubExecOffset.end() - 1);
 			execOffset = compileExecOffsets[compileOffset];
-//※			execOffset = *(gosubExecOffset.end() - 1);
-			string *stringArray = *(gosubLocalVariable.end() - 1);
-			for (int i = 0;i < MAX_COUNT_VARIABLE;i++) {
-				localVariable[i] = stringArray[i];
-			}
 			// 削除
 			gosubPushBacked.pop_back();
 			gosubExecOffset.pop_back();
@@ -627,31 +595,15 @@ bool QBInterpreter::statement(const bool run) {
         return true;
     } else if(sym.compare("for") == 0) {
         sym = getSymbol();
-        if (sym.length() == 1) {
-            // 1文字抽出
-            const char *cstr = sym.c_str();
-            char counter = cstr[0];
-            
-            match("=");
 
-            // 変数取得
-            int index;
-            if (islower(counter)) {
-				index = counter - 'a';
-            } else {
-                ostringstream stream;
-                stream << "variable missing";
-                setThrow(stream.str());
-                return false;
-            }
-            
+		if (variables.find(sym) != variables.end()) {
+			
+            match("=");
+			
             string num = expression(run);
-            if (run) {
-                localVariable[index] = num;
-			} else {
-				localVariable[index] = "0";
-			}
-			int from = stoi(localVariable[index]);
+			variables[sym] = run ? num : "0";
+			
+			int from = stoi(variables[sym]);
 				
             sym = getSymbol();
             if (sym.compare("to") == 0) {
@@ -686,8 +638,8 @@ bool QBInterpreter::statement(const bool run) {
 				}
                 string pushbackfor = pushBacked;
                 while (!run ||
-					   (isUpLoop && stoi(localVariable[index]) <= to) ||
-					   (!isUpLoop && stoi(localVariable[index]) >= to)) {
+					   (isUpLoop && stoi(variables[sym]) <= to) ||
+					   (!isUpLoop && stoi(variables[sym]) >= to)) {
 					
 					if (isRun) {
 						compileOffset = pcfor;
@@ -713,7 +665,7 @@ bool QBInterpreter::statement(const bool run) {
 					count++;
 					
                     if (run) {
-                        localVariable[index] = toString(stoi(localVariable[index]) + step);
+                        variables[sym] = StringUtil::toString(stoi(variables[sym]) + step);
                     } else {
                         break;
                     }
@@ -849,16 +801,5 @@ bool QBInterpreter::isNumeric(const string num) {
 	}
 	
 	return false;
-}
-
-/**
- *  数値を文字列に変換
- *  @param num 数値
- *  @return 文字列
- */
-string QBInterpreter::toString(const double num) {
-	ostringstream os;
-	os << num;
-	return os.str();
 }
 

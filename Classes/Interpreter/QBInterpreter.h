@@ -37,6 +37,9 @@ public:
 	/// サブファンクション
 	QBInterpreterSubFunction *subFunc;
 	
+	/// グローバル変数
+	map<string, string> variables;
+
 	/**
 	 *  コンストラクタ
 	 *  @param scene     シーン
@@ -97,9 +100,6 @@ private:
     /// プッシュバック用
     string pushBacked;
 	
-	/// グローバル変数
-	string globalVariable[MAX_COUNT_VARIABLE];
-	
     /// ローカル変数
     string localVariable[MAX_COUNT_VARIABLE];
 	
@@ -127,11 +127,6 @@ private:
 	
 	void initGlobalVariable();
 	
-	/**
-	 *  ローカル変数を初期化
-	 */
-	void initLocalVariable();
-
     /**
      * 単語を退避しておく
      * @param symbol 単語
@@ -206,13 +201,6 @@ private:
 	 *  @return 数値か否か
 	 */
 	bool isNumeric(const string num);
-	
-	/**
-	 *  数値を文字列に変換
-	 *  @param num 数値
-	 *  @return 文字列
-	 */
-	string toString(const double num);
 };
 
 #endif /* defined(__ToolQTheWorld__QBInterpreter__) */

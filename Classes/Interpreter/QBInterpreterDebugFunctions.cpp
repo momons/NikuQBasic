@@ -40,7 +40,9 @@ string QBInterpreterDebugFunctions::wait_qb(QBInterpreter *interpreter, const ve
 	return "";
 }
 string QBInterpreterDebugFunctions::log_qb(QBInterpreter *interpreter, const vector<string> arg) {
+#if COCOS2D_DEBUG
 	cout << arg[0] << "\n";
+#endif
 	return "";
 }
 string QBInterpreterDebugFunctions::error_qb(QBInterpreter *interpreter, const vector<string> arg) {
