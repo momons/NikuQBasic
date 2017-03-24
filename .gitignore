@@ -1,6 +1,7 @@
 CMakeLists.txt
 cocos2d
-proj.ios_mac
+proj.ios_mac/mac
+xcuserdata
 proj.android
 proj.android-studio
 Resources
