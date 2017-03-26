@@ -314,13 +314,13 @@ string QBInterpreter::relop(const bool run) {
         if (sym.compare("=") == 0) {
             num = (num.compare(addsub(run)) == 0) ? "1" : "0";
         } else if (sym.compare("<") == 0) {
-            num = (stof(num) < stof(addsub(run))) ? "1" : "0";
+            num = (num.compare(addsub(run)) < 0) ? "1" : "0";
         } else if (sym.compare("<=") == 0) {
-            num = (stof(num) <= stof(addsub(run))) ? "1" : "0";
+            num = (num.compare(addsub(run)) <= 0) ? "1" : "0";
         } else if (sym.compare(">") == 0) {
-            num = (stof(num) > stof(addsub(run))) ? "1" : "0";
+            num = (num.compare(addsub(run)) > 0) ? "1" : "0";
         } else if (sym.compare(">=") == 0) {
-            num = (stof(num) >= stof(addsub(run))) ? "1" : "0";
+            num = (num.compare(addsub(run)) >= 0) ? "1" : "0";
         } else if (sym.compare("<>") == 0) {
             num = (num.compare(addsub(run)) != 0) ? "1" : "0";
         } else {

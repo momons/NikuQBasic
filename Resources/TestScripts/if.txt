@@ -22,7 +22,7 @@ endif
 ' 小なりイコール
 var a
 a = 0
-if 2 <= 2 then
+if 1 <= 2 and 2 <= 2 then
   a = 1
 endif
 ========================
@@ -36,7 +36,7 @@ endif
 ' 大なりイコール
 var a
 a = 0
-if 2 >= 2 then
+if 2 >= 1 and 2 >= 2 then
   a = 1
 endif
 ========================
@@ -64,7 +64,7 @@ endif
 ' not
 var a
 a = 0
-if not 1 = 2 then
+if not(1 = 2) then
   a = 1
 endif
 ========================
@@ -97,4 +97,76 @@ elseif 2 = 2 then
 else
   a = 0
 endif
-
+========================
+' 文字比較イコール
+var a
+a = 0
+if "a" = "a" then
+  a = 1
+endif
+========================
+' 文字比較ノットイコール
+var a
+a = 0
+if "a" <> "b" then
+  a = 1
+endif
+========================
+' 文字比較小なり
+var a
+a = 0
+if "a" < "b" then
+  a = 1
+endif
+========================
+' 文字比較小なりイコール
+var a
+a = 0
+if "a" < "b" and "b" <= "b" then
+  a = 1
+endif
+========================
+' 文字比較大なり
+var a
+a = 0
+if "b" > "a" then
+  a = 1
+endif
+========================
+' 文字比較大なりイコール
+var a
+a = 0
+if "b" > "a" and "b" >= "b" then
+  a = 1
+endif
+========================
+' if文の中にif文
+var a
+a = 0
+if "a" = "a" then
+  if "b" <> "b" then
+   a = 0
+  else
+   a = 1
+  endif
+endif
+========================
+' else２個でコンパイルエラー
+var a
+if 1 = 1 then
+  a = 1
+else
+  a = 2
+else
+  a = 3
+endif
+========================
+' elseの後にelseifでコンパイルエラー
+var a
+if 1 = 1 then
+  a = 1
+else
+  a = 2
+elseif 1 = 1 then
+  a = 3
+endif
