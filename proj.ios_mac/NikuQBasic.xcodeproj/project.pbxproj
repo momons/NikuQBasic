@@ -34,6 +34,7 @@
 		2FA5D8821E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8811E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp */; };
 		2FA5D8861E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8851E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp */; };
 		2FA5D8891E7C73BB0044BB85 /* StringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */; };
+		2FD4A98E1E896960005E6C7A /* QBInterpreterGotoTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */; };
 		2FF185541E23B81400F97DBC /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF185531E23B81400F97DBC /* libcocos2d iOS.a */; };
 		2FF185601E23C0B300F97DBC /* QBInterpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FF1855A1E23C0B300F97DBC /* QBInterpreter.cpp */; };
 		2FF185611E23C0B300F97DBC /* QBInterpreterStatements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FF1855C1E23C0B300F97DBC /* QBInterpreterStatements.cpp */; };
@@ -181,6 +182,7 @@
 		2FA5D8871E7C6F2E0044BB85 /* QBInterpreterNetFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterNetFunctions.h; path = Interpreter/QBInterpreterNetFunctions.h; sourceTree = "<group>"; };
 		2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtil.cpp; sourceTree = "<group>"; };
 		2FA5D88A1E7C73C60044BB85 /* StringUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringUtil.h; sourceTree = "<group>"; };
+		2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterGotoTests.mm; sourceTree = "<group>"; };
 		2FF185531E23B81400F97DBC /* libcocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcocos2d iOS.a"; path = "../cocos2d/build/lib/libcocos2d iOS.a"; sourceTree = "<group>"; };
 		2FF1855A1E23C0B300F97DBC /* QBInterpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreter.cpp; path = Interpreter/QBInterpreter.cpp; sourceTree = "<group>"; };
 		2FF1855B1E23C0B300F97DBC /* QBInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QBInterpreter.h; path = Interpreter/QBInterpreter.h; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				2F5CE3E01E85416000EF0D65 /* QBInterpreterVariableTests.mm */,
 				2F5CE4291E85938900EF0D65 /* QBInterpreterCalculationTests.mm */,
 				2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */,
+				2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */,
 				2F5CE3E21E85416000EF0D65 /* Info.plist */,
 				2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */,
 				2F5CE42D1E85988C00EF0D65 /* TestFileUtils.h */,
@@ -812,6 +815,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F5CE42C1E85987F00EF0D65 /* TestFileUtils.m in Sources */,
+				2FD4A98E1E896960005E6C7A /* QBInterpreterGotoTests.mm in Sources */,
 				2F5CE3E11E85416000EF0D65 /* QBInterpreterVariableTests.mm in Sources */,
 				2F5CE42F1E859BE800EF0D65 /* QBInterpreterIfTests.mm in Sources */,
 				2F5CE42A1E85938900EF0D65 /* QBInterpreterCalculationTests.mm in Sources */,
@@ -1187,6 +1191,7 @@
 				2F5CE3E71E85416000EF0D65 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		5087E76C17EB910900C73F5D /* Build configuration list for PBXNativeTarget "NikuQBasic-desktop" */ = {
 			isa = XCConfigurationList;

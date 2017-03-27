@@ -509,7 +509,7 @@ bool QBInterpreter::statement(const bool run) {
 			}
 			// すでに宣言済み
 			if (variables.find(sym) != variables.end()) {
-				setThrow("変数が２重に定義されています。");
+				setThrow("変数が二重に定義されています。");
 			}
 		}
 		variables[sym] = "";
@@ -547,7 +547,11 @@ bool QBInterpreter::statement(const bool run) {
 		// ラベル
 		sym = getSymbol();
 		if (!run) {
-			// 保存
+			// 既存チェック
+			if (labelName.find(sym) != labelName.end()) {
+				setThrow("labelが二重に定義されています");
+				return false;
+			}
 			labelName[sym] = (int)compileSymbols.size();
 		}
         return true;
@@ -566,7 +570,7 @@ bool QBInterpreter::statement(const bool run) {
                 // ローカル変数に行数とプッシュバック変数を退避
 				gosubPushBacked.push_back(pushBacked);
 				gosubExecOffset.push_back(compileOffset);
-				gosubLocalVariable.push_back(localVariable);
+//※				gosubLocalVariable.push_back(localVariable);
             }
 			compileOffset = loc;
             execOffset = compileExecOffsets[loc];
@@ -582,7 +586,6 @@ bool QBInterpreter::statement(const bool run) {
 				setThrow(stream.str());
 				return false;
 			}
-			
 			// 退避していたものを戻す
 			pushBacked = *(gosubPushBacked.end() - 1);
 			compileOffset = *(gosubExecOffset.end() - 1);
@@ -590,7 +593,7 @@ bool QBInterpreter::statement(const bool run) {
 			// 削除
 			gosubPushBacked.pop_back();
 			gosubExecOffset.pop_back();
-			gosubLocalVariable.pop_back();
+//※			gosubLocalVariable.pop_back();
         }
         return true;
     } else if(sym.compare("for") == 0) {
