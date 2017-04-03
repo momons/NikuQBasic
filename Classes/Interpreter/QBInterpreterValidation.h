@@ -17,6 +17,9 @@ using namespace std;
 class QBInterpreterValidation final {
 public:
 	
+	/// エラーメッセージ
+	static string errorMessage;
+	
 	/**
 	 *  変数名チェック
 	 *  @param variableName 変数名

@@ -6,5 +6,7 @@ proj.android
 proj.android-studio
 Resources/*
 !Resources/TestScripts
+!Resources/ja.lproj
+!Resources/en.lproj
 素材
 ._*

@@ -1,0 +1,12 @@
+BadVariableName1="変数名が予約語と被っています。";
+BadVariableName2="変数名の頭に数字を使用しています。";
+BadVariableName3="変数名に英数字以外を使用しています。";
+VariableNameOverlap="変数名が二重に定義されています。";
+VariableUnknown="定義されていない変数名が指定されています。";
+MissingFound="想定の文字が見つかりませんでした。";
+UnknownSymbol="不明な文字が見つかりました。";
+LabelNameOverlap="ラベル名が二重で定義されています。";
+LabelNameUnknown="定義されていないラベル名が指定されています。";
+CannotReturn="これ以上returnはできません。";
+BadElseif="不正な場所にelseifがあります。";
+BadElse="不正な場所にelseがあります。";

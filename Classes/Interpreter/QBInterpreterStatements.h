@@ -27,7 +27,7 @@ public:
 	 * インスタンスシェア
 	 * @return インスタンス
 	 */
-	static QBInterpreterStatements sharedInstance();
+	static QBInterpreterStatements *sharedInstance();
 	
 	/**
 	 * ステートメント一覧作成
@@ -35,11 +35,6 @@ public:
 	 * @return ステートメント情報
 	 */
 	QBInterpreterStatementEntity *getStatement(const string name);
-	
-	/**
-	 * コンストラクタ
-	 */
-	QBInterpreterStatements();
 	
 	/**
 	 * デストラクタ
@@ -52,7 +47,12 @@ private:
 	unordered_map<string, QBInterpreterStatementEntity> statementList;
 	
 	/** インスタンス */
-	static QBInterpreterStatements interPreterConstansInstance;
+	static QBInterpreterStatements *interpreterConstansInstance;
+	
+	/**
+	 * コンストラクタ
+	 */
+	QBInterpreterStatements();
 	
 	/**
 	 * 初期化

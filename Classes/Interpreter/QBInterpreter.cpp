@@ -14,6 +14,7 @@
 #include <exception>
 #include <sstream>
 #include <iostream>
+#include "QBInterpreterStatements.h"
 #include "QBInterpreterStatementEntity.h"
 #include "QBInterpreterScene.h"
 #include "QBInterpreterSetupNodeEntity.h"
@@ -21,6 +22,7 @@
 #include "QBInterpreterStringFunctions.h"
 #include "QBInterpreterNetFunctions.h"
 #include "QBInterpreterValidation.h"
+#include "QBInterpreterMessages.h"
 #include "StringUtil.h"
 
 /**
@@ -33,6 +35,7 @@ QBInterpreter::QBInterpreter(QBInterpreterScene *scene, const string source, con
 
     // 定数取得
 	statements = QBInterpreterStatements::sharedInstance();
+	messages = QBInterpreterMessages::sharedInstance();
 	
     // 退避
     this->source = source;
@@ -265,9 +268,11 @@ string QBInterpreter::getSymbol() {
 void QBInterpreter::match(const string str) {
     string sym = getSymbol();
     if (sym.compare(str) != 0) {
+		// [ERROR]想定の文字が見つかりませんでした。
 		ostringstream stream;
-		stream << "'" << str << "' missing ('" << sym << "' found)";
-		setThrow(stream.str());
+		stream << "o:'" << str << "' x:'" << sym << "'";
+		string message = messages->getMessage("MissingFound", stream.str().c_str());
+		setThrow(message);
     }
 }
 
@@ -435,7 +440,7 @@ string QBInterpreter::factor(const bool run) {
         }
     } else {
         // 引数付きメソッドかな？
-        QBInterpreterStatementEntity *entity = statements.getStatement(sym);
+        QBInterpreterStatementEntity *entity = statements->getStatement(sym);
         if(entity != nullptr && entity->argCount > 0 && entity->isReturnValue){
             // 引数取得
             vector<string> argList = getArg(run,entity->argCount);
@@ -458,7 +463,7 @@ string QBInterpreter::factor(const bool run) {
         return sym.substr(1, sym.length() - 2);
     } else {
         // 引数付きメソッドかな？
-        QBInterpreterStatementEntity *entity = statements.getStatement(sym);
+        QBInterpreterStatementEntity *entity = statements->getStatement(sym);
         if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue){
 			if (run) {
 				// ステートメント実行
@@ -467,10 +472,9 @@ string QBInterpreter::factor(const bool run) {
 				return "1";
 			}
         } else {
-            // メソッドがないよ
-            ostringstream stream;
-			stream << "unknown symbol '" << sym << "'";
-			setThrow(stream.str());
+			// [ERROR]不明な文字が見つかりました。
+			string message = messages->getMessage("UnknownSymbol", sym.c_str());
+			setThrow(message);
         }
     }
     
@@ -505,11 +509,15 @@ bool QBInterpreter::statement(const bool run) {
 		if (!run) {
 			// 名前が不適切
 			if (!QBInterpreterValidation::isValidVariableName(sym)) {
-				setThrow("変数名が不適切です。");
+				setThrow(QBInterpreterValidation::errorMessage);
+				return false;
 			}
 			// すでに宣言済み
 			if (variables.find(sym) != variables.end()) {
-				setThrow("変数が二重に定義されています。");
+				// [ERROR]変数名が二重に定義されています。
+				string message = messages->getMessage("VariableNameOverlap", sym.c_str());
+				setThrow(message);
+				return false;
 			}
 		}
 		variables[sym] = "";
@@ -525,14 +533,18 @@ bool QBInterpreter::statement(const bool run) {
                 break;
 			} else if(sym.compare("elseif") == 0) {
 				if (isElse) {
-					setThrow("bad 'elseif'");
+					// [ERROR]不正な場所にelseifがあります。
+					string message = messages->getMessage("BadElseif", nullptr);
+					setThrow(message);
 					return false;
 				}
 				b = !(expression(run).compare("0") == 0);
 				match("then");
             } else if(sym.compare("else") == 0) {
 				if (isElse) {
-					setThrow("bad second 'else'");
+					// [ERROR]不正な場所にelseがあります。
+					string message = messages->getMessage("BadElse", nullptr);
+					setThrow(message);
 					return false;
 				}
                 b = !b;
@@ -549,7 +561,9 @@ bool QBInterpreter::statement(const bool run) {
 		if (!run) {
 			// 既存チェック
 			if (labelName.find(sym) != labelName.end()) {
-				setThrow("labelが二重に定義されています");
+				// [ERROR]ラベル名が二重で定義されています。
+				string message = messages->getMessage("LabelNameOverlap", sym.c_str());
+				setThrow(message);
 				return false;
 			}
 			labelName[sym] = (int)compileSymbols.size();
@@ -560,9 +574,9 @@ bool QBInterpreter::statement(const bool run) {
         string num = expression(run);
         if (run) {
             if (labelName.find(num) == labelName.end()) {
-                ostringstream stream;
-                stream << "unknown label '" << num << "'";
-                setThrow(stream.str());
+				// [ERROR]定義されていないラベル名が指定されています。
+				string message = messages->getMessage("LabelNameUnknown", num.c_str());
+				setThrow(message);
                 return false;
             }
             int loc = (int)labelName[num];
@@ -581,9 +595,9 @@ bool QBInterpreter::statement(const bool run) {
         if (run) {
 			// リターンできない
 			if (gosubPushBacked.size() <= 0) {
-				ostringstream stream;
-				stream << "can not return";
-				setThrow(stream.str());
+				// [ERROR]これ以上returnはできません。
+				string message = messages->getMessage("CannotReturn", nullptr);
+				setThrow(message);
 				return false;
 			}
 			// 退避していたものを戻す
@@ -599,103 +613,102 @@ bool QBInterpreter::statement(const bool run) {
     } else if(sym.compare("for") == 0) {
         sym = getSymbol();
 
-		if (variables.find(sym) != variables.end()) {
+		if (variables.find(sym) == variables.end()) {
+			// [ERROR]定義されていない変数名が指定されています。
+			string message = messages->getMessage("VariableUnknown", sym.c_str());
+			setThrow(message);
+			return false;
+		}
+		
+		match("=");
+		
+		string num = expression(run);
+		variables[sym] = run ? num : "0";
+		
+		int from = stoi(variables[sym]);
+		
+		sym = getSymbol();
+		if (sym.compare("to") == 0) {
+			num = expression(run);
+			int to = run ? stoi(num) : 0;
 			
-            match("=");
-			
-            string num = expression(run);
-			variables[sym] = run ? num : "0";
-			
-			int from = stoi(variables[sym]);
-				
-            sym = getSymbol();
-            if (sym.compare("to") == 0) {
-                num = expression(run);
-                int to = run ? stoi(num) : 0;
-				
-				bool isUpLoop = true;
-				int step = 0;
-                sym = getSymbol();
-                if (sym.compare("step") == 0) {
-                    num = expression(run);
-                    step = run ? stoi(num) : 0;
-					isUpLoop = step >= 0 ? true : false;
-                } else {
-					if (run) {
-						if (from <= to) {
-							step = 1;
-						} else {
-							step = -1;
-							isUpLoop = false;
-						}
-					}
-                    pushBack(sym);
-                }
-				
-				int count = 0;
-				long pcfor;
-				if (isRun) {
-					pcfor = compileOffset;
-				} else {
-					pcfor = execOffset;
-				}
-                string pushbackfor = pushBacked;
-                while (!run ||
-					   (isUpLoop && stoi(variables[sym]) <= to) ||
-					   (!isUpLoop && stoi(variables[sym]) >= to)) {
-					
-					if (isRun) {
-						compileOffset = pcfor;
-						execOffset = compileExecOffsets[compileOffset];
+			bool isUpLoop = true;
+			int step = 0;
+			sym = getSymbol();
+			if (sym.compare("step") == 0) {
+				num = expression(run);
+				step = run ? stoi(num) : 0;
+				isUpLoop = step >= 0 ? true : false;
+			} else {
+				if (run) {
+					if (from <= to) {
+						step = 1;
 					} else {
-						execOffset = pcfor;
-					}
-                    pushBacked = pushbackfor;
-                    
-                    while (true) {
-                        sym = getSymbol();
-                        if (sym.compare("next") == 0) {
-                            break;
-                        } else {
-                            pushBack(sym);
-                        }
-                        if (!statement(run)) {
-                            break;
-                        }
-                    }
-					
-					// カウント加算
-					count++;
-					
-                    if (run) {
-                        variables[sym] = StringUtil::toString(stoi(variables[sym]) + step);
-                    } else {
-                        break;
-                    }
-                }
-				if (count <= 0) {
-					// 一回もループされなかったら捨てループ
-					while (true) {
-						sym = getSymbol();
-						if (sym.compare("next") == 0) {
-							break;
-						} else {
-							pushBack(sym);
-						}
-						if (!statement(false)) {
-							break;
-						}
+						step = -1;
+						isUpLoop = false;
 					}
 				}
-                return true;
-            }
-            // エラー
-            ostringstream stream;
-            stream << "variable missing(2)";
-            setThrow(stream.str());
-            return false;
+				pushBack(sym);
+			}
+			
+			int count = 0;
+			long pcfor;
+			if (isRun) {
+				pcfor = compileOffset;
+			} else {
+				pcfor = execOffset;
+			}
+			string pushbackfor = pushBacked;
+			while (!run ||
+				   (isUpLoop && stoi(variables[sym]) <= to) ||
+				   (!isUpLoop && stoi(variables[sym]) >= to)) {
+				
+				if (isRun) {
+					compileOffset = pcfor;
+					execOffset = compileExecOffsets[compileOffset];
+				} else {
+					execOffset = pcfor;
+				}
+				pushBacked = pushbackfor;
+				
+				while (true) {
+					sym = getSymbol();
+					if (sym.compare("next") == 0) {
+						break;
+					} else {
+						pushBack(sym);
+					}
+					if (!statement(run)) {
+						break;
+					}
+				}
+				
+				// カウント加算
+				count++;
+				
+				if (run) {
+					variables[sym] = StringUtil::toString(stoi(variables[sym]) + step);
+				} else {
+					break;
+				}
+			}
+			if (count <= 0) {
+				// 一回もループされなかったら捨てループ
+				while (true) {
+					sym = getSymbol();
+					if (sym.compare("next") == 0) {
+						break;
+					} else {
+						pushBack(sym);
+					}
+					if (!statement(false)) {
+						break;
+					}
+				}
+			}
+			return true;
         }
-        
+	
     } else if(sym.compare("rem") == 0 || sym.compare("'") == 0){
         const char *cstr = source.c_str();
         while (execOffset < source.length() && cstr[execOffset] != '\n') {
@@ -710,8 +723,7 @@ bool QBInterpreter::statement(const bool run) {
 		}
     } else {
         // 引数付きメソッドかな？
-        QBInterpreterStatementEntity *entity = statements.getStatement(sym);
-//        if(entity != nullptr && entity->argCount > 0){
+        QBInterpreterStatementEntity *entity = statements->getStatement(sym);
 		if(entity != nullptr && !entity->isReturnValue){
             // 引数取得
 			vector<string> argList;

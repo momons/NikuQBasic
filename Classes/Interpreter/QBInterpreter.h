@@ -11,15 +11,15 @@
 
 #include "cocos2d.h"
 
-#include "QBInterpreterStatements.h"
-
 USING_NS_CC;
 using namespace std;
 
+class QBInterpreterStatements;
 class QBInterpreterSubFunction;
 class QBInterpreterStringFunctions;
 class QBInterpreterNetFunctions;
 class QBInterpreterScene;
+class QBInterpreterMessages;
 
 /** 変数最大数 */
 #define MAX_COUNT_VARIABLE 26
@@ -112,7 +112,9 @@ private:
     map<string, long> labelName;
     
     /// インタプリタ用コンスタント
-	QBInterpreterStatements statements;
+	QBInterpreterStatements *statements;
+	/// インタプリタ用メッセージ
+	QBInterpreterMessages *messages;
 	
 	/**
 	 *  実行 or コンパイル

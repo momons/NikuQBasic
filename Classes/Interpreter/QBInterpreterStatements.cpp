@@ -35,27 +35,27 @@
 #include "QBInterpreterStatementEntity.h"
 
 /** インスタンス */
-QBInterpreterStatements QBInterpreterStatements::interPreterConstansInstance;
+QBInterpreterStatements *QBInterpreterStatements::interpreterConstansInstance;
 
 /**
  * インスタンスシェア
  * @return インスタンス
  */
-QBInterpreterStatements QBInterpreterStatements::sharedInstance()
+QBInterpreterStatements *QBInterpreterStatements::sharedInstance()
 {
 	static once_flag flag;
 	
 	// 一度だけコール
 	call_once(flag,initialize);
 	
-	return QBInterpreterStatements::interPreterConstansInstance;
+	return QBInterpreterStatements::interpreterConstansInstance;
 }
 
 /**
  * 初期化
  */
 void QBInterpreterStatements::initialize() {
-	QBInterpreterStatements::interPreterConstansInstance = QBInterpreterStatements();
+	QBInterpreterStatements::interpreterConstansInstance = new QBInterpreterStatements();
 }
 
 /**
@@ -72,7 +72,7 @@ QBInterpreterStatements::QBInterpreterStatements() {
  * デストラクタ
  */
 QBInterpreterStatements::~QBInterpreterStatements() {
-	
+	delete QBInterpreterStatements::interpreterConstansInstance;
 }
 
 /**

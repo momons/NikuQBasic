@@ -10,6 +10,10 @@
 
 #include "QBInterpreterStatements.h"
 #include "QBInterpreterStatementEntity.h"
+#include "QBInterpreterMessages.h"
+
+/// エラーメッセージ
+string QBInterpreterValidation::errorMessage;
 
 /// 基本ステートメント名
 const vector<string> QBInterpreterValidation::basicStatementNames = {
@@ -43,12 +47,14 @@ bool QBInterpreterValidation::isValidVariableName(const string variableName) {
 
 	// 他の命令と被っていないか
 	if (find(basicStatementNames.begin(), basicStatementNames.end(), variableName) != basicStatementNames.end()) {
-		// TODO: [ERROR]変数名が予約語と被っています
+		// [ERROR]変数名が予約語と被っています。
+		errorMessage = QBInterpreterMessages::sharedInstance()->getMessage("BadVariableName1", variableName.c_str());
 		return false;
 	}
 	auto statements = QBInterpreterStatements::sharedInstance();
-	if (statements.getStatement(variableName) != nullptr) {
-		// TODO: [ERROR]変数名が予約語と被っています
+	if (statements->getStatement(variableName) != nullptr) {
+		// [ERROR]変数名が予約語と被っています。
+		errorMessage = QBInterpreterMessages::sharedInstance()->getMessage("BadVariableName1", variableName.c_str());
 		return false;
 	}
 	
@@ -62,12 +68,14 @@ bool QBInterpreterValidation::isValidVariableName(const string variableName) {
 		// 最初の文字に数字はダメ
 		if (isdigit(c)) {
 			if (i == 0) {
-				// TODO: [ERROR]変数名の頭に数字を使用しています
+				// [ERROR]変数名の頭に数字を使用しています。
+				errorMessage = QBInterpreterMessages::sharedInstance()->getMessage("BadVariableName2", variableName.c_str());
 				return false;
 			}
 			continue;
 		}
-		// TODO: [ERROR]変数名に英数字以外を使用しています
+		// [ERROR]変数名に英数字以外を使用しています
+		errorMessage = QBInterpreterMessages::sharedInstance()->getMessage("BadVariableName3", variableName.c_str());
 		return false;
 	}
 	return true;

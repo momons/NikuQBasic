@@ -21,6 +21,7 @@
 		2F443C731E817A6500F027F7 /* QBInterpreterAlertFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F443C721E817A6500F027F7 /* QBInterpreterAlertFunctions.cpp */; };
 		2F443C761E817D4A00F027F7 /* QBInterpreterSoundFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F443C751E817D4A00F027F7 /* QBInterpreterSoundFunctions.cpp */; };
 		2F443C791E81815300F027F7 /* QBInterpreterParticleFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F443C781E81815300F027F7 /* QBInterpreterParticleFunctions.cpp */; };
+		2F4C705F1E92B7640070A1EF /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD4A9961E8975FA005E6C7A /* Localize.strings */; };
 		2F5CE3CF1E84A90E00EF0D65 /* QBInterpreterImageFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE3CE1E84A90E00EF0D65 /* QBInterpreterImageFunctions.cpp */; };
 		2F5CE3D21E84AA6D00EF0D65 /* QBInterpreterTextFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE3D11E84AA6D00EF0D65 /* QBInterpreterTextFunctions.cpp */; };
 		2F5CE3D51E84ABB100EF0D65 /* QBInterpreterGeometryFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE3D41E84ABB100EF0D65 /* QBInterpreterGeometryFunctions.cpp */; };
@@ -35,6 +36,8 @@
 		2FA5D8861E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8851E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp */; };
 		2FA5D8891E7C73BB0044BB85 /* StringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */; };
 		2FD4A98E1E896960005E6C7A /* QBInterpreterGotoTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */; };
+		2FD4A9901E897435005E6C7A /* QBInterpreterMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98F1E897435005E6C7A /* QBInterpreterMessages.cpp */; };
+		2FD4A9941E8975FA005E6C7A /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD4A9961E8975FA005E6C7A /* Localize.strings */; };
 		2FF185541E23B81400F97DBC /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF185531E23B81400F97DBC /* libcocos2d iOS.a */; };
 		2FF185601E23C0B300F97DBC /* QBInterpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FF1855A1E23C0B300F97DBC /* QBInterpreter.cpp */; };
 		2FF185611E23C0B300F97DBC /* QBInterpreterStatements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FF1855C1E23C0B300F97DBC /* QBInterpreterStatements.cpp */; };
@@ -183,6 +186,10 @@
 		2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtil.cpp; sourceTree = "<group>"; };
 		2FA5D88A1E7C73C60044BB85 /* StringUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringUtil.h; sourceTree = "<group>"; };
 		2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterGotoTests.mm; sourceTree = "<group>"; };
+		2FD4A98F1E897435005E6C7A /* QBInterpreterMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterMessages.cpp; path = Interpreter/QBInterpreterMessages.cpp; sourceTree = "<group>"; };
+		2FD4A9911E897440005E6C7A /* QBInterpreterMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterMessages.h; path = Interpreter/QBInterpreterMessages.h; sourceTree = "<group>"; };
+		2FD4A9951E8975FA005E6C7A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localize.strings; sourceTree = "<group>"; };
+		2FD4A9971E8975FD005E6C7A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localize.strings; sourceTree = "<group>"; };
 		2FF185531E23B81400F97DBC /* libcocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcocos2d iOS.a"; path = "../cocos2d/build/lib/libcocos2d iOS.a"; sourceTree = "<group>"; };
 		2FF1855A1E23C0B300F97DBC /* QBInterpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreter.cpp; path = Interpreter/QBInterpreter.cpp; sourceTree = "<group>"; };
 		2FF1855B1E23C0B300F97DBC /* QBInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QBInterpreter.h; path = Interpreter/QBInterpreter.h; sourceTree = "<group>"; };
@@ -466,6 +473,8 @@
 				2FF185681E23C46700F97DBC /* QBInterpreterSubFunction.h */,
 				2F5CE4251E857D0D00EF0D65 /* QBInterpreterValidation.cpp */,
 				2F5CE4271E857D1800EF0D65 /* QBInterpreterValidation.h */,
+				2FD4A98F1E897435005E6C7A /* QBInterpreterMessages.cpp */,
+				2FD4A9911E897440005E6C7A /* QBInterpreterMessages.h */,
 			);
 			name = Interpreter;
 			sourceTree = "<group>";
@@ -538,6 +547,7 @@
 				46880B7719C43A67006E1F66 /* CloseSelected.png */,
 				46880B7A19C43A67006E1F66 /* HelloWorld.png */,
 				2F307A3B1E265730003B6938 /* Icon-80.png */,
+				2FD4A9961E8975FA005E6C7A /* Localize.strings */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -694,6 +704,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -722,6 +733,7 @@
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				2FD4A9941E8975FA005E6C7A /* Localize.strings in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -749,6 +761,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F5CE4241E855A1800EF0D65 /* TestScripts in Resources */,
+				2F4C705F1E92B7640070A1EF /* Localize.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,6 +798,7 @@
 				2FF185871E23C47E00F97DBC /* QBInterpreterScene.cpp in Sources */,
 				2FF185601E23C0B300F97DBC /* QBInterpreter.cpp in Sources */,
 				2F443C731E817A6500F027F7 /* QBInterpreterAlertFunctions.cpp in Sources */,
+				2FD4A9901E897435005E6C7A /* QBInterpreterMessages.cpp in Sources */,
 				2F443C701E8178C900F027F7 /* QBInterpreterDebugFunctions.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				2FA5D8861E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp in Sources */,
@@ -841,6 +855,18 @@
 			targetProxy = 2F5CE3E31E85416000EF0D65 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2FD4A9961E8975FA005E6C7A /* Localize.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FD4A9951E8975FA005E6C7A /* ja */,
+				2FD4A9971E8975FD005E6C7A /* en */,
+			);
+			name = Localize.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
