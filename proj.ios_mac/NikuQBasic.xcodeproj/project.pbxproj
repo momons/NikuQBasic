@@ -32,6 +32,9 @@
 		2F5CE42A1E85938900EF0D65 /* QBInterpreterCalculationTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE4291E85938900EF0D65 /* QBInterpreterCalculationTests.mm */; };
 		2F5CE42C1E85987F00EF0D65 /* TestFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */; };
 		2F5CE42F1E859BE800EF0D65 /* QBInterpreterIfTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */; };
+		2F7543FF1E953ED5004715F9 /* QInterpreterForTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7543FE1E953ED5004715F9 /* QInterpreterForTests.mm */; };
+		2F7544011E95498B004715F9 /* QInterpreterRemTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544001E95498B004715F9 /* QInterpreterRemTests.mm */; };
+		2F7544031E954F12004715F9 /* QinterpreterExitTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544021E954F12004715F9 /* QinterpreterExitTests.mm */; };
 		2FA5D8821E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8811E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp */; };
 		2FA5D8861E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8851E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp */; };
 		2FA5D8891E7C73BB0044BB85 /* StringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */; };
@@ -179,6 +182,9 @@
 		2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFileUtils.m; sourceTree = "<group>"; };
 		2F5CE42D1E85988C00EF0D65 /* TestFileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFileUtils.h; sourceTree = "<group>"; };
 		2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterIfTests.mm; sourceTree = "<group>"; };
+		2F7543FE1E953ED5004715F9 /* QInterpreterForTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QInterpreterForTests.mm; sourceTree = "<group>"; };
+		2F7544001E95498B004715F9 /* QInterpreterRemTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QInterpreterRemTests.mm; sourceTree = "<group>"; };
+		2F7544021E954F12004715F9 /* QinterpreterExitTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QinterpreterExitTests.mm; sourceTree = "<group>"; };
 		2FA5D8811E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterStringFunctions.cpp; path = Interpreter/QBInterpreterStringFunctions.cpp; sourceTree = "<group>"; };
 		2FA5D8831E7C6C6B0044BB85 /* QBInterpreterStringFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterStringFunctions.h; path = Interpreter/QBInterpreterStringFunctions.h; sourceTree = "<group>"; };
 		2FA5D8851E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterNetFunctions.cpp; path = Interpreter/QBInterpreterNetFunctions.cpp; sourceTree = "<group>"; };
@@ -415,6 +421,9 @@
 				2F5CE4291E85938900EF0D65 /* QBInterpreterCalculationTests.mm */,
 				2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */,
 				2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */,
+				2F7543FE1E953ED5004715F9 /* QInterpreterForTests.mm */,
+				2F7544001E95498B004715F9 /* QInterpreterRemTests.mm */,
+				2F7544021E954F12004715F9 /* QinterpreterExitTests.mm */,
 				2F5CE3E21E85416000EF0D65 /* Info.plist */,
 				2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */,
 				2F5CE42D1E85988C00EF0D65 /* TestFileUtils.h */,
@@ -828,10 +837,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F7544011E95498B004715F9 /* QInterpreterRemTests.mm in Sources */,
 				2F5CE42C1E85987F00EF0D65 /* TestFileUtils.m in Sources */,
 				2FD4A98E1E896960005E6C7A /* QBInterpreterGotoTests.mm in Sources */,
 				2F5CE3E11E85416000EF0D65 /* QBInterpreterVariableTests.mm in Sources */,
+				2F7544031E954F12004715F9 /* QinterpreterExitTests.mm in Sources */,
 				2F5CE42F1E859BE800EF0D65 /* QBInterpreterIfTests.mm in Sources */,
+				2F7543FF1E953ED5004715F9 /* QInterpreterForTests.mm in Sources */,
 				2F5CE42A1E85938900EF0D65 /* QBInterpreterCalculationTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

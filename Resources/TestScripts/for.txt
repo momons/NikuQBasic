@@ -1,0 +1,54 @@
+' 1から10までループ
+var i
+var a
+a = 0
+for i = 1 to 10
+  a = a + i
+next
+========================
+' 1から10まで2ステップでループ
+var i
+var a
+a = 0
+for i = 1 to 10 step 2
+  a = a + i
+next
+========================
+' 10から1まで-1ステップでループ
+var i
+var a
+a = 0
+for i = 10 to 1 step -1
+  a = a + i
+next
+========================
+' 10から1まで-2ステップでループ
+var i
+var a
+a = 0
+for i = 10 to 1 step -2
+  a = a + i
+next
+========================
+' 二重ループ
+var i
+var j
+var a
+var b
+a = 0
+b = 0
+for i = 1 to 10
+  a = a + i
+  for j = 1 to 10
+    b = b + j
+  next
+next
+========================
+' stepなしでもstep-1
+var i
+var a
+a = 0
+for i = 10 to 1
+  a = a + i
+next
+========================

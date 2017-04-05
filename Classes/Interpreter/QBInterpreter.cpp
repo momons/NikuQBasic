@@ -611,9 +611,9 @@ bool QBInterpreter::statement(const bool run) {
         }
         return true;
     } else if(sym.compare("for") == 0) {
-        sym = getSymbol();
+        string variableSym = getSymbol();
 
-		if (variables.find(sym) == variables.end()) {
+		if (variables.find(variableSym) == variables.end()) {
 			// [ERROR]定義されていない変数名が指定されています。
 			string message = messages->getMessage("VariableUnknown", sym.c_str());
 			setThrow(message);
@@ -623,9 +623,9 @@ bool QBInterpreter::statement(const bool run) {
 		match("=");
 		
 		string num = expression(run);
-		variables[sym] = run ? num : "0";
+		variables[variableSym] = run ? num : "0";
 		
-		int from = stoi(variables[sym]);
+		int from = stoi(variables[variableSym]);
 		
 		sym = getSymbol();
 		if (sym.compare("to") == 0) {
@@ -660,8 +660,8 @@ bool QBInterpreter::statement(const bool run) {
 			}
 			string pushbackfor = pushBacked;
 			while (!run ||
-				   (isUpLoop && stoi(variables[sym]) <= to) ||
-				   (!isUpLoop && stoi(variables[sym]) >= to)) {
+				   (isUpLoop && stoi(variables[variableSym]) <= to) ||
+				   (!isUpLoop && stoi(variables[variableSym]) >= to)) {
 				
 				if (isRun) {
 					compileOffset = pcfor;
@@ -687,7 +687,7 @@ bool QBInterpreter::statement(const bool run) {
 				count++;
 				
 				if (run) {
-					variables[sym] = StringUtil::toString(stoi(variables[sym]) + step);
+					variables[variableSym] = StringUtil::toString(stoi(variables[variableSym]) + step);
 				} else {
 					break;
 				}
@@ -716,11 +716,7 @@ bool QBInterpreter::statement(const bool run) {
         }
         return true;
 	} else if(sym.compare("exit") == 0){
-		if (!run) {
-			return true;
-		} else {
-			return false;
-		}
+		return !run;
     } else {
         // 引数付きメソッドかな？
         QBInterpreterStatementEntity *entity = statements->getStatement(sym);
