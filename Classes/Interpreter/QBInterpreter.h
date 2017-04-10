@@ -20,6 +20,7 @@ class QBInterpreterStringFunctions;
 class QBInterpreterNetFunctions;
 class QBInterpreterScene;
 class QBInterpreterMessages;
+class QBInterpreterFunctionEntity;
 
 /** 変数最大数 */
 #define MAX_COUNT_VARIABLE 26
@@ -93,6 +94,8 @@ private:
 	
 	/// runフラグ
 	bool isRun;
+	/// 終了フラグ
+	bool isExit;
 
     /// 現在の処理位置
     long execOffset;
@@ -107,13 +110,23 @@ private:
 	vector<string> gosubPushBacked;
 	vector<long> gosubExecOffset;
 	vector<string *> gosubLocalVariable;
+	
+	/// ファンクション退避
+	vector<string> functionPushBacked;
+	vector<long> functionExecOffset;
+	vector<string *> functionLocalVariable;
+	
+	/// 最後にアクセスした関数名
+	string lastFunctionName;
 
     /// ラベル情報
     map<string, long> labelName;
     
-    /// インタプリタ用コンスタント
+    /// ステートメント群
 	QBInterpreterStatements *statements;
-	/// インタプリタ用メッセージ
+	/// ファンクション群
+	map<string, QBInterpreterFunctionEntity> functions;
+	/// コンパイルメッセージ群
 	QBInterpreterMessages *messages;
 	
 	/**
@@ -122,12 +135,6 @@ private:
 	 *  @exception コンパイルエラー
 	 */
 	void initAndRun(const bool run);
-	
-	/**
-	 *  グローバル変数を初期化
-	 */
-	
-	void initGlobalVariable();
 	
     /**
      * 単語を退避しておく
@@ -196,13 +203,49 @@ private:
      * @return 引数群
      */
     vector<string> getArg(const bool run, const int argCount);
+
+	/**
+	 * 変数を解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisVar(const bool run);
+
+	/**
+	 * if文を解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisIf(const bool run);
 	
 	/**
-	 *  数値チェック
-	 *  @param num 文字
-	 *  @return 数値か否か
+	 * for文を解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool isNumeric(const string num);
+	bool analysisFor(const bool run);
+	
+	/**
+	 * 関数を解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisFunc(const bool run);
+	
+	/**
+	 * Endを解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisEnd(const bool run);
+
+	/**
+	 * コメントを解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisRem(const bool run);
+	
 };
 
 #endif /* defined(__ToolQTheWorld__QBInterpreter__) */

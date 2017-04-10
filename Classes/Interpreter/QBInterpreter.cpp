@@ -17,6 +17,7 @@
 #include "QBInterpreterStatements.h"
 #include "QBInterpreterStatementEntity.h"
 #include "QBInterpreterScene.h"
+#include "QBInterpreterFunctionEntity.h"
 #include "QBInterpreterSetupNodeEntity.h"
 #include "QBInterpreterSubFunction.h"
 #include "QBInterpreterStringFunctions.h"
@@ -96,33 +97,30 @@ void QBInterpreter::initAndRun(const bool run) {
 	
 	// 初期化
 	isRun = run;
+	isExit = false;
 	execOffset = 0;
 	pushBacked.shrink_to_fit();
-	initGlobalVariable();
+	variables.clear();
 	if (!run) {
 		compileSymbols.clear();
 		compileExecOffsets.clear();
 		compileOffset = 0;
 		labelName.clear();
+		functions.clear();
+		lastFunctionName = "";
 	}
-	if (!gosubPushBacked.empty()) {
-		for(auto it = gosubPushBacked.begin();it != gosubPushBacked.end();it++){
-			it->shrink_to_fit();
-			gosubPushBacked.erase(it);
-		}
-		gosubPushBacked.shrink_to_fit();
-		gosubExecOffset.shrink_to_fit();
-	}
+	gosubPushBacked.clear();
+	gosubExecOffset.clear();
+	functionPushBacked.clear();
+	functionExecOffset.clear();
 	
 	// 実行
-	while(statement(run));
-}
-
-/**
- *  グローバル変数を初期化
- */
-void QBInterpreter::initGlobalVariable() {
-	variables.clear();
+	while(true) {
+		bool isExecute = statement(run);
+		if (!isExecute || isExit) {
+			break;
+		}
+	}
 }
 
 /**
@@ -172,7 +170,7 @@ string QBInterpreter::getSymbol() {
     }
     
     // ゼロならばなし
-    if(ch == 0x00){
+    if(ch == 0x00) {
         return "";
     }
     
@@ -185,7 +183,7 @@ string QBInterpreter::getSymbol() {
     }
     
     // 位置が変わっていれば
-    if(execOffsetBackup != execOffset){
+    if(execOffsetBackup != execOffset) {
 		string symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
 		compileSymbols.push_back(symbol);
 		compileExecOffsets.push_back(execOffset);
@@ -228,7 +226,7 @@ string QBInterpreter::getSymbol() {
         execOffset++;
         ch = cstr[execOffset];
         // 次の文字が">"か"="ならばプラス1
-        if(ch == '>' || ch == '='){
+        if(ch == '>' || ch == '=') {
             execOffset++;
         }
 		
@@ -243,7 +241,7 @@ string QBInterpreter::getSymbol() {
         execOffset++;
         ch = cstr[execOffset];
         // 次の文字が"="ならばプラス1
-        if(ch == '='){
+        if(ch == '=') {
             execOffset++;
         }
 		
@@ -288,11 +286,11 @@ string QBInterpreter::expression(const bool run) {
     
     string sym = getSymbol();
     while(true) {
-        if (sym.compare("and") == 0){
+        if (sym.compare("and") == 0) {
             num = ((stoi(relop(run)) & stoi(num)) == 0) ? "0" : "1";
-        } else if (sym.compare("or") == 0){
+        } else if (sym.compare("or") == 0) {
             num = ((stoi(relop(run)) | stoi(num)) == 0) ? "0" : "1";
-        } else if (sym.compare("xor") == 0){
+        } else if (sym.compare("xor") == 0) {
             num = ((stoi(relop(run)) ^ stoi(num)) == 0) ? "0" : "1";
         } else {
             break;
@@ -353,7 +351,7 @@ string QBInterpreter::addsub(const bool run) {
         num = muldiv(run);
     } else if(sym.compare("-") == 0) {
         num = muldiv(run);
-        if(num.find("-") == 0){
+        if(num.find("-") == 0) {
             // マイナスが2つ重なったので+に
             num = num.substr(1, num.length());
         } else {
@@ -371,7 +369,7 @@ string QBInterpreter::addsub(const bool run) {
     while (true) {
         if (sym.compare("+") == 0) {
             string num2 = muldiv(run);
-			if (isNumeric(num) && isNumeric(num2)) {
+			if (QBInterpreterValidation::isNumeric(num) && QBInterpreterValidation::isNumeric(num2)) {
 				// 数値同士の足し算
 				num = StringUtil::toString(stof(num) + stof(num2));
 			} else {
@@ -441,7 +439,7 @@ string QBInterpreter::factor(const bool run) {
     } else {
         // 引数付きメソッドかな？
         QBInterpreterStatementEntity *entity = statements->getStatement(sym);
-        if(entity != nullptr && entity->argCount > 0 && entity->isReturnValue){
+        if(entity != nullptr && entity->argCount > 0 && entity->isReturnValue) {
             // 引数取得
             vector<string> argList = getArg(run,entity->argCount);
 			if (run) {
@@ -454,7 +452,7 @@ string QBInterpreter::factor(const bool run) {
     }
     
     // 数値ならば
-	if (isNumeric(sym)) {
+	if (QBInterpreterValidation::isNumeric(sym)) {
 		return StringUtil::toString(stof(sym));
 	}
 	
@@ -464,7 +462,7 @@ string QBInterpreter::factor(const bool run) {
     } else {
         // 引数付きメソッドかな？
         QBInterpreterStatementEntity *entity = statements->getStatement(sym);
-        if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue){
+        if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue) {
 			if (run) {
 				// ステートメント実行
 				return entity->func(this, vector<string>());
@@ -504,57 +502,9 @@ bool QBInterpreter::statement(const bool run) {
 		}
 		return true;
 	} else if(sym.compare("var") == 0) {
-		// 変数宣言
-		sym = getSymbol();
-		if (!run) {
-			// 名前が不適切
-			if (!QBInterpreterValidation::isValidVariableName(sym)) {
-				setThrow(QBInterpreterValidation::errorMessage);
-				return false;
-			}
-			// すでに宣言済み
-			if (variables.find(sym) != variables.end()) {
-				// [ERROR]変数名が二重に定義されています。
-				string message = messages->getMessage("VariableNameOverlap", sym.c_str());
-				setThrow(message);
-				return false;
-			}
-		}
-		variables[sym] = "";
-		return true;
+		return analysisVar(run);
     } else if(sym.compare("if") == 0) {
-        // if文
-        bool b = !(expression(run).compare("0") == 0);
-		bool isElse = false;
-        match("then");
-        while (statement(b && run)) {
-            sym = getSymbol();
-            if (sym.compare("endif") == 0) {
-                break;
-			} else if(sym.compare("elseif") == 0) {
-				if (isElse) {
-					// [ERROR]不正な場所にelseifがあります。
-					string message = messages->getMessage("BadElseif", nullptr);
-					setThrow(message);
-					return false;
-				}
-				b = !(expression(run).compare("0") == 0);
-				match("then");
-            } else if(sym.compare("else") == 0) {
-				if (isElse) {
-					// [ERROR]不正な場所にelseがあります。
-					string message = messages->getMessage("BadElse", nullptr);
-					setThrow(message);
-					return false;
-				}
-                b = !b;
-				// フラグON
-				isElse = true;
-            } else {
-                pushBack(sym);
-            }
-        }
-        return true;
+		return analysisIf(run);
     } else if(sym.compare("label") == 0) {
 		// ラベル
 		sym = getSymbol();
@@ -611,119 +561,25 @@ bool QBInterpreter::statement(const bool run) {
         }
         return true;
     } else if(sym.compare("for") == 0) {
-        string variableSym = getSymbol();
-
-		if (variables.find(variableSym) == variables.end()) {
-			// [ERROR]定義されていない変数名が指定されています。
-			string message = messages->getMessage("VariableUnknown", sym.c_str());
-			setThrow(message);
-			return false;
+		return analysisFor(run);
+    } else if(sym.compare("rem") == 0 || sym.compare("'") == 0) {
+		return analysisRem(run);
+	} else if(sym.compare("func") == 0) {
+		return analysisFunc(run);
+	} else if(sym.compare("end") == 0) {
+		return analysisEnd(run);
+	} else if(sym.compare("exit") == 0) {
+		if (run) {
+			isExit = true;
 		}
-		
-		match("=");
-		
-		string num = expression(run);
-		variables[variableSym] = run ? num : "0";
-		
-		int from = stoi(variables[variableSym]);
-		
-		sym = getSymbol();
-		if (sym.compare("to") == 0) {
-			num = expression(run);
-			int to = run ? stoi(num) : 0;
-			
-			bool isUpLoop = true;
-			int step = 0;
-			sym = getSymbol();
-			if (sym.compare("step") == 0) {
-				num = expression(run);
-				step = run ? stoi(num) : 0;
-				isUpLoop = step >= 0 ? true : false;
-			} else {
-				if (run) {
-					if (from <= to) {
-						step = 1;
-					} else {
-						step = -1;
-						isUpLoop = false;
-					}
-				}
-				pushBack(sym);
-			}
-			
-			int count = 0;
-			long pcfor;
-			if (isRun) {
-				pcfor = compileOffset;
-			} else {
-				pcfor = execOffset;
-			}
-			string pushbackfor = pushBacked;
-			while (!run ||
-				   (isUpLoop && stoi(variables[variableSym]) <= to) ||
-				   (!isUpLoop && stoi(variables[variableSym]) >= to)) {
-				
-				if (isRun) {
-					compileOffset = pcfor;
-					execOffset = compileExecOffsets[compileOffset];
-				} else {
-					execOffset = pcfor;
-				}
-				pushBacked = pushbackfor;
-				
-				while (true) {
-					sym = getSymbol();
-					if (sym.compare("next") == 0) {
-						break;
-					} else {
-						pushBack(sym);
-					}
-					if (!statement(run)) {
-						break;
-					}
-				}
-				
-				// カウント加算
-				count++;
-				
-				if (run) {
-					variables[variableSym] = StringUtil::toString(stoi(variables[variableSym]) + step);
-				} else {
-					break;
-				}
-			}
-			if (count <= 0) {
-				// 一回もループされなかったら捨てループ
-				while (true) {
-					sym = getSymbol();
-					if (sym.compare("next") == 0) {
-						break;
-					} else {
-						pushBack(sym);
-					}
-					if (!statement(false)) {
-						break;
-					}
-				}
-			}
-			return true;
-        }
-	
-    } else if(sym.compare("rem") == 0 || sym.compare("'") == 0){
-        const char *cstr = source.c_str();
-        while (execOffset < source.length() && cstr[execOffset] != '\n') {
-            execOffset++;
-        }
-        return true;
-	} else if(sym.compare("exit") == 0){
 		return !run;
     } else {
         // 引数付きメソッドかな？
         QBInterpreterStatementEntity *entity = statements->getStatement(sym);
-		if(entity != nullptr && !entity->isReturnValue){
+		if(entity != nullptr && !entity->isReturnValue) {
             // 引数取得
 			vector<string> argList;
-			if (entity->argCount > 0){
+			if (entity->argCount > 0) {
 				argList = getArg(run,entity->argCount);
 			}
 			if (run) {
@@ -752,10 +608,10 @@ vector<string> QBInterpreter::getArg(const bool run, const int argCount) {
     // 引数取得
     vector<string> argList = vector<string>();
     match("(");
-    for(int i = 0;i < argCount;i++){
+    for(int i = 0;i < argCount;i++) {
         string arg = expression(run);
         argList.push_back(arg);
-        if(i < argCount - 1){
+        if(i < argCount - 1) {
             match(",");
         }else {
             // 最後の引数
@@ -775,7 +631,7 @@ void QBInterpreter::setThrow(const string message) {
 	// 行数を検索
 	int row = 1;
 	for (int i = 0;i < execOffset - 1;i++) {
-		if (source[i] == '\n'){
+		if (source[i] == '\n') {
 			row++;
 		}
 	}
@@ -786,31 +642,309 @@ void QBInterpreter::setThrow(const string message) {
 	throw stream.str();
 }
 
+#pragma mark - 個別解析
+
 /**
- *  数値チェック
- *  @param num 文字
- *  @return 数値か否か
+ * 変数を解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
  */
-bool QBInterpreter::isNumeric(const string num) {
+bool QBInterpreter::analysisVar(const bool run) {
+	// 変数宣言
+	auto sym = getSymbol();
+	if (!run) {
+		// 名前が不適切
+		if (!QBInterpreterValidation::isValidVariableName(sym)) {
+			setThrow(QBInterpreterValidation::errorMessage);
+			return false;
+		}
+		// すでに宣言済み
+		if (variables.find(sym) != variables.end()) {
+			// [ERROR]変数名が二重に定義されています。
+			string message = messages->getMessage("VariableNameOverlap", sym.c_str());
+			setThrow(message);
+			return false;
+		}
+	}
+	variables[sym] = "";
+	return true;
+}
+
+/**
+ * if文を解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBInterpreter::analysisIf(const bool run) {
+	// if文
+	bool b = !(expression(run).compare("0") == 0);
+	bool isElse = false;
+	match("then");
+	while (statement(b && run && !isExit)) {
+		auto sym = getSymbol();
+		if (sym.compare("endif") == 0) {
+			break;
+		} else if(sym.compare("elseif") == 0) {
+			if (isElse) {
+				// [ERROR]不正な場所にelseifがあります。
+				string message = messages->getMessage("BadElseif", nullptr);
+				setThrow(message);
+				return false;
+			}
+			b = !(expression(run).compare("0") == 0);
+			match("then");
+		} else if(sym.compare("else") == 0) {
+			if (isElse) {
+				// [ERROR]不正な場所にelseがあります。
+				string message = messages->getMessage("BadElse", nullptr);
+				setThrow(message);
+				return false;
+			}
+			b = !b;
+			// フラグON
+			isElse = true;
+		} else {
+			pushBack(sym);
+		}
+	}
+	return !isExit;
+}
+
+/**
+ * for文を解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBInterpreter::analysisFor(const bool run) {
+	string variableSym = getSymbol();
 	
-	if (num.length() <= 0) {
+	if (variables.find(variableSym) == variables.end()) {
+		// [ERROR]定義されていない変数名が指定されています。
+		string message = messages->getMessage("VariableUnknown", variableSym.c_str());
+		setThrow(message);
 		return false;
 	}
 	
-	const char *cstr = num.c_str();
-	if (num.length() > 0 && (cstr[0] == '-' || cstr[0] == '.' || isdigit(cstr[0]))) {
-		int i = 0;
-		for(i = 1; i < num.length(); i++) {
-			if (!(isdigit(cstr[i]) || cstr[i] == '.')) {
+	match("=");
+	
+	string num = expression(run);
+	variables[variableSym] = run ? num : "0";
+	
+	int from = stoi(variables[variableSym]);
+	
+	match("to");
+
+	num = expression(run);
+	int to = run ? stoi(num) : 0;
+	
+	bool isUpLoop = true;
+	int step = 0;
+	auto sym = getSymbol();
+	if (sym.compare("step") == 0) {
+		num = expression(run);
+		step = run ? stoi(num) : 0;
+		isUpLoop = step >= 0 ? true : false;
+	} else {
+		if (run) {
+			if (from <= to) {
+				step = 1;
+			} else {
+				step = -1;
+				isUpLoop = false;
+			}
+		}
+		pushBack(sym);
+	}
+	
+	int count = 0;
+	long pcfor;
+	if (isRun) {
+		pcfor = compileOffset;
+	} else {
+		pcfor = execOffset;
+	}
+	string pushbackfor = pushBacked;
+	while (!run ||
+		   (isUpLoop && stoi(variables[variableSym]) <= to) ||
+		   (!isUpLoop && stoi(variables[variableSym]) >= to)) {
+		
+		if (isRun) {
+			compileOffset = pcfor;
+			execOffset = compileExecOffsets[compileOffset];
+		} else {
+			execOffset = pcfor;
+		}
+		pushBacked = pushbackfor;
+		
+		while (true) {
+			sym = getSymbol();
+			if (sym.compare("next") == 0) {
+				break;
+			} else {
+				pushBack(sym);
+			}
+			if (!statement(run)) {
+				if (isExit) {
+					return false;
+				}
 				break;
 			}
 		}
-		if (i >= num.length()) {
-			// 数字なので一度数値に変換して戻す
-			return true;
+		
+		// カウント加算
+		count++;
+		
+		if (run) {
+			variables[variableSym] = StringUtil::toString(stoi(variables[variableSym]) + step);
+		} else {
+			break;
 		}
 	}
-	
-	return false;
+	if (count <= 0) {
+		// 一回もループされなかったら捨てループ
+		while (true) {
+			sym = getSymbol();
+			if (sym.compare("next") == 0) {
+				break;
+			} else {
+				pushBack(sym);
+			}
+			if (!statement(false)) {
+				if (isExit) {
+					return false;
+				}
+				break;
+			}
+		}
+	}
+	return true;
 }
 
+
+/**
+ * 関数を解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBInterpreter::analysisFunc(const bool run) {
+
+	if (run) {
+		// 実行中ならば、endまで処理を飛ばす
+		string functionName = getSymbol();
+		compileOffset = functions[functionName].endOffset;
+		execOffset = compileExecOffsets[compileOffset];
+		return true;
+	}
+	
+	// func内にfuncを定義
+	if (lastFunctionName.length() > 0) {
+		// [ERROR]関数名が二重に定義されています。
+		string message = messages->getMessage("FunctionOverFunction", lastFunctionName.c_str());
+		setThrow(message);
+		return false;
+	}
+	
+	string functionName = getSymbol();
+	
+	// 名前が不適切
+	if (!QBInterpreterValidation::isValidFunctionName(functionName)) {
+		setThrow(QBInterpreterValidation::errorMessage);
+		return false;
+	}
+	// すでに宣言済み
+	if (functions.find(functionName) != functions.end()) {
+		// [ERROR]関数名が二重に定義されています。
+		string message = messages->getMessage("FunctionNameOverlap", functionName.c_str());
+		setThrow(message);
+		return false;
+	}
+
+	// 引数を解析
+	vector<string> argNames;
+	match("(");
+	while(true) {
+		string sym = getSymbol();
+		if (sym.compare(")") == 0) {
+			break;
+		}
+		if (argNames.size() > 0) {
+			if (sym.compare(",") != 0) {
+				// [ERROR]想定の文字が見つかりませんでした。
+				ostringstream stream;
+				stream << "o:',' x:'" << sym << "'";
+				string message = messages->getMessage("MissingFound", stream.str().c_str());
+				setThrow(message);
+				return false;
+			}
+			sym = getSymbol();
+		}
+		if (!QBInterpreterValidation::isValidVariableName(sym)) {
+			setThrow(QBInterpreterValidation::errorMessage);
+			return false;
+		}
+		// すでに宣言済み
+		if (variables.find(sym) != variables.end() ||
+			find(argNames.begin(), argNames.end(), sym) != argNames.end()) {
+			// [ERROR]変数名が二重に定義されています。
+			string message = messages->getMessage("VariableNameOverlap", sym.c_str());
+			setThrow(message);
+			return false;
+		}
+		argNames.push_back(sym);
+	}
+	
+	QBInterpreterFunctionEntity entity;
+	entity.argNames = argNames;
+	entity.startOffset = (long)compileSymbols.size();
+	
+	functions[functionName] = entity;
+	
+	// 最後の関数名を退避
+	lastFunctionName = functionName;
+	
+	return true;
+}
+
+/**
+ * Endを解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBInterpreter::analysisEnd(const bool run) {
+	if (run) {
+		// endできない
+		if (functionPushBacked.size() <= 0) {
+			// [ERROR]これ以上endはできません。
+			string message = messages->getMessage("CannotEnd", nullptr);
+			setThrow(message);
+			return false;
+		}
+		// 退避していたものを戻す
+		pushBacked = *(functionPushBacked.end() - 1);
+		compileOffset = *(functionExecOffset.end() - 1);
+		execOffset = compileExecOffsets[compileOffset];
+		// 削除
+		functionPushBacked.pop_back();
+		functionExecOffset.pop_back();
+		//※			gosubLocalVariable.pop_back();
+	} else {
+		// 終了オフセットを退避
+		functions[lastFunctionName].endOffset = (long)compileSymbols.size();
+		// 最後の関数名をクリア
+		lastFunctionName = "";
+	}
+	return true;
+}
+
+/**
+ * コメントを解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBInterpreter::analysisRem(const bool run) {
+	const char *cstr = source.c_str();
+	while (execOffset < source.length() && cstr[execOffset] != '\n') {
+		execOffset++;
+	}
+	return true;
+}

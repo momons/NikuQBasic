@@ -1,5 +1,5 @@
 //
-//  QinterpreterExitTests.m
+//  QBInterpreterExitTests.m
 //  NikuQBasic
 //
 //  Created by HaraKazunari on 2017/04/06.

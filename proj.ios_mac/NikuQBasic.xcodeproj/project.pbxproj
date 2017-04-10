@@ -32,12 +32,14 @@
 		2F5CE42A1E85938900EF0D65 /* QBInterpreterCalculationTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE4291E85938900EF0D65 /* QBInterpreterCalculationTests.mm */; };
 		2F5CE42C1E85987F00EF0D65 /* TestFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */; };
 		2F5CE42F1E859BE800EF0D65 /* QBInterpreterIfTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */; };
-		2F7543FF1E953ED5004715F9 /* QInterpreterForTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7543FE1E953ED5004715F9 /* QInterpreterForTests.mm */; };
-		2F7544011E95498B004715F9 /* QInterpreterRemTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544001E95498B004715F9 /* QInterpreterRemTests.mm */; };
-		2F7544031E954F12004715F9 /* QinterpreterExitTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544021E954F12004715F9 /* QinterpreterExitTests.mm */; };
+		2F7543FF1E953ED5004715F9 /* QBInterpreterForTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7543FE1E953ED5004715F9 /* QBInterpreterForTests.mm */; };
+		2F7544011E95498B004715F9 /* QBInterpreterRemTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544001E95498B004715F9 /* QBInterpreterRemTests.mm */; };
+		2F7544031E954F12004715F9 /* QBInterpreterExitTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544021E954F12004715F9 /* QBInterpreterExitTests.mm */; };
 		2FA5D8821E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8811E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp */; };
 		2FA5D8861E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8851E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp */; };
 		2FA5D8891E7C73BB0044BB85 /* StringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */; };
+		2FB4C2971E9BCCF700D283CF /* QBInterpreterFunctionEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB4C2961E9BCCF700D283CF /* QBInterpreterFunctionEntity.cpp */; };
+		2FB4C29A1E9BDE7D00D283CF /* QBInterpreterFuncTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FB4C2991E9BDE7D00D283CF /* QBInterpreterFuncTests.mm */; };
 		2FD4A98E1E896960005E6C7A /* QBInterpreterGotoTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */; };
 		2FD4A9901E897435005E6C7A /* QBInterpreterMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98F1E897435005E6C7A /* QBInterpreterMessages.cpp */; };
 		2FD4A9941E8975FA005E6C7A /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD4A9961E8975FA005E6C7A /* Localize.strings */; };
@@ -182,15 +184,18 @@
 		2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFileUtils.m; sourceTree = "<group>"; };
 		2F5CE42D1E85988C00EF0D65 /* TestFileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFileUtils.h; sourceTree = "<group>"; };
 		2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterIfTests.mm; sourceTree = "<group>"; };
-		2F7543FE1E953ED5004715F9 /* QInterpreterForTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QInterpreterForTests.mm; sourceTree = "<group>"; };
-		2F7544001E95498B004715F9 /* QInterpreterRemTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QInterpreterRemTests.mm; sourceTree = "<group>"; };
-		2F7544021E954F12004715F9 /* QinterpreterExitTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QinterpreterExitTests.mm; sourceTree = "<group>"; };
+		2F7543FE1E953ED5004715F9 /* QBInterpreterForTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterForTests.mm; sourceTree = "<group>"; };
+		2F7544001E95498B004715F9 /* QBInterpreterRemTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterRemTests.mm; sourceTree = "<group>"; };
+		2F7544021E954F12004715F9 /* QBInterpreterExitTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterExitTests.mm; sourceTree = "<group>"; };
 		2FA5D8811E7C6C4D0044BB85 /* QBInterpreterStringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterStringFunctions.cpp; path = Interpreter/QBInterpreterStringFunctions.cpp; sourceTree = "<group>"; };
 		2FA5D8831E7C6C6B0044BB85 /* QBInterpreterStringFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterStringFunctions.h; path = Interpreter/QBInterpreterStringFunctions.h; sourceTree = "<group>"; };
 		2FA5D8851E7C6F240044BB85 /* QBInterpreterNetFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterNetFunctions.cpp; path = Interpreter/QBInterpreterNetFunctions.cpp; sourceTree = "<group>"; };
 		2FA5D8871E7C6F2E0044BB85 /* QBInterpreterNetFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterNetFunctions.h; path = Interpreter/QBInterpreterNetFunctions.h; sourceTree = "<group>"; };
 		2FA5D8881E7C73BB0044BB85 /* StringUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtil.cpp; sourceTree = "<group>"; };
 		2FA5D88A1E7C73C60044BB85 /* StringUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringUtil.h; sourceTree = "<group>"; };
+		2FB4C2961E9BCCF700D283CF /* QBInterpreterFunctionEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterFunctionEntity.cpp; path = Interpreter/QBInterpreterFunctionEntity.cpp; sourceTree = "<group>"; };
+		2FB4C2981E9BCD1200D283CF /* QBInterpreterFunctionEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterFunctionEntity.h; path = Interpreter/QBInterpreterFunctionEntity.h; sourceTree = "<group>"; };
+		2FB4C2991E9BDE7D00D283CF /* QBInterpreterFuncTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterFuncTests.mm; sourceTree = "<group>"; };
 		2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBInterpreterGotoTests.mm; sourceTree = "<group>"; };
 		2FD4A98F1E897435005E6C7A /* QBInterpreterMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBInterpreterMessages.cpp; path = Interpreter/QBInterpreterMessages.cpp; sourceTree = "<group>"; };
 		2FD4A9911E897440005E6C7A /* QBInterpreterMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBInterpreterMessages.h; path = Interpreter/QBInterpreterMessages.h; sourceTree = "<group>"; };
@@ -421,9 +426,10 @@
 				2F5CE4291E85938900EF0D65 /* QBInterpreterCalculationTests.mm */,
 				2F5CE42E1E859BE800EF0D65 /* QBInterpreterIfTests.mm */,
 				2FD4A98D1E896960005E6C7A /* QBInterpreterGotoTests.mm */,
-				2F7543FE1E953ED5004715F9 /* QInterpreterForTests.mm */,
-				2F7544001E95498B004715F9 /* QInterpreterRemTests.mm */,
-				2F7544021E954F12004715F9 /* QinterpreterExitTests.mm */,
+				2F7543FE1E953ED5004715F9 /* QBInterpreterForTests.mm */,
+				2F7544001E95498B004715F9 /* QBInterpreterRemTests.mm */,
+				2F7544021E954F12004715F9 /* QBInterpreterExitTests.mm */,
+				2FB4C2991E9BDE7D00D283CF /* QBInterpreterFuncTests.mm */,
 				2F5CE3E21E85416000EF0D65 /* Info.plist */,
 				2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */,
 				2F5CE42D1E85988C00EF0D65 /* TestFileUtils.h */,
@@ -475,6 +481,8 @@
 				2FF1855D1E23C0B300F97DBC /* QBInterpreterStatements.h */,
 				2FF1855E1E23C0B300F97DBC /* QBInterpreterStatementEntity.cpp */,
 				2FF1855F1E23C0B300F97DBC /* QBInterpreterStatementEntity.h */,
+				2FB4C2961E9BCCF700D283CF /* QBInterpreterFunctionEntity.cpp */,
+				2FB4C2981E9BCD1200D283CF /* QBInterpreterFunctionEntity.h */,
 				2FF185651E23C46700F97DBC /* QBInterpreterSetupNodeEntity.cpp */,
 				2FF185661E23C46700F97DBC /* QBInterpreterSetupNodeEntity.h */,
 				2FA5D8841E7C6D3D0044BB85 /* SubFunctions */,
@@ -824,6 +832,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				2FF185621E23C0B300F97DBC /* QBInterpreterStatementEntity.cpp in Sources */,
 				2FF185611E23C0B300F97DBC /* QBInterpreterStatements.cpp in Sources */,
+				2FB4C2971E9BCCF700D283CF /* QBInterpreterFunctionEntity.cpp in Sources */,
 				2FF1856E1E23C47100F97DBC /* QBNetFetcher.cpp in Sources */,
 				2FF185831E23C47E00F97DBC /* QBSoundEffectManager.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
@@ -837,13 +846,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F7544011E95498B004715F9 /* QInterpreterRemTests.mm in Sources */,
+				2F7544011E95498B004715F9 /* QBInterpreterRemTests.mm in Sources */,
+				2FB4C29A1E9BDE7D00D283CF /* QBInterpreterFuncTests.mm in Sources */,
 				2F5CE42C1E85987F00EF0D65 /* TestFileUtils.m in Sources */,
 				2FD4A98E1E896960005E6C7A /* QBInterpreterGotoTests.mm in Sources */,
 				2F5CE3E11E85416000EF0D65 /* QBInterpreterVariableTests.mm in Sources */,
-				2F7544031E954F12004715F9 /* QinterpreterExitTests.mm in Sources */,
+				2F7544031E954F12004715F9 /* QBInterpreterExitTests.mm in Sources */,
 				2F5CE42F1E859BE800EF0D65 /* QBInterpreterIfTests.mm in Sources */,
-				2F7543FF1E953ED5004715F9 /* QInterpreterForTests.mm in Sources */,
+				2F7543FF1E953ED5004715F9 /* QBInterpreterForTests.mm in Sources */,
 				2F5CE42A1E85938900EF0D65 /* QBInterpreterCalculationTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
