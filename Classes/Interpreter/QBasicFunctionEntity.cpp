@@ -13,6 +13,7 @@
  */
 QBasicFunctionEntity::QBasicFunctionEntity() {
 	// 初期値設定
+	name = "";
 	argNames.clear();
 	startOffset = 0;
 	endOffset = -1;

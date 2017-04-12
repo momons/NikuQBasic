@@ -45,7 +45,7 @@ const vector<string> QBasicValidation::basicStatementNames = {
  *  @param variableName 変数名
  *  @return 変数名として使用可能か
  */
-bool QBasicValidation::isValidVariableName(const string variableName) {
+bool QBasicValidation::isValidVariableName(const string &variableName) {
 
 	// 他の命令と被っていないか
 	if (find(basicStatementNames.begin(), basicStatementNames.end(), variableName) != basicStatementNames.end()) {
@@ -88,7 +88,7 @@ bool QBasicValidation::isValidVariableName(const string variableName) {
  *  @param functionName 関数名
  *  @return 変数名として使用可能か
  */
-bool QBasicValidation::isValidFunctionName(const string functionName) {
+bool QBasicValidation::isValidFunctionName(const string &functionName) {
 
 	// 他の命令と被っていないか
 	if (find(basicStatementNames.begin(), basicStatementNames.end(), functionName) != basicStatementNames.end()) {
@@ -127,31 +127,83 @@ bool QBasicValidation::isValidFunctionName(const string functionName) {
 }
 
 /**
+ *  整数チェック
+ *  @param num 文字
+ *  @return 整数可否
+ */
+bool QBasicValidation::isInt(const string &num) {
+
+	if (num.length() <= 0) {
+		return false;
+	}
+
+	const char *cstr = num.c_str();
+	if (cstr[0] == '-' || isdigit(cstr[0])) {
+		for(int i = 1; i < num.length(); i++) {
+			if (!isdigit(cstr[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	return false;
+}
+
+/**
  *  数値チェック
  *  @param num 文字
  *  @return 数値か否か
  */
-bool QBasicValidation::isNumeric(const string num) {
+bool QBasicValidation::isFloat(const string &num) {
 	
 	if (num.length() <= 0) {
 		return false;
 	}
 	
 	const char *cstr = num.c_str();
-	if (num.length() > 0 && (cstr[0] == '-' || cstr[0] == '.' || isdigit(cstr[0]))) {
-		int i = 0;
-		for(i = 1; i < num.length(); i++) {
-			if (!(isdigit(cstr[i]) || cstr[i] == '.')) {
-				break;
+	if (cstr[0] == '-' || cstr[0] == '.' || isdigit(cstr[0])) {
+		bool hasPeriod = cstr[0] == '.';
+		for(int i = 1; i < num.length(); i++) {
+			if (cstr[i] == '.') {
+				if (hasPeriod) {
+					return false;
+				}
+				hasPeriod = true;
+			} else if (!isdigit(cstr[i])) {
+				return false;
 			}
 		}
-		if (i >= num.length()) {
-			// 数字なので一度数値に変換して戻す
-			return true;
-		}
+		return true;
 	}
 	
 	return false;
 }
 
+/**
+ *  文字チェック
+ *  @param str 文字
+ *  @return 文字可否
+ */
+bool QBasicValidation::isStr(const string &str) {
+	
+	if (str.length() < 2) {
+		return false;
+	}
+	const string quot = "\"";
+	auto res = mismatch(quot.begin(), quot.end(), str.begin());
+	if (res.first != quot.end()) {
+		return false;
+	}
 
+	return str.compare(str.length() - quot.length(), quot.length(), quot) == 0;
+}
+
+/**
+ *  ブール値チェック
+ *  @param str 文字
+ *  @return ブール値可否
+ */
+bool QBasicValidation::isBool(const string &str) {
+	return str.compare("true") == 0 || str.compare("false") == 0;
+}

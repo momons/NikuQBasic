@@ -14,11 +14,14 @@
 using namespace std;
 
 /**
- * ステートメントEntity
+ * 関数Entity
  */
 class QBasicFunctionEntity final {
 	
 public:
+	
+	/// 名前
+	string name;
 	
 	/// 引数名
 	vector<string> argNames;

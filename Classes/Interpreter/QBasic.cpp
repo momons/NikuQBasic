@@ -371,7 +371,7 @@ string QBasic::addsub(const bool run) {
     while (true) {
         if (sym.compare("+") == 0) {
             string num2 = muldiv(run);
-			if (QBasicValidation::isNumeric(num) && QBasicValidation::isNumeric(num2)) {
+			if (QBasicValidation::isFloat(num) && QBasicValidation::isFloat(num2)) {
 				// 数値同士の足し算
 				num = StringUtil::toString(stof(num) + stof(num2));
 			} else {
@@ -454,7 +454,7 @@ string QBasic::factor(const bool run) {
     }
     
     // 数値ならば
-	if (QBasicValidation::isNumeric(sym)) {
+	if (QBasicValidation::isFloat(sym)) {
 		return StringUtil::toString(stof(sym));
 	}
 	
