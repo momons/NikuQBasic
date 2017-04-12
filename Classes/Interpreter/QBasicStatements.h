@@ -9,8 +9,6 @@
 #ifndef __ToolQTheWorld__QBasicStatements__
 #define __ToolQTheWorld__QBasicStatements__
 
-#include <stdio.h>
-
 using namespace std;
 
 class QBasic;

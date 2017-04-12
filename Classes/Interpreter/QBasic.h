@@ -21,6 +21,7 @@ class QBasicNetFunctions;
 class QBasicScene;
 class QBasicMessages;
 class QBasicFunctionEntity;
+class QBasicVariableEntity;
 
 /** 変数最大数 */
 #define MAX_COUNT_VARIABLE 26
@@ -39,7 +40,7 @@ public:
 	QBasicSubFunction *subFunc;
 	
 	/// グローバル変数
-	map<string, string> variables;
+	map<string, QBasicVariableEntity> variables;
 	/// ローカル変数
 	map<string, string> localVariables;
 

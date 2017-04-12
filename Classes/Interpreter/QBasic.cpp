@@ -18,6 +18,7 @@
 #include "QBasicStatementEntity.h"
 #include "QBasicScene.h"
 #include "QBasicFunctionEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicSetupNodeEntity.h"
 #include "QBasicSubFunction.h"
 #include "QBasicStringFunctions.h"
@@ -431,7 +432,7 @@ string QBasic::factor(const bool run) {
     
 	if (variables.find(sym) != variables.end()) {
 		// 変数
-		return run ? variables[sym] : "1";
+		return run ? variables[sym].strValue : "1";
 	} else if (sym.length() == 1) {
 		if(sym.c_str()[0] == '(') {
             string num = expression(run);
@@ -500,7 +501,7 @@ bool QBasic::statement(const bool run) {
 		match("=");
 		string num = expression(run);
 		if (run) {
-			variables[sym] = num;
+			variables[sym].strValue = num;
 		}
 		return true;
 	} else if(sym.compare("var") == 0) {
@@ -635,7 +636,7 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
 	
 	// ローカル変数に引数を設定する
 	for (int i = 0;i < entity.argNames.size();i++) {
-		localVariables[entity.argNames[i]] = argList[i];
+		localVariables[entity.argNames[i].name] = argList[i];
 	}
 	// ファンクション変数も設定
 	localVariables[functionName] = "";
@@ -678,7 +679,7 @@ bool QBasic::analysisVar(const bool run) {
 		// TODO:関数名ともチェック
 		
 	}
-	variables[sym] = "";
+	variables[sym].strValue = "";
 	return true;
 }
 
@@ -817,9 +818,9 @@ bool QBasic::analysisFor(const bool run) {
 	match("=");
 	
 	string num = expression(run);
-	variables[variableSym] = run ? num : "0";
+	variables[variableSym].strValue = run ? num : "0";
 	
-	int from = stoi(variables[variableSym]);
+	int from = stoi(variables[variableSym].strValue);
 	
 	match("to");
 
@@ -854,8 +855,8 @@ bool QBasic::analysisFor(const bool run) {
 	}
 	string pushbackfor = pushBacked;
 	while (!run ||
-		   (isUpLoop && stoi(variables[variableSym]) <= to) ||
-		   (!isUpLoop && stoi(variables[variableSym]) >= to)) {
+		   (isUpLoop && stoi(variables[variableSym].strValue) <= to) ||
+		   (!isUpLoop && stoi(variables[variableSym].strValue) >= to)) {
 		
 		if (isRun) {
 			compileOffset = pcfor;
@@ -884,7 +885,7 @@ bool QBasic::analysisFor(const bool run) {
 		count++;
 		
 		if (run) {
-			variables[variableSym] = StringUtil::toString(stoi(variables[variableSym]) + step);
+			variables[variableSym].strValue = StringUtil::toString(stoi(variables[variableSym].strValue) + step);
 		} else {
 			break;
 		}
@@ -951,7 +952,7 @@ bool QBasic::analysisFunc(const bool run) {
 
 
 	// 引数を解析
-	vector<string> argNames;
+	vector<QBasicVariableEntity> argNames;
 	match("(");
 	while(true) {
 		string sym = getSymbol();
@@ -974,14 +975,23 @@ bool QBasic::analysisFunc(const bool run) {
 			return false;
 		}
 		// すでに宣言済み
-		if (variables.find(sym) != variables.end() ||
-			find(argNames.begin(), argNames.end(), sym) != argNames.end()) {
+		if (variables.find(sym) != variables.end()) {
 			// [ERROR]変数名が二重に定義されています。
 			string message = messages->getMessage("VariableNameOverlap", sym.c_str());
 			setThrow(message);
 			return false;
 		}
-		argNames.push_back(sym);
+		for (auto it = argNames.begin();it != argNames.end();it++) {
+			if (it->name.compare(sym) == 0) {
+				// [ERROR]変数名が二重に定義されています。
+				string message = messages->getMessage("VariableNameOverlap", sym.c_str());
+				setThrow(message);
+				return false;
+			}
+		}
+		
+		auto variableEntity = QBasicVariableEntity(sym, VariableType::Str, "");
+		argNames.push_back(variableEntity);
 	}
 	
 	QBasicFunctionEntity entity;

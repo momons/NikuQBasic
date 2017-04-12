@@ -27,10 +27,10 @@ QBasicStatementEntity::QBasicStatementEntity() {
  * @param func			実行ファンクション
  */
 QBasicStatementEntity::QBasicStatementEntity(
-														   const string name,
+														   const string &name,
 														   const int argCount,
 														   const bool isReturnValue,
-														   const statmentFunction func
+														   const statmentFunction &func
 														   ) {
     // 初期値設定
     this->name = name;

@@ -9,8 +9,6 @@
 #ifndef __ToolQTheWorld__QBasicStatementEntity__
 #define __ToolQTheWorld__QBasicStatementEntity__
 
-#include <stdio.h>
-
 using namespace std;
 
 class QBasic;
@@ -50,10 +48,10 @@ public:
 	 * @param func			実行ファンクション
      */
     QBasicStatementEntity(
-								 const string name,
+								 const string &name,
 								 const int argCount,
 								 const bool isReturnValue,
-								 const statmentFunction func
+								 const statmentFunction &func
 								 );
 
     /**

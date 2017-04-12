@@ -9,9 +9,9 @@
 #ifndef QBasicFunctionEntity_h
 #define QBasicFunctionEntity_h
 
-#include <stdio.h>
-
 using namespace std;
+
+class QBasicVariableEntity;
 
 /**
  * 関数Entity
@@ -24,7 +24,7 @@ public:
 	string name;
 	
 	/// 引数名
-	vector<string> argNames;
+	vector<QBasicVariableEntity> argNames;
 	
 	/// 開始オフセット
 	long startOffset;

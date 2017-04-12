@@ -11,6 +11,12 @@
 #include "QBasicValidation.h"
 
 #define MISMATCH_VARIABLE_TYPE_VALUE -9999;
+/**
+ * コンストラクタ
+ */
+QBasicVariableEntity::QBasicVariableEntity() {
+	
+}
 
 /**
  * コンストラクタ

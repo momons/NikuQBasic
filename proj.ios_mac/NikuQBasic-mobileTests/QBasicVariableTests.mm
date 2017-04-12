@@ -10,6 +10,7 @@
 
 #import "TestFileUtils.h"
 #import "QBasic.h"
+#import "QBasicVariableEntity.h"
 
 /// スクリプト 変数テスト
 @interface QBasicVariableTests : XCTestCase {
@@ -78,35 +79,35 @@
 - (void)test6 {
 	interpreter = new QBasic(nullptr, [scripts[6] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "1");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "1");
 }
 
 /// 計算式を入れて取り出せるか 15
 - (void)test7 {
 	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "15");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "15");
 }
 
 /// 違う変数から値を設定できる
 - (void)test8 {
 	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "1");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "1");
 }
 
 /// 変数を判定できるか
 - (void)test9 {
 	interpreter = new QBasic(nullptr, [scripts[9] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "1");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "1");
 }
 
 /// 変数同士の判定ができるか
 - (void)test10 {
 	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "1");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "1");
 }
 
 /// 変数の２重定義はコンパイルエラー

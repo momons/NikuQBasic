@@ -8,6 +8,8 @@
 
 #include "QBasicFunctionEntity.h"
 
+#include "QBasicVariableEntity.h"
+
 /**
  * コンストラクタ
  */

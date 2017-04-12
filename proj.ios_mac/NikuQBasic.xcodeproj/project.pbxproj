@@ -443,6 +443,21 @@
 			path = "NikuQBasic-mobileTests";
 			sourceTree = "<group>";
 		};
+		2F98EFEF1E9EA8F40057B6C9 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				2FF1855E1E23C0B300F97DBC /* QBasicStatementEntity.cpp */,
+				2FF1855F1E23C0B300F97DBC /* QBasicStatementEntity.h */,
+				2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */,
+				2FB4C2981E9BCD1200D283CF /* QBasicFunctionEntity.h */,
+				2F98EFEA1E9E5DC70057B6C9 /* QBasicVariableEntity.cpp */,
+				2F98EFEC1E9E5DDA0057B6C9 /* QBasicVariableEntity.h */,
+				2FF185651E23C46700F97DBC /* QBasicSetupNodeEntity.cpp */,
+				2FF185661E23C46700F97DBC /* QBasicSetupNodeEntity.h */,
+			);
+			name = Entity;
+			sourceTree = "<group>";
+		};
 		2FA5D8841E7C6D3D0044BB85 /* SubFunctions */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,14 +500,7 @@
 				2FF1855B1E23C0B300F97DBC /* QBasic.h */,
 				2FF1855C1E23C0B300F97DBC /* QBasicStatements.cpp */,
 				2FF1855D1E23C0B300F97DBC /* QBasicStatements.h */,
-				2FF1855E1E23C0B300F97DBC /* QBasicStatementEntity.cpp */,
-				2FF1855F1E23C0B300F97DBC /* QBasicStatementEntity.h */,
-				2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */,
-				2FB4C2981E9BCD1200D283CF /* QBasicFunctionEntity.h */,
-				2F98EFEA1E9E5DC70057B6C9 /* QBasicVariableEntity.cpp */,
-				2F98EFEC1E9E5DDA0057B6C9 /* QBasicVariableEntity.h */,
-				2FF185651E23C46700F97DBC /* QBasicSetupNodeEntity.cpp */,
-				2FF185661E23C46700F97DBC /* QBasicSetupNodeEntity.h */,
+				2F98EFEF1E9EA8F40057B6C9 /* Entity */,
 				2FA5D8841E7C6D3D0044BB85 /* SubFunctions */,
 				2FF185671E23C46700F97DBC /* QBasicSubFunction.cpp */,
 				2FF185681E23C46700F97DBC /* QBasicSubFunction.h */,

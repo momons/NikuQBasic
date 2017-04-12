@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#include "QBasicValidation.h"
+#import "QBasicValidation.h"
 
 @interface QBasicValidationTests : XCTestCase {
 @private

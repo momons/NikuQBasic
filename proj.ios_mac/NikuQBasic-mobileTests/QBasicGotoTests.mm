@@ -10,6 +10,7 @@
 
 #import "TestFileUtils.h"
 #import "QBasic.h"
+#import "QBasicVariableEntity.h"
 
 @interface QBasicGotoTests : XCTestCase {
 @private
@@ -41,35 +42,35 @@
 - (void)test0 {
 	interpreter = new QBasic(nullptr, [scripts[0] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "1");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "1");
 }
 
 /// gosubジャンプ
 - (void)test1 {
 	interpreter = new QBasic(nullptr, [scripts[1] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "1");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "1");
 }
 
 /// 2重gotoジャンプ
 - (void)test2 {
 	interpreter = new QBasic(nullptr, [scripts[2] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "2");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "2");
 }
 
 /// 2重gosubジャンプ
 - (void)test3 {
 	interpreter = new QBasic(nullptr, [scripts[3] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "2");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "2");
 }
 
 /// if文の中のgosubジャンプ
 - (void)test4 {
 	interpreter = new QBasic(nullptr, [scripts[4] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"], "2");
+	XCTAssertEqual(interpreter->variables["a"].strValue, "2");
 }
 
 /// return多すぎコンパイルエラー

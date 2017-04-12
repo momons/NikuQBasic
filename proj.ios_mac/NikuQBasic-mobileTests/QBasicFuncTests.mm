@@ -10,6 +10,7 @@
 
 #import "TestFileUtils.h"
 #import "QBasic.h"
+#import "QBasicVariableEntity.h"
 
 @interface QBasicFuncTests : XCTestCase {
 @private

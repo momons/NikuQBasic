@@ -9,8 +9,6 @@
 #ifndef QBasicVariableEntity_h
 #define QBasicVariableEntity_h
 
-#include <stdio.h>
-
 using namespace std;
 
 /// enum→数値変換用マクロ
@@ -56,6 +54,11 @@ public:
 	vector<QBasicVariableEntity> listValue;
 	/// 連想配列
 	map<string, QBasicVariableEntity> dictValue;
+	
+	/**
+	 * コンストラクタ
+	 */
+	QBasicVariableEntity();
 	
 	/**
 	 * コンストラクタ
