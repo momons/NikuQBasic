@@ -80,4 +80,34 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// 戻り値テスト
+- (void)test7 {
+	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 不正な戻り値テスト
+- (void)test8 {
+	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 引数の型テスト
+- (void)test9 {
+	interpreter = new QBasic(nullptr, [scripts[9] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 引数の型テスト void
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 不正な引数の型テスト
+- (void)test11 {
+	interpreter = new QBasic(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
 @end

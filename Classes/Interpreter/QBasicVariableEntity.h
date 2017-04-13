@@ -16,6 +16,8 @@ using namespace std;
 
 /// 変数タイプ
 enum class VariableType {
+	/// なし
+	Void,
 	/// 整数
 	Int,
 	/// 小数
@@ -28,6 +30,8 @@ enum class VariableType {
 	List,
 	/// 連想配列
 	Dict,
+	/// 不明
+	Unknown,
 };
 
 /**
@@ -45,7 +49,7 @@ public:
 	/// 整数値
 	int intValue = 0;
 	/// 小数値
-	float floatValue = 0;
+	double floatValue = 0;
 	/// 文字列
 	string strValue = "";
 	/// ブール値
@@ -99,7 +103,7 @@ public:
 	 * @param floatValue float値
 	 * @return 比較結果
 	 */
-	int compare(const float floatValue);
+	int compare(const double floatValue);
 	
 	/**
 	 * stringと比較

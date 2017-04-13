@@ -47,6 +47,8 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
 		case VariableType::Dict:
 			// まだ未対応
 			break;
+		default:
+			break;
 	}
 }
 
@@ -155,7 +157,7 @@ int QBasicVariableEntity::compare(const int intValue) {
  * @param floatValue float値
  * @return 比較結果
  */
-int QBasicVariableEntity::compare(const float floatValue) {
+int QBasicVariableEntity::compare(const double floatValue) {
 	if (type != VariableType::Float) {
 		return MISMATCH_VARIABLE_TYPE_VALUE;
 	}

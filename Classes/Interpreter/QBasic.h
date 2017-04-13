@@ -50,7 +50,7 @@ public:
 	 *  @param source    ソース
 	 *  @param projectId プロジェクトId
 	 */
-	QBasic(QBasicScene *scene, const string source, const string projectId);
+	QBasic(QBasicScene *scene, const string &source, const string &projectId);
 		
     /**
      *  デストラクタ
@@ -81,7 +81,7 @@ public:
 	 *  @param message メッセージ
 	 *  @exception コンパイルエラー
 	 */
-	void setThrow(const string message);
+	void setThrow(const string &message);
 	
 private:
     
@@ -140,7 +140,7 @@ private:
      * 単語を退避しておく
      * @param symbol 単語
      */
-    void pushBack(const string symbol);
+    void pushBack(const string &symbol);
     
     /**
      * 単語取得
@@ -152,7 +152,7 @@ private:
      * 単語が一致しているかをチェック
      * @param str 比較文字列
      */
-    void match(const string str);
+    void match(const string &str);
     
     /**
      * and、or、xor判定

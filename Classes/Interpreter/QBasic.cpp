@@ -33,7 +33,7 @@
  *  @param source    ソース
  *  @param projectId プロジェクトId
  */
-QBasic::QBasic(QBasicScene *scene, const string source, const string projectId) {
+QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId) {
 
     // 定数取得
 	statements = QBasicStatements::sharedInstance();
@@ -130,7 +130,7 @@ void QBasic::initAndRun(const bool run) {
  * 単語を退避しておく
  * @param symbol 単語
  */
-void QBasic::pushBack(const string symbol) {
+void QBasic::pushBack(const string &symbol) {
 	pushBacked = symbol;
 }
 
@@ -266,7 +266,7 @@ string QBasic::getSymbol() {
  * 単語が一致しているかをチェック
  * @param str 比較文字列
  */
-void QBasic::match(const string str) {
+void QBasic::match(const string &str) {
     string sym = getSymbol();
     if (sym.compare(str) != 0) {
 		// [ERROR]想定の文字が見つかりませんでした。
@@ -586,7 +586,7 @@ vector<string> QBasic::getArg(const bool run, const int argCount) {
  * @param message メッセージ
  * @exception コンパイルエラー
  */
-void QBasic::setThrow(const string message) {
+void QBasic::setThrow(const string &message) {
 	// 行数を検索
 	int row = 1;
 	for (int i = 0;i < execOffset - 1;i++) {
@@ -934,6 +934,15 @@ bool QBasic::analysisFunc(const bool run) {
 		return false;
 	}
 	
+	string returnVariableName = getSymbol();
+	auto returnVariableType = QBasicValidation::checkVariableType(returnVariableName);
+	if (returnVariableType == VariableType::Unknown) {
+		// [ERROR]戻り値のタイプが不正です。
+		string message = messages->getMessage("BadFunctionReturnType", returnVariableName.c_str());
+		setThrow(message);
+		return false;
+	}
+	
 	string functionName = getSymbol();
 	
 	// 名前が不適切
@@ -970,6 +979,18 @@ bool QBasic::analysisFunc(const bool run) {
 			}
 			sym = getSymbol();
 		}
+		
+		// 型
+		auto variableType = QBasicValidation::checkVariableType(sym);
+		if (variableType == VariableType::Unknown || variableType == VariableType::Void) {
+			// [ERROR]変数のタイプが不正です。
+			string message = messages->getMessage("BadVariableType", functionName.c_str());
+			setThrow(message);
+			return false;
+		}
+
+		// 変数名
+		sym = getSymbol();
 		if (!QBasicValidation::isValidVariableName(sym)) {
 			setThrow(QBasicValidation::errorMessage);
 			return false;
@@ -990,12 +1011,15 @@ bool QBasic::analysisFunc(const bool run) {
 			}
 		}
 		
-		auto variableEntity = QBasicVariableEntity(sym, VariableType::Str, "");
+		QBasicVariableEntity variableEntity;
+		variableEntity.name = sym;
+		variableEntity.type = variableType;
 		argNames.push_back(variableEntity);
 	}
 	
 	QBasicFunctionEntity entity;
 	entity.argNames = argNames;
+	entity.returnVariableType = returnVariableType;
 	entity.startOffset = (long)compileSymbols.size();
 	
 	functions[functionName] = entity;

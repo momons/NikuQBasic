@@ -14,6 +14,8 @@
 
 using namespace std;
 
+enum class VariableType;
+
 /// インタプリタ バリデーション関連クラス
 class QBasicValidation final {
 public:
@@ -62,6 +64,13 @@ public:
 	 *  @return ブール値可否
 	 */
 	static bool isBool(const string &str);
+	
+	/**
+	 *  変数タイプのチェック
+	 *  @param str 文字
+	 *  @return 変数タイプ
+	 */
+	static VariableType checkVariableType(const string &str);
 	
 private:
 	

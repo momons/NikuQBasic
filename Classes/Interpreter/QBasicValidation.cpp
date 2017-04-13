@@ -10,6 +10,7 @@
 
 #include "QBasicStatements.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicMessages.h"
 
 /// エラーメッセージ
@@ -38,6 +39,13 @@ const vector<string> QBasicValidation::basicStatementNames = {
 	"xor",
 	"func",
 	"end",
+	"void",
+	"int",
+	"float",
+	"str",
+	"bool",
+	"list",
+	"dict",
 };
 
 /**
@@ -206,4 +214,35 @@ bool QBasicValidation::isStr(const string &str) {
  */
 bool QBasicValidation::isBool(const string &str) {
 	return str.compare("true") == 0 || str.compare("false") == 0;
+}
+
+
+/**
+ *  変数タイプのチェック
+ *  @param str 文字
+ *  @return 変数タイプ
+ */
+VariableType QBasicValidation::checkVariableType(const string &str) {
+	if (str.compare("void") == 0) {
+		return VariableType::Void;
+	}
+	if (str.compare("int") == 0) {
+		return VariableType::Int;
+	}
+	if (str.compare("float") == 0) {
+		return VariableType::Float;
+	}
+	if (str.compare("str") == 0) {
+		return VariableType::Str;
+	}
+	if (str.compare("bool") == 0) {
+		return VariableType::Bool;
+	}
+//	if (str.compare("list") == 0) {
+//		return VariableType::List;
+//	}
+//	if (str.compare("dict") == 0) {
+//		return VariableType::Dict;
+//	}
+	return VariableType::Unknown;
 }

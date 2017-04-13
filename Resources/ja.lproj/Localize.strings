@@ -14,4 +14,7 @@ BadFunctionName1="関数名が予約語と被っています。";
 BadFunctionName2="関数名の頭に数字を使用しています。";
 BadFunctionName3="関数名に英数字以外を使用しています。";
 FunctionNameOverlap="関数名が二重に定義されています。";
+FunctionOverFunction="func内にfuncは定義できません。";
 CannotEnd="これ以上endはできません。";
+BadFunctionReturnType="戻り値のタイプが不正です。";
+BadVariableType="変数のタイプが不正です。";

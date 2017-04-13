@@ -17,6 +17,7 @@ QBasicFunctionEntity::QBasicFunctionEntity() {
 	// 初期値設定
 	name = "";
 	argNames.clear();
+	returnVariableType = VariableType::Unknown;
 	startOffset = 0;
 	endOffset = -1;
 }

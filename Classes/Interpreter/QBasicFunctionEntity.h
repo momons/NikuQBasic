@@ -12,6 +12,7 @@
 using namespace std;
 
 class QBasicVariableEntity;
+enum class VariableType;
 
 /**
  * 関数Entity
@@ -25,6 +26,9 @@ public:
 	
 	/// 引数名
 	vector<QBasicVariableEntity> argNames;
+	
+	/// 戻り値タイプ
+	VariableType returnVariableType;
 	
 	/// 開始オフセット
 	long startOffset;
