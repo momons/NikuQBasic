@@ -42,50 +42,50 @@
 - (void)test0 {
 	interpreter = new QBasic(nullptr, [scripts[0] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "55");
-	XCTAssertEqual(interpreter->variables["i"].strValue, "11");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 55);
+	XCTAssertEqual(interpreter->variables["i"].intValue, 11);
 }
 
 /// 1から10まで2ステップでループ
 - (void)test1 {
 	interpreter = new QBasic(nullptr, [scripts[1] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "25");
-	XCTAssertEqual(interpreter->variables["i"].strValue, "11");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 25);
+	XCTAssertEqual(interpreter->variables["i"].intValue, 11);
 }
 
 /// 10から1まで-1ステップでループ
 - (void)test2 {
 	interpreter = new QBasic(nullptr, [scripts[2] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "55");
-	XCTAssertEqual(interpreter->variables["i"].strValue, "0");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 55);
+	XCTAssertEqual(interpreter->variables["i"].intValue, 0);
 }
 
 /// 10から1まで-2ステップでループ
 - (void)test3 {
 	interpreter = new QBasic(nullptr, [scripts[3] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "30");
-	XCTAssertEqual(interpreter->variables["i"].strValue, "0");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 30);
+	XCTAssertEqual(interpreter->variables["i"].intValue, 0);
 }
 
 /// 二重ループ
 - (void)test4 {
 	interpreter = new QBasic(nullptr, [scripts[4] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "55");
-	XCTAssertEqual(interpreter->variables["b"].strValue, "550");
-	XCTAssertEqual(interpreter->variables["i"].strValue, "11");
-	XCTAssertEqual(interpreter->variables["j"].strValue, "11");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 55);
+	XCTAssertEqual(interpreter->variables["b"].intValue, 550);
+	XCTAssertEqual(interpreter->variables["i"].intValue, 11);
+	XCTAssertEqual(interpreter->variables["j"].intValue, 11);
 }
 
 /// stepなしでもstep-1
 - (void)test5 {
 	interpreter = new QBasic(nullptr, [scripts[5] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "55");
-	XCTAssertEqual(interpreter->variables["i"].strValue, "0");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 55);
+	XCTAssertEqual(interpreter->variables["i"].intValue, 0);
 }
 
 

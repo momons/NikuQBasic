@@ -42,7 +42,7 @@ public:
 	/// グローバル変数
 	map<string, QBasicVariableEntity> variables;
 	/// ローカル変数
-	map<string, string> localVariables;
+	map<string, QBasicVariableEntity> localVariables;
 
 	/**
 	 *  コンストラクタ
@@ -83,6 +83,14 @@ public:
 	 */
 	void setThrow(const string &message);
 	
+	/**
+	 *  例外を設定
+	 *  @param messegeCode メッセージコード
+	 *  @param params   　  パラメータ
+	 *  @exception コンパイルエラー
+	 */
+	void setThrow(const string &messegeCode, const char *params);
+
 private:
     
     /// 実行プログラムソース
@@ -114,7 +122,7 @@ private:
 	/// ファンクション退避
 	vector<string> functionPushBacked;
 	vector<long> functionExecOffset;
-	vector<map<string, string>> functionLocalVariables;
+	vector<map<string, QBasicVariableEntity>> functionLocalVariables;
 	
 	/// 最後にアクセスした関数名
 	string lastFunctionName;
@@ -159,35 +167,35 @@ private:
      * @param run 実行中フラグ
      * @return 値
      */
-    string expression(const bool run);
+    QBasicVariableEntity expression(const bool run);
     
     /**
      * =、<、<=、>、>=、<>判定
      * @param run 実行中フラグ
      * @return 値
      */
-    string relop(const bool run);
+    QBasicVariableEntity relop(const bool run);
     
     /**
      * 足し算、引き算、NOTの計算
      * @param run 実行中フラグ
      * @return 値
      */
-    string addsub(const bool run);
+    QBasicVariableEntity addsub(const bool run);
     
     /**
      * 掛け算、割り算、あまりの計算
      * @param run 実行中フラグ
      * @return 値
      */
-    string muldiv(const bool run);
+    QBasicVariableEntity muldiv(const bool run);
     
     /**
      * 戻り値の取得
      * @param run 実行中フラグ
      * @return 値
      */
-    string factor(const bool run);
+    QBasicVariableEntity factor(const bool run);
     
     /**
      * 戻り値なし実行
@@ -202,7 +210,12 @@ private:
      * @param argCount 引数取得
      * @return 引数群
      */
-    vector<string> getArg(const bool run, const int argCount);
+    vector<QBasicVariableEntity> getArg(const bool run, const int argCount);
+	
+	/**
+	 *  処理を１つ戻す
+	 */
+	void popBack();
 
 	/**
 	 * func実行

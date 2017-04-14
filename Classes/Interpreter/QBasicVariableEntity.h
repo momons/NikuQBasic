@@ -118,6 +118,82 @@ public:
 	 * @return 比較結果
 	 */
 	int compare(const bool boolValue);
+	
+#pragma mark - 四則演算
+
+	/**
+	 * 足し算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity add(const QBasicVariableEntity &entity);
+
+	/**
+	 * 引き算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity sub(const QBasicVariableEntity &entity);
+
+	/**
+	 * 掛け算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity mul(const QBasicVariableEntity &entity);
+
+	/**
+	 * 割り算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity div(const QBasicVariableEntity &entity);
+
+	/**
+	 * 余り
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity mod(const QBasicVariableEntity &entity);
+	
+#pragma mark - 論理演算
+
+	/**
+	 * And論理演算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity expressionAnd(const QBasicVariableEntity &entity);
+
+	/**
+	 * OR論理演算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity expressionOr(const QBasicVariableEntity &entity);
+
+	/**
+	 * XOR論理演算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity expressionXor(const QBasicVariableEntity &entity);
+
+	/**
+	 * NOT論理演算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity expressionNot();
+	
+private:
+	
+	/**
+	 * 値なしコピー
+	 * @return コピーEntity
+	 */
+	QBasicVariableEntity copyNotValue();
+	
 };
 
 #endif /* QBasicVariableEntity_h */

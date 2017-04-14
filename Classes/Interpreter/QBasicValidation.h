@@ -15,6 +15,7 @@
 using namespace std;
 
 enum class VariableType;
+class QBasicVariableEntity;
 
 /// インタプリタ バリデーション関連クラス
 class QBasicValidation final {
@@ -72,6 +73,75 @@ public:
 	 */
 	static VariableType checkVariableType(const string &str);
 	
+	/**
+	 *  論理演算可能かチェック
+	 *  @param srcEntity 比較元
+	 *  @param dstEntity 比較先
+	 *  @return 論理演算可否
+	 */
+	static bool isValidExpression(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity);
+
+	/**
+	 *  not可能かチェック
+	 *  @param entity 対象
+	 *  @return not可否
+	 */
+	static bool isValidNot(const QBasicVariableEntity &entity);
+
+	/**
+	 *  足し算可能かチェック
+	 *  @param srcEntity 比較元
+	 *  @param dstEntity 比較先
+	 *  @return 足し算可否
+	 */
+	static bool isValidAdd(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity);
+
+	/**
+	 *  引き算可能かチェック
+	 *  @param entity 対象
+	 *  @return 引き算可否
+	 */
+	static bool isValidSub(const QBasicVariableEntity &entity);
+	
+	/**
+	 *  引き算可能かチェック
+	 *  @param srcEntity 比較元
+	 *  @param dstEntity 比較先
+	 *  @return 引き算可否
+	 */
+	static bool isValidSub(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity);
+
+	/**
+	 *  掛け算可能かチェック
+	 *  @param srcEntity 比較元
+	 *  @param dstEntity 比較先
+	 *  @return 引き算可否
+	 */
+	static bool isValidMul(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity);
+
+	/**
+	 *  掛け算可能かチェック
+	 *  @param srcEntity 比較元
+	 *  @param dstEntity 比較先
+	 *  @return 引き算可否
+	 */
+	static bool isValidDiv(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity);
+
+	/**
+	 *  掛け算可能かチェック
+	 *  @param srcEntity 比較元
+	 *  @param dstEntity 比較先
+	 *  @return 引き算可否
+	 */
+	static bool isValidMod(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity);
+
+	/**
+	 *  for可能かチェック
+	 *  @param entity 対象
+	 *  @return for可能可否
+	 */
+	static bool isValidFor(const QBasicVariableEntity &entity);
+
 private:
 	
 	/// 基本ステートメント名

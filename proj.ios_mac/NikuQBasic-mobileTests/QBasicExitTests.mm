@@ -42,21 +42,21 @@
 - (void)test0 {
 	interpreter = new QBasic(nullptr, [scripts[0] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "0");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 0);
 }
 
 /// if文で処理終了
 - (void)test1 {
 	interpreter = new QBasic(nullptr, [scripts[1] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "0");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 0);
 }
 
 /// for文で処理終了
 - (void)test2 {
 	interpreter = new QBasic(nullptr, [scripts[2] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].strValue, "0");
+	XCTAssertEqual(interpreter->variables["a"].intValue, 0);
 }
 
 @end

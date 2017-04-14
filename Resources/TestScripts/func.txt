@@ -1,66 +1,66 @@
 ' test0 引数なし
-func void a()
+func a()
 end
 ========================
 ' test1 引数あり
-func void a(int a, int b, int c)
+func a(a int, b int, c int)
 end
 ========================
 ' test2 関数名に予約語を使用
-func void if()
+func if()
 end
 ========================
 ' test3 変数名がかぶっている
 var void a
-func b(int a)
+func b(a int)
 end
 ========================
 ' test4 引数の変数名がかぶっている
-func void a(int b, int c, int b)
+func a(b int, c int, b int)
 end
 ========================
 ' test5 funcの中にfunc
-func void a()
-  func void b()
+func a()
+  func b()
   end
 end
 ========================
 ' test6 同一funcを二重定義
-func void a()
+func a()
 end
-func void b()
+func b()
 end
-func void a()
+func a()
 end
 ========================
 ' test7 戻り値テスト
-func void a()
+func a() void
 end
-func int b()
+func b() int
 end
-func float c()
+func c() float
 end
-func str d()
+func d() str
 end
-func bool e()
+func e() bool
 end
-'func list f()
+'func f() list
 'end
-'func dict g()
+'func g() dict
 'end
 ========================
 ' test8 不正な戻り値テスト
-func sdsds a()
+func a() sdsds
 end
 ========================
 ' test9 引数の型テスト int
-func void a(int b, float c, str d, bool e)
+func a(b int, c float, d str, e bool)
 end
 ========================
 ' test10 引数の型テスト void
-func void a(void b)
+func a(b void)
 end
 ========================
 ' test11 不正な引数の型テスト
-func void a(asas c)
+func a(asas c)
 end

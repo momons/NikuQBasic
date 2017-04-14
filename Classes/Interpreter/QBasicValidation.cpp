@@ -246,3 +246,96 @@ VariableType QBasicValidation::checkVariableType(const string &str) {
 //	}
 	return VariableType::Unknown;
 }
+
+/**
+ *  論理演算可能かチェック
+ *  @param srcEntity 比較元
+ *  @param dstEntity 比較先
+ *  @return 論理演算可否
+ */
+bool QBasicValidation::isValidExpression(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	return (srcEntity.type == VariableType::Bool && dstEntity.type == VariableType::Bool) ||
+	(srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int);
+}
+
+/**
+ *  not可能かチェック
+ *  @param entity 対象
+ *  @return not可否
+ */
+bool QBasicValidation::isValidNot(const QBasicVariableEntity &entity) {
+	return entity.type == VariableType::Bool;
+}
+
+/**
+ *  足し算可能かチェック
+ *  @param srcEntity 比較元
+ *  @param dstEntity 比較先
+ *  @return 足し算可否
+ */
+bool QBasicValidation::isValidAdd(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
+	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float) ||
+	(srcEntity.type == VariableType::Str && dstEntity.type == VariableType::Str);
+}
+
+/**
+ *  引き算可能かチェック
+ *  @param entity 対象
+ *  @return 引き算可否
+ */
+bool QBasicValidation::isValidSub(const QBasicVariableEntity &entity) {
+	return entity.type == VariableType::Int || entity.type == VariableType::Float;
+}
+
+/**
+ *  引き算可能かチェック
+ *  @param srcEntity 比較元
+ *  @param dstEntity 比較先
+ *  @return 引き算可否
+ */
+bool QBasicValidation::isValidSub(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
+	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float);
+}
+
+/**
+ *  掛け算可能かチェック
+ *  @param srcEntity 比較元
+ *  @param dstEntity 比較先
+ *  @return 引き算可否
+ */
+bool QBasicValidation::isValidMul(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
+	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float);
+}
+
+/**
+ *  掛け算可能かチェック
+ *  @param srcEntity 比較元
+ *  @param dstEntity 比較先
+ *  @return 引き算可否
+ */
+bool QBasicValidation::isValidDiv(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
+	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float);
+}
+
+/**
+ *  掛け算可能かチェック
+ *  @param srcEntity 比較元
+ *  @param dstEntity 比較先
+ *  @return 引き算可否
+ */
+bool QBasicValidation::isValidMod(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int);
+}
+
+/**
+ *  for可能かチェック
+ *  @param entity 対象
+ *  @return for可能可否
+ */
+bool QBasicValidation::isValidFor(const QBasicVariableEntity &entity) {
+	return entity.type == VariableType::Int;
+}
