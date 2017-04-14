@@ -179,9 +179,36 @@ public:
 	 */
 	QBasicVariableEntity expressionXor(const QBasicVariableEntity &entity);
 
+#pragma mark - 変換
+	
+	/**
+	 * Intへ変換
+	 * @return 結果
+	 */
+	QBasicVariableEntity toInt();
+
+	/**
+	 * Floatへ変換
+	 * @return 結果
+	 */
+	QBasicVariableEntity toFloat();
+
+	/**
+	 * Strへ変換
+	 * @return 結果
+	 */
+	QBasicVariableEntity toStr();
+
+	/**
+	 * Boolへ変換
+	 * @return 結果
+	 */
+	QBasicVariableEntity toBool();
+
+#pragma mark - その他
+	
 	/**
 	 * NOT論理演算
-	 * @param entity 変数entity
 	 * @return 比較結果
 	 */
 	QBasicVariableEntity expressionNot();

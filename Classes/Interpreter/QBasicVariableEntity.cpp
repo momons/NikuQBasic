@@ -9,6 +9,7 @@
 #include "QBasicVariableEntity.h"
 
 #include "QBasicValidation.h"
+#include "StringUtil.h"
 
 #define MISMATCH_VARIABLE_TYPE_VALUE -9999;
 /**
@@ -393,7 +394,106 @@ QBasicVariableEntity QBasicVariableEntity::expressionNot() {
 	return returnEntity;
 }
 
-#pragma mark - 判定
+#pragma mark - 変換
+
+/**
+ * Intへ変換
+ * @param entity 変数entity
+ * @return 結果
+ */
+QBasicVariableEntity QBasicVariableEntity::toInt() {
+	QBasicVariableEntity returnEntity;
+	switch (type) {
+		case VariableType::Float:
+			returnEntity.intValue = !boolValue;
+			break;
+		case VariableType::Str:
+			returnEntity.intValue = atoi(strValue.c_str());
+			break;
+		case VariableType::Bool:
+			returnEntity.intValue = boolValue ? 1 : 0;
+			break;
+		default:
+			// 上位でチェックしているのでエラーは不要
+			break;
+	}
+	returnEntity.type = VariableType::Int;
+	return returnEntity;
+}
+
+/**
+ * Floatへ変換
+ * @param entity 変数entity
+ * @return 結果
+ */
+QBasicVariableEntity QBasicVariableEntity::toFloat() {
+	QBasicVariableEntity returnEntity;
+	switch (type) {
+		case VariableType::Int:
+			returnEntity.floatValue = (double)intValue;
+			break;
+		case VariableType::Str:
+			returnEntity.floatValue = atof(strValue.c_str());
+			break;
+		case VariableType::Bool:
+			returnEntity.floatValue = boolValue ? 1 : 0;
+			break;
+		default:
+			break;
+	}
+	returnEntity.type = VariableType::Float;
+	return returnEntity;
+}
+
+/**
+ * Strへ変換
+ * @param entity 変数entity
+ * @return 結果
+ */
+QBasicVariableEntity QBasicVariableEntity::toStr() {
+	QBasicVariableEntity returnEntity;
+	switch (type) {
+		case VariableType::Int:
+			returnEntity.strValue = StringUtil::toString((double)intValue);
+			break;
+		case VariableType::Float:
+			returnEntity.strValue = StringUtil::toString(floatValue);
+			break;
+		case VariableType::Bool:
+			returnEntity.strValue = boolValue ? "true" : "false";
+			break;
+		default:
+			break;
+	}
+	returnEntity.type = VariableType::Str;
+	return returnEntity;
+}
+
+/**
+ * Boolへ変換
+ * @param entity 変数entity
+ * @return 結果
+ */
+QBasicVariableEntity QBasicVariableEntity::toBool() {
+	QBasicVariableEntity returnEntity;
+	switch (type) {
+		case VariableType::Int:
+			returnEntity.boolValue = intValue != 0;
+			break;
+		case VariableType::Str:
+			returnEntity.boolValue = strValue.compare("true") == 0;
+			break;
+		case VariableType::Float:
+			returnEntity.boolValue = floatValue != 0;
+			break;
+		default:
+			break;
+	}
+	returnEntity.type = VariableType::Bool;
+	return returnEntity;
+}
+
+#pragma mark - その他
 
 /**
  * 値なしコピー
@@ -405,3 +505,7 @@ QBasicVariableEntity QBasicVariableEntity::copyNotValue() {
 	returnEntity.type = type;
 	return returnEntity;
 }
+
+
+
+
