@@ -40,9 +40,9 @@ public:
 	QBasicSubFunction *subFunc;
 	
 	/// グローバル変数
-	map<string, QBasicVariableEntity> variables;
+	unordered_map<string, QBasicVariableEntity> variables;
 	/// ローカル変数
-	map<string, QBasicVariableEntity> localVariables;
+	unordered_map<string, QBasicVariableEntity> localVariables;
 
 	/**
 	 *  コンストラクタ
@@ -122,18 +122,18 @@ private:
 	/// ファンクション退避
 	vector<string> functionPushBacked;
 	vector<long> functionExecOffset;
-	vector<map<string, QBasicVariableEntity>> functionLocalVariables;
+	vector<unordered_map<string, QBasicVariableEntity>> functionLocalVariables;
 	
 	/// 最後にアクセスした関数名
 	string lastFunctionName;
 
     /// ラベル情報
-    map<string, long> labelName;
+    unordered_map<string, long> labelName;
     
     /// ステートメント群
 	QBasicStatements *statements;
 	/// ファンクション群
-	map<string, QBasicFunctionEntity> functions;
+	unordered_map<string, QBasicFunctionEntity> functions;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
 	
@@ -214,8 +214,9 @@ private:
 	
 	/**
 	 *  処理を１つ戻す
+	 * @param run 実行中フラグ
 	 */
-	void popBack();
+	void popBack(const bool run);
 
 	/**
 	 * func実行

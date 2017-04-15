@@ -1,13 +1,11 @@
 ' gotoジャンプ
-var a
-a = 1
+var a int = 1
 goto("label1")
 a = a + 1
 label label1
 ========================
 ' gosubジャンプ
-var a
-a = 0
+var a int = 0
 gosub("label1")
 a = a - 1
 exit
@@ -16,8 +14,7 @@ a = 2
 return
 ========================
 ' 2重gotoジャンプ
-var a
-a = 0
+var a int = 0
 goto("label1")
 a = 99
 label label2
@@ -28,8 +25,7 @@ a = a + 1
 goto("label2")
 ========================
 ' 2重gosubジャンプ
-var a
-a = 0
+var a int = 0
 gosub("label1")
 exit
 label label1
@@ -41,8 +37,7 @@ a = a + 1
 return
 ========================
 ' if文の中のgosubジャンプ
-var a
-a = 0
+var a int = 0
 if 1 = 1 then
   gosub("label1")
 else

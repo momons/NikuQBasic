@@ -1,83 +1,73 @@
-' イコール
-var a
-a = 0
+' test0 イコール
+var a int = 0
 if 1 = 1 then
   a = 1
 endif
 ========================
-' ノットイコール
-var a
-a = 0
+' test1 ノットイコール
+var a int = 0
 if 2 <> 1 then
   a = 1
 endif
 ========================
-' 小なり
-var a
-a = 0
+' test2 小なり
+var a int = 0
 if 1 < 2 then
   a = 1
 endif
 ========================
-' 小なりイコール
-var a
-a = 0
+' test3 小なりイコール
+var a int = 0
 if 1 <= 2 and 2 <= 2 then
   a = 1
 endif
 ========================
-' 大なり
-var a
-a = 0
+' test4 大なり
+var a int = 0
 if 2 > 1 then
   a = 1
 endif
 ========================
-' 大なりイコール
-var a
-a = 0
+' test5 大なりイコール
+var a int = 0
 if 2 >= 1 and 2 >= 2 then
   a = 1
 endif
 ========================
-' and
-var a
-a = 0
+' test6 and
+var a int = 0
 if 1 = 1 and 2 = 2 then
   a = 1
 endif
 ========================
-' or
-var a
-a = 0
+' test7 or
+var a int = 0
 if 1 = 2 or 2 = 2 then
   a = 1
 endif
 ========================
-' xor
-var a
-a = 0
+' test8 xor
+var a int = 0
 if 1 = 2 xor 2 = 2 then
   a = 1
 endif
 ========================
-' not
-var a
-a = 0
+' test9 not
+var a int = 0
 if not(1 = 2) then
   a = 1
 endif
 ========================
-' else
-var a
+' test10 else
+var a int
 if 1 = 2 then
   a = 0
 else
   a = 1
 endif
 ========================
-' elseif
-var a
+' test11 elseif
+var a int
 if 1 = 2 then
   a = 0
 elseif 2 = 2 then
@@ -86,8 +76,8 @@ else
   a = 0
 endif
 ========================
-' elseifその２
-var a
+' test12 elseifその２
+var a int
 if 1 = 2 then
   a = 0
 elseif 2 = 3 then
@@ -98,51 +88,44 @@ else
   a = 0
 endif
 ========================
-' 文字比較イコール
-var a
-a = 0
+' test13 文字比較イコール
+var a int = 0
 if "a" = "a" then
   a = 1
 endif
 ========================
-' 文字比較ノットイコール
-var a
-a = 0
+' test14 文字比較ノットイコール
+var a int = 0
 if "a" <> "b" then
   a = 1
 endif
 ========================
-' 文字比較小なり
-var a
-a = 0
+' test15 文字比較小なり
+var a int = 0
 if "a" < "b" then
   a = 1
 endif
 ========================
-' 文字比較小なりイコール
-var a
-a = 0
+' test16 文字比較小なりイコール
+var a int = 0
 if "a" < "b" and "b" <= "b" then
   a = 1
 endif
 ========================
-' 文字比較大なり
-var a
-a = 0
+' test17 文字比較大なり
+var a int = 0
 if "b" > "a" then
   a = 1
 endif
 ========================
-' 文字比較大なりイコール
-var a
-a = 0
+' test18 文字比較大なりイコール
+var a int = 0
 if "b" > "a" and "b" >= "b" then
   a = 1
 endif
 ========================
-' if文の中にif文
-var a
-a = 0
+' test19 if文の中にif文
+var a int = 0
 if "a" = "a" then
   if "b" <> "b" then
    a = 0
@@ -151,8 +134,8 @@ if "a" = "a" then
   endif
 endif
 ========================
-' else２個でコンパイルエラー
-var a
+' test20 else２個でコンパイルエラー
+var a int
 if 1 = 1 then
   a = 1
 else
@@ -161,8 +144,8 @@ else
   a = 3
 endif
 ========================
-' elseの後にelseifでコンパイルエラー
-var a
+' test21 elseの後にelseifでコンパイルエラー
+var a int
 if 1 = 1 then
   a = 1
 else

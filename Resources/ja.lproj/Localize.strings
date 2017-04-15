@@ -19,9 +19,11 @@ CannotEnd="これ以上endはできません。";
 BadFunctionReturnType="戻り値のタイプが不正です。";
 BadVariableType="変数のタイプが不正です。";
 BadCompareVariableType="比較する変数のタイプが不正です。";
-BadVariableTypeAdd="変数のタイプが不正のため足し算はできません。";
-BadVariableTypeSub="変数のタイプが不正のため引き算はできません。";
-BadVariableTypeMul="変数のタイプが不正のため掛け算はできません。";
-BadVariableTypeDiv="変数のタイプが不正のため割り算はできません。";
-BadVariableTypeMod="変数のタイプが不正のため余り計算はできません。";
-BadVariableTypeNot="変数のタイプが不正のためnotはできません。";
+BadVariableTypeAdd="変数のタイプが不正なため足し算はできません。";
+BadVariableTypeSub="変数のタイプが不正なため引き算はできません。";
+BadVariableTypeMul="変数のタイプが不正なため掛け算はできません。";
+BadVariableTypeDiv="変数のタイプが不正なため割り算はできません。";
+BadVariableTypeMod="変数のタイプが不正なため余り計算はできません。";
+BadVariableTypeNot="変数のタイプが不正なためnotはできません。";
+BadVariableTypeIf="変数のタイプが不正なため判定できません。";
+

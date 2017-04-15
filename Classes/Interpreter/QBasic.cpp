@@ -381,6 +381,7 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
 //            num = "-" + num;
 //        }
     } else if(sym.compare("not") == 0) {
+		value = muldiv(run);
 		if (QBasicValidation::isValidNot(value)) {
 			value = value.expressionNot();
 		} else {
@@ -529,7 +530,7 @@ bool QBasic::statement(const bool run) {
     auto sym = getSymbol();
     
     // 終了
-    if (sym.length() == 0) {
+    if (sym.empty()) {
         return false;
     }
 
@@ -633,7 +634,7 @@ void QBasic::setThrow(const string &message) {
 	ostringstream stream;
 	stream << "row:" << row << " " << message;
 	stream << message;
-	throw stream.str();
+	throw runtime_error(stream.str());
 }
 
 /**
@@ -649,11 +650,16 @@ void QBasic::setThrow(const string &messegeCode, const char *params) {
 
 /**
  *  処理を１つ戻す
+ * @param run 実行中フラグ
  */
-void QBasic::popBack() {
-	compileSymbols.pop_back();
-	compileExecOffsets.pop_back();
-	execOffset = compileExecOffsets[compileExecOffsets.size() - 1];
+void QBasic::popBack(const bool run) {
+	if (run) {
+		compileOffset -= 1;
+	} else {
+		compileSymbols.pop_back();
+		compileExecOffsets.pop_back();
+		execOffset = compileExecOffsets[compileExecOffsets.size() - 1];
+	}
 }
 
 #pragma mark - 実行
@@ -746,7 +752,9 @@ bool QBasic::analysisVar(const bool run) {
 	// 初期値設定されているか
 	auto sym = getSymbol();
 	if (sym.compare("=") != 0) {
-		popBack();
+		if (!sym.empty()) {
+			popBack(run);
+		}
 		variables[variableName] = QBasicVariableEntity(variableName, variableType, nullptr);
 		return true;
 	}
@@ -766,10 +774,15 @@ bool QBasic::analysisVar(const bool run) {
  */
 bool QBasic::analysisIf(const bool run) {
 	// if文
-	bool b = !(expression(run).compare("0") == 0);
+	auto value = expression(run);
+	if (!QBasicValidation::isValidIf(value)) {
+		setThrow("BadVariableTypeIf", nullptr);
+		return false;
+	}
+	bool isValid = value.boolValue;
 	bool isElse = false;
 	match("then");
-	while (statement(b && run && !isExit)) {
+	while (statement(isValid && run && !isExit)) {
 		auto sym = getSymbol();
 		if (sym.compare("endif") == 0) {
 			break;
@@ -779,7 +792,12 @@ bool QBasic::analysisIf(const bool run) {
 				setThrow("BadElseif", nullptr);
 				return false;
 			}
-			b = !(expression(run).compare("0") == 0);
+			auto value = expression(run);
+			if (!QBasicValidation::isValidIf(value)) {
+				setThrow("BadVariableTypeIf", nullptr);
+				return false;
+			}
+			isValid = value.boolValue;
 			match("then");
 		} else if(sym.compare("else") == 0) {
 			if (isElse) {
@@ -787,7 +805,7 @@ bool QBasic::analysisIf(const bool run) {
 				setThrow("BadElse", nullptr);
 				return false;
 			}
-			b = !b;
+			isValid = !isValid;
 			// フラグON
 			isElse = true;
 		} else {
@@ -1016,7 +1034,7 @@ bool QBasic::analysisFunc(const bool run) {
 	}
 	
 	// func内にfuncを定義
-	if (lastFunctionName.length() > 0) {
+	if (!lastFunctionName.empty()) {
 		// [ERROR]関数名が二重に定義されています。
 		setThrow("FunctionOverFunction", lastFunctionName.c_str());
 		return false;
@@ -1024,19 +1042,20 @@ bool QBasic::analysisFunc(const bool run) {
 	
 	string functionName = getSymbol();
 	
-	// 名前が不適切
-	if (!QBasicValidation::isValidFunctionName(functionName)) {
-		setThrow(QBasicValidation::errorMessage);
-		return false;
+	if (!isRun) {
+		// 名前が不適切
+		if (!QBasicValidation::isValidFunctionName(functionName)) {
+			setThrow(QBasicValidation::errorMessage);
+			return false;
+		}
+		// すでに宣言済み
+		if (functions.find(functionName) != functions.end()) {
+			// [ERROR]関数名が二重に定義されています。
+			setThrow("FunctionNameOverlap", functionName.c_str());
+			return false;
+		}
+		// TODO:変数名ともチェック
 	}
-	// すでに宣言済み
-	if (functions.find(functionName) != functions.end()) {
-		// [ERROR]関数名が二重に定義されています。
-		setThrow("FunctionNameOverlap", functionName.c_str());
-		return false;
-	}
-	// TODO:変数名ともチェック
-
 
 	// 引数を解析
 	vector<QBasicVariableEntity> argNames;
@@ -1058,31 +1077,35 @@ bool QBasic::analysisFunc(const bool run) {
 		}
 		
 		// 変数名
-		if (!QBasicValidation::isValidVariableName(variableName)) {
-			setThrow(QBasicValidation::errorMessage);
-			return false;
-		}
-		// すでに宣言済み
-		if (variables.find(variableName) != variables.end()) {
-			// [ERROR]変数名が二重に定義されています。
-			setThrow("VariableNameOverlap", variableName.c_str());
-			return false;
-		}
-		for (auto it = argNames.begin();it != argNames.end();it++) {
-			if (it->name.compare(variableName) == 0) {
+		if (!isRun) {
+			if (!QBasicValidation::isValidVariableName(variableName)) {
+				setThrow(QBasicValidation::errorMessage);
+				return false;
+			}
+			// すでに宣言済み
+			if (variables.find(variableName) != variables.end()) {
 				// [ERROR]変数名が二重に定義されています。
 				setThrow("VariableNameOverlap", variableName.c_str());
 				return false;
+			}
+			for (auto it = argNames.begin();it != argNames.end();it++) {
+				if (it->name.compare(variableName) == 0) {
+					// [ERROR]変数名が二重に定義されています。
+					setThrow("VariableNameOverlap", variableName.c_str());
+					return false;
+				}
 			}
 		}
 		
 		// 型
 		auto sym = getSymbol();
 		auto variableType = QBasicValidation::checkVariableType(sym);
-		if (variableType == VariableType::Unknown || variableType == VariableType::Void) {
-			// [ERROR]変数のタイプが不正です。
-			setThrow("BadVariableType", functionName.c_str());
-			return false;
+		if (!isRun) {
+			if (variableType == VariableType::Unknown || variableType == VariableType::Void) {
+				// [ERROR]変数のタイプが不正です。
+				setThrow("BadVariableType", functionName.c_str());
+				return false;
+			}
 		}
 		
 		QBasicVariableEntity variableEntity;
@@ -1104,7 +1127,9 @@ bool QBasic::analysisFunc(const bool run) {
 		// 省略されてる可能性があるので情報を戻す
 		entity.returnVariableType = VariableType::Void;
 		// オフセットを戻す
-		popBack();
+		if (!returnVariableName.empty()) {
+			popBack(run);
+		}
 	}
 	entity.startOffset = (long)compileSymbols.size();
 	functions[functionName] = entity;
