@@ -153,3 +153,108 @@ else
 elseif 1 = 1 then
   a = 3
 endif
+========================
+' test22 str判定
+var a bool = false
+var b str = "abcdefg"
+if b = "abcdefg" then
+  a = true
+endif
+========================
+' test23 str判定 小なり
+var a bool = false
+var b str = "abcdefg"
+if b < "abcdefh" then
+  a = true
+endif
+========================
+' test24 str判定 小なりイコール
+var a bool = false
+var b str = "abcdefg"
+if b <= "abcdefg" and b <= "abcdefh" then
+  a = true
+endif
+========================
+' test25 str判定 大なり
+var a bool = false
+var b str = "abcdefg"
+if b > "abcdeff" then
+  a = true
+endif
+========================
+' test26 str判定 大なりイコール
+var a bool = false
+var b str = "abcdefg"
+if b >= "abcdefg" and b >= "abcdeff" then
+  a = true
+endif
+========================
+' test27 float判定
+var a bool = false
+var b float = 1.0
+if b = 1.00 then
+  a = true
+endif
+========================
+' test28 float判定 小なり
+var a bool = false
+var b float = 1.0
+if b < 1.0001 then
+  a = true
+endif
+========================
+' test29 float判定 小なりイコール
+var a bool = false
+var b float = 1.0
+if b <= 1.0 and b <= 1.0001 then
+  a = true
+endif
+========================
+' test30 float判定 大なり
+var a bool = false
+var b float = 1.0
+if b > 0.9999 then
+  a = true
+endif
+========================
+' test31 float判定 大なりイコール
+var a bool = false
+var b float = 1.0
+if b = 1.0 and b >= 0.9999 then
+  a = true
+endif
+========================
+' test32 bool判定
+var a bool = false
+var b bool = true
+if b = true then
+  a = true
+endif
+========================
+' test33 bool判定 小なり
+var a bool = false
+var b bool = false
+if b < true then
+  a = true
+endif
+========================
+' test34 bool判定 小なりイコール
+var a bool = false
+var b bool = false
+if b <= false and b <= true then
+  a = true
+endif
+========================
+' test35 bool判定 大なり
+var a bool = false
+var b bool = true
+if b > false then
+  a = true
+endif
+========================
+' test36 bool判定 大なりイコール
+var a bool = false
+var b bool = true
+if b >= false and b >= true then
+  a = true
+endif

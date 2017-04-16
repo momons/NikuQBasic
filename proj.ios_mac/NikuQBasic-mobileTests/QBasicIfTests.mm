@@ -190,4 +190,108 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// str判定
+- (void)test22 {
+	interpreter = new QBasic(nullptr, [scripts[22] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// str判定 小なり
+- (void)test23 {
+	interpreter = new QBasic(nullptr, [scripts[23] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// str判定 小なりイコール
+- (void)test24 {
+	interpreter = new QBasic(nullptr, [scripts[24] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// str判定 大なり
+- (void)test25 {
+	interpreter = new QBasic(nullptr, [scripts[25] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// str判定 大なりイコール
+- (void)test26 {
+	interpreter = new QBasic(nullptr, [scripts[26] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// float判定
+- (void)test27 {
+	interpreter = new QBasic(nullptr, [scripts[27] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// float判定 小なり
+- (void)test28 {
+	interpreter = new QBasic(nullptr, [scripts[28] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// float判定 小なりイコール
+- (void)test29 {
+	interpreter = new QBasic(nullptr, [scripts[29] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// float判定 大なり
+- (void)test30 {
+	interpreter = new QBasic(nullptr, [scripts[30] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// float判定 大なりイコール
+- (void)test31 {
+	interpreter = new QBasic(nullptr, [scripts[31] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// bool判定
+- (void)test32 {
+	interpreter = new QBasic(nullptr, [scripts[32] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// bool判定 小なり
+- (void)test33 {
+	interpreter = new QBasic(nullptr, [scripts[33] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// bool判定 小なりイコール
+- (void)test34 {
+	interpreter = new QBasic(nullptr, [scripts[34] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// bool判定 大なり
+- (void)test35 {
+	interpreter = new QBasic(nullptr, [scripts[35] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// bool判定 大なりイコール
+- (void)test36 {
+	interpreter = new QBasic(nullptr, [scripts[36] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
 @end

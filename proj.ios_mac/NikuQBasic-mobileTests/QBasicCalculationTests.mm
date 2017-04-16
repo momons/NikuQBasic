@@ -109,4 +109,53 @@
 	XCTAssertEqual(interpreter->variables["a"].floatValue, 0.4);
 }
 
+/// 文字列 足し算
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].strValue, "ab");
+}
+
+/// 文字列 引き算はダメ
+- (void)test11 {
+	interpreter = new QBasic(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 文字列 無論、掛け算はダメ
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 文字列 無論、割り算はダメ
+- (void)test13 {
+	interpreter = new QBasic(nullptr, [scripts[13] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// bool値 無論、足し算はダメ
+- (void)test14 {
+	interpreter = new QBasic(nullptr, [scripts[14] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 文字列 無論、引き算はダメ
+- (void)test15 {
+	interpreter = new QBasic(nullptr, [scripts[15] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 文字列 無論、掛け算はダメ
+- (void)test16 {
+	interpreter = new QBasic(nullptr, [scripts[16] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 文字列 無論、割り算はダメ
+- (void)test17 {
+	interpreter = new QBasic(nullptr, [scripts[17] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
 @end

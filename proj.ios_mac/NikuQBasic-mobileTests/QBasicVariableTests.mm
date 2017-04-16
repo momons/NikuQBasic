@@ -120,6 +120,7 @@
 - (void)test12 {
 	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 9999);
 }
 
 /// 型テスト intにfloatはダメ
@@ -144,6 +145,7 @@
 - (void)test16 {
 	interpreter = new QBasic(nullptr, [scripts[16] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].floatValue, 9999.888);
 }
 
 /// 型テスト floatにintはダメ
@@ -168,6 +170,7 @@
 - (void)test20 {
 	interpreter = new QBasic(nullptr, [scripts[20] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].strValue, "あいうえお");
 }
 
 /// 型テスト stringにintはダメ
@@ -192,6 +195,7 @@
 - (void)test24 {
 	interpreter = new QBasic(nullptr, [scripts[24] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
 }
 
 /// 型テスト boolにintはダメ
