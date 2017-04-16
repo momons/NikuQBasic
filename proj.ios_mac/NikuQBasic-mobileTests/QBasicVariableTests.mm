@@ -116,4 +116,100 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// 型テスト int
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 型テスト intにfloatはダメ
+- (void)test13 {
+	interpreter = new QBasic(nullptr, [scripts[13] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト intにstringはダメ
+- (void)test14 {
+	interpreter = new QBasic(nullptr, [scripts[14] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト intにboolはダメ
+- (void)test15 {
+	interpreter = new QBasic(nullptr, [scripts[15] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト float
+- (void)test16 {
+	interpreter = new QBasic(nullptr, [scripts[16] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 型テスト floatにintはダメ
+- (void)test17 {
+	interpreter = new QBasic(nullptr, [scripts[17] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト floatにstringはダメ
+- (void)test18 {
+	interpreter = new QBasic(nullptr, [scripts[18] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト floatにboolはダメ
+- (void)test19 {
+	interpreter = new QBasic(nullptr, [scripts[19] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト string
+- (void)test20 {
+	interpreter = new QBasic(nullptr, [scripts[20] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 型テスト stringにintはダメ
+- (void)test21 {
+	interpreter = new QBasic(nullptr, [scripts[21] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト stringにfloatはダメ
+- (void)test22 {
+	interpreter = new QBasic(nullptr, [scripts[22] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト stringにboolはダメ
+- (void)test23 {
+	interpreter = new QBasic(nullptr, [scripts[23] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト bool
+- (void)test24 {
+	interpreter = new QBasic(nullptr, [scripts[24] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 型テスト boolにintはダメ
+- (void)test25 {
+	interpreter = new QBasic(nullptr, [scripts[25] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト boolにfloatはダメ
+- (void)test26 {
+	interpreter = new QBasic(nullptr, [scripts[26] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト boolにstringはダメ
+- (void)test27 {
+	interpreter = new QBasic(nullptr, [scripts[27] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
 @end

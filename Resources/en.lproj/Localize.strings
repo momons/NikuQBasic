@@ -25,3 +25,4 @@ BadVariableTypeMul="変数のタイプが不正のため掛け算はできませ
 BadVariableTypeDiv="変数のタイプが不正のため割り算はできません。";
 BadVariableTypeMod="変数のタイプが不正のため余り計算はできません。";
 BadVariableTypeNot="変数のタイプが不正のためnotはできません。";
+BadVariableTypeIf="変数のタイプが不正なため判定できません。";

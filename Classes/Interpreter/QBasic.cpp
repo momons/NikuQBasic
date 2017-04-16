@@ -498,21 +498,26 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	if (QBasicValidation::isFloat(sym)) {
 		return QBasicVariableEntity("", sym);
 	}
-	
+
+	// 文字ならば
     if (sym.find("\"") == 0) {
-        // ダブルクォーテーション
 		return QBasicVariableEntity("", sym);
-    } else {
-        // 引数付きメソッドかな？
-        auto *entity = statements->getStatement(sym);
-        if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue) {
-			return QBasicVariableEntity("", run ? entity->func(this, vector<string>()) : "1");
-        } else {
-			// [ERROR]不明な文字が見つかりました。
-			setThrow("UnknownSymbol", sym.c_str());
-        }
-    }
-    
+	}
+	
+	// bool値ならば
+	if (sym.compare("true") == 0 || sym.compare("false") == 0) {
+		return QBasicVariableEntity("", sym);
+	}
+	
+	// 引数付きメソッドかな？
+	auto *entity = statements->getStatement(sym);
+	if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue) {
+		return QBasicVariableEntity("", run ? entity->func(this, vector<string>()) : "1");
+	} else {
+		// [ERROR]不明な文字が見つかりました。
+		setThrow("UnknownSymbol", sym.c_str());
+	}
+
     return QBasicVariableEntity("", sym);
 }
 
@@ -534,6 +539,10 @@ bool QBasic::statement(const bool run) {
 		// 変数
 		match("=");
 		auto value = expression(run);
+		if (value.type != variables[sym].type) {
+			setThrow("BadVariableType", nullptr);
+			return false;
+		}
 		if (run) {
 			value.name = sym;
 			variables[sym] = value;
@@ -757,6 +766,12 @@ bool QBasic::analysisVar(const bool run) {
 	
 	// 初期値取得
 	auto value = expression(run);
+	
+	if (value.type != variableType) {
+		setThrow("BadVariableType", nullptr);
+		return false;
+	}
+	
 	value.name = variableName;
 	variables[variableName] = value;
 	

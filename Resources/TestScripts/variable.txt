@@ -57,4 +57,67 @@ var a int
 a = 1
 var a int
 a = 2
-
+========================
+' test12 型テスト int
+var a int = 0
+a = 9999
+========================
+' test13 型テスト intにfloatはダメ
+var a int = 0
+a = 1.0
+========================
+' test14 型テスト intにstringはダメ
+var a int = 0
+a = "1"
+========================
+' test15 型テスト intにboolはダメ
+var a int = 0
+a = true
+========================
+' test16 型テスト float
+var a float = 0.0
+a = 9999.888
+========================
+' test17 型テスト floatにintはダメ
+var a float = 0.0
+a = 1
+========================
+' test18 型テスト floatにstrはダメ
+var a float = 0.0
+a = "1.0"
+========================
+' test19 型テスト floatにboolはダメ
+var a float = 0.0
+a = false
+========================
+' test20 型テスト str
+var a str = ""
+a = "あいうえお"
+========================
+' test21 型テスト strにintはダメ
+var a str = ""
+a = 1
+========================
+' test22 型テスト strにfloatはダメ
+var a str = ""
+a = 1.0
+========================
+' test23 型テスト strにboolはダメ
+var a str = ""
+a = false
+========================
+' test24 型テスト bool
+var a bool = false
+a = true
+========================
+' test25 型テスト boolにintはダメ
+var a bool = false
+a = 1
+========================
+' test26 型テスト boolにfloatはダメ
+var a bool = false
+a = 1.0
+========================
+' test27' 型テスト boolにstringはダメ
+var a bool = false
+a = "true"
