@@ -23,9 +23,6 @@ class QBasicMessages;
 class QBasicFunctionEntity;
 class QBasicVariableEntity;
 
-/** 変数最大数 */
-#define MAX_COUNT_VARIABLE 26
-
 /**
  * イベントスクリプトインタプリタクラス
  */

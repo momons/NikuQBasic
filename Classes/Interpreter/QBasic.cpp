@@ -372,14 +372,10 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
     } else if(sym.compare("-") == 0) {
         value = muldiv(run);
 		if (QBasicValidation::isValidSub(value)) {
-			// TODO:
+			value = value.mul(value.type, -1);
 		} else {
 			setThrow("BadVariableTypeSub", nullptr);
 		}
-//        if(num.find("-") == 0) {
-//        } else {
-//            num = "-" + num;
-//        }
     } else if(sym.compare("not") == 0) {
 		value = muldiv(run);
 		if (QBasicValidation::isValidNot(value)) {
