@@ -13,6 +13,7 @@ using namespace std;
 
 class QBasic;
 class QBasicVariableEntity;
+enum class VariableType;
 
 /** ステートメント */
 typedef function <QBasicVariableEntity *(QBasic *, const vector<QBasicVariableEntity>&)> statmentFunction;
@@ -29,9 +30,13 @@ public:
     
     /// 引数数
     int argCount;
+	/// 引数変数タイプ
+	vector<VariableType> argTypes;
     
     /// 戻り値
     bool isReturnValue;
+	/// 戻り値タイプ
+	VariableType returnType;
 	
 	/// 実行ファンクション
 	statmentFunction func;
@@ -49,12 +54,22 @@ public:
 	 * @param func			実行ファンクション
      */
     QBasicStatementEntity(
-								 const string &name,
-								 const int argCount,
-								 const bool isReturnValue,
-								 const statmentFunction &func
-								 );
-
+						  const string &name,
+						  const int argCount,
+						  const bool isReturnValue,
+						  const statmentFunction &func);
+	/**
+	 * コンストラクタ
+	 * @param name          ステートメント名
+	 * @param argTypes      引数変数タイプ
+	 * @param returnType    戻り値タイプ
+	 * @param func			実行ファンクション
+	 */
+	QBasicStatementEntity(
+						  const string &name,
+						  const vector<VariableType> &argTypes,
+						  const VariableType returnType,
+						  const statmentFunction &func);
     /**
      * デストラクタ
      */

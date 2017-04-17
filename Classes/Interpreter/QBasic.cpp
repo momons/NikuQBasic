@@ -484,7 +484,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
         auto *entity = statements->getStatement(sym);
         if(entity != nullptr && entity->argCount > 0 && entity->isReturnValue) {
             // 引数取得
-            auto argList = getArg(run,entity->argCount);
+            auto argList = getArg(run, entity->argTypes);
 			if (run) {
 				// TODO:
 //				run ? entity->func(this, argList)
@@ -584,7 +584,7 @@ bool QBasic::statement(const bool run) {
 		if(entity != nullptr && !entity->isReturnValue) {
             // 引数取得
 			vector<QBasicVariableEntity> argList;
-			argList = getArg(run, entity->argCount);
+			argList = getArg(run, entity->argTypes);
 			if (run) {
 				// TODO: ステートメント実行
 //				entity->func(this, argList);
@@ -605,19 +605,26 @@ bool QBasic::statement(const bool run) {
 
 /**
  * 引数取得
- * @param run 実行モード
- * @param argCount 引数取得
+ * @param run      実行モード
+ * @param argTypes 引数タイプ
  * @return 引数群
  */
-vector<QBasicVariableEntity> QBasic::getArg(const bool run, const int argCount) {
-    
+vector<QBasicVariableEntity> QBasic::getArg(const bool run, const vector<VariableType> &argTypes) {
+	
     // 引数取得
     vector<QBasicVariableEntity> argList;
     match("(");
-    for(int i = 0;i < argCount;i++) {
+    for(int i = 0;i < argTypes.size();i++) {
         auto value = expression(run);
+		if (!run) {
+			if (value.type != argTypes[i]) {
+				// 引数の型が不正
+				setThrow("BadVariableType", nullptr);
+				return vector<QBasicVariableEntity>();
+			}
+		}
         argList.push_back(value);
-        if(i < argCount - 1) {
+        if(i < argTypes.size() - 1) {
             match(",");
         }
     }
@@ -684,8 +691,13 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
 	
 	auto entity = functions[functionName];
 
+	vector<VariableType> argTypes;
+	for (auto it = entity.argNames.begin();it != entity.argNames.end();it++) {
+		argTypes.push_back(it->type);
+	}
+	
 	// 引数取得
-	auto argList = getArg(run, (int)entity.argNames.size());
+	auto argList = getArg(run, argTypes);
 	
 	if (!run) {
 		return true;

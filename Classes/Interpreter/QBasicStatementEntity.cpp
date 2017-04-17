@@ -28,15 +28,33 @@ QBasicStatementEntity::QBasicStatementEntity() {
  * @param func			実行ファンクション
  */
 QBasicStatementEntity::QBasicStatementEntity(
-														   const string &name,
-														   const int argCount,
-														   const bool isReturnValue,
-														   const statmentFunction &func
-														   ) {
+											 const string &name,
+											 const int argCount,
+											 const bool isReturnValue,
+											 const statmentFunction &func) {
     // 初期値設定
     this->name = name;
     this->argCount = argCount;
     this->isReturnValue = isReturnValue;
+	this->func = func;
+}
+
+/**
+ * コンストラクタ
+ * @param name          ステートメント名
+ * @param argTypes      引数変数タイプ
+ * @param isReturnValue 戻り値
+ * @param func			実行ファンクション
+ */
+QBasicStatementEntity::QBasicStatementEntity(
+											 const string &name,
+											 const vector<VariableType> &argTypes,
+											 const VariableType returnType,
+											 const statmentFunction &func) {
+	// 初期値設定
+	this->name = name;
+	this->argTypes = argTypes;
+	this->returnType = returnType;
 	this->func = func;
 }
 
