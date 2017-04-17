@@ -11,6 +11,7 @@
 #include "QBasic.h"
 #include "StringUtil.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -43,39 +44,46 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 }
 
 /// 文字列長取得
-string QBasicStringFunctions::length_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(arg[0].length());
+QBasicVariableEntity *QBasicStringFunctions::length_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(arg[0].length());
+	return nullptr;
 }
 /// 真ん中切り取り
-string QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<string> arg) {
-	return arg[0].substr(stoi(arg[1]), stoi(arg[2]));
+QBasicVariableEntity *QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return arg[0].substr(stoi(arg[1]), stoi(arg[2]));
+	return nullptr;
 }
 /// 左切り取り
-string QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<string> arg) {
-	return arg[0].substr(0, stoi(arg[1]));
+QBasicVariableEntity *QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return arg[0].substr(0, stoi(arg[1]));
+	return nullptr;
 }
 /// 右切り取り
-string QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<string> arg) {
-	int length = stoi(arg[1]);
-	return arg[0].substr(arg[0].length() - length, length);
+QBasicVariableEntity *QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int length = stoi(arg[1]);
+//	return arg[0].substr(arg[0].length() - length, length);
+	return nullptr;
 }
 /// 分割
-string QBasicStringFunctions::split_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString((double)interpreter->stringFunc->splitString(arg[0], arg[1]));
+QBasicVariableEntity *QBasicStringFunctions::split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString((double)interpreter->stringFunc->splitString(arg[0], arg[1]));
+	return nullptr;
 }
 /// 分割結果取得
-string QBasicStringFunctions::splitget_qb(QBasic *interpreter, const vector<string> arg) {
-	return interpreter->stringFunc->splitStringGet(stoi(arg[0]));
+QBasicVariableEntity *QBasicStringFunctions::splitget_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return interpreter->stringFunc->splitStringGet(stoi(arg[0]));
+	return nullptr;
 }
 /// 置換
-string QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<string> arg) {
-	string::size_type pos(arg[0].find(arg[1]));
-	string retStr = arg[0];
-	while (pos != string::npos) {
-		retStr.replace(pos, arg[1].length(), arg[2]);
-		pos = retStr.find(arg[1], pos + arg[2].length());
-	}
-	return retStr;
+QBasicVariableEntity *QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	string::size_type pos(arg[0].find(arg[1]));
+//	string retStr = arg[0];
+//	while (pos != string::npos) {
+//		retStr.replace(pos, arg[1].length(), arg[2]);
+//		pos = retStr.find(arg[1], pos + arg[2].length());
+//	}
+//	return retStr;
+	return nullptr;
 }
 
 #pragma mark - サブルーチン
@@ -86,7 +94,7 @@ string QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<strin
  *  @param split 分割文字列
  *  @return カウント
  */
-int QBasicStringFunctions::splitString(const string inStr, const string split) {
+int QBasicStringFunctions::splitString(const string &inStr, const string &split) {
 	splitList = vector<string>();
 	string::size_type posBack = 0;
 	string::size_type pos = inStr.find(split);

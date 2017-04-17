@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト 日付操作サブ関数群
 class QBasicDateFunctions final {
@@ -34,19 +35,19 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 年取得
-	static string year_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *year_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 月取得
-	static string month_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *month_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 日付取得
-	static string day_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *day_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 時間取得
-	static string hour_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *hour_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 分取得
-	static string minute_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *minute_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 秒取得
-	static string second_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *second_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 曜日取得
-	static string week_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *week_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	
 private:
 	

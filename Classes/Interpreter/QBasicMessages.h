@@ -35,7 +35,7 @@ public:
 	 *  @param params パラメータ
 	 *  @return メッセージ
 	 */
-	string getMessage(const string key, const char *params);
+	string getMessage(const string &key, const char *params);
 	
 private:
 	

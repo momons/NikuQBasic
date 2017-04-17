@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト タッチサブ関数群
 class QBasicTouchFunctions final {
@@ -34,23 +35,23 @@ public:
 	 *  @return 戻り値
 	 */
 	/// タッチ開始 カウント
-	static string touchbegincnt_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchbegincnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ開始 X座標取得
-	static string touchbeginx_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchbeginx_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ開始 Y座標取得
-	static string touchbeginy_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchbeginy_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ移動 カウント
-	static string touchmovecnt_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchmovecnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ移動 X座標取得
-	static string touchmovex_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchmovex_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ移動 Y座標取得
-	static string touchmovey_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchmovey_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ終了 カウント
-	static string touchendcnt_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchendcnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ終了 X座標取得
-	static string touchendx_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchendx_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タッチ終了 Y座標取得
-	static string touchendy_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *touchendy_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 };
 
 #endif /* QBasicTouchFunctions_h */

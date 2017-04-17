@@ -32,7 +32,7 @@ public:
 	 * @param name ステートメント名
 	 * @return ステートメント情報
 	 */
-	QBasicStatementEntity *getStatement(const string name);
+	QBasicStatementEntity *getStatement(const string &name);
 	
 	/**
 	 * デストラクタ

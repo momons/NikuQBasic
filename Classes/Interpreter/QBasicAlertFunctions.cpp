@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -34,32 +35,32 @@ unordered_map<string, QBasicStatementEntity> QBasicAlertFunctions::buildStatemen
 }
 
 /// アラート
-string QBasicAlertFunctions::alert_qb(QBasic *interpreter, const vector<string> arg) {
+QBasicVariableEntity *QBasicAlertFunctions::alert_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	// Alert起動
 	//	QBAlertViewLauncher::show(arg[0].c_str(), arg[1].c_str(), arg[2].c_str());
 	//	while (QBAlertViewLauncher::isShow) {
 	//		// 帰ってくるまで無限ループ
 	//	}
-	return "";
+	return nullptr;
 }
 /// 確認アラート
-string QBasicAlertFunctions::confirm_qb(QBasic *interpreter, const vector<string> arg) {
+QBasicVariableEntity *QBasicAlertFunctions::confirm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	// Alert起動
 	//	QBAlertViewLauncher::showConfirm(arg[0].c_str(), arg[1].c_str(), arg[2].c_str(), arg[3].c_str());
 	//	while (QBAlertViewLauncher::isShow) {
 	//		// 帰ってくるまで無限ループ
 	//	}
 	//	return QBAlertViewLauncher::retValue;
-	return "";
+	return nullptr;
 }
 /// 入力アラート
-string QBasicAlertFunctions::input_qb(QBasic *interpreter, const vector<string> arg) {
+QBasicVariableEntity *QBasicAlertFunctions::input_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	// Alert起動
 	//	QBAlertViewLauncher::showInput(arg[0].c_str(), arg[1].c_str(), arg[2].c_str());
 	//	while (QBAlertViewLauncher::isShow) {
 	//		// 帰ってくるまで無限ループ
 	//	}
 	//	return QBAlertViewLauncher::retValue;
-	return "";
+	return nullptr;
 }
 

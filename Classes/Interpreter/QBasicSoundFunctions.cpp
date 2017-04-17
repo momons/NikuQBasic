@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBSoundBGMManager.h"
 #include "QBSoundEffectManager.h"
 
@@ -42,38 +43,40 @@ unordered_map<string, QBasicStatementEntity> QBasicSoundFunctions::buildStatemen
 }
 
 /// BGM読み込み
-string QBasicSoundFunctions::loadbgm_qb(QBasic *interpreter, const vector<string> arg) {
-	auto manager = QBSoundBGMManager::sharedInstance();
-	manager->preload(arg[0].c_str());
-	return "";
+QBasicVariableEntity *QBasicSoundFunctions::loadbgm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto manager = QBSoundBGMManager::sharedInstance();
+//	manager->preload(arg[0].c_str());
+	return nullptr;
 }
 /// BGM再生
-string QBasicSoundFunctions::playbgm_qb(QBasic *interpreter, const vector<string> arg) {
-	auto manager = QBSoundBGMManager::sharedInstance();
-	auto ret = manager->play(arg[0].compare("1")==0);
-	return ret?"1":"0";
+QBasicVariableEntity *QBasicSoundFunctions::playbgm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto manager = QBSoundBGMManager::sharedInstance();
+//	auto ret = manager->play(arg[0].compare("1")==0);
+//	return ret?"1":"0";
+	return nullptr;
 }
 /// BGM停止
-string QBasicSoundFunctions::stopbgm_qb(QBasic *interpreter, const vector<string> arg) {
-	auto manager = QBSoundBGMManager::sharedInstance();
-	manager->stop();
-	return "";
+QBasicVariableEntity *QBasicSoundFunctions::stopbgm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto manager = QBSoundBGMManager::sharedInstance();
+//	manager->stop();
+	return nullptr;
 }
 /// 効果音読み込み
-string QBasicSoundFunctions::loadse_qb(QBasic *interpreter, const vector<string> arg) {
-	auto manager = QBSoundEffectManager::sharedInstance();
-	manager->preload(stoi(arg[0]), arg[1].c_str());
-	return "";
+QBasicVariableEntity *QBasicSoundFunctions::loadse_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto manager = QBSoundEffectManager::sharedInstance();
+//	manager->preload(stoi(arg[0]), arg[1].c_str());
+	return nullptr;
 }
 /// 効果音再生
-string QBasicSoundFunctions::playse_qb(QBasic *interpreter, const vector<string> arg) {
-	auto manager = QBSoundEffectManager::sharedInstance();
-	auto ret = manager->play(stoi(arg[0]), arg[1].compare("1")==0);
-	return ret?"1":"0";
+QBasicVariableEntity *QBasicSoundFunctions::playse_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto manager = QBSoundEffectManager::sharedInstance();
+//	auto ret = manager->play(stoi(arg[0]), arg[1].compare("1")==0);
+//	return ret?"1":"0";
+	return nullptr;
 }
 /// 効果音停止
-string QBasicSoundFunctions::stopse_qb(QBasic *interpreter, const vector<string> arg) {
-	auto manager = QBSoundEffectManager::sharedInstance();
-	manager->stop(stoi(arg[0]));
-	return "";
+QBasicVariableEntity *QBasicSoundFunctions::stopse_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto manager = QBSoundEffectManager::sharedInstance();
+//	manager->stop(stoi(arg[0]));
+	return nullptr;
 }

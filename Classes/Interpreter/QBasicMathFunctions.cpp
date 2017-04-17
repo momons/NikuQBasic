@@ -11,6 +11,7 @@
 #include "QBasic.h"
 #include "StringUtil.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -59,63 +60,78 @@ unordered_map<string, QBasicStatementEntity> QBasicMathFunctions::buildStatement
 }
 
 /// 絶対値
-string QBasicMathFunctions::abs_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(fabs(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(fabs(stod(arg[0])));
+	return nullptr;
 }
 /// 最大値
-string QBasicMathFunctions::max_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(fmax(stod(arg[0]),stod(arg[1])));
+QBasicVariableEntity *QBasicMathFunctions::max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(fmax(stod(arg[0]),stod(arg[1])));
+	return nullptr;
 }
 /// 最小値
-string QBasicMathFunctions::min_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(fmin(stod(arg[0]),stod(arg[1])));
+QBasicVariableEntity *QBasicMathFunctions::min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(fmin(stod(arg[0]),stod(arg[1])));
+	return nullptr;
 }
 /// サイン
-string QBasicMathFunctions::sin_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(sin(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::sin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(sin(stod(arg[0])));
+	return nullptr;
 }
 /// コサイン
-string QBasicMathFunctions::cos_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(cos(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::cos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(cos(stod(arg[0])));
+	return nullptr;
 }
 /// タンジェント
-string QBasicMathFunctions::tan_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(tan(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::tan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(tan(stod(arg[0])));
+	return nullptr;
 }
 /// アークサイン
-string QBasicMathFunctions::asin_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(asin(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::asin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(asin(stod(arg[0])));
+	return nullptr;
 }
 /// アークコサイン
-string QBasicMathFunctions::acos_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(acos(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::acos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(acos(stod(arg[0])));
+	return nullptr;
 }
 /// アークタンジェント
-string QBasicMathFunctions::atan_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(atan(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::atan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(atan(stod(arg[0])));
+	return nullptr;
 }
 /// アークタンジェント2
-string QBasicMathFunctions::atan2_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(atan2(stod(arg[0]), stod(arg[1])));
+QBasicVariableEntity *QBasicMathFunctions::atan2_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(atan2(stod(arg[0]), stod(arg[1])));
+	return nullptr;
 }
 /// 平方根
-string QBasicMathFunctions::cbrt_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(cbrt(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::cbrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(cbrt(stod(arg[0])));
+	return nullptr;
 }
 /// へき乗
-string QBasicMathFunctions::pow_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(pow(stod(arg[0]), stod(arg[1])));
+QBasicVariableEntity *QBasicMathFunctions::pow_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(pow(stod(arg[0]), stod(arg[1])));
+	return nullptr;
 }
 /// ルート
-string QBasicMathFunctions::sqrt_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(sqrt(stod(arg[0])));
+QBasicVariableEntity *QBasicMathFunctions::sqrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(sqrt(stod(arg[0])));
+	return nullptr;
 }
 /// デグリーからラジアン
-string QBasicMathFunctions::deg2red_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(stod(arg[0]) * 3.14159265 / 180.0);
+QBasicVariableEntity *QBasicMathFunctions::deg2red_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(stod(arg[0]) * 3.14159265 / 180.0);
+	return nullptr;
 }
 /// 乱数
-string QBasicMathFunctions::rand_qb(QBasic *interpreter, const vector<string> arg) {
-	int random = rand() % stoi(arg[0]);
-	return StringUtil::toString(random);
+QBasicVariableEntity *QBasicMathFunctions::rand_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int random = rand() % stoi(arg[0]);
+//	return StringUtil::toString(random);
+	return nullptr;
 }

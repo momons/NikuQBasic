@@ -143,6 +143,14 @@ public:
 	QBasicVariableEntity mul(const QBasicVariableEntity &entity);
 
 	/**
+	 * 掛け算 数値
+	 * @param type  変数タイプ
+	 * @param value 値
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity mul(VariableType type, double value);
+
+	/**
 	 * 割り算
 	 * @param entity 変数entity
 	 * @return 比較結果

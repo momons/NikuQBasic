@@ -48,7 +48,7 @@ QBasicMessages::~QBasicMessages() {
  *  @param params パラメータ
  *  @return メッセージ
  */
-string QBasicMessages::getMessage(const string key, const char *params) {
+string QBasicMessages::getMessage(const string &key, const char *params) {
 	if (localizable.find(key) == localizable.end()) {
 		return key;
 	}

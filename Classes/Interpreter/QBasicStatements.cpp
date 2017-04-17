@@ -33,6 +33,7 @@
 #include "QBSoundEffectManager.h"
 //#include "QBAlertViewLauncher.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 /** インスタンス */
 QBasicStatements *QBasicStatements::interpreterConstansInstance;
@@ -186,7 +187,7 @@ void QBasicStatements::buildStatementList() {
  * @param name ステートメント名
  * @return ステートメント情報
  */
-QBasicStatementEntity *QBasicStatements::getStatement(const string name) {
+QBasicStatementEntity *QBasicStatements::getStatement(const string &name) {
 	// ステートメントがあるか？
 	unordered_map<string,QBasicStatementEntity>::iterator it = statementList.find(name);
 	if (it == statementList.end()) {

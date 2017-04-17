@@ -512,7 +512,12 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	// 引数付きメソッドかな？
 	auto *entity = statements->getStatement(sym);
 	if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue) {
-		return QBasicVariableEntity("", run ? entity->func(this, vector<string>()) : "1");
+		// TODO: 見直す
+		if (run) {
+			return *entity->func(this, vector<QBasicVariableEntity>());
+		} else {
+			QBasicVariableEntity("", "true");
+		}
 	} else {
 		// [ERROR]不明な文字が見つかりました。
 		setThrow("UnknownSymbol", sym.c_str());

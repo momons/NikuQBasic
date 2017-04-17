@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト アラートサブ関数群
 class QBasicAlertFunctions final {
@@ -34,11 +35,11 @@ public:
 	 *  @return 戻り値
 	 */
 	/// アラート
-	static string alert_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *alert_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 確認アラート
-	static string confirm_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *confirm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 入力アラート
-	static string input_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *input_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	
 };
 

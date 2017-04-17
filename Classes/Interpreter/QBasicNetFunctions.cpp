@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -34,23 +35,24 @@ unordered_map<string, QBasicStatementEntity> QBasicNetFunctions::buildStatements
 }
 
 /// ネット通信
-string QBasicNetFunctions::net_qb(QBasic *interpreter, const vector<string> arg) {
+QBasicVariableEntity *QBasicNetFunctions::net_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	
-	string retNetValue;
-	
-	// 通信開始
-	interpreter->netFunc->startNetFetcher(arg[0], &retNetValue);
-	while (interpreter->netFunc->isConnect) {
-		// 通信が帰ってくるまで無限ループ
-	}
-	
-	return retNetValue;
+//	string retNetValue;
+//	
+//	// 通信開始
+//	interpreter->netFunc->startNetFetcher(arg[0], &retNetValue);
+//	while (interpreter->netFunc->isConnect) {
+//		// 通信が帰ってくるまで無限ループ
+//	}
+//	
+//	return retNetValue;
+	return nullptr;
 }
 
 /// ブラウザ
-string QBasicNetFunctions::browser_qb(QBasic *interpreter, const vector<string> arg) {
-	Application::getInstance()->openURL(arg[0]);
-	return "";
+QBasicVariableEntity *QBasicNetFunctions::browser_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	Application::getInstance()->openURL(arg[0]);
+	return nullptr;
 }
 
 #pragma mark - サブルーチン
@@ -60,7 +62,7 @@ string QBasicNetFunctions::browser_qb(QBasic *interpreter, const vector<string> 
  *  @param url         URL
  *  @param retNetValue 返却変数ポインタ
  */
-void QBasicNetFunctions::startNetFetcher(const string url, string *retNetValue) {
+void QBasicNetFunctions::startNetFetcher(const string &url, string *retNetValue) {
 	
 	// フラグON
 	isConnect = true;

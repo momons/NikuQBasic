@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト 画像操作サブ関数群
 class QBasicImageFunctions final {
@@ -34,13 +35,13 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 画像読み込み
-	static string loadimg_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *loadimg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 画像描画
-	static string drawimg_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *drawimg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 画像拡大縮小
-	static string imgscale_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *imgscale_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 画像透過
-	static string imgalpha_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *imgalpha_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 };
 
 #endif /* QBasicImageFunctions_h */

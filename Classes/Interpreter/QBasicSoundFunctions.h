@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト サウンドサブ関数群
 class QBasicSoundFunctions final {
@@ -34,17 +35,17 @@ public:
 	 *  @return 戻り値
 	 */
 	/// BGM読み込み
-	static string loadbgm_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *loadbgm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// BGM再生
-	static string playbgm_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *playbgm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// BGM停止
-	static string stopbgm_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *stopbgm_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 効果音読み込み
-	static string loadse_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *loadse_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 効果音再生
-	static string playse_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *playse_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 効果音停止
-	static string stopse_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *stopse_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	
 };
 

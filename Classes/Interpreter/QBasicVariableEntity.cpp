@@ -209,7 +209,7 @@ int QBasicVariableEntity::compare(const bool boolValue) {
 /**
  * 足し算
  * @param entity 変数entity
- * @return 比較結果
+ * @return 結果
  */
 QBasicVariableEntity QBasicVariableEntity::add(const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
@@ -233,7 +233,7 @@ QBasicVariableEntity QBasicVariableEntity::add(const QBasicVariableEntity &entit
 /**
  * 引き算
  * @param entity 変数entity
- * @return 比較結果
+ * @return 結果
  */
 QBasicVariableEntity QBasicVariableEntity::sub(const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
@@ -254,7 +254,7 @@ QBasicVariableEntity QBasicVariableEntity::sub(const QBasicVariableEntity &entit
 /**
  * 掛け算
  * @param entity 変数entity
- * @return 比較結果
+ * @return 結果
  */
 QBasicVariableEntity QBasicVariableEntity::mul(const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
@@ -273,9 +273,31 @@ QBasicVariableEntity QBasicVariableEntity::mul(const QBasicVariableEntity &entit
 }
 
 /**
+ * 掛け算 数値
+ * @param type  変数タイプ
+ * @param value 値
+ * @return 結果
+ */
+QBasicVariableEntity QBasicVariableEntity::mul(VariableType type, double value) {
+	QBasicVariableEntity returnEntity = copyNotValue();
+	switch (type) {
+		case VariableType::Int:
+			returnEntity.intValue = intValue * (int)value;
+			break;
+		case VariableType::Float:
+			returnEntity.floatValue = floatValue * value;
+			break;
+		default:
+			// 上位でチェックしているのでエラーは不要
+			break;
+	}
+	return returnEntity;
+}
+
+/**
  * 割り算
  * @param entity 変数entity
- * @return 比較結果
+ * @return 結果
  */
 QBasicVariableEntity QBasicVariableEntity::div(const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
@@ -296,7 +318,7 @@ QBasicVariableEntity QBasicVariableEntity::div(const QBasicVariableEntity &entit
 /**
  * 余り
  * @param entity 変数entity
- * @return 比較結果
+ * @return 結果
  */
 QBasicVariableEntity QBasicVariableEntity::mod(const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();

@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
 #include "QBUserDefaultsManager.h"
 
@@ -34,13 +35,14 @@ unordered_map<string, QBasicStatementEntity> QBasicStorageFunctions::buildStatem
 }
 
 /// 読み込み
-string QBasicStorageFunctions::load_qb(QBasic *interpreter, const vector<string> arg) {
-	return interpreter->subFunc->userDefaultsManager->read(arg[0]);
+QBasicVariableEntity *QBasicStorageFunctions::load_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return interpreter->subFunc->userDefaultsManager->read(arg[0]);
+	return nullptr;
 }
 /// セーブ
-string QBasicStorageFunctions::save_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->userDefaultsManager->write(arg[0], arg[1]);
-	return "";
+QBasicVariableEntity *QBasicStorageFunctions::save_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->userDefaultsManager->write(arg[0], arg[1]);
+	return nullptr;
 }
 
 #pragma mark - サブルーチン

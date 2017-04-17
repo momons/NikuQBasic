@@ -339,3 +339,12 @@ bool QBasicValidation::isValidMod(const QBasicVariableEntity &srcEntity, const Q
 bool QBasicValidation::isValidFor(const QBasicVariableEntity &entity) {
 	return entity.type == VariableType::Int;
 }
+
+/**
+ *  if可能かチェック
+ *  @param entity 対象
+ *  @return for可能可否
+ */
+bool QBasicValidation::isValidIf(const QBasicVariableEntity &entity) {
+	return entity.type == VariableType::Bool;
+}

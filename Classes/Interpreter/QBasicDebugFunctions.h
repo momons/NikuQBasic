@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト デバッグサブ関数群
 class QBasicDebugFunctions final {
@@ -33,9 +34,9 @@ public:
 	 *  @param arg         引数
 	 *  @return 戻り値
 	 */
-	static string wait_qb(QBasic *interpreter, const vector<string> arg);
-	static string log_qb(QBasic *interpreter, const vector<string> arg);
-	static string error_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *wait_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity *log_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity *error_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 };
 

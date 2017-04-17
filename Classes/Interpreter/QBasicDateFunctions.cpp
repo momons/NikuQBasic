@@ -13,6 +13,7 @@
 #include "QBasic.h"
 #include "StringUtil.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -46,39 +47,46 @@ unordered_map<string, QBasicStatementEntity> QBasicDateFunctions::buildStatement
 }
 
 /// 年取得
-string QBasicDateFunctions::year_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_year + 1900);
+QBasicVariableEntity *QBasicDateFunctions::year_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_year + 1900);
+	return nullptr;
 }
 /// 月取得
-string QBasicDateFunctions::month_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_mon + 1);
+QBasicVariableEntity *QBasicDateFunctions::month_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_mon + 1);
+	return nullptr;
 }
 /// 日付取得
-string QBasicDateFunctions::day_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_mday);
+QBasicVariableEntity *QBasicDateFunctions::day_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_mday);
+	return nullptr;
 }
 /// 時間取得
-string QBasicDateFunctions::hour_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_hour);
+QBasicVariableEntity *QBasicDateFunctions::hour_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_hour);
+	return nullptr;
 }
 /// 分取得
-string QBasicDateFunctions::minute_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_min);
+QBasicVariableEntity *QBasicDateFunctions::minute_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_min);
+	return nullptr;
 }
 /// 秒取得
-string QBasicDateFunctions::second_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_sec);
+QBasicVariableEntity *QBasicDateFunctions::second_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_sec);
+	return nullptr;
 }
 /// 曜日取得
-string QBasicDateFunctions::week_qb(QBasic *interpreter, const vector<string> arg) {
-	struct tm *date = getNowDate();
-	return StringUtil::toString(date->tm_wday);
+QBasicVariableEntity *QBasicDateFunctions::week_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	struct tm *date = getNowDate();
+//	return StringUtil::toString(date->tm_wday);
+	return nullptr;
 }
 
 #pragma mark - サブルーチン

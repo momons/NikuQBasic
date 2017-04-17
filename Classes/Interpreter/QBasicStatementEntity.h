@@ -12,9 +12,10 @@
 using namespace std;
 
 class QBasic;
+class QBasicVariableEntity;
 
 /** ステートメント */
-typedef function <string (QBasic *, const vector<string>)> statmentFunction;
+typedef function <QBasicVariableEntity *(QBasic *, const vector<QBasicVariableEntity>&)> statmentFunction;
 
 /**
  * ステートメントEntity

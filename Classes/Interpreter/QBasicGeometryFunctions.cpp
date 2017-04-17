@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
 
 #pragma mark - スクリプトステートメント
@@ -37,51 +38,51 @@ unordered_map<string, QBasicStatementEntity> QBasicGeometryFunctions::buildState
 }
 
 /// 線描画
-string QBasicGeometryFunctions::line_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->drawLine(
-								   stoi(arg[0]),
-								   stod(arg[1]),
-								   stod(arg[2]),
-								   stod(arg[3]),
-								   stod(arg[4])
-								   );
-	return "";
+QBasicVariableEntity *QBasicGeometryFunctions::line_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->drawLine(
+//								   stoi(arg[0]),
+//								   stod(arg[1]),
+//								   stod(arg[2]),
+//								   stod(arg[3]),
+//								   stod(arg[4])
+//								   );
+	return nullptr;
 }
 /// 四角描画
-string QBasicGeometryFunctions::rect_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->drawRect(
-								   stoi(arg[0]),
-								   stod(arg[1]),
-								   stod(arg[2]),
-								   stod(arg[3]),
-								   stod(arg[4]),
-								   arg[5].compare("1")==0
-								   );
-	return "";
+QBasicVariableEntity *QBasicGeometryFunctions::rect_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->drawRect(
+//								   stoi(arg[0]),
+//								   stod(arg[1]),
+//								   stod(arg[2]),
+//								   stod(arg[3]),
+//								   stod(arg[4]),
+//								   arg[5].compare("1")==0
+//								   );
+	return nullptr;
 }
 /// 円描画
-string QBasicGeometryFunctions::circle_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->drawCircle(
-									 stoi(arg[0]),
-									 stod(arg[1]),
-									 stod(arg[2]),
-									 stod(arg[3]) / 2,
-									 stod(arg[4]) / 2,
-									 arg[5].compare("1")==0
-									 );
-	return "";
+QBasicVariableEntity *QBasicGeometryFunctions::circle_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->drawCircle(
+//									 stoi(arg[0]),
+//									 stod(arg[1]),
+//									 stod(arg[2]),
+//									 stod(arg[3]) / 2,
+//									 stod(arg[4]) / 2,
+//									 arg[5].compare("1")==0
+//									 );
+	return nullptr;
 }
 /// 三角描画
-string QBasicGeometryFunctions::triangle_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->drawTriangle(
-									   stoi(arg[0]),
-									   stod(arg[1]),
-									   stod(arg[2]),
-									   stod(arg[3]),
-									   stod(arg[4]),
-									   stod(arg[5]),
-									   stod(arg[6]),
-									   arg[7].compare("1")==0
-									   );
-	return "";
+QBasicVariableEntity *QBasicGeometryFunctions::triangle_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->drawTriangle(
+//									   stoi(arg[0]),
+//									   stod(arg[1]),
+//									   stod(arg[2]),
+//									   stod(arg[3]),
+//									   stod(arg[4]),
+//									   stod(arg[5]),
+//									   stod(arg[6]),
+//									   arg[7].compare("1")==0
+//									   );
+	return nullptr;
 }

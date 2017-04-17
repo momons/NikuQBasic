@@ -11,6 +11,7 @@
 #include "QBasic.h"
 #include "StringUtil.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
 #include "QBasicScene.h"
 
@@ -52,62 +53,71 @@ unordered_map<string, QBasicStatementEntity> QBasicTouchFunctions::buildStatemen
 }
 
 /// タッチ開始 カウント
-string QBasicTouchFunctions::touchbegincnt_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(interpreter->subFunc->scene->touchBegin.size());
+QBasicVariableEntity *QBasicTouchFunctions::touchbegincnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(interpreter->subFunc->scene->touchBegin.size());
+	return nullptr;
 }
 /// タッチ開始 X座標取得
-string QBasicTouchFunctions::touchbeginx_qb(QBasic *interpreter, const vector<string> arg) {
-	int index = stoi(arg[0]);
-	if (index < 0 || index >= interpreter->subFunc->scene->touchBegin.size()) {
-		return INVALID_TOUCH_LOCATION;
-	}
-	return StringUtil::toString(interpreter->subFunc->scene->touchBegin[index].x);
+QBasicVariableEntity *QBasicTouchFunctions::touchbeginx_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int index = stoi(arg[0]);
+//	if (index < 0 || index >= interpreter->subFunc->scene->touchBegin.size()) {
+//		return INVALID_TOUCH_LOCATION;
+//	}
+//	return StringUtil::toString(interpreter->subFunc->scene->touchBegin[index].x);
+	return nullptr;
 }
 /// タッチ開始 Y座標取得
-string QBasicTouchFunctions::touchbeginy_qb(QBasic *interpreter, const vector<string> arg) {
-	int index = stoi(arg[0]);
-	if (index < 0 || index >= interpreter->subFunc->scene->touchBegin.size()) {
-		return INVALID_TOUCH_LOCATION;
-	}
-	return StringUtil::toString(interpreter->subFunc->scene->touchBegin[index].y);
+QBasicVariableEntity *QBasicTouchFunctions::touchbeginy_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int index = stoi(arg[0]);
+//	if (index < 0 || index >= interpreter->subFunc->scene->touchBegin.size()) {
+//		return INVALID_TOUCH_LOCATION;
+//	}
+//	return StringUtil::toString(interpreter->subFunc->scene->touchBegin[index].y);
+	return nullptr;
 }
 /// タッチ移動 カウント
-string QBasicTouchFunctions::touchmovecnt_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(interpreter->subFunc->scene->touchMove.size());
+QBasicVariableEntity *QBasicTouchFunctions::touchmovecnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(interpreter->subFunc->scene->touchMove.size());
+	return nullptr;
 }
 /// タッチ移動 X座標取得
-string QBasicTouchFunctions::touchmovex_qb(QBasic *interpreter, const vector<string> arg) {
-	int index = stoi(arg[0]);
-	if (index < 0 || index >= interpreter->subFunc->scene->touchMove.size()) {
-		return INVALID_TOUCH_LOCATION;
-	}
-	return StringUtil::toString(interpreter->subFunc->scene->touchMove[index].x);
+QBasicVariableEntity *QBasicTouchFunctions::touchmovex_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int index = stoi(arg[0]);
+//	if (index < 0 || index >= interpreter->subFunc->scene->touchMove.size()) {
+//		return INVALID_TOUCH_LOCATION;
+//	}
+//	return StringUtil::toString(interpreter->subFunc->scene->touchMove[index].x);
+	return nullptr;
 }
 /// タッチ移動 Y座標取得
-string QBasicTouchFunctions::touchmovey_qb(QBasic *interpreter, const vector<string> arg) {
-	int index = stoi(arg[0]);
-	if (index < 0 || index >= interpreter->subFunc->scene->touchMove.size()) {
-		return INVALID_TOUCH_LOCATION;
-	}
-	return StringUtil::toString(interpreter->subFunc->scene->touchMove[index].y);
+QBasicVariableEntity *QBasicTouchFunctions::touchmovey_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int index = stoi(arg[0]);
+//	if (index < 0 || index >= interpreter->subFunc->scene->touchMove.size()) {
+//		return INVALID_TOUCH_LOCATION;
+//	}
+//	return StringUtil::toString(interpreter->subFunc->scene->touchMove[index].y);
+	return nullptr;
 }
 /// タッチ終了 カウント
-string QBasicTouchFunctions::touchendcnt_qb(QBasic *interpreter, const vector<string> arg) {
-	return StringUtil::toString(interpreter->subFunc->scene->touchEnd.size());
+QBasicVariableEntity *QBasicTouchFunctions::touchendcnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	return StringUtil::toString(interpreter->subFunc->scene->touchEnd.size());
+	return nullptr;
 }
 /// タッチ終了 X座標取得
-string QBasicTouchFunctions::touchendx_qb(QBasic *interpreter, const vector<string> arg) {
-	int index = stoi(arg[0]);
-	if (index < 0 || index >= interpreter->subFunc->scene->touchEnd.size()) {
-		return INVALID_TOUCH_LOCATION;
-	}
-	return StringUtil::toString(interpreter->subFunc->scene->touchEnd[index].x);
+QBasicVariableEntity *QBasicTouchFunctions::touchendx_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int index = stoi(arg[0]);
+//	if (index < 0 || index >= interpreter->subFunc->scene->touchEnd.size()) {
+//		return INVALID_TOUCH_LOCATION;
+//	}
+//	return StringUtil::toString(interpreter->subFunc->scene->touchEnd[index].x);
+	return nullptr;
 }
 /// タッチ終了 Y座標取得
-string QBasicTouchFunctions::touchendy_qb(QBasic *interpreter, const vector<string> arg) {
-	int index = stoi(arg[0]);
-	if (index < 0 || index >= interpreter->subFunc->scene->touchEnd.size()) {
-		return INVALID_TOUCH_LOCATION;
-	}
-	return StringUtil::toString(interpreter->subFunc->scene->touchEnd[index].y);
+QBasicVariableEntity *QBasicTouchFunctions::touchendy_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	int index = stoi(arg[0]);
+//	if (index < 0 || index >= interpreter->subFunc->scene->touchEnd.size()) {
+//		return INVALID_TOUCH_LOCATION;
+//	}
+//	return StringUtil::toString(interpreter->subFunc->scene->touchEnd[index].y);
+	return nullptr;
 }

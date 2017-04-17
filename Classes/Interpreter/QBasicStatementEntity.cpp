@@ -7,6 +7,7 @@
 //
 
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 /**
  * コンストラクタ

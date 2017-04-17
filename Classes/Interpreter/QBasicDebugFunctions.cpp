@@ -12,6 +12,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -35,17 +36,17 @@ unordered_map<string, QBasicStatementEntity> QBasicDebugFunctions::buildStatemen
 	return statementList;
 }
 
-string QBasicDebugFunctions::wait_qb(QBasic *interpreter, const vector<string> arg) {
-	this_thread::sleep_for(chrono::milliseconds(stoi(arg[0])));
-	return "";
+QBasicVariableEntity *QBasicDebugFunctions::wait_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	this_thread::sleep_for(chrono::milliseconds(stoi(arg[0])));
+	return nullptr;
 }
-string QBasicDebugFunctions::log_qb(QBasic *interpreter, const vector<string> arg) {
-#if COCOS2D_DEBUG
-	cout << arg[0] << "\n";
-#endif
-	return "";
+QBasicVariableEntity *QBasicDebugFunctions::log_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//#if COCOS2D_DEBUG
+//	cout << arg[0] << "\n";
+//#endif
+	return nullptr;
 }
-string QBasicDebugFunctions::error_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->setThrow(arg[0]);
-	return "";
+QBasicVariableEntity *QBasicDebugFunctions::error_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->setThrow(arg[0]);
+	return nullptr;
 }

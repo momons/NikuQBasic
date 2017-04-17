@@ -16,6 +16,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト 通信操作サブ関数群
 class QBasicNetFunctions final: public QBNetFetcherDelegate {
@@ -38,16 +39,16 @@ public:
 	 *  @return 戻り値 (通信結果)
 	 */
 	/// ネット通信
-	static string net_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *net_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// ブラウザ
-	static string browser_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *browser_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 	/**
 	 *  HTTPスタート
 	 *  @param url         URL
 	 *  @param retNetValue 返却変数ポインタ
 	 */
-	void startNetFetcher(const string url, string *retNetValue);
+	void startNetFetcher(const string &url, string *retNetValue);
 	
 	/**
 	 *  通信成功

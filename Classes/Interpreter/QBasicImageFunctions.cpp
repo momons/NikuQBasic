@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 
 #pragma mark - スクリプトステートメント
 
@@ -35,16 +36,16 @@ unordered_map<string, QBasicStatementEntity> QBasicImageFunctions::buildStatemen
 	return statementList;
 }
 
-string QBasicImageFunctions::loadimg_qb(QBasic *interpreter, const vector<string> arg) {
-	return "";
+QBasicVariableEntity *QBasicImageFunctions::loadimg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	return nullptr;
 }
-string QBasicImageFunctions::drawimg_qb(QBasic *interpreter, const vector<string> arg) {
-	return "";
+QBasicVariableEntity *QBasicImageFunctions::drawimg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	return nullptr;
 }
-string QBasicImageFunctions::imgscale_qb(QBasic *interpreter, const vector<string> arg) {
-	return "";
+QBasicVariableEntity *QBasicImageFunctions::imgscale_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	return nullptr;
 }
-string QBasicImageFunctions::imgalpha_qb(QBasic *interpreter, const vector<string> arg) {
-	return "";
+QBasicVariableEntity *QBasicImageFunctions::imgalpha_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	return nullptr;
 }
 

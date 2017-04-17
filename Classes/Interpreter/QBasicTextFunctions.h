@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト テキスト描画サブ関数群
 class QBasicTextFunctions final {
@@ -34,9 +35,9 @@ public:
 	 *  @return 戻り値
 	 */
 	/// フォント指定
-	static string font_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *font_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// テキスト描画
-	static string text_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *text_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 };
 

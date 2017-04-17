@@ -142,6 +142,13 @@ public:
 	 */
 	static bool isValidFor(const QBasicVariableEntity &entity);
 
+	/**
+	 *  if可能かチェック
+	 *  @param entity 対象
+	 *  @return for可能可否
+	 */
+	static bool isValidIf(const QBasicVariableEntity &entity);
+
 private:
 	
 	/// 基本ステートメント名

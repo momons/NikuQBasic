@@ -18,7 +18,7 @@
  *  @param scene     シーン
  *  @param projectId プロジェクトId
  */
-QBasicSubFunction::QBasicSubFunction(QBasicScene *scene, const string projectId) {
+QBasicSubFunction::QBasicSubFunction(QBasicScene *scene, const string &projectId) {
 	
 	// 退避
 	this->scene = scene;
@@ -153,7 +153,7 @@ void QBasicSubFunction::setFont(const string fontName, const double fontSize) {
  *  @param x     X座標
  *  @param y     Y座標
  */
-void QBasicSubFunction::drawText(const int index, const string text, const double x, const double y) {
+void QBasicSubFunction::drawText(const int index, const string &text, const double x, const double y) {
 	auto entity = QBasicSetupNodeEntity();
 	entity.drawText(text, x, y, color, fontName, fontSize);
 	this->scene->addNode(index, entity);

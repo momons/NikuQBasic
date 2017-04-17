@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト Mathサブ関数群
 class QBasicMathFunctions final {
@@ -34,35 +35,35 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 絶対値
-	static string abs_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 最大値
-	static string max_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 最小値
-	static string min_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// サイン
-	static string sin_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *sin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// コサイン
-	static string cos_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *cos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// タンジェント
-	static string tan_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *tan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// アークサイン
-	static string asin_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *asin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// アークコサイン
-	static string acos_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *acos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// アークタンジェント
-	static string atan_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *atan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// アークタンジェント2
-	static string atan2_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *atan2_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 平方根
-	static string cbrt_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *cbrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// へき乗
-	static string pow_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *pow_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// ルート
-	static string sqrt_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *sqrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// デグリーからラジアン
-	static string deg2red_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *deg2red_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 乱数
-	static string rand_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *rand_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 };
 

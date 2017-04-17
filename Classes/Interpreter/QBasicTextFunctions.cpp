@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
 
 #pragma mark - スクリプトステートメント
@@ -32,17 +33,17 @@ unordered_map<string, QBasicStatementEntity> QBasicTextFunctions::buildStatement
 	return statementList;
 }
 
-string QBasicTextFunctions::font_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->setFont(arg[0], stod(arg[1]));
-	return "";
+QBasicVariableEntity *QBasicTextFunctions::font_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->setFont(arg[0], stod(arg[1]));
+	return nullptr;
 }
-string QBasicTextFunctions::text_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->drawText(
-								   stoi(arg[0]),
-								   arg[1],
-								   stod(arg[2]),
-								   stod(arg[3])
-								   );
-	return "";
+QBasicVariableEntity *QBasicTextFunctions::text_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->drawText(
+//								   stoi(arg[0]),
+//								   arg[1],
+//								   stod(arg[2]),
+//								   stod(arg[3])
+//								   );
+	return nullptr;
 }
 

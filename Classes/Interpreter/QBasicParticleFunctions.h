@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト パーティクルサブ関数群
 class QBasicParticleFunctions final {
@@ -34,9 +35,9 @@ public:
 	 *  @return 戻り値
 	 */
 	/// パーティクル読み込み
-	static string loadparticle_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *loadparticle_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// パーティクル描画
-	static string drawparticle_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *drawparticle_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 };
 
 #endif /* QBasicParticleFunctions_h */

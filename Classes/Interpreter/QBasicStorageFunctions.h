@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト ストレージサブ関数群
 class QBasicStorageFunctions final {
@@ -34,9 +35,9 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 読み込み
-	static string load_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *load_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// セーブ
-	static string save_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *save_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 };
 

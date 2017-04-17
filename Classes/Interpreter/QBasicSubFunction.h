@@ -34,7 +34,7 @@ public:
 	 *  @param scene     シーン
 	 *  @param projectId プロジェクトId
 	 */
-	QBasicSubFunction(QBasicScene *scene, const string projectId);
+	QBasicSubFunction(QBasicScene *scene, const string &projectId);
 
 	/**
 	 *  デストラクタ
@@ -126,7 +126,7 @@ public:
 	 *  @param x     X座標
 	 *  @param y     Y座標
 	 */
-	void drawText(const int index, const string text, const double x, const double y);
+	void drawText(const int index, const string &text, const double x, const double y);
 
 #pragma mark - パーティクル
 

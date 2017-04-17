@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト 文字操作サブ関数群
 class QBasicStringFunctions final {
@@ -34,19 +35,19 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 文字列長取得
-	static string length_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *length_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 真ん中切り取り
-	static string mid_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 左切り取り
-	static string left_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 右切り取り
-	static string right_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 分割
-	static string split_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 分割結果取得
-	static string splitget_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *splitget_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 置換
-	static string replase_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	
 	/**
 	 *  文字列を分割する
@@ -54,7 +55,7 @@ public:
 	 *  @param split 分割文字列
 	 *  @return カウント
 	 */
-	int splitString(const string str, const string split);
+	int splitString(const string &str, const string &split);
 	
 	/**
 	 *  分割した文字取得

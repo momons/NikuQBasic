@@ -10,6 +10,7 @@
 
 #include "QBasic.h"
 #include "QBasicStatementEntity.h"
+#include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
 #include "QBasicScene.h"
 
@@ -56,87 +57,87 @@ unordered_map<string, QBasicStatementEntity> QBasicDrawFunctions::buildStatement
 #pragma mark - 描画
 
 /// 色指定
-string QBasicDrawFunctions::color_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->setColor(
-								   (double)stoi(arg[0]) / 255.0f,
-								   (double)stoi(arg[1]) / 255.0f,
-								   (double)stoi(arg[2]) / 255.0f,
-								   (double)stoi(arg[3]) / 255.0f
-								   );
+QBasicVariableEntity *QBasicDrawFunctions::color_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->setColor(
+//								   (double)stoi(arg[0]) / 255.0f,
+//								   (double)stoi(arg[1]) / 255.0f,
+//								   (double)stoi(arg[2]) / 255.0f,
+//								   (double)stoi(arg[3]) / 255.0f
+//								   );
 	return nullptr;
 }
 /// 色変更
-string QBasicDrawFunctions::colorchg_qb(QBasic *interpreter, const vector<string> arg) {
+QBasicVariableEntity *QBasicDrawFunctions::colorchg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	return nullptr;
 }
 /// 線のサイズ指定
-string QBasicDrawFunctions::linewidth_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->setLineWidth(stod(arg[0]));
+QBasicVariableEntity *QBasicDrawFunctions::linewidth_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->setLineWidth(stod(arg[0]));
 	return nullptr;
 }
 /// 描画ロック
-string QBasicDrawFunctions::drawlock_qb(QBasic *interpreter, const vector<string> arg) {
-	interpreter->subFunc->scene->drawLock = (arg[0].compare("1")==0);
+QBasicVariableEntity *QBasicDrawFunctions::drawlock_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	interpreter->subFunc->scene->drawLock = (arg[0].compare("1")==0);
 	return nullptr;
 }
 /// 非表示
-string QBasicDrawFunctions::hidden_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->hidden();
-	}
+QBasicVariableEntity *QBasicDrawFunctions::hidden_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->hidden();
+//	}
 	return nullptr;
 }
 /// 指定位置に移動
-string QBasicDrawFunctions::move_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->moveNode(stod(arg[1]), stod(arg[2]));
-	}
+QBasicVariableEntity *QBasicDrawFunctions::move_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->moveNode(stod(arg[1]), stod(arg[2]));
+//	}
 	return nullptr;
 }
 /// 現在地から移動
-string QBasicDrawFunctions::moveadd_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->moveAddNode(stod(arg[1]), stod(arg[2]));
-	}
+QBasicVariableEntity *QBasicDrawFunctions::moveadd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->moveAddNode(stod(arg[1]), stod(arg[2]));
+//	}
 	return nullptr;
 }
 /// 拡大縮小
-string QBasicDrawFunctions::scale_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->scaleNode(stod(arg[1]), stod(arg[2]));
-	}
+QBasicVariableEntity *QBasicDrawFunctions::scale_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->scaleNode(stod(arg[1]), stod(arg[2]));
+//	}
 	return nullptr;
 }
 /// 現在の状態から拡大縮小
-string QBasicDrawFunctions::scaleadd_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->scaleAddNode(stod(arg[1]), stod(arg[2]));
-	}
+QBasicVariableEntity *QBasicDrawFunctions::scaleadd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->scaleAddNode(stod(arg[1]), stod(arg[2]));
+//	}
 	return nullptr;
 }
 /// 回転
-string QBasicDrawFunctions::rotation_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->rotationNode(stod(arg[1]));
-	}
+QBasicVariableEntity *QBasicDrawFunctions::rotation_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->rotationNode(stod(arg[1]));
+//	}
 	return nullptr;
 }
 /// 現在の状態から回転
-string QBasicDrawFunctions::rotationadd_qb(QBasic *interpreter, const vector<string> arg) {
-	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
-	if (nodeEntity != nullptr) {
-		nodeEntity->rotationAddNode(stod(arg[1]));
-	}
+QBasicVariableEntity *QBasicDrawFunctions::rotationadd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+//	auto nodeEntity = interpreter->subFunc->scene->getSetupNode(stoi(arg[0]));
+//	if (nodeEntity != nullptr) {
+//		nodeEntity->rotationAddNode(stod(arg[1]));
+//	}
 	return nullptr;
 }
 /// 反転
-string QBasicDrawFunctions::mirror_qb(QBasic *interpreter, const vector<string> arg) {
+QBasicVariableEntity *QBasicDrawFunctions::mirror_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	return nullptr;
 }
 

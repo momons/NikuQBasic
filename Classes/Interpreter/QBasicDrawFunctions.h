@@ -15,6 +15,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /// スクリプト 描画サブ関数群
 class QBasicDrawFunctions final {
@@ -34,29 +35,29 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 色指定
-	static string color_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *color_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 色変更
-	static string colorchg_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *colorchg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 線のサイズ指定
-	static string linewidth_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *linewidth_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 描画ロック
-	static string drawlock_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *drawlock_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 非表示
-	static string hidden_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *hidden_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 指定位置に移動
-	static string move_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *move_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 現在地から移動
-	static string moveadd_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *moveadd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 拡大縮小
-	static string scale_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *scale_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 現在の状態から拡大縮小
-	static string scaleadd_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *scaleadd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 回転
-	static string rotation_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *rotation_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 現在の状態から回転
-	static string rotationadd_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *rotationadd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 反転
-	static string mirror_qb(QBasic *interpreter, const vector<string> arg);
+	static QBasicVariableEntity *mirror_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 };
 
 #endif /* QBasicDrawFunctions_h */
