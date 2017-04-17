@@ -743,19 +743,25 @@ bool QBasic::analysisVar(const bool run) {
 		// TODO:関数名ともチェック
 		
 	}
-	
-	// 型をチェック
-	auto variableType = QBasicValidation::checkVariableType(getSymbol());
-	if (!run) {
-		if (variableType == VariableType::Void || variableType == VariableType::Unknown) {
-			// [ERROR]変数のタイプが不正です。
-			setThrow("BadVariableType", variableName.c_str());
-			return false;
+
+	auto sym = getSymbol();
+
+	auto variableType = VariableType::Unknown;
+	if (sym.compare("=") != 0) {
+		// 型をチェック
+		variableType = QBasicValidation::checkVariableType(sym);
+		if (!run) {
+			if (variableType == VariableType::Void || variableType == VariableType::Unknown) {
+				// [ERROR]変数のタイプが不正です。
+				setThrow("BadVariableType", variableName.c_str());
+				return false;
+			}
 		}
+		// 次を取得
+		sym = getSymbol();
 	}
 	
 	// 初期値設定されているか
-	auto sym = getSymbol();
 	if (sym.compare("=") != 0) {
 		if (!sym.empty()) {
 			popBack(run);
@@ -767,7 +773,7 @@ bool QBasic::analysisVar(const bool run) {
 	// 初期値取得
 	auto value = expression(run);
 	
-	if (value.type != variableType) {
+	if (variableType != VariableType::Unknown && value.type != variableType) {
 		setThrow("BadVariableType", nullptr);
 		return false;
 	}

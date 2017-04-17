@@ -216,4 +216,32 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// 型テスト 型推論テスト int
+- (void)test28 {
+	interpreter = new QBasic(nullptr, [scripts[28] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 3);
+}
+
+/// 型テスト 型推論テスト float
+- (void)test29 {
+	interpreter = new QBasic(nullptr, [scripts[29] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].floatValue, 3.0);
+}
+
+/// 型テスト 型推論テスト str
+- (void)test30 {
+	interpreter = new QBasic(nullptr, [scripts[30] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].strValue, "abcdef");
+}
+
+/// 型テスト 型推論テスト bool
+- (void)test31 {
+	interpreter = new QBasic(nullptr, [scripts[31] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].intValue, 1);
+}
+
 @end

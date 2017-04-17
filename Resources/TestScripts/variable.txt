@@ -118,6 +118,25 @@ a = 1
 var a bool = false
 a = 1.0
 ========================
-' test27' 型テスト boolにstringはダメ
+' test27 型テスト boolにstringはダメ
 var a bool = false
 a = "true"
+========================
+' test28 型推論テスト int
+var a = 1
+a = a + 2
+========================
+' test29 型推論テスト float
+var a = 1.0
+a = a + 2.0
+========================
+' test30 型推論テスト str
+var a = "abc"
+a = a + "def"
+========================
+' test31 型推論テスト bool
+var a = true
+var b = 0
+if a = true then
+  b = 1
+endif
