@@ -140,3 +140,18 @@ var b = 0
 if a = true then
   b = 1
 endif
+========================
+' test32 配列型宣言 list<int>
+var a list<int>
+========================
+' test33 配列型宣言 list<float>
+var a list<float>
+========================
+' test34 配列型宣言 list<str>
+var a list<str>
+========================
+' test35 配列型宣言 list<bool>
+var a list<bool>
+========================
+' test36 配列型宣言 list<list<bool>>
+var a list<list<bool>>

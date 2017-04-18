@@ -89,11 +89,50 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const string &val
 }
 
 /**
+ * コンストラクタ 配列用
+ * @param name        変数名
+ * @param valueTypes  値変数タイプ群
+ * @param values      値
+ */
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const vector<QBasicVariableEntity> &values) {
+	// 退避
+	this->name = name;
+	type = VariableType::List;
+	this->valueTypes = valueTypes;
+	listValue = values;
+}
+
+/**
  * デストラクタ
  */
 QBasicVariableEntity::~QBasicVariableEntity() {
 	
 }
+
+/**
+ * 値取得
+ * @return 値
+ */
+void *QBasicVariableEntity::getValue() {
+	switch (type) {
+		case VariableType::Int:
+			return (void *)&intValue;
+			break;
+		case VariableType::Float:
+			return (void *)&floatValue;
+			break;
+		case VariableType::Str:
+			return (void *)strValue.c_str();
+			break;
+		case VariableType::Bool:
+			return (void *)&boolValue;
+			break;
+		default:
+			break;
+	}
+	return nullptr;
+}
+
 
 #pragma mark - 比較
 

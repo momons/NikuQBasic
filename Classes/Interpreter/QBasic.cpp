@@ -764,6 +764,7 @@ bool QBasic::analysisVar(const bool run) {
 	auto sym = getSymbol();
 
 	auto variableType = VariableType::Unknown;
+	vector<VariableType> valueVariableTypes;
 	if (sym.compare("=") != 0) {
 		// 型をチェック
 		variableType = QBasicValidation::checkVariableType(sym);
@@ -774,6 +775,30 @@ bool QBasic::analysisVar(const bool run) {
 				return false;
 			}
 		}
+		if (variableType == VariableType::List) {
+			// リストの場合は型の宣言が必要
+			while(true) {
+				match("<");
+				sym = getSymbol();
+				auto valueVariableType = QBasicValidation::checkVariableType(sym);
+				if (!run) {
+					if (valueVariableType == VariableType::Void ||
+						valueVariableType == VariableType::Unknown) {
+						// [ERROR]変数のタイプが不正です。
+						setThrow("BadVariableType", variableName.c_str());
+						return false;
+					}
+				}
+				valueVariableTypes.push_back(valueVariableType);
+				if (valueVariableType != VariableType::List) {
+					break;
+				}
+			}
+			for (auto i = 0;i < valueVariableTypes.size();i++) {
+				match(">");
+			}
+		}
+		
 		// 次を取得
 		sym = getSymbol();
 	}
@@ -783,7 +808,11 @@ bool QBasic::analysisVar(const bool run) {
 		if (!sym.empty()) {
 			popBack(run);
 		}
-		variables[variableName] = QBasicVariableEntity(variableName, variableType, nullptr);
+		if (variableType == VariableType::List) {
+			variables[variableName] = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
+		} else {
+			variables[variableName] = QBasicVariableEntity(variableName, variableType, nullptr);
+		}
 		return true;
 	}
 	

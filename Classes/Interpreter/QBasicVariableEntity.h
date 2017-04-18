@@ -45,6 +45,10 @@ public:
 	
 	/// タイプ
 	VariableType type;
+	/// キータイプ 連想配列用
+	vector<VariableType> keyTypes;
+	/// バリュータイプ 配列、連想配列用
+	vector<VariableType> valueTypes;
 	
 	/// 整数値
 	int intValue = 0;
@@ -80,9 +84,25 @@ public:
 	QBasicVariableEntity(const string &name, const string &value);
 
 	/**
+	 * コンストラクタ 配列用
+	 * @param name        変数名
+	 * @param valueTypes  値変数タイプ群
+	 * @param values      値
+	 */
+	QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const vector<QBasicVariableEntity> &values);
+
+	/**
 	 * デストラクタ
 	 */
 	~QBasicVariableEntity();
+
+	/**
+	 * 値取得
+	 * @return 値のポインタ
+	 */
+	void *getValue();
+	
+#pragma mark - 比較
 
 	/**
 	 * entityと比較

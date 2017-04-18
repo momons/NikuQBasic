@@ -244,4 +244,34 @@
 	XCTAssertEqual(interpreter->variables["b"].intValue, 1);
 }
 
+/// 配列型宣言 list<int>
+- (void)test32 {
+	interpreter = new QBasic(nullptr, [scripts[32] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 list<float>
+- (void)test33 {
+	interpreter = new QBasic(nullptr, [scripts[33] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 list<str>
+- (void)test34 {
+	interpreter = new QBasic(nullptr, [scripts[34] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 list<bool>
+- (void)test35 {
+	interpreter = new QBasic(nullptr, [scripts[35] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 list<list<int>>
+- (void)test36 {
+	interpreter = new QBasic(nullptr, [scripts[36] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
 @end
