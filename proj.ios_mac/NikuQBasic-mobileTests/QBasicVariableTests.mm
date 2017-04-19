@@ -274,4 +274,46 @@
 	XCTAssertNoThrow(interpreter->run());
 }
 
+/// 配列型宣言 list<dict<bool>>
+- (void)test37 {
+	interpreter = new QBasic(nullptr, [scripts[37] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 連想配列型宣言 dict<int>
+- (void)test38 {
+	interpreter = new QBasic(nullptr, [scripts[38] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 連想配列型宣言 dict<float>
+- (void)test39 {
+	interpreter = new QBasic(nullptr, [scripts[39] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 連想配列型宣言 dict<str>
+- (void)test40 {
+	interpreter = new QBasic(nullptr, [scripts[40] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配連想配列型宣言 dict<bool>
+- (void)test41 {
+	interpreter = new QBasic(nullptr, [scripts[41] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 連想配列型宣言 dict<list<bool>>
+- (void)test42 {
+	interpreter = new QBasic(nullptr, [scripts[42] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 連想配列型宣言 dict<dict<bool>>
+- (void)test43 {
+	interpreter = new QBasic(nullptr, [scripts[43] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
 @end

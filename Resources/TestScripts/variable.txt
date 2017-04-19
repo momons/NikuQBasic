@@ -155,3 +155,25 @@ var a list<bool>
 ========================
 ' test36 配列型宣言 list<list<bool>>
 var a list<list<bool>>
+========================
+' test37 配列型宣言 list<dict<bool>>
+var a list<dict<bool>>
+========================
+' test38 連想配列型宣言 dict<int>
+var a dict<int>
+========================
+' test39 連想配列型宣言 dict<float>
+var a dict<float>
+========================
+' test40 連想配列型宣言 dict<str>
+var a dict<str>
+========================
+' test41 連想配列型宣言 dict<bool>
+var a dict<bool>
+========================
+' test42 連想配列型宣言 dict<list<bool>>
+var a dict<list<bool>>
+========================
+' test43 連想配列型宣言 dict<dict<bool>>
+var a dict<dict<bool>>
+

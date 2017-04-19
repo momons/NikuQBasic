@@ -775,27 +775,12 @@ bool QBasic::analysisVar(const bool run) {
 				return false;
 			}
 		}
-		if (variableType == VariableType::List) {
-			// リストの場合は型の宣言が必要
-			while(true) {
-				match("<");
-				sym = getSymbol();
-				auto valueVariableType = QBasicValidation::checkVariableType(sym);
-				if (!run) {
-					if (valueVariableType == VariableType::Void ||
-						valueVariableType == VariableType::Unknown) {
-						// [ERROR]変数のタイプが不正です。
-						setThrow("BadVariableType", variableName.c_str());
-						return false;
-					}
-				}
-				valueVariableTypes.push_back(valueVariableType);
-				if (valueVariableType != VariableType::List) {
-					break;
-				}
-			}
-			for (auto i = 0;i < valueVariableTypes.size();i++) {
-				match(">");
+		if (variableType == VariableType::List ||
+			variableType == VariableType::Dict ) {
+			// 配列の場合は型の宣言が必要
+			auto isExec = analysisVarListDict(run, variableName, &valueVariableTypes);
+			if (!isExec) {
+				return false;
 			}
 		}
 		
@@ -808,10 +793,16 @@ bool QBasic::analysisVar(const bool run) {
 		if (!sym.empty()) {
 			popBack(run);
 		}
-		if (variableType == VariableType::List) {
-			variables[variableName] = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
-		} else {
-			variables[variableName] = QBasicVariableEntity(variableName, variableType, nullptr);
+		switch (variableType) {
+			case VariableType::List:
+				variables[variableName] = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
+				break;
+			case VariableType::Dict:
+				variables[variableName] = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
+				break;
+			default:
+				variables[variableName] = QBasicVariableEntity(variableName, variableType, nullptr);
+				break;
 		}
 		return true;
 	}
@@ -827,6 +818,36 @@ bool QBasic::analysisVar(const bool run) {
 	value.name = variableName;
 	variables[variableName] = value;
 	
+	return true;
+}
+
+/**
+ * 変数を解析
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBasic::analysisVarListDict(const bool run, const string &variableName, vector<VariableType> *valueVariableTypes) {
+	// リストの場合は型の宣言が必要
+	while(true) {
+		match("<");
+		auto sym = getSymbol();
+		auto valueVariableType = QBasicValidation::checkVariableType(sym);
+		if (!run) {
+			if (valueVariableType == VariableType::Void ||
+				valueVariableType == VariableType::Unknown) {
+				// [ERROR]変数のタイプが不正です。
+				setThrow("BadVariableType", variableName.c_str());
+				return false;
+			}
+		}
+		valueVariableTypes->push_back(valueVariableType);
+		if (valueVariableType != VariableType::List && valueVariableType != VariableType::Dict) {
+			break;
+		}
+	}
+	for (auto i = 0;i < valueVariableTypes->size();i++) {
+		match(">");
+	}
 	return true;
 }
 

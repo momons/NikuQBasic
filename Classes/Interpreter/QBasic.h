@@ -231,12 +231,23 @@ private:
 	 */
 	bool isFunction(const string functionName);
 	
+#pragma mark - 個別解析
+
 	/**
 	 * 変数を解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
 	bool analysisVar(const bool run);
+
+	/**
+	 * 変数を解析 配列型
+	 * @param run                実行中フラグ
+	 * @param variableName       変数名
+	 * @param valueVariableTypes 値タイプ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisVarListDict(const bool run, const string &variableName, vector<VariableType> *valueVariableTypes);
 
 	/**
 	 * if文を解析

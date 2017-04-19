@@ -25,7 +25,7 @@ QBasicVariableEntity::QBasicVariableEntity() {
  * @param type  変数タイプ
  * @param value 値のポインタ
  */
-QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, const void *value) {
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, void *value) {
 	// 退避
 	this->name = name;
 	this->type = type;
@@ -44,10 +44,10 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
 				boolValue = *(bool *)value;
 				break;
 			case VariableType::List:
-				// まだ未対応
+				listValue = *reinterpret_cast<vector<QBasicVariableEntity>*>(value);
 				break;
 			case VariableType::Dict:
-				// まだ未対応
+				dictValue = *reinterpret_cast<map<string, QBasicVariableEntity>*>(value);
 				break;
 			default:
 				break;
@@ -100,6 +100,20 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<Vari
 	type = VariableType::List;
 	this->valueTypes = valueTypes;
 	listValue = values;
+}
+
+/**
+ * コンストラクタ 連想配列用
+ * @param name        変数名
+ * @param valueTypes  値変数タイプ群
+ * @param values      値
+ */
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const map<string, QBasicVariableEntity> &values) {
+	// 退避
+	this->name = name;
+	type = VariableType::List;
+	this->valueTypes = valueTypes;
+	dictValue = values;
 }
 
 /**

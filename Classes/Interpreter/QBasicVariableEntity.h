@@ -45,8 +45,6 @@ public:
 	
 	/// タイプ
 	VariableType type;
-	/// キータイプ 連想配列用
-	vector<VariableType> keyTypes;
 	/// バリュータイプ 配列、連想配列用
 	vector<VariableType> valueTypes;
 	
@@ -74,7 +72,7 @@ public:
 	 * @param type  変数タイプ
 	 * @param value 値のポインタ
 	 */
-	QBasicVariableEntity(const string &name, const VariableType type, const void *value);
+	QBasicVariableEntity(const string &name, const VariableType type, void *value);
 
 	/**
 	 * コンストラクタ
@@ -91,6 +89,14 @@ public:
 	 */
 	QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const vector<QBasicVariableEntity> &values);
 
+	/**
+	 * コンストラクタ 連想配列用
+	 * @param name        変数名
+	 * @param valueTypes  値変数タイプ群
+	 * @param values      値
+	 */
+	QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const map<string, QBasicVariableEntity> &values);
+	
 	/**
 	 * デストラクタ
 	 */

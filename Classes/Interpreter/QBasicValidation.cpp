@@ -241,9 +241,9 @@ VariableType QBasicValidation::checkVariableType(const string &str) {
 	if (str.compare("list") == 0) {
 		return VariableType::List;
 	}
-//	if (str.compare("dict") == 0) {
-//		return VariableType::Dict;
-//	}
+	if (str.compare("dict") == 0) {
+		return VariableType::Dict;
+	}
 	return VariableType::Unknown;
 }
 
