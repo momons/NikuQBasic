@@ -216,35 +216,60 @@ bool QBasicValidation::isBool(const string &str) {
 	return str.compare("true") == 0 || str.compare("false") == 0;
 }
 
+/**
+ *  配列変数チェック
+ *  @param variableEntity 変数Entity
+ *  @param variableTypes  変数タイプ群
+ *  @param level          階層
+ *  @return 配列変数可否
+ */
+bool QBasicValidation::isValidVariableList(
+										   const QBasicVariableEntity &variableEntity,
+										   const vector<VariableType> &variableTypes,
+										   const int level) {
+	for (auto it = variableEntity.listValue.begin();it != variableEntity.listValue.end();it++) {
+		if (variableTypes[level] != it->type) {
+			return false;
+		}
+		if (it->type == VariableType::List) {
+			if (!isValidVariableList(*it, variableTypes, level + 1)) {
+				return false;
+			}
+		} else if (it->type == VariableType::Dict ) {
+			if (!isValidVariableDict(*it, variableTypes, level + 1)) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
 
 /**
- *  変数タイプのチェック
- *  @param str 文字
- *  @return 変数タイプ
+ *  連想配列変数チェック
+ *  @param variableEntity 変数Entity
+ *  @param variableTypes  変数タイプ群
+ *  @param level          階層
+ *  @return 配列変数可否
  */
-VariableType QBasicValidation::checkVariableType(const string &str) {
-	if (str.compare("void") == 0) {
-		return VariableType::Void;
+bool QBasicValidation::isValidVariableDict(
+										   const QBasicVariableEntity &variableEntity,
+										   const vector<VariableType> &variableTypes,
+										   const int level) {
+	for (auto it = variableEntity.dictValue.begin();it != variableEntity.dictValue.end();it++) {
+		if (variableTypes[level] != it->second.type) {
+			return false;
+		}
+		if (it->second.type == VariableType::List) {
+			if (!isValidVariableList(it->second, variableTypes, level + 1)) {
+				return false;
+			}
+		} else if (it->second.type == VariableType::Dict ) {
+			if (!isValidVariableDict(it->second, variableTypes, level + 1)) {
+				return false;
+			}
+		}
 	}
-	if (str.compare("int") == 0) {
-		return VariableType::Int;
-	}
-	if (str.compare("float") == 0) {
-		return VariableType::Float;
-	}
-	if (str.compare("str") == 0) {
-		return VariableType::Str;
-	}
-	if (str.compare("bool") == 0) {
-		return VariableType::Bool;
-	}
-	if (str.compare("list") == 0) {
-		return VariableType::List;
-	}
-	if (str.compare("dict") == 0) {
-		return VariableType::Dict;
-	}
-	return VariableType::Unknown;
+	return true;
 }
 
 /**

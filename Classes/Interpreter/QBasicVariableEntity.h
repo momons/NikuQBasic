@@ -116,35 +116,7 @@ public:
 	 * @return 比較結果
 	 */
 	int compare(const QBasicVariableEntity &entity);
-				
-	/**
-	 * intと比較
-	 * @param intValue int値
-	 * @return 比較結果
-	 */
-	int compare(const int intValue);
-	
-	/**
-	 * floatと比較
-	 * @param floatValue float値
-	 * @return 比較結果
-	 */
-	int compare(const double floatValue);
-	
-	/**
-	 * stringと比較
-	 * @param strValue string値
-	 * @return 比較結果
-	 */
-	int compare(const string strValue);
-	
-	/**
-	 * boolと比較
-	 * @param boolValue bool値
-	 * @return 比較結果
-	 */
-	int compare(const bool boolValue);
-	
+
 #pragma mark - 四則演算
 
 	/**
@@ -212,6 +184,22 @@ public:
 	 * @return 比較結果
 	 */
 	QBasicVariableEntity expressionXor(const QBasicVariableEntity &entity);
+
+#pragma mark - チェック
+	
+	/**
+	 *  変数タイプの取得
+	 *  @param str 文字
+	 *  @return 変数タイプ
+	 */
+	static VariableType getVariableType(const string &str);
+	
+	/**
+	 *  変数タイプの取得 階層
+	 * @param entity 変数entity
+	 *  @return 変数タイプ群
+	 */
+	static vector<VariableType> getVariableTypes(const QBasicVariableEntity &entity);
 
 #pragma mark - 変換
 	

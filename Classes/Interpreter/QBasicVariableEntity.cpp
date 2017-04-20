@@ -111,7 +111,7 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<Vari
 QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const map<string, QBasicVariableEntity> &values) {
 	// 退避
 	this->name = name;
-	type = VariableType::List;
+	type = VariableType::Dict;
 	this->valueTypes = valueTypes;
 	dictValue = values;
 }
@@ -189,72 +189,6 @@ int QBasicVariableEntity::compare(const QBasicVariableEntity &entity) {
 		default:
 			return 0;
 	}
-}
-
-/**
- * intと比較
- * @param intValue int値
- * @return 比較結果
- */
-int QBasicVariableEntity::compare(const int intValue) {
-	if (type != VariableType::Int) {
-		return MISMATCH_VARIABLE_TYPE_VALUE;
-	}
-	if (this->intValue < intValue) {
-		return -1;
-	}
-	if (this->intValue > intValue) {
-		return 1;
-	}
-	return 0;
-}
-
-/**
- * floatと比較
- * @param floatValue float値
- * @return 比較結果
- */
-int QBasicVariableEntity::compare(const double floatValue) {
-	if (type != VariableType::Float) {
-		return MISMATCH_VARIABLE_TYPE_VALUE;
-	}
-	if (this->floatValue < floatValue) {
-		return -1;
-	}
-	if (this->floatValue > floatValue) {
-		return 1;
-	}
-	return 0;
-}
-
-/**
- * stringと比較
- * @param strValue string値
- * @return 比較結果
- */
-int QBasicVariableEntity::compare(const string strValue) {
-	if (type != VariableType::Str) {
-		return MISMATCH_VARIABLE_TYPE_VALUE;
-	}
-	return this->strValue.compare(strValue);
-}
-
-/**
- * boolと比較
- * @param boolValue bool値
- * @return 比較結果
- */
-int QBasicVariableEntity::compare(const bool boolValue) {
-	if (type != VariableType::Bool) {
-		return MISMATCH_VARIABLE_TYPE_VALUE;
-	}
-	if (!this->boolValue && boolValue) {
-		return -1;
-	}
-	if (this->boolValue && !boolValue) {
-		return 1;
-	}
-	return 0;
 }
 
 #pragma mark - 四則演算
@@ -566,6 +500,85 @@ QBasicVariableEntity QBasicVariableEntity::toBool() {
 	}
 	returnEntity.type = VariableType::Bool;
 	return returnEntity;
+}
+
+#pragma mark - チェック
+
+/**
+ *  変数タイプのチェック
+ *  @param str 文字
+ *  @return 変数タイプ
+ */
+VariableType QBasicVariableEntity::getVariableType(const string &str) {
+	if (str.compare("void") == 0) {
+		return VariableType::Void;
+	}
+	if (str.compare("int") == 0) {
+		return VariableType::Int;
+	}
+	if (str.compare("float") == 0) {
+		return VariableType::Float;
+	}
+	if (str.compare("str") == 0) {
+		return VariableType::Str;
+	}
+	if (str.compare("bool") == 0) {
+		return VariableType::Bool;
+	}
+	if (str.compare("list") == 0) {
+		return VariableType::List;
+	}
+	if (str.compare("dict") == 0) {
+		return VariableType::Dict;
+	}
+	return VariableType::Unknown;
+}
+
+/**
+ *  変数タイプの取得 階層
+ * @param entity 変数entity
+ *  @return 変数タイプ群
+ */
+vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariableEntity &entity) {
+	vector<VariableType> variableTypes;
+	auto variableType = VariableType::Unknown;
+	if (entity.type == VariableType::List) {
+		for (auto it = entity.listValue.begin();it != entity.listValue.end();it++) {
+			if (variableType == VariableType::Unknown) {
+				variableType = it->type;
+				continue;
+			}
+			if (variableType != it->type) {
+				// 型が不整合
+				return vector<VariableType>{ VariableType::Unknown };
+			}
+		}
+	} else if (entity.type == VariableType::Dict) {
+		for (auto it = entity.dictValue.begin();it != entity.dictValue.end();it++) {
+			if (variableType == VariableType::Unknown) {
+				variableType = it->second.type;
+				continue;
+			}
+			if (variableType != it->second.type) {
+				// 型が不整合
+				return vector<VariableType>{ VariableType::Unknown };
+			}
+		}
+	}
+	if (variableType == VariableType::Unknown) {
+		// 値入ってないからわからない
+		return vector<VariableType>{ VariableType::Unknown };
+	}
+	if (variableType == VariableType::List ||
+		variableType == VariableType::Dict ) {
+		variableTypes = getVariableTypes(*entity.listValue.begin());
+		if (*variableTypes.begin() == VariableType::Unknown) {
+			return variableTypes;
+		}
+	}
+	variableTypes.insert(variableTypes.begin(), variableType);
+	
+	return variableTypes;
 }
 
 #pragma mark - その他

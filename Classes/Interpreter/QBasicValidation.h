@@ -67,11 +67,28 @@ public:
 	static bool isBool(const string &str);
 	
 	/**
-	 *  変数タイプのチェック
-	 *  @param str 文字
-	 *  @return 変数タイプ
+	 *  配列変数チェック
+	 *  @param variableEntity 変数Entity
+	 *  @param variableTypes  変数タイプ群
+	 *  @param level          階層
+	 *  @return 配列変数可否
 	 */
-	static VariableType checkVariableType(const string &str);
+	static bool isValidVariableList(
+									const QBasicVariableEntity &variableEntity,
+									const vector<VariableType> &variableTypes,
+									const int level);
+	
+	/**
+	 *  連想配列変数チェック
+	 *  @param variableEntity 変数Entity
+	 *  @param variableTypes  変数タイプ群
+	 *  @param level          階層
+	 *  @return 配列変数可否
+	 */
+	static bool isValidVariableDict(
+									const QBasicVariableEntity &variableEntity,
+									const vector<VariableType> &variableTypes,
+									const int level);
 	
 	/**
 	 *  論理演算可能かチェック

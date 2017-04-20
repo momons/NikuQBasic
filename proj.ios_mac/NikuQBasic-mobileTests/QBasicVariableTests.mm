@@ -316,4 +316,52 @@
 	XCTAssertNoThrow(interpreter->run());
 }
 
+/// 配列型宣言 初期値設定 list<int>
+- (void)test44 {
+	interpreter = new QBasic(nullptr, [scripts[44] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 初期値設定 list<float>
+- (void)test45 {
+	interpreter = new QBasic(nullptr, [scripts[45] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 初期値設定 list<str>
+- (void)test46 {
+	interpreter = new QBasic(nullptr, [scripts[46] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 初期値設定 list<bool>
+- (void)test47 {
+	interpreter = new QBasic(nullptr, [scripts[47] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 連想配列型宣言 初期値設定 dict<int>
+- (void)test48 {
+	interpreter = new QBasic(nullptr, [scripts[48] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 連想配列型宣言 初期値設定 dict<float>
+- (void)test49 {
+	interpreter = new QBasic(nullptr, [scripts[49] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 連想配列型宣言 初期値設定 dict<str>
+- (void)test50 {
+	interpreter = new QBasic(nullptr, [scripts[50] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 連想配列型宣言 初期値設定 dict<bool>
+- (void)test51 {
+	interpreter = new QBasic(nullptr, [scripts[51] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
 @end

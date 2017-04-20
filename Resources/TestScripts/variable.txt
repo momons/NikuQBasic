@@ -176,4 +176,29 @@ var a dict<list<bool>>
 ========================
 ' test43 連想配列型宣言 dict<dict<bool>>
 var a dict<dict<bool>>
+========================
+' test44 配列型宣言 初期値設定 list<int>
+var a list<int> = [1, 2, 3, 4, 5]
+========================
+' test45 配列型宣言 初期値設定 list<float>
+var a list<float> = [1.1, 2.2, 3.3, 4.4, 5.5]
+========================
+' test46 配列型宣言 初期値設定 list<str>
+var a list<str> = ["1", "2", "3", "4", "5"]
+========================
+' test47 配列型宣言 初期値設定 list<bool>
+var a list<bool> = [true, false, false]
+========================
+' test48 連想配列型宣言 初期値設定 dict<int>
+var a dict<int> = ["a":1, "b":2, "c":3, "d":4, "e":5]
+========================
+' test49 連想配列型宣言 初期値設定 dict<float>
+var a dict<float> = ["a":1.1, "b":2.2, "c":3.3, "d":4.4, "e":5.5]
+========================
+' test50 連想配列型宣言 初期値設定 dict<str>
+var a dict<str> = ["a":"1", "b":"2", "c":"3", "d":"4", "e":"5"]
+========================
+' test51 連想配列型宣言 初期値設定 dict<bool>
+var a dict<bool> = ["a":false, "b":true, "c":false, "d":false, "e":true]
+
 

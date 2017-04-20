@@ -767,9 +767,10 @@ bool QBasic::analysisVar(const bool run) {
 	vector<VariableType> valueVariableTypes;
 	if (sym.compare("=") != 0) {
 		// 型をチェック
-		variableType = QBasicValidation::checkVariableType(sym);
+		variableType = QBasicVariableEntity::getVariableType(sym);
 		if (!run) {
-			if (variableType == VariableType::Void || variableType == VariableType::Unknown) {
+			if (variableType == VariableType::Void ||
+				variableType == VariableType::Unknown) {
 				// [ERROR]変数のタイプが不正です。
 				setThrow("BadVariableType", variableName.c_str());
 				return false;
@@ -806,10 +807,61 @@ bool QBasic::analysisVar(const bool run) {
 		}
 		return true;
 	}
-	
+
 	// 初期値取得
-	auto value = expression(run);
-	
+	QBasicVariableEntity value;
+	switch (variableType) {
+		case VariableType::List:
+			// TODO: List、Dictの解析ができるようにする
+			value = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
+			match("[");
+			while(true) {
+				QBasicVariableEntity childValue = expression(run);
+				value.listValue.push_back(childValue);
+				sym = getSymbol();
+				if (sym.compare("]") == 0) {
+					break;
+				}
+				popBack(run);
+				match(",");
+			}
+			if (!QBasicValidation::isValidVariableList(value, valueVariableTypes, 0)) {
+				setThrow("BadVariableType", nullptr);
+				return false;
+			}
+			break;
+		case VariableType::Dict:
+			// TODO: List、Dictの解析ができるようにする
+			value = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
+			match("[");
+			while(true) {
+				// キーバリュー取得
+				auto keyValue = expression(run);
+				if (keyValue.type != VariableType::Str) {
+					setThrow("BadVariableType", nullptr);
+					return false;
+				}
+				match(":");
+				// 値取得
+				auto childValue = expression(run);
+				value.dictValue[keyValue.strValue] = childValue;
+				sym = getSymbol();
+				if (sym.compare("]") == 0) {
+					break;
+				}
+				popBack(run);
+				match(",");
+			}
+			if (!QBasicValidation::isValidVariableDict(value, valueVariableTypes, 0)) {
+				setThrow("BadVariableType", nullptr);
+				return false;
+			}
+			break;
+		default:
+			value = expression(run);
+			break;
+	}
+
 	if (variableType != VariableType::Unknown && value.type != variableType) {
 		setThrow("BadVariableType", nullptr);
 		return false;
@@ -831,7 +883,7 @@ bool QBasic::analysisVarListDict(const bool run, const string &variableName, vec
 	while(true) {
 		match("<");
 		auto sym = getSymbol();
-		auto valueVariableType = QBasicValidation::checkVariableType(sym);
+		auto valueVariableType = QBasicVariableEntity::getVariableType(sym);
 		if (!run) {
 			if (valueVariableType == VariableType::Void ||
 				valueVariableType == VariableType::Unknown) {
@@ -1150,13 +1202,8 @@ bool QBasic::analysisFunc(const bool run) {
 			break;
 		}
 		if (argNames.size() > 0) {
-			if (variableName.compare(",") != 0) {
-				// [ERROR]想定の文字が見つかりませんでした。
-				ostringstream stream;
-				stream << "o:',' x:'" << variableName << "'";
-				setThrow("MissingFound", stream.str().c_str());
-				return false;
-			}
+			popBack(run);
+			match(",");
 			variableName = getSymbol();
 		}
 		
@@ -1183,9 +1230,10 @@ bool QBasic::analysisFunc(const bool run) {
 		
 		// 型
 		auto sym = getSymbol();
-		auto variableType = QBasicValidation::checkVariableType(sym);
+		auto variableType = QBasicVariableEntity::getVariableType(sym);
 		if (!isRun) {
-			if (variableType == VariableType::Unknown || variableType == VariableType::Void) {
+			if (variableType == VariableType::Unknown ||
+				variableType == VariableType::Void) {
 				// [ERROR]変数のタイプが不正です。
 				setThrow("BadVariableType", functionName.c_str());
 				return false;
@@ -1204,7 +1252,7 @@ bool QBasic::analysisFunc(const bool run) {
 
 	// 戻り値タイプを解析
 	string returnVariableName = getSymbol();
-	auto returnVariableType = QBasicValidation::checkVariableType(returnVariableName);
+	auto returnVariableType = QBasicVariableEntity::getVariableType(returnVariableName);
 	if (returnVariableType != VariableType::Unknown) {
 		entity.returnVariableType = returnVariableType;
 	} else {
