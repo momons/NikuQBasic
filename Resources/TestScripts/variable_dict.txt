@@ -27,3 +27,15 @@ var a dict<str> = {"a":"1", "b":"2", "c":"3", "d":"4", "e":"5"}
 ========================
 ' test9 連想配列型宣言 初期値設定 dict<bool>
 var a dict<bool> = {"a":false, "b":true, "c":false, "d":false, "e":true}
+========================
+' test10 連想配列型宣言 初期値設定 dict<int>
+var a dict<int> = {"a":1, "b":2, "c":3, "d":4, "e":5}
+========================
+' test11 連想配列型宣言 初期値設定 dict<float>
+var a dict<float> = {"a":1.1, "b":2.2, "c":3.3, "d":4.4, "e":5.5}
+========================
+' test12 連想配列型宣言 初期値設定 dict<str>
+var a dict<str> = {"a":"1", "b":"2", "c":"3", "d":"4", "e":"5"}
+========================
+' test13 連想配列型宣言 初期値設定 dict<bool>
+var a dict<bool> = {"a":false, "b":true, "c":false, "d":false, "e":true}

@@ -99,4 +99,70 @@
 	XCTAssertNoThrow(interpreter->run());
 }
 
+/// 配列型宣言 配列型宣言 初期値設定 list<list<bool>>
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 初期値設定 list<dict<bool>>
+- (void)test11 {
+	interpreter = new QBasic(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 型推論 list<int>
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 型推論 list<float>
+- (void)test13 {
+	interpreter = new QBasic(nullptr, [scripts[13] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 型推論 list<str>
+- (void)test14 {
+	interpreter = new QBasic(nullptr, [scripts[14] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 型推論 list<bool>
+- (void)test15 {
+	interpreter = new QBasic(nullptr, [scripts[15] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 型推論 list<list<bool>>
+- (void)test16 {
+	interpreter = new QBasic(nullptr, [scripts[16] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 配列型宣言 型推論 list<dict<bool>>
+- (void)test17 {
+	interpreter = new QBasic(nullptr, [scripts[17] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 初期値設定 宣言と異なる
+- (void)test18 {
+	interpreter = new QBasic(nullptr, [scripts[18] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 配列型宣言 型推論 いろいろな型がまざる
+- (void)test19 {
+	interpreter = new QBasic(nullptr, [scripts[19] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// 配列型宣言 初期値以外で値を設定
+- (void)test20 {
+	interpreter = new QBasic(nullptr, [scripts[20] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
 @end

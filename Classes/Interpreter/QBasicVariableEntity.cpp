@@ -549,8 +549,9 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
 				continue;
 			}
 			if (variableType != it->type) {
-				// 型が不整合
-				return vector<VariableType>{ VariableType::Unknown };
+				// 型が不整合ならばvoid
+				variableType = VariableType::Void;
+				break;
 			}
 		}
 	} else if (entity.type == VariableType::Dict) {
@@ -560,8 +561,9 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
 				continue;
 			}
 			if (variableType != it->second.type) {
-				// 型が不整合
-				return vector<VariableType>{ VariableType::Unknown };
+				// 型が不整合ならばvoid
+				variableType = VariableType::Void;
+				break;
 			}
 		}
 	}

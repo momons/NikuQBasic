@@ -474,10 +474,20 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 		return variables[sym];
 //		return TODO: run ? variables[sym].strValue : "1";
 	} else if (sym.length() == 1) {
-		if(sym.c_str()[0] == '(') {
-            auto value = expression(run);
-            match(")");
-            return value;
+		switch (sym.c_str()[0]) {
+			case '(': {
+				auto value = expression(run);
+				match(")");
+				return value;
+			}
+			case '[': {
+				auto value = listValue(run);
+				return value;
+			}
+			case '{': {
+				auto value = dictValue(run);
+				return value;
+			}
         }
     } else {
         // 引数付きメソッドかな？
@@ -548,6 +558,8 @@ bool QBasic::statement(const bool run) {
 			setThrow("BadVariableType", nullptr);
 			return false;
 		}
+		// TODO: list、dict型はサブタイプのチェックをする
+		
 		if (run) {
 			value.name = sym;
 			variables[sym] = value;
@@ -618,9 +630,10 @@ QBasicVariableEntity QBasic::listValue(const bool run) {
 		if (sym.compare("]") == 0) {
 			break;
 		}
-		popBack(run);
 		if (count > 0) {
+			popBack(run);
 			match(",");
+			sym = getSymbol();
 		}
 		QBasicVariableEntity value;
 		if (sym.compare("[") == 0) {
@@ -628,6 +641,7 @@ QBasicVariableEntity QBasic::listValue(const bool run) {
 		} else if(sym.compare("{") == 0) {
 			value = dictValue(run);
 		} else {
+			popBack(run);
 			value = expression(run);
 		}
 		returnValue.listValue.push_back(value);
@@ -661,11 +675,13 @@ QBasicVariableEntity QBasic::dictValue(const bool run) {
 		}
 		match(":");
 		QBasicVariableEntity value;
+		sym = getSymbol();
 		if (sym.compare("[") == 0) {
 			value = listValue(run);
 		} else if(sym.compare("{") == 0) {
 			value = dictValue(run);
 		} else {
+			popBack(run);
 			value = expression(run);
 		}
 		returnValue.dictValue[keyValue.strValue] = value;
@@ -880,43 +896,22 @@ bool QBasic::analysisVar(const bool run) {
 	}
 
 	// 初期値取得
-	QBasicVariableEntity value;
-	if (variableType == VariableType::Unknown) {
-		// 型指定なし
-		sym = getSymbol();
-		if (sym.compare("[") == 0) {
-			value = listValue(run);
-		} else if (sym.compare("{") == 0) {
-			value = dictValue(run);
-		} else {
-			popBack(run);
-			value = expression(run);
+	QBasicVariableEntity value = expression(run);
+	if (variableType != VariableType::Unknown) {
+		if (value.type != variableType) {
+			setThrow("BadVariableType", nullptr);
+			return false;
 		}
-	} else {
-		switch (variableType) {
+		switch (value.type) {
 			case VariableType::List:
-				match("[");
-				value = listValue(run);
+			case VariableType::Dict:
 				if (!QBasicValidation::isValidVariableList(value, valueVariableTypes, 0)) {
 					setThrow("BadVariableType", nullptr);
 					return false;
 				}
 				break;
-			case VariableType::Dict:
-				match("{");
-				value = dictValue(run);
-				if (!QBasicValidation::isValidVariableDict(value, valueVariableTypes, 0)) {
-					setThrow("BadVariableType", nullptr);
-					return false;
-				}
-				break;
 			default:
-				value = expression(run);
 				break;
-		}
-		if (value.type != variableType) {
-			setThrow("BadVariableType", nullptr);
-			return false;
 		}
 	}
 

@@ -27,3 +27,37 @@ var a list<str> = ["1", "2", "3", "4", "5"]
 ========================
 ' test9 配列型宣言 初期値設定 list<bool>
 var a list<bool> = [true, false, false]
+========================
+' test10 配列型宣言 初期値設定 list<list<bool>>
+var a list<list<bool>> = [[true, true], [false], [true, false, true]]
+========================
+' test11 配列型宣言 初期値設定 list<dict<bool>>
+var a list<dict<bool>> = [{"b": true, "c": true}, {"d": false}, {"e": true, "f": false, "g": true}]
+========================
+' test12 配列型宣言 型推論 list<int>
+var a = [1, 2, 3, 4, 5]
+========================
+' test13 配列型宣言 型推論 list<float>
+var a = [1.1, 2.2, 3.3, 4.4, 5.5]
+========================
+' test14 配列型宣言 型推論 list<str>
+var a = ["1", "2", "3", "4", "5"]
+========================
+' test15 配列型宣言 型推論 list<bool>
+var a = [true, false, false]
+========================
+' test16 配列型宣言 型推論 list<list<bool>>
+var a = [[true, true], [false], [true, false, true]]
+========================
+' test17 配列型宣言 型推論 list<dict<bool>>
+var a = [{"b": true, "c": true}, {"d": false}, {"e": true, "f": false, "g": true}]
+========================
+' test18 配列型宣言 初期値設定 宣言と異なる
+var a list<str> = ["1", "2", "3", 4, "5"]
+========================
+' test19 配列型宣言 型推論 いろいろな型がまざる
+var a  = [{"b":1}, [2.0], "3", 4, true]
+========================
+' test20 初期値以外で値を設定
+var a list<int>
+a = [1, 2, 3, 4, 5]
