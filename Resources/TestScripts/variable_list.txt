@@ -1,0 +1,29 @@
+' test0 配列型宣言 list<int>
+var a list<int>
+========================
+' test1 配列型宣言 list<float>
+var a list<float>
+========================
+' test2 配列型宣言 list<str>
+var a list<str>
+========================
+' test3 配列型宣言 list<bool>
+var a list<bool>
+========================
+' test4 配列型宣言 list<list<bool>>
+var a list<list<bool>>
+========================
+' test5 配列型宣言 list<dict<bool>>
+var a list<dict<bool>>
+========================
+' test6 配列型宣言 初期値設定 list<int>
+var a list<int> = [1, 2, 3, 4, 5]
+========================
+' test7 配列型宣言 初期値設定 list<float>
+var a list<float> = [1.1, 2.2, 3.3, 4.4, 5.5]
+========================
+' test8 配列型宣言 初期値設定 list<str>
+var a list<str> = ["1", "2", "3", "4", "5"]
+========================
+' test9 配列型宣言 初期値設定 list<bool>
+var a list<bool> = [true, false, false]

@@ -1,0 +1,19 @@
+' test0 型テスト str
+var a str = ""
+a = "あいうえお"
+========================
+' test1 型テスト strにintはダメ
+var a str = ""
+a = 1
+========================
+' test2 型テスト strにfloatはダメ
+var a str = ""
+a = 1.0
+========================
+' test3 型テスト strにboolはダメ
+var a str = ""
+a = false
+========================
+' test4 型推論テスト str
+var a = "abc"
+a = a + "def"

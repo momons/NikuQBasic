@@ -1,0 +1,29 @@
+' test0 連想配列型宣言 dict<int>
+var a dict<int>
+========================
+' test1 連想配列型宣言 dict<float>
+var a dict<float>
+========================
+' test2 連想配列型宣言 dict<str>
+var a dict<str>
+========================
+' test3 連想配列型宣言 dict<bool>
+var a dict<bool>
+========================
+' test4 連想配列型宣言 dict<list<bool>>
+var a dict<list<bool>>
+========================
+' test5 連想配列型宣言 dict<dict<bool>>
+var a dict<dict<bool>>
+========================
+' test6 連想配列型宣言 初期値設定 dict<int>
+var a dict<int> = {"a":1, "b":2, "c":3, "d":4, "e":5}
+========================
+' test7 連想配列型宣言 初期値設定 dict<float>
+var a dict<float> = {"a":1.1, "b":2.2, "c":3.3, "d":4.4, "e":5.5}
+========================
+' test8 連想配列型宣言 初期値設定 dict<str>
+var a dict<str> = {"a":"1", "b":"2", "c":"3", "d":"4", "e":"5"}
+========================
+' test9 連想配列型宣言 初期値設定 dict<bool>
+var a dict<bool> = {"a":false, "b":true, "c":false, "d":false, "e":true}

@@ -1,0 +1,19 @@
+' test0 型テスト float
+var a float = 0.0
+a = 9999.888
+========================
+' test1 型テスト floatにintはダメ
+var a float = 0.0
+a = 1
+========================
+' test2 型テスト floatにstrはダメ
+var a float = 0.0
+a = "1.0"
+========================
+' test3 型テスト floatにboolはダメ
+var a float = 0.0
+a = false
+========================
+' test4 型推論テスト float
+var a = 1.0
+a = a + 2.0

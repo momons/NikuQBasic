@@ -1,0 +1,22 @@
+' test0 型テスト bool
+var a bool = false
+a = true
+========================
+' test1 型テスト boolにintはダメ
+var a bool = false
+a = 1
+========================
+' test2 型テスト boolにfloatはダメ
+var a bool = false
+a = 1.0
+========================
+' test3 型テスト boolにstrはダメ
+var a bool = false
+a = "true"
+========================
+' test4 型推論テスト bool
+var a = true
+var b = 0
+if a = true then
+  b = 1
+endif
