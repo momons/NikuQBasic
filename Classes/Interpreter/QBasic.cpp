@@ -604,6 +604,77 @@ bool QBasic::statement(const bool run) {
 }
 
 /**
+ * list型の取得
+ * @param run 実行中フラグ
+ * @return 値
+ */
+QBasicVariableEntity QBasic::listValue(const bool run) {
+	QBasicVariableEntity returnValue;
+	returnValue.type = VariableType::List;
+	// 上位で"["のチェックがされる
+	int count = 0;
+	while (true) {
+		auto sym = getSymbol();
+		if (sym.compare("]") == 0) {
+			break;
+		}
+		popBack(run);
+		if (count > 0) {
+			match(",");
+		}
+		QBasicVariableEntity value;
+		if (sym.compare("[") == 0) {
+			value = listValue(run);
+		} else if(sym.compare("{") == 0) {
+			value = dictValue(run);
+		} else {
+			value = expression(run);
+		}
+		returnValue.listValue.push_back(value);
+		count += 1;
+	}
+	return returnValue;
+}
+
+/**
+ * dict型の取得
+ * @param run 実行中フラグ
+ * @return 値
+ */
+QBasicVariableEntity QBasic::dictValue(const bool run) {
+	QBasicVariableEntity returnValue;
+	returnValue.type = VariableType::Dict;
+	// 上位で"{"のチェックがされる
+	int count = 0;
+	while (true) {
+		auto sym = getSymbol();
+		if (sym.compare("}") == 0) {
+			break;
+		}
+		popBack(run);
+		if (count > 0) {
+			match(",");
+		}
+		auto keyValue = expression(run);
+		if (keyValue.type != VariableType::Str) {
+			setThrow("BadVariableType", nullptr);
+		}
+		match(":");
+		QBasicVariableEntity value;
+		if (sym.compare("[") == 0) {
+			value = listValue(run);
+		} else if(sym.compare("{") == 0) {
+			value = dictValue(run);
+		} else {
+			value = expression(run);
+		}
+		returnValue.dictValue[keyValue.strValue] = value;
+		count += 1;
+	}
+	return returnValue;
+}
+
+/**
  * 引数取得
  * @param run      実行モード
  * @param argTypes 引数タイプ
@@ -810,63 +881,45 @@ bool QBasic::analysisVar(const bool run) {
 
 	// 初期値取得
 	QBasicVariableEntity value;
-	switch (variableType) {
-		case VariableType::List:
-			// TODO: List、Dictの解析ができるようにする
-			value = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
-			match("[");
-			while(true) {
-				QBasicVariableEntity childValue = expression(run);
-				value.listValue.push_back(childValue);
-				sym = getSymbol();
-				if (sym.compare("]") == 0) {
-					break;
-				}
-				popBack(run);
-				match(",");
-			}
-			if (!QBasicValidation::isValidVariableList(value, valueVariableTypes, 0)) {
-				setThrow("BadVariableType", nullptr);
-				return false;
-			}
-			break;
-		case VariableType::Dict:
-			// TODO: List、Dictの解析ができるようにする
-			value = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
-			match("[");
-			while(true) {
-				// キーバリュー取得
-				auto keyValue = expression(run);
-				if (keyValue.type != VariableType::Str) {
+	if (variableType == VariableType::Unknown) {
+		// 型指定なし
+		sym = getSymbol();
+		if (sym.compare("[") == 0) {
+			value = listValue(run);
+		} else if (sym.compare("{") == 0) {
+			value = dictValue(run);
+		} else {
+			popBack(run);
+			value = expression(run);
+		}
+	} else {
+		switch (variableType) {
+			case VariableType::List:
+				match("[");
+				value = listValue(run);
+				if (!QBasicValidation::isValidVariableList(value, valueVariableTypes, 0)) {
 					setThrow("BadVariableType", nullptr);
 					return false;
 				}
-				match(":");
-				// 値取得
-				auto childValue = expression(run);
-				value.dictValue[keyValue.strValue] = childValue;
-				sym = getSymbol();
-				if (sym.compare("]") == 0) {
-					break;
+				break;
+			case VariableType::Dict:
+				match("{");
+				value = dictValue(run);
+				if (!QBasicValidation::isValidVariableDict(value, valueVariableTypes, 0)) {
+					setThrow("BadVariableType", nullptr);
+					return false;
 				}
-				popBack(run);
-				match(",");
-			}
-			if (!QBasicValidation::isValidVariableDict(value, valueVariableTypes, 0)) {
-				setThrow("BadVariableType", nullptr);
-				return false;
-			}
-			break;
-		default:
-			value = expression(run);
-			break;
+				break;
+			default:
+				value = expression(run);
+				break;
+		}
+		if (value.type != variableType) {
+			setThrow("BadVariableType", nullptr);
+			return false;
+		}
 	}
 
-	if (variableType != VariableType::Unknown && value.type != variableType) {
-		setThrow("BadVariableType", nullptr);
-		return false;
-	}
-	
 	value.name = variableName;
 	variables[variableName] = value;
 	

@@ -194,7 +194,21 @@ private:
      * @return 値
      */
     QBasicVariableEntity factor(const bool run);
-    
+	
+	/**
+	 * list型の取得
+	 * @param run 実行中フラグ
+	 * @return 値
+	 */
+	QBasicVariableEntity listValue(const bool run);
+
+	/**
+	 * dict型の取得
+	 * @param run 実行中フラグ
+	 * @return 値
+	 */
+	QBasicVariableEntity dictValue(const bool run);
+	
     /**
      * 戻り値なし実行
      * @param run 実行中フラグ
