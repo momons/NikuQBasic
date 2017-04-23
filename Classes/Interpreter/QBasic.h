@@ -125,9 +125,6 @@ private:
 	/// 最後にアクセスした関数名
 	string lastFunctionName;
 
-    /// ラベル情報
-    unordered_map<string, long> labelName;
-    
     /// ステートメント群
 	QBasicStatements *statements;
 	/// ファンクション群
@@ -277,28 +274,6 @@ private:
 	 * @return 終了フラグ false:終了 true:進行
 	 */
 	bool analysisIf(const bool run);
-	
-	/**
-	 * label文を解析
-	 * @param run 実行中フラグ
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	bool analysisLabel(const bool run);
-	
-	/**
-	 * goto、gosub文を解析
-	 * @param run     実行中フラグ
-	 * @param isGosub gosubか
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	bool analysisJump(const bool run, const bool isGosub);
-	
-	/**
-	 * return文を解析
-	 * @param run 実行中フラグ
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	bool analysisReturn(const bool run);
 	
 	/**
 	 * for文を解析

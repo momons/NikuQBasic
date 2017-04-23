@@ -107,7 +107,6 @@ void QBasic::initAndRun(const bool run) {
 		compileSymbols.clear();
 		compileExecOffsets.clear();
 		compileOffset = 0;
-		labelName.clear();
 		functions.clear();
 		lastFunctionName = "";
 	}
@@ -576,21 +575,13 @@ bool QBasic::statement(const bool run) {
 		return analysisVar(run);
     } else if(sym.compare("if") == 0) {
 		return analysisIf(run);
-    } else if(sym.compare("label") == 0) {
-		return analysisLabel(run);
-    } else if(sym.compare("goto") == 0) {
-		return analysisJump(run, false);
-	} else if(sym.compare("gosub") == 0) {
-		return analysisJump(run, true);
-    } else if(sym.compare("return") == 0) {
-		return analysisReturn(run);
     } else if(sym.compare("for") == 0) {
 		return analysisFor(run);
     } else if(sym.compare("rem") == 0 || sym.compare("'") == 0) {
 		return analysisRem(run);
 	} else if(sym.compare("func") == 0) {
 		return analysisFunc(run);
-	} else if(sym.compare("end") == 0) {
+	} else if(sym.compare("end") == 0 || sym.compare("return") == 0) {
 		return analysisEnd(run);
 	} else if(sym.compare("exit") == 0) {
 		if (run) {
@@ -1046,80 +1037,6 @@ bool QBasic::analysisIf(const bool run) {
 		}
 	}
 	return !isExit;
-}
-
-/**
- * label文を解析
- * @param run 実行中フラグ
- * @return 終了フラグ false:終了 true:進行
- */
-bool QBasic::analysisLabel(const bool run) {
-	// ラベル
-	auto sym = getSymbol();
-	if (!run) {
-		// 既存チェック
-		if (labelName.find(sym) != labelName.end()) {
-			// [ERROR]ラベル名が二重で定義されています。
-			setThrow("LabelNameOverlap", nullptr);
-			return false;
-		}
-		labelName[sym] = (int)compileSymbols.size();
-	}
-	return true;
-}
-
-/**
- * goto、gosub文を解析
- * @param run     実行中フラグ
- * @param isGosub gosubか
- * @return 終了フラグ false:終了 true:進行
- */
-bool QBasic::analysisJump(const bool run, const bool isGosub) {
-	// ジャンプ
-	auto value = expression(run);
-	if (run) {
-		if (labelName.find(value.strValue) == labelName.end()) {
-			// [ERROR]定義されていないラベル名が指定されています。
-			setThrow("LabelNameUnknown", nullptr);
-			return false;
-		}
-		int loc = (int)labelName[value.strValue];
-		if (isGosub) {
-			// ローカル変数に行数とプッシュバック変数を退避
-			gosubPushBacked.push_back(pushBacked);
-			gosubExecOffset.push_back(compileOffset);
-			//※				gosubLocalVariable.push_back(localVariable);
-		}
-		compileOffset = loc;
-		execOffset = compileExecOffsets[loc];
-		pushBacked.clear();
-	}
-	return true;
-}
-
-/**
- * return文を解析
- * @param run 実行中フラグ
- * @return 終了フラグ false:終了 true:進行
- */
-bool QBasic::analysisReturn(const bool run) {
-	if (run) {
-		// リターンできない
-		if (gosubPushBacked.size() <= 0) {
-			// [ERROR]これ以上returnはできません。
-			setThrow("CannotReturn", nullptr);
-			return false;
-		}
-		// 退避していたものを戻す
-		pushBacked = *(gosubPushBacked.end() - 1);
-		compileOffset = *(gosubExecOffset.end() - 1);
-		execOffset = compileExecOffsets[compileOffset];
-		// 削除
-		gosubPushBacked.pop_back();
-		gosubExecOffset.pop_back();
-		//※			gosubLocalVariable.pop_back();
-	}
-	return true;
 }
 
 /**
