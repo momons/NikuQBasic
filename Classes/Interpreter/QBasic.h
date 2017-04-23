@@ -248,6 +248,14 @@ private:
 #pragma mark - 個別解析
 
 	/**
+	 * 変数取得
+	 * @param name 変数名
+	 * @param run  実行中フラグ
+	 * @return 変数取得
+	 */
+	QBasicVariableEntity *getVariable(const bool run, const string name);
+
+	/**
 	 * 変数を解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行

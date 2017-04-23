@@ -165,4 +165,56 @@
 	XCTAssertNoThrow(interpreter->run());
 }
 
+/// 配列型宣言 各要素取り出し list<int>
+- (void)test21 {
+	interpreter = new QBasic(nullptr, [scripts[21] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].intValue, 1);
+	XCTAssertEqual(interpreter->variables["c"].intValue, 5);
+}
+
+/// 配列型宣言 各要素取り出し list<list<str>>
+- (void)test22 {
+	interpreter = new QBasic(nullptr, [scripts[22] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].strValue, "b");
+	XCTAssertEqual(interpreter->variables["c"].strValue, "c");
+	XCTAssertEqual(interpreter->variables["e"].strValue, "e");
+}
+
+/// 配列型宣言 各要素取り出し list<list<float>>
+- (void)test23 {
+	interpreter = new QBasic(nullptr, [scripts[23] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].floatValue, 2.0);
+	XCTAssertEqual(interpreter->variables["c"].floatValue, 3.0);
+	XCTAssertEqual(interpreter->variables["e"].floatValue, 5.0);
+}
+
+/// 配列型宣言 各要素取り出し list<int>
+- (void)test24 {
+	interpreter = new QBasic(nullptr, [scripts[24] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].intValue, 5);
+	XCTAssertEqual(interpreter->variables["c"].intValue, 1);
+}
+
+/// 配列型宣言 各要素取り出し list<int>
+- (void)test25 {
+	interpreter = new QBasic(nullptr, [scripts[25] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].strValue, "bb");
+	XCTAssertEqual(interpreter->variables["c"].strValue, "cc");
+	XCTAssertEqual(interpreter->variables["e"].strValue, "ee");
+}
+
+/// 配列型宣言 各要素取り出し list<dict<float>>
+- (void)test26 {
+	interpreter = new QBasic(nullptr, [scripts[26] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["b"].floatValue, 4.0);
+	XCTAssertEqual(interpreter->variables["c"].floatValue, 6.0);
+	XCTAssertEqual(interpreter->variables["e"].floatValue, 10.0);
+}
+
 @end

@@ -471,8 +471,11 @@ QBasicVariableEntity QBasic::factor(const bool run) {
     
 	if (variables.find(sym) != variables.end()) {
 		// 変数
-		return variables[sym];
-//		return TODO: run ? variables[sym].strValue : "1";
+		auto variable = getVariable(run, sym);
+		if (variable == nullptr) {
+			return QBasicVariableEntity();
+		}
+		return *variable;
 	} else if (sym.length() == 1) {
 		switch (sym.c_str()[0]) {
 			case '(': {
@@ -551,17 +554,22 @@ bool QBasic::statement(const bool run) {
     }
 
 	if(variables.find(sym) != variables.end()) {
+		// 変数取得
+		auto variable = getVariable(run, sym);
+		if (variable == nullptr) {
+			return false;
+		}
 		// 変数
 		match("=");
 		auto value = expression(run);
 		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
-		if (!QBasicValidation::isValidVariableType(value, variables[sym].type, variables[sym].valueTypes)) {
+		if (!QBasicValidation::isValidVariableType(value, variable->type, variable->valueTypes)) {
 			setThrow("BadVariableType", nullptr);
 			return false;
 		}
 		if (run) {
 			value.name = sym;
-			variables[sym] = value;
+			*variable = value;
 		}
 		return true;
 	} else if(sym.compare("var") == 0) {
@@ -822,6 +830,57 @@ bool QBasic::isFunction(const string functionName) {
 }
 
 #pragma mark - 個別解析
+
+/**
+ * 変数取得
+ * @param name 変数名
+ * @param run  実行中フラグ
+ * @return 変数取得
+ */
+QBasicVariableEntity *QBasic::getVariable(const bool run, const string name) {
+
+	// 変数があるかどうかは上位でチェックしている
+	QBasicVariableEntity *variable = &variables[name];
+	while (true) {
+		if (variable->type != VariableType::List &&
+			variable->type != VariableType::Dict) {
+			break;
+		}
+		
+		auto sym = getSymbol();
+		if (sym.compare("[") != 0) {
+			popBack(run);
+			break;
+		}
+		
+		auto keyValue = expression(run);
+		match("]");
+		
+		if (variable->type == VariableType::List) {
+			if (keyValue.type != VariableType::Int) {
+				setThrow("BadVariableTypeListKey", nullptr);
+				return nullptr;
+			}
+			if (keyValue.intValue < 0 || keyValue.intValue >= variable->listValue.size()) {
+				setThrow("ListIndexOutOfBounds", nullptr);
+				return nullptr;
+			}
+			variable = &variable->listValue[keyValue.intValue];
+		} else {
+			if (keyValue.type != VariableType::Str) {
+				setThrow("BadVariableTypeDictKey", nullptr);
+				return nullptr;
+			}
+			if (variable->dictValue.find(keyValue.strValue) == variable->dictValue.end()) {
+				setThrow("DictUnknownKey", nullptr);
+				return nullptr;
+			}
+			variable = &variable->dictValue[keyValue.strValue];
+		}
+	}
+	
+	return variable;
+}
 
 /**
  * 変数を解析

@@ -26,3 +26,7 @@ BadVariableTypeDiv="変数のタイプが不正のため割り算はできませ
 BadVariableTypeMod="変数のタイプが不正のため余り計算はできません。";
 BadVariableTypeNot="変数のタイプが不正のためnotはできません。";
 BadVariableTypeIf="変数のタイプが不正なため判定できません。";
+BadVariableTypeListKey="list型のキーのタイプはint型しか指定できません。";
+BadVariableTypeListKey="dict型のキーのタイプはstr型しか指定できません。";
+ListIndexOutOfBounds="list型の範囲外が指定されました。";
+DictUnknownKey="dict型の範囲外が指定されました。";
