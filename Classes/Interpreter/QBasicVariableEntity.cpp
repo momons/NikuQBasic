@@ -566,14 +566,22 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
 				break;
 			}
 		}
+	} else {
+		return vector<VariableType>();
 	}
 	if (variableType == VariableType::Unknown) {
 		// 値入ってないからわからない
 		return vector<VariableType>{ VariableType::Unknown };
 	}
 	if (variableType == VariableType::List ||
-		variableType == VariableType::Dict ) {
-		variableTypes = getVariableTypes(*entity.listValue.begin());
+		variableType == VariableType::Dict) {
+		QBasicVariableEntity childEntity;
+		if (entity.type == VariableType::List) {
+			childEntity = entity.listValue[0];
+		} else if (entity.type == VariableType::Dict) {
+			childEntity = entity.dictValue.begin()->second;
+		}
+		variableTypes = getVariableTypes(childEntity);
 		if (*variableTypes.begin() == VariableType::Unknown) {
 			return variableTypes;
 		}

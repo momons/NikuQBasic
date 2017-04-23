@@ -217,13 +217,44 @@ bool QBasicValidation::isBool(const string &str) {
 }
 
 /**
+ *  変数チェック
+ *  @param variableEntity     変数Entity
+ *  @param variableType       親変数タイプ
+ *  @param valueVariableTypes 子変数タイプ群
+ *  @return 配列変数可否
+ */
+bool QBasicValidation::isValidVariableType(
+							const QBasicVariableEntity &variableEntity,
+							VariableType variableType,
+							const vector<VariableType> &valueVariableTypes) {
+	if (variableEntity.type != variableType) {
+		return false;
+	}
+	switch (variableEntity.type) {
+		case VariableType::List:
+			if (!QBasicValidation::isValidVariableTypeList(variableEntity, valueVariableTypes, 0)) {
+				return false;
+			}
+			break;
+		case VariableType::Dict:
+			if (!QBasicValidation::isValidVariableTypeDict(variableEntity, valueVariableTypes, 0)) {
+				return false;
+			}
+			break;
+		default:
+			break;
+	}
+	return true;
+}
+
+/**
  *  配列変数チェック
  *  @param variableEntity 変数Entity
  *  @param variableTypes  変数タイプ群
  *  @param level          階層
  *  @return 配列変数可否
  */
-bool QBasicValidation::isValidVariableList(
+bool QBasicValidation::isValidVariableTypeList(
 										   const QBasicVariableEntity &variableEntity,
 										   const vector<VariableType> &variableTypes,
 										   const int level) {
@@ -232,11 +263,11 @@ bool QBasicValidation::isValidVariableList(
 			return false;
 		}
 		if (it->type == VariableType::List) {
-			if (!isValidVariableList(*it, variableTypes, level + 1)) {
+			if (!isValidVariableTypeList(*it, variableTypes, level + 1)) {
 				return false;
 			}
 		} else if (it->type == VariableType::Dict ) {
-			if (!isValidVariableDict(*it, variableTypes, level + 1)) {
+			if (!isValidVariableTypeDict(*it, variableTypes, level + 1)) {
 				return false;
 			}
 		}
@@ -251,7 +282,7 @@ bool QBasicValidation::isValidVariableList(
  *  @param level          階層
  *  @return 配列変数可否
  */
-bool QBasicValidation::isValidVariableDict(
+bool QBasicValidation::isValidVariableTypeDict(
 										   const QBasicVariableEntity &variableEntity,
 										   const vector<VariableType> &variableTypes,
 										   const int level) {
@@ -260,11 +291,11 @@ bool QBasicValidation::isValidVariableDict(
 			return false;
 		}
 		if (it->second.type == VariableType::List) {
-			if (!isValidVariableList(it->second, variableTypes, level + 1)) {
+			if (!isValidVariableTypeList(it->second, variableTypes, level + 1)) {
 				return false;
 			}
 		} else if (it->second.type == VariableType::Dict ) {
-			if (!isValidVariableDict(it->second, variableTypes, level + 1)) {
+			if (!isValidVariableTypeDict(it->second, variableTypes, level + 1)) {
 				return false;
 			}
 		}

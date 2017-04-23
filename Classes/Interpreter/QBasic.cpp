@@ -554,12 +554,11 @@ bool QBasic::statement(const bool run) {
 		// 変数
 		match("=");
 		auto value = expression(run);
-		if (value.type != variables[sym].type) {
+		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
+		if (!QBasicValidation::isValidVariableType(value, variables[sym].type, variables[sym].valueTypes)) {
 			setThrow("BadVariableType", nullptr);
 			return false;
 		}
-		// TODO: list、dict型はサブタイプのチェックをする
-		
 		if (run) {
 			value.name = sym;
 			variables[sym] = value;
@@ -898,21 +897,12 @@ bool QBasic::analysisVar(const bool run) {
 	// 初期値取得
 	QBasicVariableEntity value = expression(run);
 	if (variableType != VariableType::Unknown) {
-		if (value.type != variableType) {
+		if (!QBasicValidation::isValidVariableType(value, variableType, valueVariableTypes)) {
 			setThrow("BadVariableType", nullptr);
 			return false;
 		}
-		switch (value.type) {
-			case VariableType::List:
-			case VariableType::Dict:
-				if (!QBasicValidation::isValidVariableList(value, valueVariableTypes, 0)) {
-					setThrow("BadVariableType", nullptr);
-					return false;
-				}
-				break;
-			default:
-				break;
-		}
+	} else {
+		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
 	}
 
 	value.name = variableName;
