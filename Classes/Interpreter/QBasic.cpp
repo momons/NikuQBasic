@@ -265,7 +265,7 @@ string QBasic::getSymbol() {
  */
 void QBasic::match(const string &str) {
     string sym = getSymbol();
-    if (sym.compare(str) != 0) {
+    if (sym != str) {
 		// [ERROR]想定の文字が見つかりませんでした。
 		ostringstream stream;
 		stream << "o:'" << str << "' x:'" << sym << "'";
@@ -285,15 +285,15 @@ QBasicVariableEntity QBasic::expression(const bool run) {
     
     auto sym = getSymbol();
     while(true) {
-        if (sym.compare("and") == 0 ||
-			sym.compare("or") == 0 ||
-			sym.compare("xor") == 0 ) {
+        if (sym == "and" ||
+			sym == "or" ||
+			sym == "xor" ) {
 			
 			auto valueDist = relop(run);
 			if (QBasicValidation::isValidExpression(value, valueDist)) {
-				if (sym.compare("and") == 0) {
+				if (sym == "and") {
 					value = value.expressionAnd(valueDist);
-				} else if (sym.compare("or") == 0) {
+				} else if (sym == "or") {
 					value = value.expressionOr(valueDist);
 				} else {
 					value = value.expressionXor(valueDist);
@@ -323,23 +323,23 @@ QBasicVariableEntity QBasic::relop(const bool run) {
     
     auto sym = getSymbol();
     while(true) {
-        if (sym.compare("=") == 0 ||
-			sym.compare("<") == 0 ||
-			sym.compare("<=") == 0 ||
-			sym.compare(">") == 0 ||
-			sym.compare(">=") == 0 ||
-			sym.compare("<>") == 0 ) {
+        if (sym == "=" ||
+			sym == "<" ||
+			sym == "<=" ||
+			sym == ">" ||
+			sym == ">=" ||
+			sym == "<>" ) {
 			
 			auto valueDist = addsub(run);
 			if (value.type == valueDist.type) {
 				int result = value.compare(valueDist);
 				value.type = VariableType::Bool;
-				value.boolValue = ((sym.compare("=") == 0 && result == 0) ||
-								   (sym.compare("<") == 0 && result < 0) ||
-								   (sym.compare("<=") == 0 && result <= 0) ||
-								   (sym.compare(">") == 0 && result > 0) ||
-								   (sym.compare(">=") == 0 && result >= 0) ||
-								   (sym.compare("<>") == 0 && result != 0));
+				value.boolValue = ((sym == "=" && result == 0) ||
+								   (sym == "<" && result < 0) ||
+								   (sym == "<=" && result <= 0) ||
+								   (sym == ">" && result > 0) ||
+								   (sym == ">=" && result >= 0) ||
+								   (sym == "<>" && result != 0));
 			} else {
 				setThrow("BadCompareVariableType");
 			}
@@ -364,16 +364,16 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
     
     // 値取得
     auto sym = getSymbol();
-    if (sym.compare("+") == 0) {
+    if (sym == "+") {
         value = muldiv(run);
-    } else if(sym.compare("-") == 0) {
+    } else if(sym == "-") {
         value = muldiv(run);
 		if (QBasicValidation::isValidSub(value)) {
 			value = value.mul(value.type, -1);
 		} else {
 			setThrow("BadVariableTypeSub", nullptr);
 		}
-    } else if(sym.compare("not") == 0) {
+    } else if(sym == "not") {
 		value = muldiv(run);
 		if (QBasicValidation::isValidNot(value)) {
 			value = value.expressionNot();
@@ -388,14 +388,14 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
     // 式実行
     sym = getSymbol();
     while (true) {
-        if (sym.compare("+") == 0) {
+        if (sym == "+") {
             auto valueDist = muldiv(run);
 			if (QBasicValidation::isValidAdd(value, valueDist)) {
 				value = value.add(valueDist);
 			} else {
 				setThrow("BadVariableTypeAdd", nullptr);
 			}
-        } else if(sym.compare("-") == 0) {
+        } else if(sym == "-") {
 			auto valueDist = muldiv(run);
 			if (QBasicValidation::isValidSub(value, valueDist)) {
 				value = value.sub(valueDist);
@@ -424,14 +424,14 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
     
     string sym = getSymbol();
     while (true) {
-		if (sym.compare("*") == 0) {
+		if (sym == "*") {
 			auto valueDist = factor(run);
 			if (QBasicValidation::isValidMul(value, valueDist)) {
 				value = value.mul(valueDist);
 			} else {
 				setThrow("BadVariableTypeMul", nullptr);
 			}
-		} else if (sym.compare("/") == 0) {
+		} else if (sym == "/") {
 			auto valueDist = factor(run);
 			if (QBasicValidation::isValidDiv(value, valueDist)) {
 				value = value.div(valueDist);
@@ -439,7 +439,7 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
 			} else {
 				setThrow("BadVariableTypeDiv", nullptr);
 			}
-		} else if (sym.compare("%") == 0) {
+		} else if (sym == "%") {
 			auto valueDist = factor(run);
 			if (QBasicValidation::isValidMod(value, valueDist)) {
 				value = value.mod(valueDist);
@@ -515,7 +515,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	}
 	
 	// bool値ならば
-	if (sym.compare("true") == 0 || sym.compare("false") == 0) {
+	if (sym == "true" || sym == "false") {
 		return QBasicVariableEntity("", sym);
 	}
 	
@@ -571,17 +571,17 @@ bool QBasic::statement(const bool run) {
 		return true;
 	} else if(sym == "var") {
 		return analysisVar(run);
-    } else if(sym.compare("if") == 0) {
+    } else if(sym == "if") {
 		return analysisIf(run);
-    } else if(sym.compare("for") == 0) {
+    } else if(sym == "for") {
 		return analysisFor(run);
-    } else if(sym.compare("rem") == 0 || sym.compare("'") == 0) {
+    } else if(sym == "rem" || sym == "'") {
 		return analysisRem(run);
-	} else if(sym.compare("func") == 0) {
+	} else if(sym == "func") {
 		return analysisFunc(run);
-	} else if(sym.compare("end") == 0 || sym.compare("return") == 0) {
+	} else if(sym == "end" || sym == "return") {
 		return analysisEnd(run);
-	} else if(sym.compare("exit") == 0) {
+	} else if(sym == "exit") {
 		if (run) {
 			isExit = true;
 		}
@@ -623,7 +623,7 @@ QBasicVariableEntity QBasic::listValue(const bool run) {
 	int count = 0;
 	while (true) {
 		auto sym = getSymbol();
-		if (sym.compare("]") == 0) {
+		if (sym == "]") {
 			break;
 		}
 		if (count > 0) {
@@ -632,9 +632,9 @@ QBasicVariableEntity QBasic::listValue(const bool run) {
 			sym = getSymbol();
 		}
 		QBasicVariableEntity value;
-		if (sym.compare("[") == 0) {
+		if (sym == "[") {
 			value = listValue(run);
-		} else if(sym.compare("{") == 0) {
+		} else if(sym == "{") {
 			value = dictValue(run);
 		} else {
 			popBack(run);
@@ -658,7 +658,7 @@ QBasicVariableEntity QBasic::dictValue(const bool run) {
 	int count = 0;
 	while (true) {
 		auto sym = getSymbol();
-		if (sym.compare("}") == 0) {
+		if (sym == "}") {
 			break;
 		}
 		popBack(run);
@@ -672,9 +672,9 @@ QBasicVariableEntity QBasic::dictValue(const bool run) {
 		match(":");
 		QBasicVariableEntity value;
 		sym = getSymbol();
-		if (sym.compare("[") == 0) {
+		if (sym == "[") {
 			value = listValue(run);
-		} else if(sym.compare("{") == 0) {
+		} else if(sym == "{") {
 			value = dictValue(run);
 		} else {
 			popBack(run);
@@ -837,7 +837,7 @@ QBasicVariableEntity *QBasic::getVariable(const bool run, const string name) {
 		}
 		
 		auto sym = getSymbol();
-		if (sym.compare("[") != 0) {
+		if (sym != "[") {
 			popBack(run);
 			break;
 		}
@@ -899,7 +899,7 @@ bool QBasic::analysisVar(const bool run) {
 
 	auto variableType = VariableType::Unknown;
 	vector<VariableType> valueVariableTypes;
-	if (sym.compare("=") != 0) {
+	if (sym != "=") {
 		// 型をチェック
 		variableType = QBasicVariableEntity::getVariableType(sym);
 		if (!run) {
@@ -924,7 +924,7 @@ bool QBasic::analysisVar(const bool run) {
 	}
 	
 	// 初期値設定されているか
-	if (sym.compare("=") != 0) {
+	if (sym != "=") {
 		if (!sym.empty()) {
 			popBack(run);
 		}
@@ -1006,9 +1006,9 @@ bool QBasic::analysisIf(const bool run) {
 	match("then");
 	while (statement(isValid && run && !isExit)) {
 		auto sym = getSymbol();
-		if (sym.compare("endif") == 0) {
+		if (sym == "endif") {
 			break;
-		} else if(sym.compare("elseif") == 0) {
+		} else if(sym == "elseif") {
 			if (isElse) {
 				// [ERROR]不正な場所にelseifがあります。
 				setThrow("BadElseif", nullptr);
@@ -1021,7 +1021,7 @@ bool QBasic::analysisIf(const bool run) {
 			}
 			isValid = value.boolValue;
 			match("then");
-		} else if(sym.compare("else") == 0) {
+		} else if(sym == "else") {
 			if (isElse) {
 				// [ERROR]不正な場所にelseがあります。
 				setThrow("BadElse", nullptr);
@@ -1081,7 +1081,7 @@ bool QBasic::analysisFor(const bool run) {
 	bool isUpLoop = true;
 	int step = 0;
 	auto sym = getSymbol();
-	if (sym.compare("step") == 0) {
+	if (sym == "step") {
 		value = expression(run);
 		if (!QBasicValidation::isValidFor(value)) {
 			setThrow("BadVariableType", nullptr);
@@ -1123,7 +1123,7 @@ bool QBasic::analysisFor(const bool run) {
 		
 		while (true) {
 			sym = getSymbol();
-			if (sym.compare("next") == 0) {
+			if (sym == "next") {
 				break;
 			} else {
 				pushBack(sym);
@@ -1149,7 +1149,7 @@ bool QBasic::analysisFor(const bool run) {
 		// 一回もループされなかったら捨てループ
 		while (true) {
 			sym = getSymbol();
-			if (sym.compare("next") == 0) {
+			if (sym == "next") {
 				break;
 			} else {
 				pushBack(sym);
@@ -1210,7 +1210,7 @@ bool QBasic::analysisFunc(const bool run) {
 	match("(");
 	while(true) {
 		string variableName = getSymbol();
-		if (variableName.compare(")") == 0) {
+		if (variableName == ")") {
 			break;
 		}
 		if (argNames.size() > 0) {
@@ -1232,7 +1232,7 @@ bool QBasic::analysisFunc(const bool run) {
 				return false;
 			}
 			for (auto it = argNames.begin();it != argNames.end();it++) {
-				if (it->name.compare(variableName) == 0) {
+				if (it->name == variableName) {
 					// [ERROR]変数名が二重に定義されています。
 					setThrow("VariableNameOverlap", variableName.c_str());
 					return false;
