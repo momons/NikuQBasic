@@ -24,12 +24,12 @@ unordered_map<string, QBasicStatementEntity> QBasicAlertFunctions::buildStatemen
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("alert", 3, false, alert_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("confirm", 4, true, confirm_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("input", 3, true, input_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("alert", 3, false, alert_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("confirm", 4, true, confirm_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("input", 3, true, input_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

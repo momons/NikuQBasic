@@ -30,8 +30,6 @@ enum class VariableType;
 class QBasic final {
 public:
 	
-	/// 文字列操作用サブファンクション
-	QBasicStringFunctions *stringFunc;
 	/// 通信用サブファンクション
 	QBasicNetFunctions *netFunc;
 	/// サブファンクション

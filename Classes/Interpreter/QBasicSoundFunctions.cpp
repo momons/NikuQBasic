@@ -26,18 +26,18 @@ unordered_map<string, QBasicStatementEntity> QBasicSoundFunctions::buildStatemen
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("loadbgm", 1, false, loadbgm_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("playbgm", 1, true, playbgm_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("stopbgm", 0, false, stopbgm_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("loadse", 2, false, loadse_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("playse", 2, true, playse_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("stopse", 1, false, stopse_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("loadbgm", 1, false, loadbgm_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("playbgm", 1, true, playbgm_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("stopbgm", 0, false, stopbgm_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("loadse", 2, false, loadse_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("playse", 2, true, playse_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("stopse", 1, false, stopse_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

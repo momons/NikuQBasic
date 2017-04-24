@@ -27,10 +27,10 @@ unordered_map<string, QBasicStatementEntity> QBasicParticleFunctions::buildState
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("loadparticle", 2, true, loadparticle_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("drawparticle", 4, false, drawparticle_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("loadparticle", 2, true, loadparticle_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("drawparticle", 4, false, drawparticle_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

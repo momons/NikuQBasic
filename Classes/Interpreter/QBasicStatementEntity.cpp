@@ -15,46 +15,46 @@
 QBasicStatementEntity::QBasicStatementEntity() {
     // 初期値設定
     name = "";
-    argCount = 0;
-    isReturnValue = false;
+	argTypes.clear();
+	returnType = VariableType::Void;
+	returnSubTypes.clear();
 	func = nullptr;
 }
 
 /**
  * コンストラクタ
- * @param name          ステートメント名
- * @param argCount      引数数
- * @param isReturnValue 戻り値
- * @param func			実行ファンクション
- */
-QBasicStatementEntity::QBasicStatementEntity(
-											 const string &name,
-											 const int argCount,
-											 const bool isReturnValue,
-											 const statmentFunction &func) {
-    // 初期値設定
-    this->name = name;
-    this->argCount = argCount;
-    this->isReturnValue = isReturnValue;
-	this->func = func;
-}
-
-/**
- * コンストラクタ
- * @param name          ステートメント名
- * @param argTypes      引数変数タイプ
- * @param isReturnValue 戻り値
- * @param func			実行ファンクション
+ * @param name           ステートメント名
+ * @param argTypes       引数変数タイプ
+ * @param returnType     戻り値
+ * @param func		 	実行ファンクション
  */
 QBasicStatementEntity::QBasicStatementEntity(
 											 const string &name,
 											 const vector<VariableType> &argTypes,
 											 const VariableType returnType,
 											 const statmentFunction &func) {
+	QBasicStatementEntity(name, argTypes, returnType, {}, func);
+}
+
+/**
+ * コンストラクタ
+ * @param name           ステートメント名
+ * @param argTypes       引数変数タイプ
+ * @param returnType     戻り値
+ * @param returnSubTypes 戻り値サブタイプ
+ * @param func		 	実行ファンクション
+ */
+QBasicStatementEntity::QBasicStatementEntity(
+											 const string &name,
+											 const vector<VariableType> &argTypes,
+											 const VariableType returnType,
+											 const vector<VariableType> &returnSubTypes,
+											 const statmentFunction &func) {
 	// 初期値設定
 	this->name = name;
 	this->argTypes = argTypes;
 	this->returnType = returnType;
+	this->returnSubTypes = returnSubTypes;
 	this->func = func;
 }
 

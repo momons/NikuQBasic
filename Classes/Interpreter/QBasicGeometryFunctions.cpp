@@ -25,14 +25,14 @@ unordered_map<string, QBasicStatementEntity> QBasicGeometryFunctions::buildState
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("line", 5, false, line_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("rect", 6, false, rect_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("circle", 6, false, circle_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("triangle", 8, false, triangle_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("line", 5, false, line_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("rect", 6, false, rect_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("circle", 6, false, circle_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("triangle", 8, false, triangle_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

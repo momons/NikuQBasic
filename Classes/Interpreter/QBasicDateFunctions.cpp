@@ -27,21 +27,21 @@ unordered_map<string, QBasicStatementEntity> QBasicDateFunctions::buildStatement
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("year", 0, true, year_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("month", 0, true, month_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("day", 0, true, day_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("hour", 0, true, hour_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("minute", 0, true, minute_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("second", 0, true, second_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("week", 0, true, week_qb);
-	statementList[entity.name] = entity;
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("year", 0, true, year_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("month", 0, true, month_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("day", 0, true, day_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("hour", 0, true, hour_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("minute", 0, true, minute_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("second", 0, true, second_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("week", 0, true, week_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

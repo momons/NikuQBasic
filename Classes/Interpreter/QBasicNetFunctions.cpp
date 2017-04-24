@@ -24,12 +24,12 @@ unordered_map<string, QBasicStatementEntity> QBasicNetFunctions::buildStatements
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 
-	// ネット通信
-	entity = QBasicStatementEntity("net", 1, true, net_qb);
-	statementList[entity.name] = entity;
-	// ブラウザ
-	entity = QBasicStatementEntity("browser", 1, false, browser_qb);
-	statementList[entity.name] = entity;
+//	// ネット通信
+//	entity = QBasicStatementEntity("net", 1, true, net_qb);
+//	statementList[entity.name] = entity;
+//	// ブラウザ
+//	entity = QBasicStatementEntity("browser", 1, false, browser_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

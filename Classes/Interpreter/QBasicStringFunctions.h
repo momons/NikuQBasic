@@ -35,40 +35,26 @@ public:
 	 *  @return 戻り値
 	 */
 	/// 文字列長取得
-	static QBasicVariableEntity *length_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity len_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 真ん中切り取り
-	static QBasicVariableEntity *mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 左切り取り
-	static QBasicVariableEntity *left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 右切り取り
-	static QBasicVariableEntity *right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 分割
-	static QBasicVariableEntity *split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// 分割結果取得
-	static QBasicVariableEntity *splitget_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// Empty
+	static QBasicVariableEntity empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// Not Empty
+	static QBasicVariableEntity not_empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 置換
-	static QBasicVariableEntity *replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	
-	/**
-	 *  文字列を分割する
-	 *  @param inStr 文字列
-	 *  @param split 分割文字列
-	 *  @return カウント
-	 */
-	int splitString(const string &str, const string &split);
-	
-	/**
-	 *  分割した文字取得
-	 *  @param index インデックス
-	 *  @return 文字列
-	 */
-	string splitStringGet(const int index);
+	static QBasicVariableEntity replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 前方一致
+	static QBasicVariableEntity prefix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 後方一致
+	static QBasicVariableEntity suffix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
-	/**
-	 *  コンストラクタ
-	 */
-	QBasicStringFunctions();
-	
 	/**
 	 * デストラクタ
 	 */
@@ -76,8 +62,11 @@ public:
 	
 private:
 	
-	/// 分割文字列
-	vector<string> splitList;
+	/**
+	 *  コンストラクタ
+	 */
+	QBasicStringFunctions();
+	
 };
 
 #endif /* QBasicStringFunctions_h */

@@ -25,104 +25,87 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 
-	entity = QBasicStatementEntity("length", 1, true, length_qb);
+	entity = QBasicStatementEntity("len", {VariableType::Str}, VariableType::Int, len_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("mid", 3, true, mid_qb);
+	entity = QBasicStatementEntity("mid", {VariableType::Str, VariableType::Int, VariableType::Int}, VariableType::Str, mid_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("left", 2, true, left_qb);
+	entity = QBasicStatementEntity("left", {VariableType::Str, VariableType::Int}, VariableType::Str, left_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("right", 2, true, right_qb);
+	entity = QBasicStatementEntity("right", {VariableType::Str, VariableType::Int}, VariableType::Str, right_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("split", 2, true, split_qb);
+	entity = QBasicStatementEntity("split", {VariableType::Str, VariableType::Str}, VariableType::List, {VariableType::Str}, split_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("splitget", 1, true, splitget_qb);
+	entity = QBasicStatementEntity("empty", {VariableType::Str}, VariableType::Bool, empty_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("replase", 3, true, replase_qb);
+	entity = QBasicStatementEntity("not_empty", {VariableType::Str}, VariableType::Bool, not_empty_qb);
+	statementList[entity.name] = entity;
+	entity = QBasicStatementEntity("replase", {VariableType::Str, VariableType::Str, VariableType::Str}, VariableType::Str, replase_qb);
+	statementList[entity.name] = entity;
+	entity = QBasicStatementEntity("prefix", {VariableType::Str, VariableType::Str}, VariableType::Bool, prefix_qb);
+	statementList[entity.name] = entity;
+	entity = QBasicStatementEntity("suffix", {VariableType::Str, VariableType::Str}, VariableType::Bool, suffix_qb);
 	statementList[entity.name] = entity;
 
 	return statementList;
 }
 
 /// 文字列長取得
-QBasicVariableEntity *QBasicStringFunctions::length_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(arg[0].length());
-	return nullptr;
+QBasicVariableEntity QBasicStringFunctions::len_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	int answer = (int)arg[0].strValue.length();
+	return QBasicVariableEntity("", VariableType::Int, &answer);
 }
 /// 真ん中切り取り
-QBasicVariableEntity *QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return arg[0].substr(stoi(arg[1]), stoi(arg[2]));
-	return nullptr;
+QBasicVariableEntity QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = arg[0].strValue.substr(arg[1].intValue, arg[2].intValue);
+	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
 }
 /// 左切り取り
-QBasicVariableEntity *QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return arg[0].substr(0, stoi(arg[1]));
-	return nullptr;
+QBasicVariableEntity QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = arg[0].strValue.substr(0, arg[1].intValue);
+	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
 }
 /// 右切り取り
-QBasicVariableEntity *QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int length = stoi(arg[1]);
-//	return arg[0].substr(arg[0].length() - length, length);
-	return nullptr;
+QBasicVariableEntity QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = arg[0].strValue.substr(arg[0].strValue.length() - arg[1].intValue, arg[1].intValue);
+	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
 }
 /// 分割
-QBasicVariableEntity *QBasicStringFunctions::split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString((double)interpreter->stringFunc->splitString(arg[0], arg[1]));
-	return nullptr;
+QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	vector<string> answer;
+	StringUtil::split(answer, arg[0].strValue, arg[1].strValue);
+	vector<QBasicVariableEntity> values;
+	for (auto it = answer.begin();it != answer.end();it++) {
+		values.push_back(QBasicVariableEntity("", VariableType::Str, &it));
+	}
+	return QBasicVariableEntity("", {VariableType::Str}, values);
 }
-/// 分割結果取得
-QBasicVariableEntity *QBasicStringFunctions::splitget_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return interpreter->stringFunc->splitStringGet(stoi(arg[0]));
-	return nullptr;
+// Empty
+QBasicVariableEntity QBasicStringFunctions::empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	bool answer = arg[0].strValue.empty();
+	return QBasicVariableEntity("", VariableType::Str, &answer);
+}
+// NotEmpty
+QBasicVariableEntity QBasicStringFunctions::not_empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	bool answer = !arg[0].strValue.empty();
+	return QBasicVariableEntity("", VariableType::Str, &answer);
 }
 /// 置換
-QBasicVariableEntity *QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	string::size_type pos(arg[0].find(arg[1]));
-//	string retStr = arg[0];
-//	while (pos != string::npos) {
-//		retStr.replace(pos, arg[1].length(), arg[2]);
-//		pos = retStr.find(arg[1], pos + arg[2].length());
-//	}
-//	return retStr;
-	return nullptr;
-}
-
-#pragma mark - サブルーチン
-
-/**
- *  文字列を分割する
- *  @param inStr 文字列
- *  @param split 分割文字列
- *  @return カウント
- */
-int QBasicStringFunctions::splitString(const string &inStr, const string &split) {
-	splitList = vector<string>();
-	string::size_type posBack = 0;
-	string::size_type pos = inStr.find(split);
+QBasicVariableEntity QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	string::size_type pos(arg[0].strValue.find(arg[1].strValue));
+	string retStr = arg[0].strValue;
 	while (pos != string::npos) {
-		splitList.push_back(inStr.substr(posBack, pos - posBack));
-		posBack = pos + split.length();
-		pos = inStr.find(split, posBack);
+		retStr.replace(pos, arg[1].strValue.length(), arg[2].strValue);
+		pos = retStr.find(arg[1].strValue, pos + arg[2].strValue.length());
 	}
-	splitList.push_back(inStr.substr(posBack, inStr.length() - posBack));
-	return (int)splitList.size();
+	return QBasicVariableEntity("", VariableType::Str, (void *)retStr.c_str());
 }
-
-/**
- *  分割した文字取得
- *  @param index インデックス
- *  @return 文字列
- */
-string QBasicStringFunctions::splitStringGet(const int index) {
-	if (index < 0 || index >= splitList.size()) {
-		return "";
-	}
-	return splitList[index];
+/// 前方一致
+QBasicVariableEntity QBasicStringFunctions::prefix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	bool answer = mismatch(arg[0].strValue.begin(), arg[0].strValue.end(), arg[1].strValue.begin()).first == arg[1].strValue.begin();
+	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }
-
-/**
- *  コンストラクタ
- */
-QBasicStringFunctions::QBasicStringFunctions() {
-	// 初期化
-	splitList.clear();
+/// 後方一致
+QBasicVariableEntity QBasicStringFunctions::suffix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	bool answer = mismatch(arg[0].strValue.begin(), arg[0].strValue.end(), arg[1].strValue.begin()).first == arg[1].strValue.begin();
+	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }

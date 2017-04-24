@@ -25,10 +25,10 @@ unordered_map<string, QBasicStatementEntity> QBasicTextFunctions::buildStatement
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("font", 2, false, font_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("text", 4, false, text_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("font", 2, false, font_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("text", 4, false, text_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

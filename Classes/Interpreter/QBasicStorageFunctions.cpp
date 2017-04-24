@@ -26,10 +26,10 @@ unordered_map<string, QBasicStatementEntity> QBasicStorageFunctions::buildStatem
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("load", 1, true, load_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("save", 2, false, save_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("load", { VariableType::Str }, VariableType::Str, load_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("save", { VariableType::Str, VariableType::Str }, VariableType::Void, save_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }

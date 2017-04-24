@@ -53,85 +53,84 @@ unordered_map<string, QBasicStatementEntity> QBasicMathFunctions::buildStatement
 	statementList[entity.name] = entity;
 	entity = QBasicStatementEntity("deg2red", {VariableType::Float}, VariableType::Float, deg2red_qb);
 	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("rand", {VariableType::Float}, VariableType::Float, rand_qb);
+	entity = QBasicStatementEntity("rand", {VariableType::Int}, VariableType::Int, rand_qb);
 	statementList[entity.name] = entity;
 
 	return statementList;
 }
 
 /// 絶対値
-QBasicVariableEntity *QBasicMathFunctions::abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(fabs(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = fabs(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 最大値
-QBasicVariableEntity *QBasicMathFunctions::max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(fmax(stod(arg[0]),stod(arg[1])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = fmax(arg[0].floatValue, arg[1].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 最小値
-QBasicVariableEntity *QBasicMathFunctions::min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(fmin(stod(arg[0]),stod(arg[1])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = fmin(arg[0].floatValue, arg[1].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// サイン
-QBasicVariableEntity *QBasicMathFunctions::sin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(sin(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::sin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = sin(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// コサイン
-QBasicVariableEntity *QBasicMathFunctions::cos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(cos(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::cos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = cos(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// タンジェント
-QBasicVariableEntity *QBasicMathFunctions::tan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(tan(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::tan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = tan(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// アークサイン
-QBasicVariableEntity *QBasicMathFunctions::asin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(asin(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::asin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = asin(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// アークコサイン
-QBasicVariableEntity *QBasicMathFunctions::acos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(acos(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::acos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = acos(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// アークタンジェント
-QBasicVariableEntity *QBasicMathFunctions::atan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(atan(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::atan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = atan(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// アークタンジェント2
-QBasicVariableEntity *QBasicMathFunctions::atan2_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(atan2(stod(arg[0]), stod(arg[1])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::atan2_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = atan2(arg[0].floatValue, arg[1].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 平方根
-QBasicVariableEntity *QBasicMathFunctions::cbrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(cbrt(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::cbrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = cbrt(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// へき乗
-QBasicVariableEntity *QBasicMathFunctions::pow_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(pow(stod(arg[0]), stod(arg[1])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::pow_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = pow(arg[0].floatValue, arg[1].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// ルート
-QBasicVariableEntity *QBasicMathFunctions::sqrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(sqrt(stod(arg[0])));
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::sqrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = sqrt(arg[0].floatValue);
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// デグリーからラジアン
-QBasicVariableEntity *QBasicMathFunctions::deg2red_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(stod(arg[0]) * 3.14159265 / 180.0);
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::deg2red_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = arg[0].floatValue * 3.14159265 / 180.0;
+	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 乱数
-QBasicVariableEntity *QBasicMathFunctions::rand_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int random = rand() % stoi(arg[0]);
-//	return StringUtil::toString(random);
-	return nullptr;
+QBasicVariableEntity QBasicMathFunctions::rand_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto answer = rand() % arg[0].intValue;
+	return QBasicVariableEntity("", VariableType::Int, &answer);
 }

@@ -43,7 +43,6 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
     this->source = source;
 	
 	// サブファンクション作成
-	stringFunc = new QBasicStringFunctions();
 	netFunc = new QBasicNetFunctions();
 	subFunc = new QBasicSubFunction(scene, projectId);
 }
@@ -53,7 +52,6 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
  */
 QBasic::~QBasic() {
 	// 解放
-	delete stringFunc;
 	delete netFunc;
 	delete subFunc;
 	
@@ -494,7 +492,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
     } else {
         // 引数付きメソッドかな？
         auto *entity = statements->getStatement(sym);
-        if(entity != nullptr && entity->argCount > 0 && entity->isReturnValue) {
+        if(entity != nullptr) {
             // 引数取得
             auto argList = getArg(run, entity->argTypes);
 			if (run) {
@@ -523,10 +521,10 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	
 	// 引数付きメソッドかな？
 	auto *entity = statements->getStatement(sym);
-	if(entity != nullptr && entity->argCount <= 0 && entity->isReturnValue) {
+	if(entity != nullptr) {
 		// TODO: 見直す
 		if (run) {
-			return *entity->func(this, vector<QBasicVariableEntity>());
+			return entity->func(this, vector<QBasicVariableEntity>());
 		} else {
 			QBasicVariableEntity("", "true");
 		}
@@ -571,7 +569,7 @@ bool QBasic::statement(const bool run) {
 			*variable = value;
 		}
 		return true;
-	} else if(sym.compare("var") == 0) {
+	} else if(sym == "var") {
 		return analysisVar(run);
     } else if(sym.compare("if") == 0) {
 		return analysisIf(run);
@@ -591,7 +589,7 @@ bool QBasic::statement(const bool run) {
     } else {
         // 戻り値ステートメントかな？
         auto *entity = statements->getStatement(sym);
-		if(entity != nullptr && !entity->isReturnValue) {
+		if(entity != nullptr) {
             // 引数取得
 			vector<QBasicVariableEntity> argList;
 			argList = getArg(run, entity->argTypes);

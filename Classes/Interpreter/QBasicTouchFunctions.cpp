@@ -30,24 +30,24 @@ unordered_map<string, QBasicStatementEntity> QBasicTouchFunctions::buildStatemen
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("touchbegincnt", 0, true, touchbegincnt_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchbeginx", 1, true, touchbeginx_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchbeginy", 1, true, touchbeginy_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchmovecnt", 0, true, touchmovecnt_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchmovex", 1, true, touchmovex_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchmovey", 1, true, touchmovey_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchendcnt", 0, true, touchendcnt_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchendx", 1, true, touchendx_qb);
-	statementList[entity.name] = entity;
-	entity = QBasicStatementEntity("touchendy", 1, true, touchendy_qb);
-	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchbegincnt", 0, true, touchbegincnt_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchbeginx", 1, true, touchbeginx_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchbeginy", 1, true, touchbeginy_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchmovecnt", 0, true, touchmovecnt_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchmovex", 1, true, touchmovex_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchmovey", 1, true, touchmovey_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchendcnt", 0, true, touchendcnt_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchendx", 1, true, touchendx_qb);
+//	statementList[entity.name] = entity;
+//	entity = QBasicStatementEntity("touchendy", 1, true, touchendy_qb);
+//	statementList[entity.name] = entity;
 	
 	return statementList;
 }
