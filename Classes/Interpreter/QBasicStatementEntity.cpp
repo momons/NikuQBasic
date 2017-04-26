@@ -33,7 +33,11 @@ QBasicStatementEntity::QBasicStatementEntity(
 											 const vector<VariableType> &argTypes,
 											 const VariableType returnType,
 											 const statmentFunction &func) {
-	QBasicStatementEntity(name, argTypes, returnType, {}, func);
+	// 初期値設定
+	this->name = name;
+	this->argTypes = argTypes;
+	this->returnType = returnType;
+	this->func = func;
 }
 
 /**

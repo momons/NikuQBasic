@@ -54,16 +54,36 @@ public:
 	static QBasicVariableEntity atan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// アークタンジェント2
 	static QBasicVariableEntity atan2_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// ハイパボリックサイン
+	static QBasicVariableEntity sinh_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// ハイパボリックコサイン
+	static QBasicVariableEntity cosh_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// ハイパボリックタンジェント
+	static QBasicVariableEntity tanh_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 平方根
 	static QBasicVariableEntity cbrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// へき乗
 	static QBasicVariableEntity pow_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// ルート
 	static QBasicVariableEntity sqrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 乗を求める
+	static QBasicVariableEntity exp_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 自然対数
+	static QBasicVariableEntity log_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 常用対数
+	static QBasicVariableEntity log10_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// デグリーからラジアン
-	static QBasicVariableEntity deg2red_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity deg2rad_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// ラジアンからデグリー
+	static QBasicVariableEntity rad2deg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 乱数
 	static QBasicVariableEntity rand_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 四捨五入
+	static QBasicVariableEntity round_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 切り捨て
+	static QBasicVariableEntity floor_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 切り上げ
+	static QBasicVariableEntity ceil_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 };
 

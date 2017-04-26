@@ -35,7 +35,7 @@ public:
 	 *  @return 戻り値
 	 */
 	static QBasicVariableEntity *wait_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	static QBasicVariableEntity *log_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static QBasicVariableEntity *print_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	static QBasicVariableEntity *error_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 };

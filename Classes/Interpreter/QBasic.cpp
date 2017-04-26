@@ -434,16 +434,24 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
 		} else if (sym == "/") {
 			auto valueDist = factor(run);
 			if (QBasicValidation::isValidDiv(value, valueDist)) {
-				value = value.div(valueDist);
-				// TODO: num = StringUtil::toString(stof(num) / (run ? num2 : 1));
+				if (run) {
+					value = value.div(valueDist);
+				} else {
+					// TODO:
+					value = QBasicVariableEntity("", value.type, nullptr);
+				}
 			} else {
 				setThrow("BadVariableTypeDiv", nullptr);
 			}
 		} else if (sym == "%") {
 			auto valueDist = factor(run);
 			if (QBasicValidation::isValidMod(value, valueDist)) {
-				value = value.mod(valueDist);
-				// TODO: num = StringUtil::toString(stof(num) % (run ? num2 : 1));
+				if (run) {
+					value = value.mod(valueDist);
+				} else {
+					// TODO:
+					value = QBasicVariableEntity("", value.type, nullptr);
+				}
 			} else {
 				setThrow("BadVariableTypeMod", nullptr);
 			}
@@ -489,19 +497,6 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 				return value;
 			}
         }
-    } else {
-        // 引数付きメソッドかな？
-        auto *entity = statements->getStatement(sym);
-        if(entity != nullptr) {
-            // 引数取得
-            auto argList = getArg(run, entity->argTypes);
-			if (run) {
-				// TODO:
-//				run ? entity->func(this, argList)
-			} else {
-				return QBasicVariableEntity("", "1");
-			}
-        }
     }
     
     // 数値ならば
@@ -519,14 +514,18 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 		return QBasicVariableEntity("", sym);
 	}
 	
-	// 引数付きメソッドかな？
+	// ステートメント
 	auto *entity = statements->getStatement(sym);
 	if(entity != nullptr) {
-		// TODO: 見直す
+		if (entity->returnType == VariableType::Void) {
+			setThrow("ReturnTypeVoid", nullptr);
+		}
+		// 引数取得
+		auto argList = getArg(run, entity->argTypes);
 		if (run) {
-			return entity->func(this, vector<QBasicVariableEntity>());
+			return entity->func(this, argList);
 		} else {
-			QBasicVariableEntity("", "true");
+			return QBasicVariableEntity("", entity->returnType, nullptr);
 		}
 	} else {
 		// [ERROR]不明な文字が見つかりました。
@@ -591,11 +590,10 @@ bool QBasic::statement(const bool run) {
         auto *entity = statements->getStatement(sym);
 		if(entity != nullptr) {
             // 引数取得
-			vector<QBasicVariableEntity> argList;
-			argList = getArg(run, entity->argTypes);
+			auto argList = getArg(run, entity->argTypes);
 			if (run) {
-				// TODO: ステートメント実行
-//				entity->func(this, argList);
+				// ステートメント実行
+				entity->func(this, argList);
 			}
 			return true;
 		}

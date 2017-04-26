@@ -40,7 +40,7 @@ QBasicVariableEntity *QBasicDebugFunctions::wait_qb(QBasic *interpreter, const v
 //	this_thread::sleep_for(chrono::milliseconds(stoi(arg[0])));
 	return nullptr;
 }
-QBasicVariableEntity *QBasicDebugFunctions::log_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+QBasicVariableEntity *QBasicDebugFunctions::print_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 //#if COCOS2D_DEBUG
 //	cout << arg[0] << "\n";
 //#endif

@@ -28,3 +28,4 @@ BadVariableTypeListKey="list型のキーのタイプはint型しか指定でき�
 BadVariableTypeListKey="dict型のキーのタイプはstr型しか指定できません。";
 ListIndexOutOfBounds="list型の範囲外が指定されました。";
 DictUnknownKey="dict型の範囲外が指定されました。";
+ReturnTypeVoid="戻り値がvoid型です。";

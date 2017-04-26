@@ -35,7 +35,7 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
 				intValue = *(int *)value;
 				break;
 			case VariableType::Float:
-				floatValue = *(float *)value;
+				floatValue = *(double *)value;
 				break;
 			case VariableType::Str:
 				strValue = string((char *)value);
