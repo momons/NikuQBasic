@@ -1274,10 +1274,12 @@ bool QBasic::analysisFunc(const bool run) {
 		}
 	}
 	entity.startOffset = (long)compileSymbols.size();
-	functions[functionName] = entity;
+	entity.configureAlias();
+	
+	functions[entity.alias] = entity;
 	
 	// 最後の関数名を退避
-	lastFunctionName = functionName;
+	lastFunctionName = entity.alias;
 	
 	return true;
 }

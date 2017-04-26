@@ -9,8 +9,6 @@
 #ifndef QBasicMathFunctions_h
 #define QBasicMathFunctions_h
 
-#include <stdio.h>
-
 using namespace std;
 
 class QBasic;

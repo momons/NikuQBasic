@@ -152,5 +152,35 @@
 	XCTAssertEqual(roundf(interpreter->variables["a"].floatValue), 1.0);
 	XCTAssertEqual(roundf(interpreter->variables["b"].floatValue), 1.0);
 }
+/// sinh
+- (void)test18 {
+	interpreter = new QBasic(nullptr, [scripts[18] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+/// cosh
+- (void)test19 {
+	interpreter = new QBasic(nullptr, [scripts[19] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+/// tanh
+- (void)test20 {
+	interpreter = new QBasic(nullptr, [scripts[20] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+/// exp
+- (void)test21 {
+	interpreter = new QBasic(nullptr, [scripts[21] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+/// log
+- (void)test22 {
+	interpreter = new QBasic(nullptr, [scripts[22] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+/// log10
+- (void)test23 {
+	interpreter = new QBasic(nullptr, [scripts[23] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
 
 @end

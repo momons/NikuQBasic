@@ -26,25 +26,25 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 	QBasicStatementEntity entity;
 
 	entity = QBasicStatementEntity("len", {VariableType::Str}, VariableType::Int, len_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("mid", {VariableType::Str, VariableType::Int, VariableType::Int}, VariableType::Str, mid_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("left", {VariableType::Str, VariableType::Int}, VariableType::Str, left_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("right", {VariableType::Str, VariableType::Int}, VariableType::Str, right_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("split", {VariableType::Str, VariableType::Str}, VariableType::List, {VariableType::Str}, split_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("empty", {VariableType::Str}, VariableType::Bool, empty_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("not_empty", {VariableType::Str}, VariableType::Bool, not_empty_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("replase", {VariableType::Str, VariableType::Str, VariableType::Str}, VariableType::Str, replase_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("prefix", {VariableType::Str, VariableType::Str}, VariableType::Bool, prefix_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("suffix", {VariableType::Str, VariableType::Str}, VariableType::Bool, suffix_qb);
-	statementList[entity.name] = entity;
+	statementList[entity.alias] = entity;
 
 	return statementList;
 }

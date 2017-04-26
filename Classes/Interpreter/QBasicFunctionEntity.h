@@ -24,6 +24,9 @@ public:
 	/// 名前
 	string name;
 	
+	/// 名前 (引数+戻り値)
+	string alias;
+
 	/// 引数名
 	vector<QBasicVariableEntity> argNames;
 	
@@ -44,6 +47,20 @@ public:
 	 * デストラクタ
 	 */
 	~QBasicFunctionEntity();
+	
+	/**
+	 * 関数名変換
+	 * @param name       元の名前
+	 * @param argTypes   引数変数タイプ
+	 * @param returnType 戻り値タイプ
+	 * @return 変換名
+	 */
+	static string exchangeAlias(const string &name, const vector<QBasicVariableEntity> &argNames);
+	
+	/**
+	 * 別名設定
+     */
+	void configureAlias();
 };
 
 #endif /* QBasicFunctionEntity_h */

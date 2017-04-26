@@ -29,6 +29,8 @@ const vector<string> QBasicValidation::basicStatementNames = {
 	"to",
 	"step",
 	"next",
+	"break",
+	"continue",
 	"rem",
 	"exit",
 	"and",

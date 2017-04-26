@@ -27,7 +27,10 @@ public:
 	
     /// ステートメント名
     string name;
-    
+	
+	/// ステートメント名 (引数+戻り値)
+	string alias;
+	
 	/// 引数変数タイプ
 	vector<VariableType> argTypes;
     
@@ -76,6 +79,19 @@ public:
      * デストラクタ
      */
     ~QBasicStatementEntity();
+	
+	/**
+	 * 関数名変換
+	 * @param name       元の名前
+	 * @param argTypes   引数変数タイプ
+	 * @return 変換名
+	 */
+	static string exchangeAlias(const string &name, const vector<VariableType> &argTypes);
+	
+	/**
+	 * 別名設定
+	 */
+	void configureAlias();
 };
 
 #endif /* defined(__ToolQTheWorld__QBasicStatementEntity__) */

@@ -195,6 +195,13 @@ public:
 	static VariableType getVariableType(const string &str);
 	
 	/**
+	 *  変数タイプ文字の取得
+	 *  @param variableType 変数タイプ
+	 *  @return 文字
+	 */
+	static string getVariableTypeString(const VariableType variableType);
+	
+	/**
 	 *  変数タイプの取得 階層
 	 * @param entity 変数entity
 	 *  @return 変数タイプ群

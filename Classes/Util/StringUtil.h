@@ -28,9 +28,9 @@ public:
 	/**
 	 *  文字分割
 	 *
-	 *  @param result    分割文字
-	 *  @param inStr     入力文字列
-	 *  @param delimiter デリミタ
+	 *  @param result 分割文字
+	 *  @param inStr  入力文字列
+	 *  @param delim  デリミタ
 	 */
 	static void split(vector<string> &result, const string &inStr, const string &delim);
 };

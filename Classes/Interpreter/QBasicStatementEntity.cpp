@@ -15,6 +15,7 @@
 QBasicStatementEntity::QBasicStatementEntity() {
     // 初期値設定
     name = "";
+	alias = "";
 	argTypes.clear();
 	returnType = VariableType::Void;
 	returnSubTypes.clear();
@@ -38,6 +39,7 @@ QBasicStatementEntity::QBasicStatementEntity(
 	this->argTypes = argTypes;
 	this->returnType = returnType;
 	this->func = func;
+	configureAlias();
 }
 
 /**
@@ -60,6 +62,7 @@ QBasicStatementEntity::QBasicStatementEntity(
 	this->returnType = returnType;
 	this->returnSubTypes = returnSubTypes;
 	this->func = func;
+	configureAlias();
 }
 
 /**
@@ -69,3 +72,30 @@ QBasicStatementEntity::~QBasicStatementEntity() {
     
     
 }
+
+/**
+ * 関数名変換
+ * @param name       元の名前
+ * @param argTypes   引数変数タイプ
+ * @return 変換名
+ */
+string QBasicStatementEntity::exchangeAlias(
+										   const string &name,
+										   const vector<VariableType> &argTypes) {
+	ostringstream os;
+	os << name;
+	os << "_";
+	for (auto it = argTypes.begin();it != argTypes.end();it++) {
+		os << QBasicVariableEntity::getVariableTypeString(*it);
+		os << "_";
+	}
+	return os.str();
+}
+
+/**
+ * 別名設定
+ */
+void QBasicStatementEntity::configureAlias() {
+	alias = QBasicStatementEntity::exchangeAlias(name, argTypes);
+}
+

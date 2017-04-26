@@ -535,6 +535,32 @@ VariableType QBasicVariableEntity::getVariableType(const string &str) {
 }
 
 /**
+ *  変数タイプ文字の取得
+ *  @param variableType 変数タイプ
+ *  @return 文字
+ */
+string QBasicVariableEntity::getVariableTypeString(const VariableType variableType) {
+	switch (variableType) {
+		case VariableType::Void:
+			return "void";
+		case VariableType::Int:
+			return "int";
+		case VariableType::Float:
+			return "float";
+		case VariableType::Str:
+			return "str";
+		case VariableType::Bool:
+			return "bool";
+		case VariableType::List:
+			return "list";
+		case VariableType::Dict:
+			return "dict";
+		default:
+			return "";
+	}
+}
+
+/**
  *  変数タイプの取得 階層
  * @param entity 変数entity
  *  @return 変数タイプ群

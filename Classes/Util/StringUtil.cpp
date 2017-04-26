@@ -22,9 +22,9 @@ string StringUtil::toString(const double num) {
 /**
  *  文字分割
  *
- *  @param result    分割文字
- *  @param inStr     入力文字列
- *  @param delimiter デリミタ
+ *  @param result 分割文字
+ *  @param inStr  入力文字列
+ *  @param delim  デリミタ
  */
 void StringUtil::split(vector<string> &result, const string &inStr, const string &delim) {
 	
