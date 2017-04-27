@@ -214,10 +214,9 @@ private:
     /**
      * 引数取得
      * @param run      実行モード
-     * @param argTypes 引数タイプ
      * @return 引数群
      */
-    vector<QBasicVariableEntity> getArg(const bool run, const vector<VariableType> &argTypes);
+    vector<QBasicVariableEntity> getArg(const bool run);
 	
 	/**
 	 *  処理を１つ戻す

@@ -61,7 +61,7 @@ bool QBasicValidation::isValidVariableName(const string &variableName) {
 		return false;
 	}
 	auto statements = QBasicStatements::sharedInstance();
-	if (statements->getStatement(variableName) != nullptr) {
+	if (statements->hasName(variableName)) {
 		// [ERROR]変数名が予約語と被っています。
 		errorMessage = QBasicMessages::sharedInstance()->getMessage("BadVariableName1", variableName.c_str());
 		return false;
@@ -104,7 +104,7 @@ bool QBasicValidation::isValidFunctionName(const string &functionName) {
 		return false;
 	}
 	auto statements = QBasicStatements::sharedInstance();
-	if (statements->getStatement(functionName) != nullptr) {
+	if (statements->hasName(functionName)) {
 		// [ERROR]関数名が予約語と被っています。
 		errorMessage = QBasicMessages::sharedInstance()->getMessage("BadFunctionName1", functionName.c_str());
 		return false;

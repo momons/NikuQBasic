@@ -515,18 +515,19 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	}
 	
 	// ステートメント
-	auto *entity = statements->getStatement(sym);
-	if(entity != nullptr) {
-		if (entity->returnType == VariableType::Void) {
-			setThrow("ReturnTypeVoid", nullptr);
-		}
-		// 引数取得
-		auto argList = getArg(run, entity->argTypes);
-		if (run) {
-			return entity->func(this, argList);
-		} else {
-			return QBasicVariableEntity("", entity->returnType, nullptr);
-		}
+	if(statements->hasName(sym)) {
+		// TODO:
+//		auto *entity = statements->getStatement(sym);
+//		if (entity->returnType == VariableType::Void) {
+//			setThrow("ReturnTypeVoid", nullptr);
+//		}
+//		// 引数取得
+//		auto argList = getArg(run, entity->argTypes);
+//		if (run) {
+//			return entity->func(this, argList);
+//		} else {
+//			return QBasicVariableEntity("", entity->returnType, nullptr);
+//		}
 	} else {
 		// [ERROR]不明な文字が見つかりました。
 		setThrow("UnknownSymbol", sym.c_str());
@@ -587,14 +588,14 @@ bool QBasic::statement(const bool run) {
 		return !run;
     } else {
         // 戻り値ステートメントかな？
-        auto *entity = statements->getStatement(sym);
-		if(entity != nullptr) {
-            // 引数取得
-			auto argList = getArg(run, entity->argTypes);
-			if (run) {
-				// ステートメント実行
-				entity->func(this, argList);
-			}
+		if (statements->hasName(sym)) {
+//			auto *entity = statements->getStatement(sym);
+//            // 引数取得
+//			auto argList = getArg(run, entity->argTypes);
+//			if (run) {
+//				// ステートメント実行
+//				entity->func(this, argList);
+//			}
 			return true;
 		}
 		
@@ -687,30 +688,26 @@ QBasicVariableEntity QBasic::dictValue(const bool run) {
 /**
  * 引数取得
  * @param run      実行モード
- * @param argTypes 引数タイプ
  * @return 引数群
  */
-vector<QBasicVariableEntity> QBasic::getArg(const bool run, const vector<VariableType> &argTypes) {
+vector<QBasicVariableEntity> QBasic::getArg(const bool run) {
 	
     // 引数取得
     vector<QBasicVariableEntity> argList;
     match("(");
-    for(int i = 0;i < argTypes.size();i++) {
-        auto value = expression(run);
-		if (!run) {
-			if (value.type != argTypes[i]) {
-				// 引数の型が不正
-				setThrow("BadVariableType", nullptr);
-				return vector<QBasicVariableEntity>();
-			}
+	int count = 0;
+	while(true) {
+		auto sym = getSymbol();
+		if (sym == ")") {
+			break;
 		}
-        argList.push_back(value);
-        if(i < argTypes.size() - 1) {
-            match(",");
-        }
-    }
-	// 最後の引数
-	match(")");
+		popBack(run);
+		if (count > 0) {
+			match(",");
+		}
+		auto value = expression(run);
+		argList.push_back(value);
+	}
 	
     return argList;
 }
@@ -770,16 +767,13 @@ void QBasic::popBack(const bool run) {
  */
 bool QBasic::executeFunction(const bool run, const string functionName) {
 	
-	auto entity = functions[functionName];
-
-	vector<VariableType> argTypes;
-	for (auto it = entity.argNames.begin();it != entity.argNames.end();it++) {
-		argTypes.push_back(it->type);
-	}
-	
 	// 引数取得
-	auto argList = getArg(run, argTypes);
+	auto argList = getArg(run);
+	// 関数エリアス取得
+	auto alias = QBasicFunctionEntity::exchangeAlias(functionName, argList);
 	
+	auto entity = functions[alias];
+
 	if (!run) {
 		return true;
 	}

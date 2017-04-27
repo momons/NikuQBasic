@@ -13,6 +13,7 @@ using namespace std;
 
 class QBasic;
 class QBasicStatementEntity;
+class QBasicVariableEntity;
 
 /**
  * イベントスクリプトインタプリタクラス定数
@@ -28,12 +29,20 @@ public:
 	static QBasicStatements *sharedInstance();
 	
 	/**
-	 * ステートメント一覧作成
+	 * 名前で存在判定
 	 * @param name ステートメント名
+	 * @return 存在可否
+	 */
+	bool hasName(const string &name);
+
+	/**
+	 * 名前と引数で取得
+	 * @param name          ステートメント名
+	 * @param variableTypes 引数タイプ
 	 * @return ステートメント情報
 	 */
-	QBasicStatementEntity *getStatement(const string &name);
-	
+	QBasicStatementEntity *getStatement(const string &name, const vector<QBasicVariableEntity> &variableTypes);
+
 	/**
 	 * デストラクタ
 	 */
@@ -41,8 +50,10 @@ public:
 	
 private:
 	
-	/** ステートメント一覧 ステートメント名,引数,戻り値 */
-	unordered_map<string, QBasicStatementEntity> statementList;
+	/// ステートメント一覧 ステートメント名,引数,戻り値
+	unordered_map<string, QBasicStatementEntity> statements;
+	/// ステートメントを名前でさまった一覧
+	vector<string> summaryNames;
 	
 	/** インスタンス */
 	static QBasicStatements *interpreterConstansInstance;
@@ -60,7 +71,12 @@ private:
 	/**
 	 * ステートメント一覧作成
 	 */
-	void buildStatementList();
+	void buildStatements();
+
+	/**
+	 * 名前でさまった一覧作成
+	 */
+	void buildSummaryNames();
 };
 
 #endif /* defined(__ToolQTheWorld__QBasicStatements__) */

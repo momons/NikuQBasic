@@ -42,7 +42,22 @@ public:
 	 * コンストラクタ
 	 */
 	QBasicFunctionEntity();
-	
+
+	/**
+	 * コンストラクタ
+	 * @param name               関数名
+	 * @param argNames           引数変数タイプ
+	 * @param returnVariableType 戻り値タイプ
+	 * @param startOffset        開始オフセット
+	 * @param endOffset          終了オフセット
+	 */
+	QBasicFunctionEntity(
+						 const string &name,
+						 const vector<QBasicVariableEntity> &argNames,
+						 VariableType returnVariableType,
+						 long startOffset,
+						 long endOffset);
+
 	/**
 	 * デストラクタ
 	 */

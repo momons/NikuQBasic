@@ -25,6 +25,28 @@ QBasicFunctionEntity::QBasicFunctionEntity() {
 }
 
 /**
+ * コンストラクタ
+ * @param name               関数名
+ * @param argNames           引数変数タイプ
+ * @param returnVariableType 戻り値タイプ
+ * @param startOffset        開始オフセット
+ * @param endOffset          終了オフセット
+ */
+QBasicFunctionEntity::QBasicFunctionEntity(
+					 const string &name,
+					 const vector<QBasicVariableEntity> &argNames,
+					 VariableType returnVariableType,
+					 long startOffset,
+					 long endOffset) {
+	this->name = name;
+	this->argNames = argNames;
+	this->returnVariableType = VariableType::Unknown;
+	this->startOffset = startOffset;
+	this->endOffset = endOffset;
+	configureAlias();
+}
+
+/**
  * デストラクタ
  */
 QBasicFunctionEntity::~QBasicFunctionEntity() {
