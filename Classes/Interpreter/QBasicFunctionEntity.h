@@ -24,7 +24,7 @@ public:
 	/// 名前
 	string name;
 	
-	/// 名前 (引数+戻り値)
+	/// 名前 (引数)
 	string alias;
 
 	/// 引数名

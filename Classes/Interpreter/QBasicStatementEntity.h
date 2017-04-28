@@ -89,6 +89,14 @@ public:
 	static string exchangeAlias(const string &name, const vector<VariableType> &argTypes);
 	
 	/**
+	 * 関数名変換
+	 * @param name       元の名前
+	 * @param argNames   引数名
+	 * @return 変換別名
+	 */
+	static string exchangeAlias(const string &name, const vector<string> &argNames);
+	
+	/**
 	 * 別名設定
 	 */
 	void configureAlias();

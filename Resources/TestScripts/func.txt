@@ -3,7 +3,7 @@ func a()
 end
 ========================
 ' test1 引数あり
-func a(a int, b int, c int)
+func a(a: int, b: int, c: int)
 end
 ========================
 ' test2 関数名に予約語を使用

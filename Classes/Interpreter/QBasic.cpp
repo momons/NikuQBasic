@@ -1168,6 +1168,7 @@ bool QBasic::analysisFunc(const bool run) {
 		return false;
 	}
 	
+	// 関数名取得
 	auto functionName = getSymbol();
 
 	if (!run) {
@@ -1176,60 +1177,14 @@ bool QBasic::analysisFunc(const bool run) {
 			setThrow(QBasicValidation::errorMessage);
 			return false;
 		}
-		// TODO:変数名ともチェック
+		// TODO: 変数名とかぶる
 	}
 
 	// 引数を解析
 	vector<QBasicVariableEntity> argNames;
-	match("(");
-	while(true) {
-		string variableName = getSymbol();
-		if (variableName == ")") {
-			break;
-		}
-		if (argNames.size() > 0) {
-			popBack(run);
-			match(",");
-			variableName = getSymbol();
-		}
-		
-		// 変数名
-		if (!run) {
-			if (!QBasicValidation::isValidVariableName(variableName)) {
-				setThrow(QBasicValidation::errorMessage);
-				return false;
-			}
-			// すでに宣言済み
-			if (variables.find(variableName) != variables.end()) {
-				// [ERROR]変数名が二重に定義されています。
-				setThrow("VariableNameOverlap", variableName.c_str());
-				return false;
-			}
-			for (auto it = argNames.begin();it != argNames.end();it++) {
-				if (it->name == variableName) {
-					// [ERROR]変数名が二重に定義されています。
-					setThrow("VariableNameOverlap", variableName.c_str());
-					return false;
-				}
-			}
-		}
-		
-		// 型
-		auto sym = getSymbol();
-		auto variableType = QBasicVariableEntity::getVariableType(sym);
-		if (!isRun) {
-			if (variableType == VariableType::Unknown ||
-				variableType == VariableType::Void) {
-				// [ERROR]変数のタイプが不正です。
-				setThrow("BadVariableType", functionName.c_str());
-				return false;
-			}
-		}
-		
-		QBasicVariableEntity variableEntity;
-		variableEntity.name = variableName;
-		variableEntity.type = variableType;
-		argNames.push_back(variableEntity);
+	bool isSuccess = analysisArg(run, argNames);
+	if (!isSuccess) {
+		return false;
 	}
 	
 	// function取得
@@ -1267,6 +1222,112 @@ bool QBasic::analysisFunc(const bool run) {
 	// 最後の関数名を退避
 	lastFunctionName = entity->alias;
 	
+	return true;
+}
+
+/**
+ * 引数を解析
+ * @param argNames 出力引数
+ * @param run      実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames) {
+
+	// 引数を解析
+	match("(");
+	while(true) {
+		auto variableName = getSymbol();
+		if (variableName == ")") {
+			// 終了
+			break;
+		}
+		if (argNames.size() > 0) {
+			popBack(run);
+			match(",");
+			variableName = getSymbol();
+		}
+		
+		// 変数名
+		if (!run) {
+			// 変数名が不正
+			if (!QBasicValidation::isValidVariableName(variableName)) {
+				setThrow(QBasicValidation::errorMessage);
+				return false;
+			}
+			// すでに宣言済み
+			if (variables.find(variableName) != variables.end()) {
+				// [ERROR]変数名が二重に定義されています。
+				setThrow("VariableNameOverlap", variableName.c_str());
+				return false;
+			}
+			for (auto it = argNames.begin();it != argNames.end();it++) {
+				if (it->name == variableName) {
+					// [ERROR]変数名が二重に定義されています。
+					setThrow("VariableNameOverlap", variableName.c_str());
+					return false;
+				}
+			}
+		}
+		
+		auto variableType = VariableType::Unknown;
+		vector<VariableType> valueVariableTypes;
+		auto sym = getSymbol();
+		if (sym == ":") {
+			// 型指定へ
+			sym = getSymbol();
+			variableType = QBasicVariableEntity::getVariableType(sym);
+			if (!run) {
+				if (variableType == VariableType::Void ||
+					variableType == VariableType::Unknown) {
+					// [ERROR]変数のタイプが不正です。
+					setThrow("BadVariableType", variableName.c_str());
+					return false;
+				}
+			}
+			if (variableType == VariableType::List ||
+				variableType == VariableType::Dict ) {
+				// 配列の場合は型の宣言が必要
+				auto isExec = analysisVarListDict(run, variableName, &valueVariableTypes);
+				if (!isExec) {
+					return false;
+				}
+			}
+			
+			// 次を取得
+			sym = getSymbol();
+		}
+		
+		QBasicVariableEntity variableEntity;
+		variableEntity.name = variableName;
+		variableEntity.type = variableType;
+		variableEntity.valueTypes = valueVariableTypes;
+		if (sym != "=") {
+			if (variableType == VariableType::Unknown) {
+				// [ERROR]変数のタイプが不正です。
+				setThrow("BadVariableType", variableName.c_str());
+				return false;
+			}
+			if (!sym.empty()) {
+				popBack(run);
+			}
+		} else {
+			// デフォルト値指定へ
+			QBasicVariableEntity value = expression(run);
+			if (variableType != VariableType::Unknown) {
+				// 型が一致するかをチェック
+				if (!QBasicValidation::isValidVariableType(value, variableType, valueVariableTypes)) {
+					setThrow("BadVariableType", nullptr);
+					return false;
+				}
+			} else {
+				variableEntity.type = value.type;
+				variableEntity.valueTypes = QBasicVariableEntity::getVariableTypes(value);
+			}
+		}
+		
+		argNames.push_back(variableEntity);
+	}
+
 	return true;
 }
 

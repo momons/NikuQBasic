@@ -84,11 +84,31 @@ string QBasicStatementEntity::exchangeAlias(
 										   const vector<VariableType> &argTypes) {
 	ostringstream os;
 	os << name;
-	os << "_";
+	os << "(";
 	for (auto it = argTypes.begin();it != argTypes.end();it++) {
 		os << QBasicVariableEntity::getVariableTypeString(*it);
-		os << "_";
+		os << ":";
 	}
+	os << ")";
+	return os.str();
+}
+
+/**
+ * 関数名変換
+ * @param name       元の名前
+ * @param argTypes   引数変数タイプ
+ * @return 変換名
+ */
+string QBasicStatementEntity::exchangeAlias(
+											const string &name,
+											const vector<string> &argNames) {
+	ostringstream os;
+	os << name;
+	os << "(";
+	for (auto it = argNames.begin();it != argNames.end();it++) {
+		os << *it << ":";
+	}
+	os << ")";
 	return os.str();
 }
 

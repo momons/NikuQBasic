@@ -62,11 +62,14 @@ QBasicFunctionEntity::~QBasicFunctionEntity() {
  * @return 変換名
  */
 string QBasicFunctionEntity::exchangeAlias(const string &name, const vector<QBasicVariableEntity> &argNames) {
-	vector<VariableType> argTypes;
+	ostringstream os;
+	os << name;
+	os << "(";
 	for (auto it = argNames.begin();it != argNames.end();it++) {
-		argTypes.push_back(it->type);
+		os << it->name << ":";
 	}
-	return QBasicStatementEntity::exchangeAlias(name, argTypes);
+	os << ")";
+	return os.str();
 }
 
 /**

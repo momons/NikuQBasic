@@ -281,6 +281,14 @@ private:
 	bool analysisFunc(const bool run);
 	
 	/**
+	 * 引数を解析
+	 * @param argNames 出力引数
+	 * @param run      実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisArg(const bool run, vector<QBasicVariableEntity> &argNames);
+	
+	/**
 	 * Endを解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
