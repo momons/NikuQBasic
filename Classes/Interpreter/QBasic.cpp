@@ -801,7 +801,7 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
 		localVariables[entity->argNames[i].name] = argList[i];
 	}
 	// ファンクション変数も設定
-	localVariables[functionName] = QBasicVariableEntity(functionName, entity->returnVariableType, nullptr);
+	localVariables[functionName] = QBasicVariableEntity(functionName, entity->returnType, nullptr);
 
 	return true;
 }
@@ -1206,18 +1206,27 @@ bool QBasic::analysisFunc(const bool run) {
 	
 	// 戻り値タイプを解析
 	string returnVariableName = getSymbol();
-	auto returnVariableType = QBasicVariableEntity::getVariableType(returnVariableName);
-	if (returnVariableType == VariableType::Unknown) {
+	auto returnType = QBasicVariableEntity::getVariableType(returnVariableName);
+	if (returnType == VariableType::Unknown) {
 		// 省略されてる可能性があるので情報を戻す
-		returnVariableType = VariableType::Void;
+		returnType = VariableType::Void;
 		// オフセットを戻す
 		if (!returnVariableName.empty()) {
 			popBack(run);
 		}
 	}
+	vector<VariableType> valueVariableTypes;
+	if (returnType == VariableType::List ||
+		returnType == VariableType::Dict ) {
+		// 配列の場合は型の宣言が必要
+		auto isExec = analysisVarListDict(run, "", &valueVariableTypes);
+		if (!isExec) {
+			return false;
+		}
+	}
 
 	// ファンクション追加
-	entity = functions->addUpdate(functionName, argNames, returnVariableType, compileSymbols.size(), 0);
+	entity = functions->addUpdate(functionName, argNames, returnType, valueVariableTypes, compileSymbols.size(), 0);
 	
 	// 最後の関数名を退避
 	lastFunctionName = entity->alias;
@@ -1298,9 +1307,6 @@ bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames)
 		}
 		
 		QBasicVariableEntity variableEntity;
-		variableEntity.name = variableName;
-		variableEntity.type = variableType;
-		variableEntity.valueTypes = valueVariableTypes;
 		if (sym != "=") {
 			if (variableType == VariableType::Unknown) {
 				// [ERROR]変数のタイプが不正です。
@@ -1310,6 +1316,9 @@ bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames)
 			if (!sym.empty()) {
 				popBack(run);
 			}
+			variableEntity.name = variableName;
+			variableEntity.type = variableType;
+			variableEntity.valueTypes = valueVariableTypes;
 		} else {
 			// デフォルト値指定へ
 			QBasicVariableEntity value = expression(run);
@@ -1319,10 +1328,10 @@ bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames)
 					setThrow("BadVariableType", nullptr);
 					return false;
 				}
-			} else {
-				variableEntity.type = value.type;
-				variableEntity.valueTypes = QBasicVariableEntity::getVariableTypes(value);
 			}
+			variableEntity = value;
+			variableEntity.name = variableName;
+			variableEntity.valueTypes = valueVariableTypes;
 		}
 		
 		argNames.push_back(variableEntity);

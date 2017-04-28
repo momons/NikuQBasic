@@ -27,30 +27,33 @@ QBasicFunctions::~QBasicFunctions() {
 
 /**
  * 関数追加
- * @param name          関数名
- * @param variableTypes 引数タイプ
- * @param returnVariableType 戻り値タイプ
- * @param startOffset   開始オフセット
- * @param endOffset     終了オフセット
+ * @param name           関数名
+ * @param variableTypes  引数タイプ
+ * @param returnType     戻り値タイプ
+ * @param returnSubTypes 戻り値サブタイプ
+ * @param startOffset    開始オフセット
+ * @param endOffset      終了オフセット
  * @return 関数情報
  */
 QBasicFunctionEntity *QBasicFunctions::addUpdate(
 												 const string &name,
-												 const vector<QBasicVariableEntity> variableTypes,
-												 VariableType returnVariableType,
-												 long startOffset,
-												 long endOffset) {
-	
+												 const vector<QBasicVariableEntity> &variableTypes,
+												 const VariableType returnType,
+												 const vector<VariableType> returnSubTypes,
+												 const long startOffset,
+												 const long endOffset) {
+
 	auto func = getFunction(name, variableTypes);
 	if (func != nullptr) {
 		// 更新
-		func->returnVariableType = returnVariableType;
+		func->returnType = returnType;
+		func->returnSubTypes = returnSubTypes;
 		func->startOffset = startOffset;
 		func->endOffset = endOffset;
 		return func;
 	}
 	// 追加
-	QBasicFunctionEntity entity = QBasicFunctionEntity(name, variableTypes, returnVariableType, startOffset, endOffset);
+	QBasicFunctionEntity entity = QBasicFunctionEntity(name, variableTypes, returnType, returnSubTypes, startOffset, endOffset);
 	functions[entity.alias] = entity;
 	return &functions[entity.alias];
 }

@@ -110,4 +110,10 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// デフォルト値設定
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
 @end

@@ -12,11 +12,11 @@ end
 ========================
 ' test3 変数名がかぶっている
 var void a
-func b(a int)
+func b(a: int)
 end
 ========================
 ' test4 引数の変数名がかぶっている
-func a(b int, c int, b int)
+func a(b: int, c: int, b: int)
 end
 ========================
 ' test5 funcの中にfunc
@@ -44,23 +44,27 @@ func d() str
 end
 func e() bool
 end
-'func f() list
-'end
-'func g() dict
-'end
+func f() list<int>
+end
+func g() dict<str>
+end
 ========================
 ' test8 不正な戻り値テスト
 func a() sdsds
 end
 ========================
 ' test9 引数の型テスト int
-func a(b int, c float, d str, e bool)
+func a(b: int, c: float, d: str, e: bool)
 end
 ========================
 ' test10 引数の型テスト void
-func a(b void)
+func a(b: void)
 end
 ========================
 ' test11 不正な引数の型テスト
-func a(asas c)
+func a(asas: c)
+end
+========================
+' test12 デフォルト値設定
+func a(b: int = 2, c = "aaa", d: float)
 end
