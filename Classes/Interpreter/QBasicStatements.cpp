@@ -35,6 +35,7 @@
 //#include "QBAlertViewLauncher.h"
 #include "QBasicStatementEntity.h"
 #include "QBasicVariableEntity.h"
+#include "QBasicFunctionEntity.h"
 
 /** インスタンス */
 QBasicStatements *QBasicStatements::interpreterConstansInstance;
@@ -85,7 +86,7 @@ QBasicStatements::~QBasicStatements() {
 void QBasicStatements::buildStatements() {
 	
 	/** ステートメント一覧 ステートメント名,引数,戻り値 */
-	statements = unordered_map<string,QBasicStatementEntity>();
+	this->statements = unordered_map<string,QBasicStatementEntity>();
 	
 	QBasicStatementEntity entity;
 	unordered_map<string, QBasicStatementEntity> statements;
@@ -94,91 +95,91 @@ void QBasicStatements::buildStatements() {
 	statements.clear();
 	statements = QBasicMathFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== 文字列操作
 	statements.clear();
 	statements = QBasicStringFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 
 	//===== 描画
 	statements.clear();
 	statements = QBasicDrawFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== 図形
 	statements.clear();
 	statements = QBasicGeometryFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== 文字
 	statements.clear();
 	statements = QBasicTextFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 
 	//===== 画像
 	statements.clear();
 	statements = QBasicImageFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 
 	//===== パーティクル
 	statements.clear();
 	statements = QBasicParticleFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== サウンド
 	statements.clear();
-	auto soundStatements = QBasicSoundFunctions::buildStatements();
-	for (auto it = soundStatements.begin();it != soundStatements.end();it++) {
-		statements[it->first] = it->second;
+	statements = QBasicSoundFunctions::buildStatements();
+	for (auto it = statements.begin();it != statements.end();it++) {
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== タッチイベント
 	statements.clear();
-	auto touchStatements = QBasicTouchFunctions::buildStatements();
-	for (auto it = touchStatements.begin();it != touchStatements.end();it++) {
-		statements[it->first] = it->second;
+	statements = QBasicTouchFunctions::buildStatements();
+	for (auto it = statements.begin();it != statements.end();it++) {
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== データ操作
 	statements.clear();
 	statements = QBasicStorageFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 
 	//===== ネット通信
 	statements.clear();
 	statements = QBasicNetFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 
 	//===== アラート
 	statements.clear();
 	statements = QBasicAlertFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 	
 	//===== デバッグ
 	statements.clear();
 	statements = QBasicDebugFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		statements[it->first] = it->second;
+		this->statements[it->first] = it->second;
 	}
 
 	// 乱数初期化
@@ -202,11 +203,8 @@ bool QBasicStatements::hasName(const string &name) {
  */
 QBasicStatementEntity *QBasicStatements::getStatement(const string &name, const vector<QBasicVariableEntity> &variableTypes) {
 	// ステートメントがあるか？
-	auto it = statements.find(name);
-	if (it == statements.end()) {
-		return nullptr;
-	}
-	return &statements[name];
+	auto alias = QBasicFunctionEntity::exchangeAlias(name, variableTypes);
+	return statements.find(alias) != statements.end() ? &statements[alias] : nullptr;
 }
 
 /**
@@ -215,6 +213,8 @@ QBasicStatementEntity *QBasicStatements::getStatement(const string &name, const 
 void QBasicStatements::buildSummaryNames() {
 	summaryNames.clear();
 	for (auto it = statements.begin();it != statements.end();it++) {
-		summaryNames.push_back(it->second.name);
+		if (find(summaryNames.begin(), summaryNames.end(), it->second.name) == summaryNames.end()) {
+			summaryNames.push_back(it->second.name);
+		}
 	}
 }

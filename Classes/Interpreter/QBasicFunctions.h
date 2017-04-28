@@ -30,13 +30,14 @@ public:
 	 * @param returnVariableType 戻り値タイプ
 	 * @param startOffset   開始オフセット
 	 * @param endOffset     終了オフセット
+	 * @return 関数情報
 	 */
-	void addUpdate(
-			 const string &name,
-			 const vector<QBasicVariableEntity> variableTypes,
-			 VariableType returnVariableType,
-			 long startOffset,
-			 long endOffset);
+	QBasicFunctionEntity *addUpdate(
+									const string &name,
+									const vector<QBasicVariableEntity> variableTypes,
+									VariableType returnVariableType,
+									long startOffset,
+									long endOffset);
 	
 	/**
 	 * 名前で存在判定
@@ -46,12 +47,33 @@ public:
 	bool hasName(const string &name);
 	
 	/**
+	 * 名前で存在判定
+	 * @param name          関数名
+	 * @param variableTypes 引数タイプ
+	 * @return 存在可否
+	 */
+	bool hasFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes);
+	
+	/**
 	 * 名前と引数で取得
 	 * @param name          関数名
 	 * @param variableTypes 引数タイプ
 	 * @return 関数情報
 	 */
 	QBasicFunctionEntity *getFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes);
+	
+	/**
+	 * 別名で取得
+	 * @param name          関数名
+	 * @param variableTypes 引数タイプ
+	 * @return 関数情報
+	 */
+	QBasicFunctionEntity *getFunction(const string &alias);
+	
+	/**
+	 *  クリア
+	 */
+	void clear();
 	
 	/**
 	 * コンストラクタ

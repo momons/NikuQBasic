@@ -32,13 +32,14 @@ QBasicFunctions::~QBasicFunctions() {
  * @param returnVariableType 戻り値タイプ
  * @param startOffset   開始オフセット
  * @param endOffset     終了オフセット
+ * @return 関数情報
  */
-void QBasicFunctions::addUpdate(
-		 const string &name,
-		 const vector<QBasicVariableEntity> variableTypes,
-		 VariableType returnVariableType,
-		 long startOffset,
-		 long endOffset) {
+QBasicFunctionEntity *QBasicFunctions::addUpdate(
+												 const string &name,
+												 const vector<QBasicVariableEntity> variableTypes,
+												 VariableType returnVariableType,
+												 long startOffset,
+												 long endOffset) {
 	
 	auto func = getFunction(name, variableTypes);
 	if (func != nullptr) {
@@ -46,11 +47,12 @@ void QBasicFunctions::addUpdate(
 		func->returnVariableType = returnVariableType;
 		func->startOffset = startOffset;
 		func->endOffset = endOffset;
-		return;
+		return func;
 	}
 	// 追加
 	QBasicFunctionEntity entity = QBasicFunctionEntity(name, variableTypes, returnVariableType, startOffset, endOffset);
 	functions[entity.alias] = entity;
+	return &functions[entity.alias];
 }
 
 /**
@@ -60,6 +62,16 @@ void QBasicFunctions::addUpdate(
  */
 bool QBasicFunctions::hasName(const string &name) {
 	return find(summaryNames.begin(), summaryNames.end(), name) != summaryNames.end();
+}
+
+/**
+ * 名前で存在判定
+ * @param name          関数名
+ * @param variableTypes 引数タイプ
+ * @return 存在可否
+ */
+bool QBasicFunctions::hasFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes) {
+	return getFunction(name, variableTypes) != nullptr;
 }
 
 /**
@@ -73,3 +85,21 @@ QBasicFunctionEntity *QBasicFunctions::getFunction(const string &name, const vec
 	auto alias = QBasicFunctionEntity::exchangeAlias(name, variableTypes);
 	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
 }
+
+/**
+ * 別名で取得
+ * @param name          関数名
+ * @param variableTypes 引数タイプ
+ * @return 関数情報
+ */
+QBasicFunctionEntity *QBasicFunctions::getFunction(const string &alias) {
+	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
+}
+
+/**
+ *  クリア
+ */
+void QBasicFunctions::clear() {
+	functions.clear();
+}
+

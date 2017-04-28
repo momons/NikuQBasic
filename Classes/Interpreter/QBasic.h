@@ -15,6 +15,7 @@ USING_NS_CC;
 using namespace std;
 
 class QBasicStatements;
+class QBasicFunctions;
 class QBasicSubFunction;
 class QBasicStringFunctions;
 class QBasicNetFunctions;
@@ -126,7 +127,7 @@ private:
     /// ステートメント群
 	QBasicStatements *statements;
 	/// ファンクション群
-	unordered_map<string, QBasicFunctionEntity> functions;
+	QBasicFunctions *functions;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
 	
@@ -231,13 +232,6 @@ private:
 	 * @return 終了フラグ false:終了 true:進行
 	 */
 	bool executeFunction(const bool run, const string functionName);
-	
-	/**
-	 * func可否
-	 * @param functionName 関数名
-	 * @return func可否 true:func false:それ以外
-	 */
-	bool isFunction(const string functionName);
 	
 #pragma mark - 個別解析
 
