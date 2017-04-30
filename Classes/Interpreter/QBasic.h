@@ -16,6 +16,7 @@ using namespace std;
 
 class QBasicStatements;
 class QBasicFunctions;
+class QBasicPushBackEntity;
 class QBasicSubFunction;
 class QBasicStringFunctions;
 class QBasicNetFunctions;
@@ -111,18 +112,13 @@ private:
     /// プッシュバック用
     string pushBacked;
 	
-	/// gosub情報
-	vector<string> gosubPushBacked;
-	vector<long> gosubExecOffset;
-	vector<string *> gosubLocalVariable;
-	
 	/// ファンクション退避
-	vector<string> functionPushBacked;
-	vector<long> functionExecOffset;
-	vector<unordered_map<string, QBasicVariableEntity>> functionLocalVariables;
+	vector<QBasicPushBackEntity> functionPushBacks;
 	
 	/// 最後にアクセスした関数名
 	string lastFunctionName;
+	/// returnがあったかどうか
+	bool hasReturnSymbol;
 
     /// ステートメント群
 	QBasicStatements *statements;
@@ -289,12 +285,19 @@ private:
 	bool analysisArg(const bool run, vector<QBasicVariableEntity> &argNames);
 	
 	/**
+	 * returnを解析
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisReturn(const bool run);
+
+	/**
 	 * Endを解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
 	bool analysisEnd(const bool run);
-
+	
 	/**
 	 * コメントを解析
 	 * @param run 実行中フラグ

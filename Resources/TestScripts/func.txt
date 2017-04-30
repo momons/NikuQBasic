@@ -34,19 +34,19 @@ func a()
 end
 ========================
 ' test7 戻り値テスト
-func a() void
+func a() -> void
 end
-func b() int
+func b() -> int
 end
-func c() float
+func c() -> float
 end
-func d() str
+func d() -> str
 end
-func e() bool
+func e() -> bool
 end
-func f() list<int>
+func f() -> list<int>
 end
-func g() dict<str>
+func g() -> dict<str>
 end
 ========================
 ' test8 不正な戻り値テスト
@@ -66,5 +66,29 @@ func a(asas: c)
 end
 ========================
 ' test12 デフォルト値設定
-func a(b: int = 2, c = "aaa", d: float)
+func a(b: int = 2, c = "aaa", d: float = 1.0, e = [1], f: dict<str> = { "1": "a" })
+end
+========================
+' test13 デフォルト値が型指定と違う int
+func a(b: int = true)
+end
+========================
+' test14 デフォルト値が型指定と違う float
+func a(b: float = 2)
+end
+========================
+' test15 デフォルト値が型指定と違う str
+func a(b: str = 2.0)
+end
+========================
+' test16 デフォルト値が型指定と違う bool
+func a(b: bool = 2)
+end
+========================
+' test17 デフォルト値が型指定と違う list<int>
+func a(b: list<int> = ["1"])
+end
+========================
+' test18 デフォルト値が型指定と違う dict<str>
+func a(b: dict<str> = {"1":1})
 end

@@ -113,6 +113,42 @@
 /// デフォルト値設定
 - (void)test12 {
 	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// デフォルト値が型指定と違う int
+- (void)test13 {
+	interpreter = new QBasic(nullptr, [scripts[13] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// デフォルト値が型指定と違う float
+- (void)test14 {
+	interpreter = new QBasic(nullptr, [scripts[14] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// デフォルト値が型指定と違う str
+- (void)test15 {
+	interpreter = new QBasic(nullptr, [scripts[15] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// デフォルト値が型指定と違う bool
+- (void)test16 {
+	interpreter = new QBasic(nullptr, [scripts[16] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// デフォルト値が型指定と違う list<int>
+- (void)test17 {
+	interpreter = new QBasic(nullptr, [scripts[17] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// デフォルト値が型指定と違う dict<str>
+- (void)test18 {
+	interpreter = new QBasic(nullptr, [scripts[18] UTF8String], "");
 	XCTAssertThrows(interpreter->run());
 }
 

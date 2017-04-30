@@ -24,6 +24,7 @@
 		2F443C791E81815300F027F7 /* QBasicParticleFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F443C781E81815300F027F7 /* QBasicParticleFunctions.cpp */; };
 		2F4C705F1E92B7640070A1EF /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD4A9961E8975FA005E6C7A /* Localize.strings */; };
 		2F54D8B41EA1E8F700D388B0 /* QBasicException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F54D8B21EA1E8F700D388B0 /* QBasicException.cpp */; };
+		2F56F0D01EB6420F00EC9A92 /* QBasicPushBackEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F56F0CF1EB6420F00EC9A92 /* QBasicPushBackEntity.cpp */; };
 		2F5CE3CF1E84A90E00EF0D65 /* QBasicImageFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE3CE1E84A90E00EF0D65 /* QBasicImageFunctions.cpp */; };
 		2F5CE3D21E84AA6D00EF0D65 /* QBasicTextFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE3D11E84AA6D00EF0D65 /* QBasicTextFunctions.cpp */; };
 		2F5CE3D51E84ABB100EF0D65 /* QBasicGeometryFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CE3D41E84ABB100EF0D65 /* QBasicGeometryFunctions.cpp */; };
@@ -169,6 +170,8 @@
 		2F443C7A1E81815D00F027F7 /* QBasicParticleFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicParticleFunctions.h; path = Interpreter/QBasicParticleFunctions.h; sourceTree = "<group>"; };
 		2F54D8B21EA1E8F700D388B0 /* QBasicException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicException.cpp; path = Interpreter/QBasicException.cpp; sourceTree = "<group>"; };
 		2F54D8B51EA1E90C00D388B0 /* QBasicException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicException.h; path = Interpreter/QBasicException.h; sourceTree = "<group>"; };
+		2F56F0CF1EB6420F00EC9A92 /* QBasicPushBackEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicPushBackEntity.cpp; path = Interpreter/QBasicPushBackEntity.cpp; sourceTree = "<group>"; };
+		2F56F0D11EB6422400EC9A92 /* QBasicPushBackEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicPushBackEntity.h; path = Interpreter/QBasicPushBackEntity.h; sourceTree = "<group>"; };
 		2F5CE3CE1E84A90E00EF0D65 /* QBasicImageFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicImageFunctions.cpp; path = Interpreter/QBasicImageFunctions.cpp; sourceTree = "<group>"; };
 		2F5CE3D01E84A91900EF0D65 /* QBasicImageFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicImageFunctions.h; path = Interpreter/QBasicImageFunctions.h; sourceTree = "<group>"; };
 		2F5CE3D11E84AA6D00EF0D65 /* QBasicTextFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicTextFunctions.cpp; path = Interpreter/QBasicTextFunctions.cpp; sourceTree = "<group>"; };
@@ -477,6 +480,8 @@
 				2FF1855F1E23C0B300F97DBC /* QBasicStatementEntity.h */,
 				2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */,
 				2FB4C2981E9BCD1200D283CF /* QBasicFunctionEntity.h */,
+				2F56F0CF1EB6420F00EC9A92 /* QBasicPushBackEntity.cpp */,
+				2F56F0D11EB6422400EC9A92 /* QBasicPushBackEntity.h */,
 				2F98EFEA1E9E5DC70057B6C9 /* QBasicVariableEntity.cpp */,
 				2F98EFEC1E9E5DDA0057B6C9 /* QBasicVariableEntity.h */,
 				2FF185651E23C46700F97DBC /* QBasicSetupNodeEntity.cpp */,
@@ -869,6 +874,7 @@
 				2F443C701E8178C900F027F7 /* QBasicDebugFunctions.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				2F54D8B41EA1E8F700D388B0 /* QBasicException.cpp in Sources */,
+				2F56F0D01EB6420F00EC9A92 /* QBasicPushBackEntity.cpp in Sources */,
 				2FA5D8861E7C6F240044BB85 /* QBasicNetFunctions.cpp in Sources */,
 				2FF185691E23C46700F97DBC /* QBasicSetupNodeEntity.cpp in Sources */,
 				2F443C671E8009CC00F027F7 /* QBasicDateFunctions.cpp in Sources */,
