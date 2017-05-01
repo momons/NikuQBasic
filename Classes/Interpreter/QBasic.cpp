@@ -28,6 +28,10 @@
 #include "QBasicValidation.h"
 #include "QBasicMessages.h"
 #include "StringUtil.h"
+
+/** 関数返却変数名 */
+#define FUNCTION_RETURN_VARIABLE_NAME  "__return_variable__"
+
 /**
  *  コンストラクタ
  *  @param scene     シーン
@@ -469,8 +473,9 @@ QBasicVariableEntity QBasic::factor(const bool run) {
     
     string sym = getSymbol();
     
-	if (variables.find(sym) != variables.end()) {
-		// 変数
+	if (localVariables.find(sym) != localVariables.end() ||
+		variables.find(sym) != variables.end()) {
+		// グローバル変数
 		auto variable = getVariable(run, sym);
 		if (variable == nullptr) {
 			return QBasicVariableEntity();
@@ -510,7 +515,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	}
 	
 	// ステートメント
-	if(statements->hasName(sym)) {
+	if (statements->hasName(sym)) {
 		// 引数取得
 		auto argList = getArg(run);
 		auto entity = statements->getStatement(sym, argList);
@@ -527,6 +532,11 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	}
 	
 	// ファンクション
+	if (functions->hasName(sym)) {
+		QBasicVariableEntity returnValue;
+		executeFunction(run, sym, returnValue);
+		return returnValue;
+	}
 	
 	// [ERROR]不明な文字が見つかりました。
 	setThrow("UnknownSymbol", sym.c_str());
@@ -548,7 +558,8 @@ bool QBasic::statement(const bool run) {
         return false;
     }
 
-	if(variables.find(sym) != variables.end()) {
+	if (localVariables.find(sym) != localVariables.end() ||
+		variables.find(sym) != variables.end()) {
 		// 変数取得
 		auto variable = getVariable(run, sym);
 		if (variable == nullptr) {
@@ -586,23 +597,21 @@ bool QBasic::statement(const bool run) {
 			isExit = true;
 		}
 		return !run;
-    } else {
-        // 戻り値ステートメントかな？
-		if (statements->hasName(sym)) {
-			// 引数取得
-			auto argList = getArg(run);
-			auto entity = statements->getStatement(sym, argList);
-			if (run) {
-				// ステートメント実行
-				entity->func(this, argList);
-			}
-			return true;
+    } else if (statements->hasName(sym)) {
+        // ステートメント
+		// 引数取得
+		auto argList = getArg(run);
+		auto entity = statements->getStatement(sym, argList);
+		if (run) {
+			// ステートメント実行
+			entity->func(this, argList);
 		}
-		
-		if (functions->hasName(sym)) {
-			return executeFunction(run, sym);
-		}
-		
+		return true;
+	} else if (functions->hasName(sym)) {
+		// ファンクション
+		QBasicVariableEntity returnValue;
+		return executeFunction(run, sym, returnValue);
+	} else {
 		pushBack(sym);
 		expression(run);
 		
@@ -697,18 +706,23 @@ vector<QBasicVariableEntity> QBasic::getArg(const bool run) {
     match("(");
 	int count = 0;
 	while(true) {
-		auto sym = getSymbol();
-		if (sym == ")") {
+		auto variableName = getSymbol();
+		if (variableName == ")") {
 			break;
 		}
-		popBack(run);
 		if (count > 0) {
+			popBack(run);
 			match(",");
+			variableName = getSymbol();
 		}
+		match(":");
 		auto value = expression(run);
+		value.name = variableName;
 		argList.push_back(value);
 		count += 1;
 	}
+	
+	// TODO: 引数チェック
 	
     return argList;
 }
@@ -762,12 +776,13 @@ void QBasic::popBack(const bool run) {
 
 /**
  * func実行
- * @param run          実行中フラグ
- * @param functionName 関数名
+ * @param run            実行中フラグ
+ * @param functionName   関数名
+ * @param returnVariable 戻り値
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::executeFunction(const bool run, const string functionName) {
-	
+bool QBasic::executeFunction(const bool run, const string &functionName, QBasicVariableEntity &returnVariable) {
+
 	// 引数取得
 	auto argList = getArg(run);
 	// 関数エリアス取得
@@ -777,6 +792,7 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
 		if (entity == nullptr) {
 			setThrow("FunctionNotFound", functionName.c_str());
 		}
+		returnVariable = QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
 		return true;
 	}
 	
@@ -785,6 +801,7 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
 	functionPushBacks.push_back(pushBackEntity);
 
 	// 実行オフセットを設定
+	lastFunctionName = entity->alias;
 	compileOffset = entity->startOffset;
 	execOffset = compileExecOffsets[compileOffset];
 	
@@ -793,10 +810,46 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
 	localVariables.clear();
 	
 	// ローカル変数に引数を設定する
-	for (int i = 0;i < entity->argNames.size();i++) {
-		localVariables[entity->argNames[i].name] = argList[i];
+	for (auto it = argList.begin();it != argList.end();it++) {
+		localVariables[it->name] = *it;
 	}
 
+	// 実行
+	while(true) {
+		bool isExecute = statement(run);
+		if (!isExecute || isExit) {
+			break;
+		}
+	}
+	
+	// 戻り値が設定されているので返却
+	if (variables.find(FUNCTION_RETURN_VARIABLE_NAME) != variables.end()) {
+		returnVariable = variables[FUNCTION_RETURN_VARIABLE_NAME];
+	}
+	
+	return true;
+}
+
+/**
+ * func終了実行
+ * @param run          実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBasic::executeFunctionEnd(const bool run) {
+	// 関数内ではない
+	if (functionPushBacks.size() <= 0) {
+		return false;
+	}
+	// 退避していたものを戻す
+	QBasicPushBackEntity entity = *(functionPushBacks.end() - 1);
+	lastFunctionName = entity.name;
+	pushBacked = entity.symbol;
+	compileOffset = entity.execOffset;
+	execOffset = compileExecOffsets[compileOffset];
+	localVariables.clear();
+	localVariables = entity.localVariables;
+	// 削除
+	functionPushBacks.pop_back();
 	return true;
 }
 
@@ -808,10 +861,17 @@ bool QBasic::executeFunction(const bool run, const string functionName) {
  * @param run  実行中フラグ
  * @return 変数取得
  */
-QBasicVariableEntity *QBasic::getVariable(const bool run, const string name) {
+QBasicVariableEntity *QBasic::getVariable(const bool run, const string &name) {
 
 	// 変数があるかどうかは上位でチェックしている
-	QBasicVariableEntity *variable = &variables[name];
+	QBasicVariableEntity *variable;
+	if (localVariables.find(name) != localVariables.end()) {
+		// ローカル
+		variable = &localVariables[name];
+	} else {
+		// グローバル
+		variable = &variables[name];
+	}
 	while (true) {
 		if (variable->type != VariableType::List &&
 			variable->type != VariableType::Dict) {
@@ -1232,6 +1292,10 @@ bool QBasic::analysisFunc(const bool run) {
 	
 	// 最後の関数名を退避
 	lastFunctionName = entity->alias;
+	// ローカル変数に引数を設定する
+	for (auto it = argNames.begin();it != argNames.end();it++) {
+		localVariables[it->name] = *it;
+	}
 	
 	// 初期化
 	hasReturnSymbol = false;
@@ -1351,35 +1415,35 @@ bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames)
  * @return 終了フラグ false:終了 true:進行
  */
 bool QBasic::analysisReturn(const bool run) {
+	auto entity = functions->getFunction(lastFunctionName);
+	// 終了オフセットを退避
+	if (entity->returnType == VariableType::Void) {
+		if (run) {
+			if (!executeFunctionEnd(run)) {
+				setThrow("CannotReturn", nullptr);
+				return false;
+			}
+		}
+		return false;
+	}
+	// 戻り値取得
+	auto value = expression(run);
+	if (!QBasicValidation::isValidVariableType(value, entity->returnType, entity->returnSubTypes)) {
+		setThrow("BadFunctionReturnType", nullptr);
+		return false;
+	}
 	if (run) {
-		// 関数内ではない
-		if (functionPushBacks.size() <= 0) {
+		if (!executeFunctionEnd(run)) {
 			setThrow("CannotReturn", nullptr);
 			return false;
 		}
-		// 退避していたものを戻す
-		QBasicPushBackEntity entity = *(functionPushBacks.end() - 1);
-		pushBacked = entity.symbol;
-		compileOffset = entity.execOffset;
-		execOffset = compileExecOffsets[compileOffset];
-		localVariables.clear();
-		localVariables = entity.localVariables;
-		// 削除
-		functionPushBacks.pop_back();
+		// 値をグローバル変数に設定
+		variables[FUNCTION_RETURN_VARIABLE_NAME] = value;
+		return false;
 	} else {
-		// 終了オフセットを退避
-		auto entity = functions->getFunction(lastFunctionName);
-		if (entity->returnType == VariableType::Void) {
-			return true;
-		}
-		auto value = expression(run);
-		if (!QBasicValidation::isValidVariableType(value, entity->returnType, entity->returnSubTypes)) {
-			setThrow("BadFunctionReturnType", nullptr);
-			return false;
-		}
 		hasReturnSymbol = true;
+		return true;
 	}
-	return true;
 }
 
 /**
@@ -1388,32 +1452,29 @@ bool QBasic::analysisReturn(const bool run) {
  * @return 終了フラグ false:終了 true:進行
  */
 bool QBasic::analysisEnd(const bool run) {
+	auto entity = functions->getFunction(lastFunctionName);
 	if (run) {
-		// endできない
-		if (functionPushBacks.size() <= 0) {
-			// [ERROR]これ以上endはできません。
+		// 戻り値あるはずがない
+		if (entity->returnType != VariableType::Void) {
+			setThrow("BadFunctionReturnType", nullptr);
+			return false;
+		}
+		if (!executeFunctionEnd(run)) {
 			setThrow("CannotEnd", nullptr);
 			return false;
 		}
-		// 退避していたものを戻す
-		QBasicPushBackEntity entity = *(functionPushBacks.end() - 1);
-		pushBacked = entity.symbol;
-		compileOffset = entity.execOffset;
-		execOffset = compileExecOffsets[compileOffset];
-		localVariables.clear();
-		localVariables = entity.localVariables;
-		// 削除
-		functionPushBacks.pop_back();
-	} else {
-		// 終了オフセットを退避
-		auto entity = functions->getFunction(lastFunctionName);
-		entity->endOffset = (long)compileSymbols.size();
-		if (entity->returnType != VariableType::Void && !hasReturnSymbol) {
-			
-		}
-		// 最後の関数名をクリア
-		lastFunctionName = "";
+		// 終了
+		return false;
 	}
+	if (entity->returnType != VariableType::Void && !hasReturnSymbol) {
+		setThrow("BadFunctionReturnType", nullptr);
+		return false;
+	}
+	// 終了オフセットを退避
+	entity->endOffset = compileSymbols.size();
+	// 最後の関数名をクリア
+	lastFunctionName = "";
+	localVariables.clear();
 	return true;
 }
 

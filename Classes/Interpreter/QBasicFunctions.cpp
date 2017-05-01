@@ -55,6 +55,8 @@ QBasicFunctionEntity *QBasicFunctions::addUpdate(
 	// 追加
 	QBasicFunctionEntity entity = QBasicFunctionEntity(name, variableTypes, returnType, returnSubTypes, startOffset, endOffset);
 	functions[entity.alias] = entity;
+	// 名前サマリ更新
+	buildSummaryNames();
 	return &functions[entity.alias];
 }
 
@@ -106,3 +108,14 @@ void QBasicFunctions::clear() {
 	functions.clear();
 }
 
+/**
+ * 名前でさまった一覧作成
+ */
+void QBasicFunctions::buildSummaryNames() {
+	summaryNames.clear();
+	for (auto it = functions.begin();it != functions.end();it++) {
+		if (functions.find(it->second.name) == functions.end()) {
+			summaryNames.push_back(it->second.name);
+		}
+	}
+}

@@ -152,4 +152,11 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// funcの実行
+- (void)test19 {
+	interpreter = new QBasic(nullptr, [scripts[19] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["c"].intValue, 1);
+}
+
 @end

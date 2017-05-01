@@ -37,16 +37,22 @@ end
 func a() -> void
 end
 func b() -> int
+  return 1
 end
 func c() -> float
+  return 1.0
 end
 func d() -> str
+  return "1"
 end
 func e() -> bool
+  return true
 end
 func f() -> list<int>
+  return [1]
 end
 func g() -> dict<str>
+  return {"1":"2"}
 end
 ========================
 ' test8 不正な戻り値テスト
@@ -90,5 +96,12 @@ func a(b: list<int> = ["1"])
 end
 ========================
 ' test18 デフォルト値が型指定と違う dict<str>
-func a(b: dict<str> = {"1":1})
+func a(b: dict<str> = {"1": 1})
 end
+========================
+' test19 funcの実行
+func a(b: int) -> int
+  return b
+end
+var c = a(b: 1)
+

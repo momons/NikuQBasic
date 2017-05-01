@@ -57,6 +57,18 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
 
 /**
  * コンストラクタ
+ * @param name        変数名
+ * @param type        変数タイプ
+ * @param valueTypes  値変数タイプ群
+ * @param value       値のポインタ
+ */
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, const vector<VariableType> &valueTypes, void *value) {
+	QBasicVariableEntity(name, type, value);
+	this->valueTypes = valueTypes;
+}
+
+/**
+ * コンストラクタ
  * @param name  変数名
  * @param value 値の文字列
  */

@@ -94,6 +94,10 @@ private:
 	/// 関数を名前でさまった一覧
 	vector<string> summaryNames;
 	
+	/**
+	 * 名前でさまった一覧作成
+	 */
+	void buildSummaryNames();
 };
 
 #endif /* QBasicFunctions_h */

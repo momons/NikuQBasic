@@ -223,12 +223,20 @@ private:
 
 	/**
 	 * func実行
-	 * @param run          実行中フラグ
-	 * @param functionName 関数名
+	 * @param run            実行中フラグ
+	 * @param functionName   関数名
+	 * @param returnVariable 戻り値
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool executeFunction(const bool run, const string functionName);
+	bool executeFunction(const bool run, const string &functionName, QBasicVariableEntity &returnVariable);
 	
+	/**
+	 * func終了実行
+	 * @param run          実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool executeFunctionEnd(const bool run);
+
 #pragma mark - 個別解析
 
 	/**
@@ -237,8 +245,8 @@ private:
 	 * @param run  実行中フラグ
 	 * @return 変数取得
 	 */
-	QBasicVariableEntity *getVariable(const bool run, const string name);
-
+	QBasicVariableEntity *getVariable(const bool run, const string &name);
+	
 	/**
 	 * 変数を解析
 	 * @param run 実行中フラグ
