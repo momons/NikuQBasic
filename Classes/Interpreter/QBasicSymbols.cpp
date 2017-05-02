@@ -187,6 +187,16 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 		}
 		updateRowCol(ch);
 		execOffset++;
+	} else if (ch == '=') {
+		// イコール発見
+		updateRowCol(ch);
+		execOffset++;
+		ch = cstr[execOffset];
+		// 次の文字が"="ならばプラス1
+		if(ch == '=') {
+			updateRowCol(ch);
+			execOffset++;
+		}
 	} else if (ch == '-') {
 		// マイナス発見
 		updateRowCol(ch);

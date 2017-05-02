@@ -329,7 +329,7 @@ QBasicVariableEntity QBasic::relop(const bool run) {
     
     auto sym = getSymbol();
     while(true) {
-        if (sym == "=" ||
+        if (sym == "==" ||
 			sym == "<" ||
 			sym == "<=" ||
 			sym == ">" ||
@@ -340,7 +340,7 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 			if (value.type == valueDist.type) {
 				int result = value.compare(valueDist);
 				value.type = VariableType::Bool;
-				value.boolValue = ((sym == "=" && result == 0) ||
+				value.boolValue = ((sym == "==" && result == 0) ||
 								   (sym == "<" && result < 0) ||
 								   (sym == "<=" && result <= 0) ||
 								   (sym == ">" && result > 0) ||
