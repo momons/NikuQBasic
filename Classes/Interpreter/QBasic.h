@@ -16,6 +16,7 @@ using namespace std;
 
 class QBasicStatements;
 class QBasicFunctions;
+class QBasicSymbols;
 class QBasicPushBackEntity;
 class QBasicSubFunction;
 class QBasicStringFunctions;
@@ -94,6 +95,8 @@ private:
     /// 実行プログラムソース
     string source;
 	
+	/// シンボル制御
+	QBasicSymbols *symbols;
 	/// コンパイル済みのシンボル
 	vector<string> compileSymbols;
 	/// 各命令のオフセット

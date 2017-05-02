@@ -18,6 +18,8 @@
 #include "QBasicStatementEntity.h"
 #include "QBasicFunctions.h"
 #include "QBasicFunctionEntity.h"
+#include "QBasicSymbols.h"
+#include "QBasicSymbolEntity.h"
 #include "QBasicScene.h"
 #include "QBasicVariableEntity.h"
 #include "QBasicPushBackEntity.h"
@@ -51,6 +53,9 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
 	// サブファンクション作成
 	netFunc = new QBasicNetFunctions();
 	subFunc = new QBasicSubFunction(scene, projectId);
+	
+	// シンボル解析
+	symbols = new QBasicSymbols(source);
 }
 
 /**
@@ -61,7 +66,7 @@ QBasic::~QBasic() {
 	delete functions;
 	delete netFunc;
 	delete subFunc;
-	
+	delete symbols;
 }
 
 /**
