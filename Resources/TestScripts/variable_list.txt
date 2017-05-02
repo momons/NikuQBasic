@@ -1,92 +1,92 @@
-' test0 配列型宣言 list<int>
-var a list<int>
+# test0 配列型宣言 list<int>
+var a: list<int>
 ========================
-' test1 配列型宣言 list<float>
-var a list<float>
+# test1 配列型宣言 list<float>
+var a: list<float>
 ========================
-' test2 配列型宣言 list<str>
-var a list<str>
+# test2 配列型宣言 list<str>
+var a: list<str>
 ========================
-' test3 配列型宣言 list<bool>
-var a list<bool>
+# test3 配列型宣言 list<bool>
+var a: list<bool>
 ========================
-' test4 配列型宣言 list<list<bool>>
-var a list<list<bool>>
+# test4 配列型宣言 list<list<bool>>
+var a: list<list<bool>>
 ========================
-' test5 配列型宣言 list<dict<bool>>
-var a list<dict<bool>>
+# test5 配列型宣言 list<dict<bool>>
+var a: list<dict<bool>>
 ========================
-' test6 配列型宣言 初期値設定 list<int>
-var a list<int> = [1, 2, 3, 4, 5]
+# test6 配列型宣言 初期値設定 list<int>
+var a: list<int> = [1, 2, 3, 4, 5]
 ========================
-' test7 配列型宣言 初期値設定 list<float>
-var a list<float> = [1.1, 2.2, 3.3, 4.4, 5.5]
+# test7 配列型宣言 初期値設定 list<float>
+var a: list<float> = [1.1, 2.2, 3.3, 4.4, 5.5]
 ========================
-' test8 配列型宣言 初期値設定 list<str>
-var a list<str> = ["1", "2", "3", "4", "5"]
+# test8 配列型宣言 初期値設定 list<str>
+var a: list<str> = ["1", "2", "3", "4", "5"]
 ========================
-' test9 配列型宣言 初期値設定 list<bool>
-var a list<bool> = [true, false, false]
+# test9 配列型宣言 初期値設定 list<bool>
+var a: list<bool> = [true, false, false]
 ========================
-' test10 配列型宣言 初期値設定 list<list<bool>>
-var a list<list<bool>> = [[true, true], [false], [true, false, true]]
+# test10 配列型宣言 初期値設定 list<list<bool>>
+var a: list<list<bool>> = [[true, true], [false], [true, false, true]]
 ========================
-' test11 配列型宣言 初期値設定 list<dict<bool>>
-var a list<dict<bool>> = [{"b": true, "c": true}, {"d": false}, {"e": true, "f": false, "g": true}]
+# test11 配列型宣言 初期値設定 list<dict<bool>>
+var a: list<dict<bool>> = [{"b": true, "c": true}, {"d": false}, {"e": true, "f": false, "g": true}]
 ========================
-' test12 配列型宣言 型推論 list<int>
+# test12 配列型宣言 型推論 list<int>
 var a = [1, 2, 3, 4, 5]
 ========================
-' test13 配列型宣言 型推論 list<float>
+# test13 配列型宣言 型推論 list<float>
 var a = [1.1, 2.2, 3.3, 4.4, 5.5]
 ========================
-' test14 配列型宣言 型推論 list<str>
+# test14 配列型宣言 型推論 list<str>
 var a = ["1", "2", "3", "4", "5"]
 ========================
-' test15 配列型宣言 型推論 list<bool>
+# test15 配列型宣言 型推論 list<bool>
 var a = [true, false, false]
 ========================
-' test16 配列型宣言 型推論 list<list<bool>>
+# test16 配列型宣言 型推論 list<list<bool>>
 var a = [[true, true], [false], [true, false, true]]
 ========================
-' test17 配列型宣言 型推論 list<dict<bool>>
+# test17 配列型宣言 型推論 list<dict<bool>>
 var a = [{"b": true, "c": true}, {"d": false}, {"e": true, "f": false, "g": true}]
 ========================
-' test18 配列型宣言 初期値設定 宣言と異なる
+# test18 配列型宣言 初期値設定 宣言と異なる
 var a list<str> = ["1", "2", "3", 4, "5"]
 ========================
-' test19 配列型宣言 型推論 いろいろな型がまざる
+# test19 配列型宣言 型推論 いろいろな型がまざる
 var a  = [{"b":1}, [2.0], "3", 4, true]
 ========================
-' test20 初期値以外で値を設定
-var a list<int>
+# test20 初期値以外で値を設定
+var a: list<int>
 a = [1, 2, 3, 4, 5]
 ========================
-' test21 各要素取り出し list<int>
+# test21 各要素取り出し list<int>
 var a = [1, 2, 3, 4, 5]
 var b = a[0]
 var c = a[4]
 ========================
-' test22 各要素取り出し list<list<str>>
+# test22 各要素取り出し list<list<str>>
 var a = [["a", "b"], ["c", "d", "e"]]
 var b = a[0][1]
 var c = a[1][0]
 var e = a[1][2]
 ========================
-' test23 各要素取り出し list<dict<float>>
+# test23 各要素取り出し list<dict<float>>
 var a = [{"a": 1.0, "b": 2.0}, {"c": 3.0, "d": 4.0, "e": 5.0}]
 var b = a[0]["b"]
 var c = a[1]["c"]
 var e = a[1]["e"]
 ========================
-' test24 各要素の値更新 list<int>
+# test24 各要素の値更新 list<int>
 var a = [1, 2, 3, 4, 5]
 a[0] = 5
 a[4] = 1
 var b = a[0]
 var c = a[4]
 ========================
-' test25 各要素の値更新 list<list<str>>
+# test25 各要素の値更新 list<list<str>>
 var a = [["a", "b"], ["c", "d", "e"]]
 a[0][1] = "bb"
 a[1][0] = "cc"
@@ -95,7 +95,7 @@ var b = a[0][1]
 var c = a[1][0]
 var e = a[1][2]
 ========================
-' test26 各要素の値更新 list<dict<float>>
+# test26 各要素の値更新 list<dict<float>>
 var a = [{"a": 1.0, "b": 2.0}, {"c": 3.0, "d": 4.0, "e": 5.0}]
 a[0]["b"] = a[0]["b"] * 2.0
 a[1]["c"] = a[1]["c"] * 2.0

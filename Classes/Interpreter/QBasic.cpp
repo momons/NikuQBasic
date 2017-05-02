@@ -109,18 +109,15 @@ void QBasic::initAndRun(const bool run) {
 	// 初期化
 	isRun = run;
 	isExit = false;
-	execOffset = 0;
-	pushBacked.shrink_to_fit();
+	pushBacked = "";
 	variables.clear();
 	localVariables.clear();
 	if (!run) {
-		compileSymbols.clear();
-		compileExecOffsets.clear();
-		compileOffset = 0;
 		functions->clear();
 		lastFunctionName = "";
 	}
 	functionPushBacks.clear();
+	symbols->jumpOffset(0);
 	
 	// 実行
 	while(true) {
@@ -144,14 +141,18 @@ void QBasic::pushBack(const string &symbol) {
  * @return 単語文字列
  */
 string QBasic::getSymbol() {
-    
+	
+	
     // 残しておいたシンボルを返却
     if (!pushBacked.empty()) {
         string pushbackedBackup = pushBacked;
 		pushBacked.clear();
         return pushbackedBackup;
     }
+
+	return symbols->nextSymbol();
 	
+	/*
 	// 実行中
 	if (isRun) {
 		if (compileOffset >= compileSymbols.size()) {
@@ -261,6 +262,7 @@ string QBasic::getSymbol() {
 	compileSymbols.push_back(symbol);
 	compileExecOffsets.push_back(execOffset);
 	return symbol;
+	 */
 }
 
 /**
@@ -589,8 +591,6 @@ bool QBasic::statement(const bool run) {
 		return analysisIf(run);
     } else if(sym == "for") {
 		return analysisFor(run);
-    } else if(sym == "rem" || sym == "'") {
-		return analysisRem(run);
 	} else if(sym == "func") {
 		return analysisFunc(run);
 	} else if(sym == "return") {
@@ -616,6 +616,9 @@ bool QBasic::statement(const bool run) {
 		// ファンクション
 		QBasicVariableEntity returnValue;
 		return executeFunction(run, sym, returnValue);
+	} else if (sym.c_str()[0] == '#') {
+		// コメント
+		return true;
 	} else {
 		pushBack(sym);
 		expression(run);
@@ -738,17 +741,11 @@ vector<QBasicVariableEntity> QBasic::getArg(const bool run) {
  * @exception コンパイルエラー
  */
 void QBasic::setThrow(const string &message) {
-	// 行数を検索
-	int row = 1;
-	for (int i = 0;i < execOffset - 1;i++) {
-		if (source[i] == '\n') {
-			row++;
-		}
-	}
+	// 行数取得
+	auto symbolEntity = symbols->beforeSymbolEntity();
 	// ログ出力
 	ostringstream stream;
-	stream << "row:" << row << " " << message;
-	stream << message;
+	stream << "row:" << symbolEntity->row << " col:" << symbolEntity->col << " " << message;
 	throw runtime_error(stream.str());
 }
 
@@ -768,13 +765,7 @@ void QBasic::setThrow(const string &messegeCode, const char *params) {
  * @param run 実行中フラグ
  */
 void QBasic::popBack(const bool run) {
-	if (run) {
-		compileOffset -= 1;
-	} else {
-		compileSymbols.pop_back();
-		compileExecOffsets.pop_back();
-		execOffset = compileExecOffsets[compileExecOffsets.size() - 1];
-	}
+	symbols->popBack();
 }
 
 #pragma mark - 実行
@@ -802,13 +793,12 @@ bool QBasic::executeFunction(const bool run, const string &functionName, QBasicV
 	}
 	
 	// ローカル変数に行数とプッシュバック変数を退避
-	auto pushBackEntity = QBasicPushBackEntity(entity->alias, pushBacked, compileOffset, localVariables);
+	auto pushBackEntity = QBasicPushBackEntity(entity->alias, pushBacked, symbols->offset(), localVariables);
 	functionPushBacks.push_back(pushBackEntity);
 
 	// 実行オフセットを設定
 	lastFunctionName = entity->alias;
-	compileOffset = entity->startOffset;
-	execOffset = compileExecOffsets[compileOffset];
+	symbols->jumpOffset(entity->startOffset);
 	
 	// 情報クリア
 	pushBacked.clear();
@@ -849,8 +839,7 @@ bool QBasic::executeFunctionEnd(const bool run) {
 	QBasicPushBackEntity entity = *(functionPushBacks.end() - 1);
 	lastFunctionName = entity.name;
 	pushBacked = entity.symbol;
-	compileOffset = entity.execOffset;
-	execOffset = compileExecOffsets[compileOffset];
+	symbols->jumpOffset(entity.execOffset);
 	localVariables.clear();
 	localVariables = entity.localVariables;
 	// 削除
@@ -946,8 +935,9 @@ bool QBasic::analysisVar(const bool run) {
 
 	auto variableType = VariableType::Unknown;
 	vector<VariableType> valueVariableTypes;
-	if (sym != "=") {
+	if (sym == ":") {
 		// 型をチェック
+		sym = getSymbol();
 		variableType = QBasicVariableEntity::getVariableType(sym);
 		if (!run) {
 			if (variableType == VariableType::Void ||
@@ -972,6 +962,11 @@ bool QBasic::analysisVar(const bool run) {
 	
 	// 初期値設定されているか
 	if (sym != "=") {
+		if (variableType == VariableType::Unknown) {
+			// [ERROR]変数のタイプが不正です。
+			setThrow("BadVariableType", variableName.c_str());
+			return false;
+		}
 		if (!sym.empty()) {
 			popBack(run);
 		}
@@ -1149,23 +1144,13 @@ bool QBasic::analysisFor(const bool run) {
 	}
 	
 	int count = 0;
-	long pcfor;
-	if (isRun) {
-		pcfor = compileOffset;
-	} else {
-		pcfor = execOffset;
-	}
+	int pcfor = symbols->offset();
 	string pushbackfor = pushBacked;
 	while (!run ||
 		   (isUpLoop && variables[variableName].intValue <= to) ||
 		   (!isUpLoop && variables[variableName].intValue >= to)) {
 		
-		if (isRun) {
-			compileOffset = pcfor;
-			execOffset = compileExecOffsets[compileOffset];
-		} else {
-			execOffset = pcfor;
-		}
+		symbols->jumpOffset(pcfor);
 		pushBacked = pushbackfor;
 		
 		while (true) {
@@ -1251,8 +1236,7 @@ bool QBasic::analysisFunc(const bool run) {
 	
 	if (run) {
 		// 実行中ならば、endまで処理を飛ばす
-		compileOffset = entity->endOffset;
-		execOffset = compileExecOffsets[compileOffset];
+		symbols->jumpOffset(entity->endOffset);
 		return true;
 	}
 	
@@ -1293,7 +1277,7 @@ bool QBasic::analysisFunc(const bool run) {
 	}
 
 	// ファンクション追加
-	entity = functions->addUpdate(functionName, argNames, returnType, valueVariableTypes, compileSymbols.size(), 0);
+	entity = functions->addUpdate(functionName, argNames, returnType, valueVariableTypes, symbols->offset(), 0);
 	
 	// 最後の関数名を退避
 	lastFunctionName = entity->alias;
@@ -1476,22 +1460,9 @@ bool QBasic::analysisEnd(const bool run) {
 		return false;
 	}
 	// 終了オフセットを退避
-	entity->endOffset = compileSymbols.size();
+	entity->endOffset = symbols->offset();
 	// 最後の関数名をクリア
 	lastFunctionName = "";
 	localVariables.clear();
-	return true;
-}
-
-/**
- * コメントを解析
- * @param run 実行中フラグ
- * @return 終了フラグ false:終了 true:進行
- */
-bool QBasic::analysisRem(const bool run) {
-	const char *cstr = source.c_str();
-	while (execOffset < source.length() && cstr[execOffset] != '\n') {
-		execOffset++;
-	}
 	return true;
 }

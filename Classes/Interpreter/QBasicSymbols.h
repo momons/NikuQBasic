@@ -30,6 +30,35 @@ public:
 	 */
 	~QBasicSymbols();
 
+	/**
+	 *  次のシンボルへ
+	 *  @return シンボル
+	 */
+	string nextSymbol();
+	
+	/**
+	 *  一個前のシンボルを取得
+	 *  @return シンボル
+	 */
+	QBasicSymbolEntity *beforeSymbolEntity();
+	
+	/**
+	 *  オフセット設定
+	 *  @param offset オフセット
+	 */
+	void jumpOffset(const int offset);
+	
+	/**
+	 *  オフセット一つ下げる
+	 */
+	void popBack();
+
+	/**
+	 *  現在のオフセット取得
+	 *  @return 現在のオフセット
+	 */
+	int offset();
+	
 private:
 	
 	/// プログラムソース

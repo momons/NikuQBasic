@@ -36,9 +36,9 @@ public:
 	vector<VariableType> returnSubTypes;
 	
 	/// 開始オフセット
-	long startOffset;
+	int startOffset;
 	/// 終了オフセット
-	long endOffset;
+	int endOffset;
 	
 	/**
 	 * コンストラクタ
@@ -59,8 +59,8 @@ public:
 						 const vector<QBasicVariableEntity> &argNames,
 						 const VariableType returnType,
 						 const vector<VariableType> returnSubTypes,
-						 const long startOffset,
-						 const long endOffset);
+						 const int startOffset,
+						 const int endOffset);
 
 	/**
 	 * デストラクタ

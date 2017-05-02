@@ -40,8 +40,8 @@ QBasicFunctionEntity *QBasicFunctions::addUpdate(
 												 const vector<QBasicVariableEntity> &variableTypes,
 												 const VariableType returnType,
 												 const vector<VariableType> returnSubTypes,
-												 const long startOffset,
-												 const long endOffset) {
+												 const int startOffset,
+												 const int endOffset) {
 
 	auto func = getFunction(name, variableTypes);
 	if (func != nullptr) {

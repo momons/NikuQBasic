@@ -20,7 +20,7 @@
 QBasicPushBackEntity::QBasicPushBackEntity(
 										   const string &name,
 										   const string &symbol,
-										   const long execOffset,
+										   const int execOffset,
 										   const unordered_map<string, QBasicVariableEntity> &localVariables) {
 	this->name = name;
 	this->symbol = symbol;

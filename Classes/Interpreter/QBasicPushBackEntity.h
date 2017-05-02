@@ -24,7 +24,7 @@ public:
 	/// 文字退避
 	string symbol;
 	/// 文字退避
-	long execOffset;
+	int execOffset;
 	/// ローカル変数
 	unordered_map<string, QBasicVariableEntity> localVariables;
 	
@@ -38,7 +38,7 @@ public:
 	QBasicPushBackEntity(
 						 const string &name,
 						 const string &symbol,
-						 const long execOffset,
+						 const int execOffset,
 						 const unordered_map<string, QBasicVariableEntity> &localVariables);
 	
 	/**

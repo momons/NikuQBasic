@@ -97,21 +97,12 @@ private:
 	
 	/// シンボル制御
 	QBasicSymbols *symbols;
-	/// コンパイル済みのシンボル
-	vector<string> compileSymbols;
-	/// 各命令のオフセット
-	vector<long> compileExecOffsets;
-	/// コンパイル中オフセット
-	long compileOffset;
 	
 	/// runフラグ
 	bool isRun;
 	/// 終了フラグ
 	bool isExit;
 
-    /// 現在の処理位置
-    long execOffset;
-	
     /// プッシュバック用
     string pushBacked;
 	
@@ -308,13 +299,6 @@ private:
 	 * @return 終了フラグ false:終了 true:進行
 	 */
 	bool analysisEnd(const bool run);
-	
-	/**
-	 * コメントを解析
-	 * @param run 実行中フラグ
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	bool analysisRem(const bool run);
 	
 };
 

@@ -39,8 +39,8 @@ QBasicFunctionEntity::QBasicFunctionEntity(
 										   const vector<QBasicVariableEntity> &argNames,
 										   const VariableType returnType,
 										   const vector<VariableType> returnSubTypes,
-										   const long startOffset,
-										   const long endOffset) {
+										   const int startOffset,
+										   const int endOffset) {
 	this->name = name;
 	this->argNames = argNames;
 	this->returnType = returnType;

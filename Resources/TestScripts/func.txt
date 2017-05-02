@@ -1,31 +1,31 @@
-' test0 引数なし
+# test0 引数なし
 func a()
 end
 ========================
-' test1 引数あり
+# test1 引数あり
 func a(a: int, b: int, c: int)
 end
 ========================
-' test2 関数名に予約語を使用
+# test2 関数名に予約語を使用
 func if()
 end
 ========================
-' test3 変数名がかぶっている
-var void a
+# test3 変数名がかぶっている
+var a: int
 func b(a: int)
 end
 ========================
-' test4 引数の変数名がかぶっている
+# test4 引数の変数名がかぶっている
 func a(b: int, c: int, b: int)
 end
 ========================
-' test5 funcの中にfunc
+# test5 funcの中にfunc
 func a()
   func b()
   end
 end
 ========================
-' test6 同一funcを二重定義
+# test6 同一funcを二重定義
 func a()
 end
 func b()
@@ -33,7 +33,7 @@ end
 func a()
 end
 ========================
-' test7 戻り値テスト
+# test7 戻り値テスト
 func a() -> void
 end
 func b() -> int
@@ -55,51 +55,51 @@ func g() -> dict<str>
   return {"1":"2"}
 end
 ========================
-' test8 不正な戻り値テスト
+# test8 不正な戻り値テスト
 func a() sdsds
 end
 ========================
-' test9 引数の型テスト int
+# test9 引数の型テスト int
 func a(b: int, c: float, d: str, e: bool)
 end
 ========================
-' test10 引数の型テスト void
+# test10 引数の型テスト void
 func a(b: void)
 end
 ========================
-' test11 不正な引数の型テスト
+# test11 不正な引数の型テスト
 func a(asas: c)
 end
 ========================
-' test12 デフォルト値設定
+# test12 デフォルト値設定
 func a(b: int = 2, c = "aaa", d: float = 1.0, e = [1], f: dict<str> = { "1": "a" })
 end
 ========================
-' test13 デフォルト値が型指定と違う int
+# test13 デフォルト値が型指定と違う int
 func a(b: int = true)
 end
 ========================
-' test14 デフォルト値が型指定と違う float
+# test14 デフォルト値が型指定と違う float
 func a(b: float = 2)
 end
 ========================
-' test15 デフォルト値が型指定と違う str
+# test15 デフォルト値が型指定と違う str
 func a(b: str = 2.0)
 end
 ========================
-' test16 デフォルト値が型指定と違う bool
+# test16 デフォルト値が型指定と違う bool
 func a(b: bool = 2)
 end
 ========================
-' test17 デフォルト値が型指定と違う list<int>
+# test17 デフォルト値が型指定と違う list<int>
 func a(b: list<int> = ["1"])
 end
 ========================
-' test18 デフォルト値が型指定と違う dict<str>
+# test18 デフォルト値が型指定と違う dict<str>
 func a(b: dict<str> = {"1": 1})
 end
 ========================
-' test19 funcの実行
+# test19 funcの実行
 func a(b: int) -> int
   return b
 end

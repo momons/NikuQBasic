@@ -1,49 +1,49 @@
-' test0 英字のみ宣言
-var AbcdFfdwdwewew int
+# test0 英字のみ宣言
+var AbcdFfdwdwewew: int
 ========================
-' test1 英数字で宣言
-var asds1232Ffdlds int
+# test1 英数字で宣言
+var asds1232Ffdlds: int
 ========================
-' test2 記号を混ぜるとコンパイルエラー
-var asds1232F#fdlds int
+# test2 記号を混ぜるとコンパイルエラー
+var asds1232F#fdlds: int
 ========================
-' test3 頭が数字はコンパイルエラー
-var 1basasasaefe int
+# test3 頭が数字はコンパイルエラー
+var 1basasasaefe: int
 ========================
-' test4 基本ステートメント名と被っているとコンパイルエラー
-var exit int
+# test4 基本ステートメント名と被っているとコンパイルエラー
+var exit: int
 ========================
-' test5 ステートメント名と被っているとコンパイルエラー
-var len int
+# test5 ステートメント名と被っているとコンパイルエラー
+var len: int
 ========================
-' test6 数値を入れて取り出せるか 1
-var a int
+# test6 数値を入れて取り出せるか 1
+var a: int
 a = 1
 ========================
-' test7 計算式を入れて取り出せるか 15
-var a int
+# test7 計算式を入れて取り出せるか 15
+var a: int
 a = 1 + 2 + 3 * 4
 ========================
-' test8 違う変数から値を設定できるか
-var a int
-var b int
+# test8 違う変数から値を設定できるか
+var a: int
+var b: int
 b = 1
 a = b
 ========================
-' test9 変数を判定できるか
-var b int
+# test9 変数を判定できるか
+var b: int
 b = 1
-var a int
+var a: int
 if b = 1 then
   a = 1
 else
   a = 2
 endif
 ========================
-' test10 変数同士の判定ができるか
-var a int
-var b int
-var c int
+# test10 変数同士の判定ができるか
+var a: int
+var b: int
+var c: int
 b = 10
 c = 10
 if b = c then
@@ -52,9 +52,9 @@ else
   a = 2
 endif
 ========================
-' test11 変数の２重定義はコンパイルエラー
-var a int
+# test11 変数の２重定義はコンパイルエラー
+var a: int
 a = 1
-var a int
+var a: int
 a = 2
 

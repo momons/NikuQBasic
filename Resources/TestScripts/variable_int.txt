@@ -1,19 +1,19 @@
-' test0 型テスト int
-var a int = 0
+# test0 型テスト int
+var a: int = 0
 a = 9999
 ========================
-' test1 型テスト intにfloatはダメ
-var a int = 0
+# test1 型テスト intにfloatはダメ
+var a: int = 0
 a = 1.0
 ========================
-' test2 型テスト intにstrはダメ
-var a int = 0
+# test2 型テスト intにstrはダメ
+var a: int = 0
 a = "1"
 ========================
-' test3 型テスト intにboolはダメ
-var a int = 0
+# test3 型テスト intにboolはダメ
+var a: int = 0
 a = true
 ========================
-' test4 型推論テスト int
+# test4 型推論テスト int
 var a = 1
 a = a + 2

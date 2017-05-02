@@ -1,92 +1,92 @@
-' test0 連想配列型宣言 dict<int>
-var a dict<int>
+# test0 連想配列型宣言 dict<int>
+var a: dict<int>
 ========================
-' test1 連想配列型宣言 dict<float>
-var a dict<float>
+# test1 連想配列型宣言 dict<float>
+var a: dict<float>
 ========================
-' test2 連想配列型宣言 dict<str>
-var a dict<str>
+# test2 連想配列型宣言 dict<str>
+var a: dict<str>
 ========================
-' test3 連想配列型宣言 dict<bool>
-var a dict<bool>
+# test3 連想配列型宣言 dict<bool>
+var a: dict<bool>
 ========================
-' test4 連想配列型宣言 dict<list<bool>>
-var a dict<list<bool>>
+# test4 連想配列型宣言 dict<list<bool>>
+var a: dict<list<bool>>
 ========================
-' test5 連想配列型宣言 dict<dict<bool>>
-var a dict<dict<bool>>
+# test5 連想配列型宣言 dict<dict<bool>>
+var a: dict<dict<bool>>
 ========================
-' test6 連想配列型宣言 初期値設定 dict<int>
-var a dict<int> = {"a":1, "b":2, "c":3, "d":4, "e":5}
+# test6 連想配列型宣言 初期値設定 dict<int>
+var a: dict<int> = {"a":1, "b":2, "c":3, "d":4, "e":5}
 ========================
-' test7 連想配列型宣言 初期値設定 dict<float>
-var a dict<float> = {"a":1.1, "b":2.2, "c":3.3, "d":4.4, "e":5.5}
+# test7 連想配列型宣言 初期値設定 dict<float>
+var a: dict<float> = {"a":1.1, "b":2.2, "c":3.3, "d":4.4, "e":5.5}
 ========================
-' test8 連想配列型宣言 初期値設定 dict<str>
-var a dict<str> = {"a":"1", "b":"2", "c":"3", "d":"4", "e":"5"}
+# test8 連想配列型宣言 初期値設定 dict<str>
+var a: dict<str> = {"a":"1", "b":"2", "c":"3", "d":"4", "e":"5"}
 ========================
-' test9 連想配列型宣言 初期値設定 dict<bool>
-var a dict<bool> = {"a":false, "b":true, "c":false, "d":false, "e":true}
+# test9 連想配列型宣言 初期値設定 dict<bool>
+var a: dict<bool> = {"a":false, "b":true, "c":false, "d":false, "e":true}
 ========================
-' test10 連想配列型宣言 初期値設定 dict<list<int>>
-var a dict<list<int>> = {"a": [1], "b": [2, 3], "c": [4, 5, 6], "d": [7,8], "e": [9, 10]}
+# test10 連想配列型宣言 初期値設定 dict<list<int>>
+var a: dict<list<int>> = {"a": [1], "b": [2, 3], "c": [4, 5, 6], "d": [7,8], "e": [9, 10]}
 ========================
-' test11 連想配列型宣言 初期値設定 dict<dict<int>>
-var a dict<dict<int>> = {"a": {"aa": 1}, "b": {"ba": 2, "bb": 3}, "c": {"ca": 4, "cb": 5, "cc": 6}}
+# test11 連想配列型宣言 初期値設定 dict<dict<int>>
+var a: dict<dict<int>> = {"a": {"aa": 1}, "b": {"ba": 2, "bb": 3}, "c": {"ca": 4, "cb": 5, "cc": 6}}
 ========================
-' test12 連想配列型宣言 型推論 dict<int>
+# test12 連想配列型宣言 型推論 dict<int>
 var a = {"a":1, "b":2, "c":3, "d":4, "e":5}
 ========================
-' test13 連想配列型宣言 型推論 dict<float>
+# test13 連想配列型宣言 型推論 dict<float>
 var a = {"a":1.1, "b":2.2, "c":3.3, "d":4.4, "e":5.5}
 ========================
-' test14 連想配列型宣言 型推論 dict<str>
+# test14 連想配列型宣言 型推論 dict<str>
 var a = {"a":"1", "b":"2", "c":"3", "d":"4", "e":"5"}
 ========================
-' test15 連想配列型宣言 型推論 dict<bool>
+# test15 連想配列型宣言 型推論 dict<bool>
 var a = {"a":false, "b":true, "c":false, "d":false, "e":true}
 ========================
-' test16 連想配列型宣言 型推論 dict<list<int>>
+# test16 連想配列型宣言 型推論 dict<list<int>>
 var a = {"a": [1], "b": [2, 3], "c": [4, 5, 6], "d": [7,8], "e": [9, 10]}
 ========================
-' test17 連想配列型宣言 型推論 dict<dict<int>>
+# test17 連想配列型宣言 型推論 dict<dict<int>>
 var a = {"a": {"aa": 1}, "b": {"ba": 2, "bb": 3}, "c": {"ca": 4, "cb": 5, "cc": 6}}
 ========================
-' test18 連想配列型宣言 初期値設定 宣言と異なる
-var a dict<int> = {"a":1, "b":2, "c":3.0, "d":4, "e":5}
+# test18 連想配列型宣言 初期値設定 宣言と異なる
+var a: dict<int> = {"a":1, "b":2, "c":3.0, "d":4, "e":5}
 ========================
-' test19 連想配列型宣言 型推論 いろいろな型がまざる
+# test19 連想配列型宣言 型推論 いろいろな型がまざる
 var a = {"a": {"aa": "1"}, "b": {"ba": true, "bb": 3}, "c": [ 5.0 ]}
 ========================
-' test20 初期値以外で値を設定
-var a dict<int>
+# test20 初期値以外で値を設定
+var a: dict<int>
 a = {"a":1, "b":2, "c":3, "d":4, "e":5}
 ========================
-' test21 各要素取り出し dict<int>
+# test21 各要素取り出し dict<int>
 var a = {"a":1, "b":2, "c":3, "d":4, "e":5}
 var b = a["a"]
 var c = a["e"]
 ========================
-' test22 各要素取り出し dict<list<str>>
+# test22 各要素取り出し dict<list<str>>
 var a = {"a": ["1"], "b": ["2", "3"], "c": ["4", "5", "6"], "d": ["7","8"], "e": ["9", "10"]}
 var b = a["b"][0]
 var c = a["c"][1]
 var e = a["e"][1]
 ========================
-' test23 各要素取り出し dict<dict<float>>
+# test23 各要素取り出し dict<dict<float>>
 var a = {"a": {"aa": 1.0}, "b": {"ba": 2.0, "bb": 3.0}, "c": {"ca": 4.0, "cb": 5.0, "cc": 6.0}}
 var b = a["a"]["aa"]
 var c = a["b"]["bb"]
 var e = a["c"]["cc"]
 ========================
-' test24 各要素の値更新 dict<int>
+# test24 各要素の値更新 dict<int>
 var a = {"a":1, "b":2, "c":3, "d":4, "e":5}
 a["a"] = 5
 a["e"] = 1
 var b = a["a"]
 var c = a["e"]
 ========================
-' test25 各要素の値更新 dict<list<str>>
+# test25 各要素の値更新 dict<list<str>>
 var a = {"a": ["1"], "b": ["2", "3"], "c": ["4", "5", "6"], "d": ["7","8"], "e": ["9", "10"]}
 a["b"][0] = "bb"
 a["c"][1] = "cc"
@@ -95,7 +95,7 @@ var b = a["b"][0]
 var c = a["c"][1]
 var e = a["e"][1]
 ========================
-' test26 各要素の値更新 dict<dict<float>>
+# test26 各要素の値更新 dict<dict<float>>
 var a = {"a": {"aa": 1.0}, "b": {"ba": 2.0, "bb": 3.0}, "c": {"ca": 4.0, "cb": 5.0, "cc": 6.0}}
 a["a"]["aa"] = a["a"]["aa"] * 2.0
 a["b"]["bb"] = a["b"]["bb"] * 2.0

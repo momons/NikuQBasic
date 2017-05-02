@@ -1,73 +1,73 @@
-' test0 イコール
-var a int = 0
+# test0 イコール
+var a: int = 0
 if 1 = 1 then
   a = 1
 endif
 ========================
-' test1 ノットイコール
-var a int = 0
+# test1 ノットイコール
+var a: int = 0
 if 2 <> 1 then
   a = 1
 endif
 ========================
-' test2 小なり
-var a int = 0
+# test2 小なり
+var a: int = 0
 if 1 < 2 then
   a = 1
 endif
 ========================
-' test3 小なりイコール
-var a int = 0
+# test3 小なりイコール
+var a: int = 0
 if 1 <= 2 and 2 <= 2 then
   a = 1
 endif
 ========================
-' test4 大なり
-var a int = 0
+# test4 大なり
+var a: int = 0
 if 2 > 1 then
   a = 1
 endif
 ========================
-' test5 大なりイコール
-var a int = 0
+# test5 大なりイコール
+var a: int = 0
 if 2 >= 1 and 2 >= 2 then
   a = 1
 endif
 ========================
-' test6 and
-var a int = 0
+# test6 and
+var a: int = 0
 if 1 = 1 and 2 = 2 then
   a = 1
 endif
 ========================
-' test7 or
-var a int = 0
+# test7 or
+var a: int = 0
 if 1 = 2 or 2 = 2 then
   a = 1
 endif
 ========================
-' test8 xor
-var a int = 0
+# test8 xor
+var a: int = 0
 if 1 = 2 xor 2 = 2 then
   a = 1
 endif
 ========================
-' test9 not
-var a int = 0
+# test9 not
+var a: int = 0
 if not(1 = 2) then
   a = 1
 endif
 ========================
-' test10 else
-var a int
+# test10 else
+var a: int
 if 1 = 2 then
   a = 0
 else
   a = 1
 endif
 ========================
-' test11 elseif
-var a int
+# test11 elseif
+var a: int
 if 1 = 2 then
   a = 0
 elseif 2 = 2 then
@@ -76,8 +76,8 @@ else
   a = 0
 endif
 ========================
-' test12 elseifその２
-var a int
+# test12 elseifその２
+var a: int
 if 1 = 2 then
   a = 0
 elseif 2 = 3 then
@@ -88,44 +88,44 @@ else
   a = 0
 endif
 ========================
-' test13 文字比較イコール
-var a int = 0
+# test13 文字比較イコール
+var a: int = 0
 if "a" = "a" then
   a = 1
 endif
 ========================
-' test14 文字比較ノットイコール
-var a int = 0
+# test14 文字比較ノットイコール
+var a: int = 0
 if "a" <> "b" then
   a = 1
 endif
 ========================
-' test15 文字比較小なり
-var a int = 0
+# test15 文字比較小なり
+var a: int = 0
 if "a" < "b" then
   a = 1
 endif
 ========================
-' test16 文字比較小なりイコール
-var a int = 0
+# test16 文字比較小なりイコール
+var a: int = 0
 if "a" < "b" and "b" <= "b" then
   a = 1
 endif
 ========================
-' test17 文字比較大なり
-var a int = 0
+# test17 文字比較大なり
+var a: int = 0
 if "b" > "a" then
   a = 1
 endif
 ========================
-' test18 文字比較大なりイコール
-var a int = 0
+# test18 文字比較大なりイコール
+var a: int = 0
 if "b" > "a" and "b" >= "b" then
   a = 1
 endif
 ========================
-' test19 if文の中にif文
-var a int = 0
+# test19 if文の中にif文
+var a: int = 0
 if "a" = "a" then
   if "b" <> "b" then
    a = 0
@@ -134,8 +134,8 @@ if "a" = "a" then
   endif
 endif
 ========================
-' test20 else２個でコンパイルエラー
-var a int
+# test20 else２個でコンパイルエラー
+var a: int
 if 1 = 1 then
   a = 1
 else
@@ -144,8 +144,8 @@ else
   a = 3
 endif
 ========================
-' test21 elseの後にelseifでコンパイルエラー
-var a int
+# test21 elseの後にelseifでコンパイルエラー
+var a: int
 if 1 = 1 then
   a = 1
 else
@@ -154,107 +154,107 @@ elseif 1 = 1 then
   a = 3
 endif
 ========================
-' test22 str判定
-var a bool = false
-var b str = "abcdefg"
+# test22 str判定
+var a: bool = false
+var b: str = "abcdefg"
 if b = "abcdefg" then
   a = true
 endif
 ========================
-' test23 str判定 小なり
-var a bool = false
-var b str = "abcdefg"
+# test23 str判定 小なり
+var a: bool = false
+var b: str = "abcdefg"
 if b < "abcdefh" then
   a = true
 endif
 ========================
-' test24 str判定 小なりイコール
-var a bool = false
-var b str = "abcdefg"
+# test24 str判定 小なりイコール
+var a: bool = false
+var b: str = "abcdefg"
 if b <= "abcdefg" and b <= "abcdefh" then
   a = true
 endif
 ========================
-' test25 str判定 大なり
-var a bool = false
-var b str = "abcdefg"
+# test25 str判定 大なり
+var a: bool = false
+var b: str = "abcdefg"
 if b > "abcdeff" then
   a = true
 endif
 ========================
-' test26 str判定 大なりイコール
-var a bool = false
-var b str = "abcdefg"
+# test26 str判定 大なりイコール
+var a: bool = false
+var b: str = "abcdefg"
 if b >= "abcdefg" and b >= "abcdeff" then
   a = true
 endif
 ========================
-' test27 float判定
-var a bool = false
-var b float = 1.0
+# test27 float判定
+var a: bool = false
+var b: float = 1.0
 if b = 1.00 then
   a = true
 endif
 ========================
-' test28 float判定 小なり
-var a bool = false
-var b float = 1.0
+# test28 float判定 小なり
+var a: bool = false
+var b: float = 1.0
 if b < 1.0001 then
   a = true
 endif
 ========================
-' test29 float判定 小なりイコール
-var a bool = false
-var b float = 1.0
+# test29 float判定 小なりイコール
+var a: bool = false
+var b: float = 1.0
 if b <= 1.0 and b <= 1.0001 then
   a = true
 endif
 ========================
-' test30 float判定 大なり
-var a bool = false
-var b float = 1.0
+# test30 float判定 大なり
+var a: bool = false
+var b: float = 1.0
 if b > 0.9999 then
   a = true
 endif
 ========================
-' test31 float判定 大なりイコール
-var a bool = false
-var b float = 1.0
+# test31 float判定 大なりイコール
+var a: bool = false
+var b: float = 1.0
 if b = 1.0 and b >= 0.9999 then
   a = true
 endif
 ========================
-' test32 bool判定
-var a bool = false
-var b bool = true
+# test32 bool判定
+var a: bool = false
+var b: bool = true
 if b = true then
   a = true
 endif
 ========================
-' test33 bool判定 小なり
-var a bool = false
-var b bool = false
+# test33 bool判定 小なり
+var a: bool = false
+var b: bool = false
 if b < true then
   a = true
 endif
 ========================
-' test34 bool判定 小なりイコール
-var a bool = false
-var b bool = false
+# test34 bool判定 小なりイコール
+var a: bool = false
+var b: bool = false
 if b <= false and b <= true then
   a = true
 endif
 ========================
-' test35 bool判定 大なり
-var a bool = false
-var b bool = true
+# test35 bool判定 大なり
+var a: bool = false
+var b: bool = true
 if b > false then
   a = true
 endif
 ========================
-' test36 bool判定 大なりイコール
-var a bool = false
-var b bool = true
+# test36 bool判定 大なりイコール
+var a: bool = false
+var b: bool = true
 if b >= false and b >= true then
   a = true
 endif

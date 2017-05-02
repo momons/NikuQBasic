@@ -1,17 +1,17 @@
-' 処理終了
-var a int = 0
+# 処理終了
+var a: int = 0
 exit
 a = 1
 ========================
-' if文で処理終了
-var a int = 0
+# if文で処理終了
+var a: int = 0
 if a = 0 then
   exit
 endif
 a = 1
 ========================
-' for文で処理終了
-var a int
+# for文で処理終了
+var a: int
 for a = 0 to 10
   exit
 next

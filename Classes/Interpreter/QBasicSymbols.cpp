@@ -26,6 +26,57 @@ QBasicSymbols::~QBasicSymbols() {
 }
 
 /**
+ *  次のシンボルへ
+ *  @return シンボル
+ */
+string QBasicSymbols::nextSymbol() {
+	if (execOffset >= symbols.size()) {
+		return "";
+	}
+	auto sym = symbols[execOffset].symbol;
+	execOffset += 1;
+	return sym;
+}
+
+/**
+ *  一個前のシンボルを取得
+ *  @return シンボル
+ */
+QBasicSymbolEntity *QBasicSymbols::beforeSymbolEntity() {
+	int offset = execOffset;
+	if (offset < 0) {
+		offset = 0;
+	}
+	return &symbols[offset];
+}
+
+/**
+ *  オフセット設定
+ *  @param offset オフセット
+ */
+void QBasicSymbols::jumpOffset(const int offset) {
+	execOffset = offset;
+}
+
+/**
+ *  オフセット一つ下げる
+ */
+void QBasicSymbols::popBack() {
+	if (execOffset > 0) {
+		execOffset--;
+	}
+}
+
+/**
+ *  現在のオフセット取得
+ *  @return 現在のオフセット
+ */
+int QBasicSymbols::offset() {
+	return execOffset;
+}
+
+
+/**
  *  シンボルをビルド
  *  @param source プログラムソース
  */
@@ -46,6 +97,9 @@ void QBasicSymbols::buildSymbols(const string &source) {
 		}
 		symbols.push_back(entity);
 	}
+
+	// 初期化
+	execOffset = 0;
 }
 
 /**
@@ -121,7 +175,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 		return;
 	}
 
-	if (ch == '\'') {
+	if (ch == '#') {
 		// コメント発見
 		updateRowCol(ch);
 		execOffset++;
