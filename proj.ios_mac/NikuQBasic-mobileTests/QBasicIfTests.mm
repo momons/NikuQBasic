@@ -98,7 +98,6 @@
 - (void)test8 {
 	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
-	XCTAssertEqual(interpreter->variables["a"].intValue, 1);
 }
 
 /// not

@@ -291,18 +291,15 @@ QBasicVariableEntity QBasic::expression(const bool run) {
     
     auto sym = getSymbol();
     while(true) {
-        if (sym == "and" ||
-			sym == "or" ||
-			sym == "xor" ) {
+        if (sym == "&&" ||
+			sym == "||" ) {
 			
 			auto valueDist = relop(run);
 			if (QBasicValidation::isValidExpression(value, valueDist)) {
-				if (sym == "and") {
+				if (sym == "&&") {
 					value = value.expressionAnd(valueDist);
-				} else if (sym == "or") {
-					value = value.expressionOr(valueDist);
 				} else {
-					value = value.expressionXor(valueDist);
+					value = value.expressionOr(valueDist);
 				}
 			} else {
 				setThrow("BadCompareVariableType");

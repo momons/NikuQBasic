@@ -18,7 +18,7 @@ endif
 ========================
 # test3 小なりイコール
 var a: int = 0
-if 1 <= 2 and 2 <= 2 then
+if 1 <= 2 && 2 <= 2 then
   a = 1
 endif
 ========================
@@ -30,27 +30,27 @@ endif
 ========================
 # test5 大なりイコール
 var a: int = 0
-if 2 >= 1 and 2 >= 2 then
+if 2 >= 1 && 2 >= 2 then
   a = 1
 endif
 ========================
 # test6 and
 var a: int = 0
-if 1 == 1 and 2 == 2 then
+if 1 == 1 && 2 == 2 then
   a = 1
 endif
 ========================
 # test7 or
 var a: int = 0
-if 1 == 2 or 2 == 2 then
+if 1 == 2 || 2 == 2 then
   a = 1
 endif
 ========================
 # test8 xor
 var a: int = 0
-if 1 == 2 xor 2 == 2 then
-  a = 1
-endif
+#if 1 == 2 xor 2 == 2 then
+#  a = 1
+#endif
 ========================
 # test9 not
 var a: int = 0
@@ -108,7 +108,7 @@ endif
 ========================
 # test16 文字比較小なりイコール
 var a: int = 0
-if "a" < "b" and "b" <= "b" then
+if "a" < "b" && "b" <= "b" then
   a = 1
 endif
 ========================
@@ -120,7 +120,7 @@ endif
 ========================
 # test18 文字比較大なりイコール
 var a: int = 0
-if "b" > "a" and "b" >= "b" then
+if "b" > "a" && "b" >= "b" then
   a = 1
 endif
 ========================
@@ -171,7 +171,7 @@ endif
 # test24 str判定 小なりイコール
 var a: bool = false
 var b: str = "abcdefg"
-if b <= "abcdefg" and b <= "abcdefh" then
+if b <= "abcdefg" && b <= "abcdefh" then
   a = true
 endif
 ========================
@@ -185,7 +185,7 @@ endif
 # test26 str判定 大なりイコール
 var a: bool = false
 var b: str = "abcdefg"
-if b >= "abcdefg" and b >= "abcdeff" then
+if b >= "abcdefg" && b >= "abcdeff" then
   a = true
 endif
 ========================
@@ -206,7 +206,7 @@ endif
 # test29 float判定 小なりイコール
 var a: bool = false
 var b: float = 1.0
-if b <= 1.0 and b <= 1.0001 then
+if b <= 1.0 && b <= 1.0001 then
   a = true
 endif
 ========================
@@ -220,7 +220,7 @@ endif
 # test31 float判定 大なりイコール
 var a: bool = false
 var b: float = 1.0
-if b == 1.0 and b >= 0.9999 then
+if b == 1.0 && b >= 0.9999 then
   a = true
 endif
 ========================
@@ -241,7 +241,7 @@ endif
 # test34 bool判定 小なりイコール
 var a: bool = false
 var b: bool = false
-if b <= false and b <= true then
+if b <= false && b <= true then
   a = true
 endif
 ========================
@@ -255,6 +255,6 @@ endif
 # test36 bool判定 大なりイコール
 var a: bool = false
 var b: bool = true
-if b >= false and b >= true then
+if b >= false && b >= true then
   a = true
 endif
