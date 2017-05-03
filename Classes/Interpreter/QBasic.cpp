@@ -567,24 +567,7 @@ bool QBasic::statement(const bool run) {
 
 	if (localVariables.find(sym) != localVariables.end() ||
 		variables.find(sym) != variables.end()) {
-		// 変数取得
-		auto variable = getVariable(run, sym);
-		if (variable == nullptr) {
-			return false;
-		}
-		// 変数
-		match("=");
-		auto value = expression(run);
-		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
-		if (!QBasicValidation::isValidVariableType(value, variable->type, variable->valueTypes)) {
-			setThrow("BadVariableType", nullptr);
-			return false;
-		}
-		if (run) {
-			value.name = sym;
-			*variable = value;
-		}
-		return true;
+		return analysisValueAssigned(run, sym);
 	} else if(sym == "var") {
 		return analysisVar(run);
     } else if(sym == "if") {
@@ -905,6 +888,68 @@ QBasicVariableEntity *QBasic::getVariable(const bool run, const string &name) {
 	}
 	
 	return variable;
+}
+
+/**
+ * 変数に代入
+ * @param run 実行中フラグ
+ * @return 終了フラグ false:終了 true:進行
+ */
+bool QBasic::analysisValueAssigned(const bool run, const string &variableName) {
+	
+	// 変数取得
+	auto variable = getVariable(run, variableName);
+	if (variable == nullptr) {
+		return false;
+	}
+	// 記号
+	auto operate = getSymbol();
+	// 変数
+	auto value = expression(run);
+	value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
+	if (!QBasicValidation::isValidVariableType(value, variable->type, variable->valueTypes)) {
+		setThrow("BadVariableType", nullptr);
+		return false;
+	}
+	if (run) {
+		if (operate == "+=") {
+			if (QBasicValidation::isValidAdd(*variable, value)) {
+				value = variable->add(value);
+			} else {
+				setThrow("BadVariableTypeAdd", nullptr);
+			}
+		} else if (operate == "-=") {
+			if (QBasicValidation::isValidSub(*variable, value)) {
+				value = variable->sub(value);
+			} else {
+				setThrow("BadVariableTypeSub", nullptr);
+			}
+		} else if (operate == "*=") {
+			if (QBasicValidation::isValidMul(*variable, value)) {
+				value = variable->mul(value);
+			} else {
+				setThrow("BadVariableTypeMul", nullptr);
+			}
+		} else if (operate == "/=") {
+			if (QBasicValidation::isValidDiv(*variable, value)) {
+				value = variable->div(value);
+			} else {
+				setThrow("BadVariableTypeDiv", nullptr);
+			}
+		} else if (operate == "%=") {
+			if (QBasicValidation::isValidMod(*variable, value)) {
+				value = variable->mod(value);
+			} else {
+				setThrow("BadVariableTypeMod", nullptr);
+			}
+		} else if (operate != "=") {
+			setThrow("BadOperateType", nullptr);
+			return false;
+		}
+		value.name = variableName;
+		*variable = value;
+	}
+	return true;
 }
 
 /**

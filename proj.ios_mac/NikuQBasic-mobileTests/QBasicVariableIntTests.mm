@@ -71,4 +71,39 @@
 	XCTAssertEqual(interpreter->variables["a"].intValue, 3);
 }
 
+/// 型テスト 省略足し算
+- (void)test5 {
+	interpreter = new QBasic(nullptr, [scripts[5] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 2);
+}
+
+/// 型テスト 省略引き算
+- (void)test6 {
+	interpreter = new QBasic(nullptr, [scripts[6] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 1);
+}
+
+/// 型テスト 省略掛け算
+- (void)test7 {
+	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 9);
+}
+
+/// 型テスト 省略割り算
+- (void)test8 {
+	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 2);
+}
+
+/// 型テスト 省略余り
+- (void)test9 {
+	interpreter = new QBasic(nullptr, [scripts[9] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 2);
+}
+
 @end

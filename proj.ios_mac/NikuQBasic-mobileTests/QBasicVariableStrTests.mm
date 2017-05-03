@@ -64,9 +64,40 @@
 	XCTAssertThrows(interpreter->run());
 }
 
-/// 型テスト 型推論テスト str
+/// 型テスト 型推論テスト
 - (void)test4 {
 	interpreter = new QBasic(nullptr, [scripts[4] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].strValue, "abcdef");
+}
+
+/// 型テスト 引き算
+- (void)test5 {
+	interpreter = new QBasic(nullptr, [scripts[5] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト 掛け算
+- (void)test6 {
+	interpreter = new QBasic(nullptr, [scripts[6] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト 割り算
+- (void)test7 {
+	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト 余り
+- (void)test8 {
+	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// 型テスト 省略型足し算
+- (void)test9 {
+	interpreter = new QBasic(nullptr, [scripts[9] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	XCTAssertEqual(interpreter->variables["a"].strValue, "abcdef");
 }

@@ -240,7 +240,15 @@ private:
 	 * @return 変数取得
 	 */
 	QBasicVariableEntity *getVariable(const bool run, const string &name);
-	
+
+	/**
+	 * 変数に代入
+	 * @param run          実行中フラグ
+	 * @param variableName 変数名
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool analysisValueAssigned(const bool run, const string &variableName);
+
 	/**
 	 * 変数を解析
 	 * @param run 実行中フラグ

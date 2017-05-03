@@ -164,7 +164,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 		execOffset++;
 		ch = cstr[execOffset];
 		// 次のダブルクォーテーションを見つけるまでループ
-		while (ch != '"') {
+		while (ch != '"' && ch != 0x00) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
@@ -175,65 +175,126 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 		return;
 	}
 
-	if (ch == '#') {
-		// コメント発見
-		updateRowCol(ch);
-		execOffset++;
-		ch = cstr[execOffset];
-		while (ch != '\n') {
+	switch(ch) {
+		case '#':
+			// コメント発見
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-		}
-		updateRowCol(ch);
-		execOffset++;
-	} else if (ch == '=') {
-		// イコール発見
-		updateRowCol(ch);
-		execOffset++;
-		ch = cstr[execOffset];
-		// 次の文字が"="ならばプラス1
-		if(ch == '=') {
+			while (ch != '\n' && ch != 0x00) {
+				updateRowCol(ch);
+				execOffset++;
+				ch = cstr[execOffset];
+			}
 			updateRowCol(ch);
 			execOffset++;
-		}
-	} else if (ch == '-') {
-		// マイナス発見
-		updateRowCol(ch);
-		execOffset++;
-		ch = cstr[execOffset];
-		// 次の文字が">"ならばプラス1
-		if(ch == '>') {
+			break;
+		case '=':
 			updateRowCol(ch);
 			execOffset++;
-		}
-	} else if (ch == '<') {
-		// 小なり発見
-		updateRowCol(ch);
-		execOffset++;
-		ch = cstr[execOffset];
-		// 次の文字が">"か"="ならばプラス1
-		if(ch == '>' || ch == '=') {
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '+':
 			updateRowCol(ch);
 			execOffset++;
-		}
-	} else if (ch == '>') {
-		// 大なり発見
-		updateRowCol(ch);
-		execOffset++;
-		ch = cstr[execOffset];
-		// 次の文字が"="ならばプラス1
-		if(ch == '=') {
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '-':
 			updateRowCol(ch);
 			execOffset++;
-		}
-	} else {
-		updateRowCol(ch);
-		execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '>' || ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '*':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '/':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '%':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '<':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '>' || ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '>':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '&':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '&' || ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '|':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '|' || ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '^':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		default:
+			updateRowCol(ch);
+			execOffset++;
+			break;
 	}
 	
 	symbolEntity.symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
-	return;
 }
 
 /**
