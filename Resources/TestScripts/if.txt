@@ -6,7 +6,7 @@ endif
 ========================
 # test1 ノットイコール
 var a: int = 0
-if 2 <> 1 then
+if 2 != 1 then
   a = 1
 endif
 ========================
@@ -96,7 +96,7 @@ endif
 ========================
 # test14 文字比較ノットイコール
 var a: int = 0
-if "a" <> "b" then
+if "a" != "b" then
   a = 1
 endif
 ========================
@@ -127,7 +127,7 @@ endif
 # test19 if文の中にif文
 var a: int = 0
 if "a" == "a" then
-  if "b" <> "b" then
+  if "b" != "b" then
    a = 0
   else
    a = 1

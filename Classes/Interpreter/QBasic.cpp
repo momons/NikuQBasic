@@ -142,7 +142,6 @@ void QBasic::pushBack(const string &symbol) {
  */
 string QBasic::getSymbol() {
 	
-	
     // 残しておいたシンボルを返却
     if (!pushBacked.empty()) {
         string pushbackedBackup = pushBacked;
@@ -151,118 +150,6 @@ string QBasic::getSymbol() {
     }
 
 	return symbols->nextSymbol();
-	
-	/*
-	// 実行中
-	if (isRun) {
-		if (compileOffset >= compileSymbols.size()) {
-			return "";
-		}
-		
-		long offsetBack = compileOffset;
-		compileOffset++;
-		
-		// オフセット設定
-		execOffset = compileExecOffsets[offsetBack];
-		
-		return compileSymbols[offsetBack];
-	}
-    
-    // 1文字抽出
-    const char *cstr = source.c_str();
-    char ch = cstr[execOffset];
-  
-    // スペースか改行があるかぎりループ
-    while (isspace(ch)) {
-        execOffset++;
-        ch = cstr[execOffset];
-    }
-    
-    // ゼロならばなし
-    if(ch == 0x00) {
-        return "";
-    }
-    
-    long execOffsetBackup = execOffset;
-    
-    // 数値が続くかぎりループ
-    while (isdigit(ch) || ch == '.') {
-        execOffset++;
-        ch = cstr[execOffset];
-    }
-    
-    // 位置が変わっていれば
-    if(execOffsetBackup != execOffset) {
-		string symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
-		compileSymbols.push_back(symbol);
-		compileExecOffsets.push_back(execOffset);
-        return symbol;
-    }
-    
-    // 英数字が続くかぎりループ
-    while (isalnum(ch)) {
-        execOffset++;
-        ch = cstr[execOffset];
-    }
-    
-    // 位置が変わっていれば
-    if (execOffsetBackup != execOffset) {
-		string symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
-		compileSymbols.push_back(symbol);
-		compileExecOffsets.push_back(execOffset);
-		return symbol;
-    }
-
-    // ダブルクォーテーション発見
-    if (ch == '"') {
-        execOffset++;
-        ch = cstr[execOffset];
-        // 次のダブルクォーテーションを見つけるまでループ
-        while (ch != '"') {
-            execOffset++;
-            ch = cstr[execOffset];
-        }
-        execOffset++;
-		
-		string symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
-		compileSymbols.push_back(symbol);
-		compileExecOffsets.push_back(execOffset);
-		return symbol;
-    }
-	
-	// マイナス発見
-	if (ch == '-') {
-		execOffset++;
-		ch = cstr[execOffset];
-		// 次の文字が">"ならばプラス1
-		if(ch == '>') {
-			execOffset++;
-		}
-	} else if (ch == '<') {
-		// 小なり発見
-        execOffset++;
-        ch = cstr[execOffset];
-        // 次の文字が">"か"="ならばプラス1
-        if(ch == '>' || ch == '=') {
-            execOffset++;
-        }
-	} else if (ch == '>') {
-		// 大なり発見
-        execOffset++;
-        ch = cstr[execOffset];
-        // 次の文字が"="ならばプラス1
-        if(ch == '=') {
-            execOffset++;
-        }
-	} else {
-		execOffset++;
-	}
-
-	string symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
-	compileSymbols.push_back(symbol);
-	compileExecOffsets.push_back(execOffset);
-	return symbol;
-	 */
 }
 
 /**
@@ -331,7 +218,7 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 			sym == "<=" ||
 			sym == ">" ||
 			sym == ">=" ||
-			sym == "<>" ) {
+			sym == "!=" ) {
 			
 			auto valueDist = addsub(run);
 			if (value.type == valueDist.type) {
@@ -342,7 +229,7 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 								   (sym == "<=" && result <= 0) ||
 								   (sym == ">" && result > 0) ||
 								   (sym == ">=" && result >= 0) ||
-								   (sym == "<>" && result != 0));
+								   (sym == "!=" && result != 0));
 			} else {
 				setThrow("BadCompareVariableType");
 			}

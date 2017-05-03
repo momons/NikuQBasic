@@ -247,12 +247,21 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '>' || ch == '=') {
+			if(ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
 			break;
 		case '>':
+			updateRowCol(ch);
+			execOffset++;
+			ch = cstr[execOffset];
+			if(ch == '=') {
+				updateRowCol(ch);
+				execOffset++;
+			}
+			break;
+		case '!':
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
