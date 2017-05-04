@@ -126,7 +126,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 	}
 
 	// ゼロならばなし
-	if(ch == 0x00) {
+	if (ch == 0x00) {
 		return;
 	}
 
@@ -140,7 +140,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 	}
 
 	// 位置が変わっていれば
-	if(execOffsetBackup != execOffset) {
+	if (execOffsetBackup != execOffset) {
 		symbolEntity.symbol = source.substr(execOffsetBackup,execOffset - execOffsetBackup);
 		return;
 	}
@@ -193,7 +193,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -202,7 +202,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -211,7 +211,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '>' || ch == '=') {
+			if (ch == '>' || ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -220,7 +220,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -229,7 +229,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -238,7 +238,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -247,25 +247,41 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
+			} else if (ch == '<') {
+				updateRowCol(ch);
+				execOffset++;
+				ch = cstr[execOffset];
+				if (ch == '=') {
+					updateRowCol(ch);
+					execOffset++;
+				}
 			}
 			break;
 		case '>':
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
+			} else if (ch == '>') {
+				updateRowCol(ch);
+				execOffset++;
+				ch = cstr[execOffset];
+				if (ch == '=') {
+					updateRowCol(ch);
+					execOffset++;
+				}
 			}
 			break;
 		case '!':
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -274,7 +290,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '&' || ch == '=') {
+			if (ch == '&' || ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -283,7 +299,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '|' || ch == '=') {
+			if (ch == '|' || ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
@@ -292,7 +308,7 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			updateRowCol(ch);
 			execOffset++;
 			ch = cstr[execOffset];
-			if(ch == '=') {
+			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
 			}
