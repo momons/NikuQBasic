@@ -250,14 +250,6 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
-			} else if (ch == '<') {
-				updateRowCol(ch);
-				execOffset++;
-				ch = cstr[execOffset];
-				if (ch == '=') {
-					updateRowCol(ch);
-					execOffset++;
-				}
 			}
 			break;
 		case '>':
@@ -267,14 +259,6 @@ void QBasicSymbols::getSymbol(QBasicSymbolEntity &symbolEntity) {
 			if (ch == '=') {
 				updateRowCol(ch);
 				execOffset++;
-			} else if (ch == '>') {
-				updateRowCol(ch);
-				execOffset++;
-				ch = cstr[execOffset];
-				if (ch == '=') {
-					updateRowCol(ch);
-					execOffset++;
-				}
 			}
 			break;
 		case '!':
