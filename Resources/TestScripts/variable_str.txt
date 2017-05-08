@@ -18,22 +18,22 @@ a = false
 var a = "abc"
 a = a + "def"
 ========================
-# test5 引き算
+# test5 省略引き算
 var a = "abc"
 a -= "def"
 ========================
-# test6 掛け算
+# test6 省略掛け算
 var a = "abc"
 a *= "def"
 ========================
-# test7 割り算
+# test7 省略割り算
 var a = "abc"
 a /= "def"
 ========================
-# test8 余り
+# test8 省略余り
 var a = "abc"
 a %= "def"
 ========================
-# test9 省略型足し算
+# test9 省略足し算
 var a = "abc"
 a += "def"

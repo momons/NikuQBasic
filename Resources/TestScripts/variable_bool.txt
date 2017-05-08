@@ -20,3 +20,23 @@ var b = 0
 if a == true then
   b = 1
 endif
+========================
+# test5 省略足し算
+var a = true
+a += true
+========================
+# test6 省略引き算
+var a = true
+a -= true
+========================
+# test7 省略掛け算
+var a = true
+a *= true
+========================
+# test8 省略割り算
+var a = true
+a /= true
+========================
+# test9 省略余り
+var a = true
+a %= true
