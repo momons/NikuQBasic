@@ -52,6 +52,7 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
 			default:
 				break;
 		}
+		isEmpty = false;
 	}
 }
 
@@ -81,21 +82,25 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const string &val
 	if (QBasicValidation::isInt(value)) {
 		this->type = VariableType::Int;
 		this->intValue = atoi(value.c_str());
+		isEmpty = false;
 		return;
 	}
 	if (QBasicValidation::isFloat(value)) {
 		this->type = VariableType::Float;
 		this->floatValue = atof(value.c_str());
+		isEmpty = false;
 		return;
 	}
 	if (QBasicValidation::isStr(value)) {
 		this->type = VariableType::Str;
 		this->strValue = value.substr(1, value.length() - 2);
+		isEmpty = false;
 		return;
 	}
 	if (QBasicValidation::isBool(value)) {
 		this->type = VariableType::Bool;
 		this->boolValue = value.compare("true") == 0;
+		isEmpty = false;
 		return;
 	}
 }
@@ -112,6 +117,7 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<Vari
 	type = VariableType::List;
 	this->valueTypes = valueTypes;
 	listValue = values;
+	isEmpty = listValue.size() <= 0;
 }
 
 /**
@@ -126,6 +132,7 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<Vari
 	type = VariableType::Dict;
 	this->valueTypes = valueTypes;
 	dictValue = values;
+	isEmpty = listValue.size() <= 0;
 }
 
 /**
@@ -204,6 +211,36 @@ int QBasicVariableEntity::compare(const QBasicVariableEntity &entity) {
 }
 
 #pragma mark - 四則演算
+
+/**
+ * 代入
+ * @param entity 変数entity
+ */
+void QBasicVariableEntity::set(const QBasicVariableEntity &entity) {
+	switch (type) {
+		case VariableType::Int:
+			intValue = entity.intValue;
+			break;
+		case VariableType::Float:
+			floatValue = entity.floatValue;
+			break;
+		case VariableType::Str:
+			strValue = entity.strValue;
+			break;
+		case VariableType::Bool:
+			boolValue = entity.boolValue;
+			break;
+		case VariableType::List:
+			listValue = entity.listValue;
+			break;
+		case VariableType::Dict:
+			dictValue = entity.dictValue;
+			break;
+		default:
+			// 上位でチェックしているのでエラーは不要
+			break;
+	}
+}
 
 /**
  * 足し算

@@ -61,6 +61,9 @@ public:
 	/// 連想配列
 	map<string, QBasicVariableEntity> dictValue;
 	
+	/// emptyフラグ
+	bool isEmpty = true;
+	
 	/**
 	 * コンストラクタ
 	 */
@@ -129,23 +132,29 @@ public:
 #pragma mark - 四則演算
 
 	/**
+	 * 代入
+	 * @param entity 変数entity
+	 */
+	void set(const QBasicVariableEntity &entity);
+	
+	/**
 	 * 足し算
 	 * @param entity 変数entity
-	 * @return 比較結果
+	 * @return 結果
 	 */
 	QBasicVariableEntity add(const QBasicVariableEntity &entity);
 
 	/**
 	 * 引き算
 	 * @param entity 変数entity
-	 * @return 比較結果
+	 * @return 結果
 	 */
 	QBasicVariableEntity sub(const QBasicVariableEntity &entity);
 
 	/**
 	 * 掛け算
 	 * @param entity 変数entity
-	 * @return 比較結果
+	 * @return 結果
 	 */
 	QBasicVariableEntity mul(const QBasicVariableEntity &entity);
 
@@ -153,21 +162,21 @@ public:
 	 * 掛け算 数値
 	 * @param type  変数タイプ
 	 * @param value 値
-	 * @return 比較結果
+	 * @return 結果
 	 */
 	QBasicVariableEntity mul(VariableType type, double value);
 
 	/**
 	 * 割り算
 	 * @param entity 変数entity
-	 * @return 比較結果
+	 * @return 結果
 	 */
 	QBasicVariableEntity div(const QBasicVariableEntity &entity);
 
 	/**
 	 * 余り
 	 * @param entity 変数entity
-	 * @return 比較結果
+	 * @return 結果
 	 */
 	QBasicVariableEntity mod(const QBasicVariableEntity &entity);
 	

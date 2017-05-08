@@ -50,28 +50,35 @@ public:
 	
 	/**
 	 * 名前で存在判定
-	 * @param name          関数名
-	 * @param variableTypes 引数タイプ
+	 * @param name      関数名
+	 * @param arguments 引数タイプ
 	 * @return 存在可否
 	 */
-	bool hasFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes);
+	bool hasFunction(const string &name, const vector<QBasicVariableEntity> &arguments);
 	
 	/**
 	 * 名前と引数で取得
-	 * @param name          関数名
-	 * @param variableTypes 引数タイプ
+	 * @param name      関数名
+	 * @param arguments 引数タイプ
 	 * @return 関数情報
 	 */
-	QBasicFunctionEntity *getFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes);
+	QBasicFunctionEntity *getFunction(const string &name, const vector<QBasicVariableEntity> &arguments);
 	
 	/**
 	 * 別名で取得
-	 * @param name          関数名
-	 * @param variableTypes 引数タイプ
+	 * @param alias 別名
 	 * @return 関数情報
 	 */
 	QBasicFunctionEntity *getFunction(const string &alias);
 	
+	/**
+	 * 省略引数をマージする
+	 * @param name      関数名
+	 * @param arguments 引数
+	 * @return 引数群
+	 */
+	vector<QBasicVariableEntity> mergeArguments(const string &name, const vector<QBasicVariableEntity> &arguments);
+
 	/**
 	 *  クリア
 	 */

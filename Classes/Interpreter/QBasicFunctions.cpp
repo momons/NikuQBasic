@@ -75,8 +75,8 @@ bool QBasicFunctions::hasName(const string &name) {
  * @param variableTypes 引数タイプ
  * @return 存在可否
  */
-bool QBasicFunctions::hasFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes) {
-	return getFunction(name, variableTypes) != nullptr;
+bool QBasicFunctions::hasFunction(const string &name, const vector<QBasicVariableEntity> &arguments) {
+	return getFunction(name, arguments) != nullptr;
 }
 
 /**
@@ -85,20 +85,70 @@ bool QBasicFunctions::hasFunction(const string &name, const vector<QBasicVariabl
  * @param variableTypes 引数タイプ
  * @return 関数情報
  */
-QBasicFunctionEntity *QBasicFunctions::getFunction(const string &name, const vector<QBasicVariableEntity> &variableTypes) {
+QBasicFunctionEntity *QBasicFunctions::getFunction(const string &name, const vector<QBasicVariableEntity> &arguments) {
+	// マージ
+	auto argList = mergeArguments(name, arguments);
 	// エリアス取得
-	auto alias = QBasicFunctionEntity::exchangeAlias(name, variableTypes);
+	auto alias = QBasicFunctionEntity::exchangeAlias(name, argList);
 	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
 }
 
 /**
  * 別名で取得
- * @param name          関数名
- * @param variableTypes 引数タイプ
+ * @param alias 別名
  * @return 関数情報
  */
 QBasicFunctionEntity *QBasicFunctions::getFunction(const string &alias) {
 	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
+}
+
+
+/**
+ * 省略引数をマージする
+ * @param name      関数名
+ * @param arguments 引数
+ * @return 引数群
+ */
+vector<QBasicVariableEntity> QBasicFunctions::mergeArguments(const string &name, const vector<QBasicVariableEntity> &arguments) {
+	
+	bool isSuccess = false;
+	vector<QBasicVariableEntity> argList;
+	
+	// 対象のファンクションを取得する
+	for (auto funcIt = functions.begin();funcIt != functions.end();funcIt++) {
+		if (funcIt->second.name != name) {
+			continue;
+		}
+		
+		argList.clear();
+
+		// 引数チェック
+		int index = 0;
+		for (auto argIt = funcIt->second.argNames.begin();argIt != funcIt->second.argNames.end();argIt++) {
+			if (index >= arguments.size()) {
+				break;
+			}
+			if ((argIt->isEmpty && argIt->name != arguments[index].name) || (argIt->name == arguments[index].name)) {
+				// 追加
+				auto value = *argIt;
+				value.set(arguments[index]);
+				argList.push_back(value);
+				index++;
+				continue;
+			}
+		}
+		isSuccess = (index == arguments.size());
+		
+		if (isSuccess) {
+			break;
+		}
+	}
+	
+	if (!isSuccess) {
+		return arguments;
+	}
+	
+	return argList;
 }
 
 /**

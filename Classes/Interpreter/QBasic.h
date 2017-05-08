@@ -202,19 +202,14 @@ private:
      */
     bool statement(const bool run);
     
-    /**
-     * 引数取得
-     * @param run      実行モード
-     * @return 引数群
-     */
-    vector<QBasicVariableEntity> getArg(const bool run);
-	
 	/**
 	 *  処理を１つ戻す
 	 * @param run 実行中フラグ
 	 */
 	void popBack(const bool run);
 
+#pragma mark - 実行
+	
 	/**
 	 * func実行
 	 * @param run            実行中フラグ
@@ -230,6 +225,13 @@ private:
 	 * @return 終了フラグ false:終了 true:進行
 	 */
 	bool executeFunctionEnd(const bool run);
+
+	/**
+	 * 引数取得
+	 * @param run      実行モード
+	 * @return 引数群
+	 */
+	vector<QBasicVariableEntity> getArguments(const bool run);
 
 #pragma mark - 個別解析
 

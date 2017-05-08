@@ -408,7 +408,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	// ステートメント
 	if (statements->hasName(sym)) {
 		// 引数取得
-		auto argList = getArg(run);
+		auto argList = getArguments(run);
 		auto entity = statements->getStatement(sym, argList);
 		if (entity != nullptr) {
 			if (entity->returnType == VariableType::Void) {
@@ -472,7 +472,7 @@ bool QBasic::statement(const bool run) {
     } else if (statements->hasName(sym)) {
         // ステートメント
 		// 引数取得
-		auto argList = getArg(run);
+		auto argList = getArguments(run);
 		auto entity = statements->getStatement(sym, argList);
 		if (run) {
 			// ステートメント実行
@@ -570,39 +570,6 @@ QBasicVariableEntity QBasic::dictValue(const bool run) {
 }
 
 /**
- * 引数取得
- * @param run      実行モード
- * @return 引数群
- */
-vector<QBasicVariableEntity> QBasic::getArg(const bool run) {
-	
-    // 引数取得
-    vector<QBasicVariableEntity> argList;
-    match("(");
-	int count = 0;
-	while(true) {
-		auto variableName = getSymbol();
-		if (variableName == ")") {
-			break;
-		}
-		if (count > 0) {
-			popBack(run);
-			match(",");
-			variableName = getSymbol();
-		}
-		match(":");
-		auto value = expression(run);
-		value.name = variableName;
-		argList.push_back(value);
-		count += 1;
-	}
-	
-	// TODO: 引数チェック
-	
-    return argList;
-}
-
-/**
  * 例外を設定
  * @param message メッセージ
  * @exception コンパイルエラー
@@ -647,7 +614,7 @@ void QBasic::popBack(const bool run) {
 bool QBasic::executeFunction(const bool run, const string &functionName, QBasicVariableEntity &returnVariable) {
 
 	// 引数取得
-	auto argList = getArg(run);
+	auto argList = getArguments(run);
 	// 関数エリアス取得
 	auto entity = functions->getFunction(functionName, argList);
 
@@ -712,6 +679,37 @@ bool QBasic::executeFunctionEnd(const bool run) {
 	// 削除
 	functionPushBacks.pop_back();
 	return true;
+}
+
+/**
+ * 引数取得
+ * @param run      実行モード
+ * @return 引数群
+ */
+vector<QBasicVariableEntity> QBasic::getArguments(const bool run) {
+	
+	// 引数取得
+	vector<QBasicVariableEntity> argList;
+	match("(");
+	int count = 0;
+	while(true) {
+		auto variableName = getSymbol();
+		if (variableName == ")") {
+			break;
+		}
+		if (count > 0) {
+			popBack(run);
+			match(",");
+			variableName = getSymbol();
+		}
+		match(":");
+		auto value = expression(run);
+		value.name = variableName;
+		argList.push_back(value);
+		count += 1;
+	}
+	
+	return argList;
 }
 
 #pragma mark - 個別解析
@@ -1319,6 +1317,7 @@ bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames)
 			variableEntity = value;
 			variableEntity.name = variableName;
 			variableEntity.valueTypes = valueVariableTypes;
+			variableEntity.isEmpty = false;
 		}
 		
 		argNames.push_back(variableEntity);
