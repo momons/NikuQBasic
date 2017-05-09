@@ -159,4 +159,34 @@
 	XCTAssertEqual(interpreter->variables["c"].intValue, 1);
 }
 
+/// 引数省略funcの実行
+- (void)test20 {
+	interpreter = new QBasic(nullptr, [scripts[20] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["c"].intValue, 1);
+	XCTAssertEqual(interpreter->variables["d"].intValue, 0);
+}
+
+/// 引数省略funcの実行
+- (void)test21 {
+	interpreter = new QBasic(nullptr, [scripts[21] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["e"].intValue, 6);
+	XCTAssertEqual(interpreter->variables["f"].intValue, 11);
+}
+
+/// 曖昧な場合は後勝ち
+- (void)test22 {
+	interpreter = new QBasic(nullptr, [scripts[22] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["c"].intValue, 2);
+}
+
+/// 複数でも曖昧な場合は後勝ち
+- (void)test23 {
+	interpreter = new QBasic(nullptr, [scripts[23] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["d"].intValue, 2);
+}
+
 @end

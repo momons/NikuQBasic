@@ -86,10 +86,8 @@ bool QBasicFunctions::hasFunction(const string &name, const vector<QBasicVariabl
  * @return 関数情報
  */
 QBasicFunctionEntity *QBasicFunctions::getFunction(const string &name, const vector<QBasicVariableEntity> &arguments) {
-	// マージ
-	auto argList = mergeArguments(name, arguments);
 	// エリアス取得
-	auto alias = QBasicFunctionEntity::exchangeAlias(name, argList);
+	auto alias = QBasicFunctionEntity::exchangeAlias(name, arguments);
 	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
 }
 
@@ -113,6 +111,7 @@ vector<QBasicVariableEntity> QBasicFunctions::mergeArguments(const string &name,
 	
 	bool isSuccess = false;
 	vector<QBasicVariableEntity> argList;
+	vector<string> functionNames;
 	
 	// 対象のファンクションを取得する
 	for (auto funcIt = functions.begin();funcIt != functions.end();funcIt++) {
@@ -125,19 +124,34 @@ vector<QBasicVariableEntity> QBasicFunctions::mergeArguments(const string &name,
 		// 引数チェック
 		int index = 0;
 		for (auto argIt = funcIt->second.argNames.begin();argIt != funcIt->second.argNames.end();argIt++) {
-			if (index >= arguments.size()) {
-				break;
-			}
-			if ((argIt->isEmpty && argIt->name != arguments[index].name) || (argIt->name == arguments[index].name)) {
-				// 追加
-				auto value = *argIt;
+			auto value = *argIt;
+			if (argIt->isEmpty) {
+				// 省略不可
+				if (index < arguments.size() && argIt->name != arguments[index].name) {
+					// 名前が一致してないので終了
+					break;
+				}
 				value.set(arguments[index]);
 				argList.push_back(value);
 				index++;
 				continue;
 			}
+			
+			// 省略可
+			if (index < arguments.size() && argIt->name == arguments[index].name) {
+				// 名前一致
+				value.set(arguments[index]);
+				argList.push_back(value);
+				index++;
+				continue;
+			}
+			
+			// そのまま設定
+			argList.push_back(value);
 		}
 		isSuccess = (index == arguments.size());
+		
+		// TODO: 複数該当のファンクションがあった場合はエラーにする。
 		
 		if (isSuccess) {
 			break;

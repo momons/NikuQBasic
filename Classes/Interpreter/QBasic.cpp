@@ -615,6 +615,9 @@ bool QBasic::executeFunction(const bool run, const string &functionName, QBasicV
 
 	// 引数取得
 	auto argList = getArguments(run);
+	// 省略引数とマージ
+	argList = functions->mergeArguments(functionName, argList);
+	
 	// 関数エリアス取得
 	auto entity = functions->getFunction(functionName, argList);
 
