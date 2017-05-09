@@ -25,8 +25,8 @@ unordered_map<string, QBasicStatementEntity> QBasicTypeChangeFunctions::buildSta
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("abs", {VariableType::Float}, VariableType::Float, abs_qb);
-	statementList[entity.alias] = entity;
+//	entity = QBasicStatementEntity("abs", {VariableType::Float}, VariableType::Float, abs_qb);
+//	statementList[entity.alias] = entity;
 
 	return statementList;
 }

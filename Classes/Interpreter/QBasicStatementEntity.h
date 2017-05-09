@@ -32,7 +32,7 @@ public:
 	string alias;
 	
 	/// 引数変数タイプ
-	vector<VariableType> argTypes;
+	vector<QBasicVariableEntity> argNames;
     
 	/// 戻り値タイプ
 	VariableType returnType;
@@ -50,13 +50,13 @@ public:
 	/**
 	 * コンストラクタ
 	 * @param name           ステートメント名
-	 * @param argTypes       引数変数タイプ
+	 * @param argNames       引数変数タイプ
 	 * @param returnType     戻り値タイプ
 	 * @param func			 実行ファンクション
 	 */
 	QBasicStatementEntity(
 						  const string &name,
-						  const vector<VariableType> &argTypes,
+						  const vector<QBasicVariableEntity> &argNames,
 						  const VariableType returnType,
 						  const statmentFunction &func);
 	
@@ -70,7 +70,7 @@ public:
 	 */
 	QBasicStatementEntity(
 						  const string &name,
-						  const vector<VariableType> &argTypes,
+						  const vector<QBasicVariableEntity> &argNames,
 						  const VariableType returnType,
 						  const vector<VariableType> &returnSubTypes,
 						  const statmentFunction &func);
@@ -79,22 +79,6 @@ public:
      * デストラクタ
      */
     ~QBasicStatementEntity();
-	
-	/**
-	 * 関数名変換
-	 * @param name       元の名前
-	 * @param argTypes   引数変数タイプ
-	 * @return 変換名
-	 */
-	static string exchangeAlias(const string &name, const vector<VariableType> &argTypes);
-	
-	/**
-	 * 関数名変換
-	 * @param name       元の名前
-	 * @param argNames   引数名
-	 * @return 変換別名
-	 */
-	static string exchangeAlias(const string &name, const vector<string> &argNames);
 	
 	/**
 	 * 別名設定

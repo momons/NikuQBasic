@@ -25,51 +25,81 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 
-	entity = QBasicStatementEntity("len", {VariableType::Str}, VariableType::Int, len_qb);
+	entity = QBasicStatementEntity("len", len_params(), VariableType::Int, len_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("mid", {VariableType::Str, VariableType::Int, VariableType::Int}, VariableType::Str, mid_qb);
+	entity = QBasicStatementEntity("mid", mid_params(), VariableType::Str, mid_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("left", {VariableType::Str, VariableType::Int}, VariableType::Str, left_qb);
+	entity = QBasicStatementEntity("left", left_params(), VariableType::Str, left_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("right", {VariableType::Str, VariableType::Int}, VariableType::Str, right_qb);
+	entity = QBasicStatementEntity("right", right_params(), VariableType::Str, right_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("split", {VariableType::Str, VariableType::Str}, VariableType::List, {VariableType::Str}, split_qb);
+	entity = QBasicStatementEntity("split", split_params(), VariableType::List, {VariableType::Str}, split_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("empty", {VariableType::Str}, VariableType::Bool, empty_qb);
+	entity = QBasicStatementEntity("empty", empty_params(), VariableType::Bool, empty_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("not_empty", {VariableType::Str}, VariableType::Bool, not_empty_qb);
+	entity = QBasicStatementEntity("notEmpty", notEmpty_params(), VariableType::Bool, notEmpty_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("replase", {VariableType::Str, VariableType::Str, VariableType::Str}, VariableType::Str, replase_qb);
+	entity = QBasicStatementEntity("replase", replase_params(), VariableType::Str, replase_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("prefix", {VariableType::Str, VariableType::Str}, VariableType::Bool, prefix_qb);
+	entity = QBasicStatementEntity("prefix", prefix_params(), VariableType::Bool, prefix_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("suffix", {VariableType::Str, VariableType::Str}, VariableType::Bool, suffix_qb);
+	entity = QBasicStatementEntity("suffix", suffix_params(), VariableType::Bool, suffix_qb);
 	statementList[entity.alias] = entity;
 
 	return statementList;
 }
 
 /// 文字列長取得
+vector<QBasicVariableEntity> QBasicStringFunctions::len_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::len_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	int answer = (int)arg[0].strValue.length();
 	return QBasicVariableEntity("", VariableType::Int, &answer);
 }
 /// 真ん中切り取り
+vector<QBasicVariableEntity> QBasicStringFunctions::mid_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	auto answer = arg[0].strValue.substr(arg[1].intValue, arg[2].intValue);
 	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
 }
 /// 左切り取り
+vector<QBasicVariableEntity> QBasicStringFunctions::left_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	auto answer = arg[0].strValue.substr(0, arg[1].intValue);
 	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
 }
 /// 右切り取り
+vector<QBasicVariableEntity> QBasicStringFunctions::right_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	auto answer = arg[0].strValue.substr(arg[0].strValue.length() - arg[1].intValue, arg[1].intValue);
 	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
 }
 /// 分割
+vector<QBasicVariableEntity> QBasicStringFunctions::split_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	vector<string> answer;
 	StringUtil::split(answer, arg[0].strValue, arg[1].strValue);
@@ -80,16 +110,33 @@ QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const 
 	return QBasicVariableEntity("", {VariableType::Str}, values);
 }
 // Empty
+vector<QBasicVariableEntity> QBasicStringFunctions::empty_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	bool answer = arg[0].strValue.empty();
 	return QBasicVariableEntity("", VariableType::Str, &answer);
 }
 // NotEmpty
-QBasicVariableEntity QBasicStringFunctions::not_empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+vector<QBasicVariableEntity> QBasicStringFunctions::notEmpty_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicStringFunctions::notEmpty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	bool answer = !arg[0].strValue.empty();
 	return QBasicVariableEntity("", VariableType::Str, &answer);
 }
 /// 置換
+vector<QBasicVariableEntity> QBasicStringFunctions::replase_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	string::size_type pos(arg[0].strValue.find(arg[1].strValue));
 	string retStr = arg[0].strValue;
@@ -100,11 +147,21 @@ QBasicVariableEntity QBasicStringFunctions::replase_qb(QBasic *interpreter, cons
 	return QBasicVariableEntity("", VariableType::Str, (void *)retStr.c_str());
 }
 /// 前方一致
+vector<QBasicVariableEntity> QBasicStringFunctions::prefix_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::prefix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	bool answer = mismatch(arg[0].strValue.begin(), arg[0].strValue.end(), arg[1].strValue.begin()).first == arg[1].strValue.begin();
 	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }
 /// 後方一致
+vector<QBasicVariableEntity> QBasicStringFunctions::suffix_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	return argNames;
+}
 QBasicVariableEntity QBasicStringFunctions::suffix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	bool answer = mismatch(arg[0].strValue.begin(), arg[0].strValue.end(), arg[1].strValue.begin()).first == arg[1].strValue.begin();
 	return QBasicVariableEntity("", VariableType::Bool, &answer);
