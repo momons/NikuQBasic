@@ -31,7 +31,7 @@ const vector<string> QBasicValidation::basicStatementNames = {
 	"next",
 	"break",
 	"continue",
-	"rem",
+	"pass",
 	"exit",
 	"and",
 	"or",
@@ -45,6 +45,8 @@ const vector<string> QBasicValidation::basicStatementNames = {
 	"bool",
 	"list",
 	"dict",
+	"true",
+	"false",
 };
 
 /**

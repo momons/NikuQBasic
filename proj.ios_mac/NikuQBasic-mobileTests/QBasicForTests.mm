@@ -88,5 +88,32 @@
 	XCTAssertEqual(interpreter->variables["i"].intValue, 0);
 }
 
+/// 途中でbreak
+- (void)test6 {
+	interpreter = new QBasic(nullptr, [scripts[6] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["i"].intValue, 5);
+}
+
+/// 二重ループ途中でbreak
+- (void)test7 {
+	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 25);
+}
+
+/// 途中でcontinue
+- (void)test8 {
+	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 5);
+}
+
+/// 二重ループ途中でcontinue
+- (void)test9 {
+	interpreter = new QBasic(nullptr, [scripts[9] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 25);
+}
 
 @end

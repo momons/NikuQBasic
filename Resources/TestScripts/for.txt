@@ -1,32 +1,32 @@
-# 1から10までループ
+# test0 1から10までループ
 var i: int
 var a: int = 0
 for i = 1 to 10
   a = a + i
 next
 ========================
-# 1から10まで2ステップでループ
+# test1 1から10まで2ステップでループ
 var i: int
 var a: int = 0
 for i = 1 to 10 step 2
   a = a + i
 next
 ========================
-# 10から1まで-1ステップでループ
+# test2 10から1まで-1ステップでループ
 var i: int
 var a: int = 0
 for i = 10 to 1 step -1
   a = a + i
 next
 ========================
-# 10から1まで-2ステップでループ
+# test3 10から1まで-2ステップでループ
 var i: int
 var a: int = 0
 for i = 10 to 1 step -2
   a = a + i
 next
 ========================
-# 二重ループ
+# test4 二重ループ
 var i: int
 var j: int
 var a: int = 0
@@ -38,10 +38,64 @@ for i = 1 to 10
   next
 next
 ========================
-# stepなしでもstep-1
+# test5 stepなしでもstep-1
 var i: int
 var a: int = 0
 for i = 10 to 1
   a = a + i
 next
 ========================
+# test6 途中でbreak
+var i: int
+for i = 0 to 10
+  if i == 5 then
+    break
+  endif
+next
+========================
+# test7 二重ループ途中でbreak
+var i: int
+var j: int
+var a = 0
+for i = 0 to 10
+  if i == 5 then
+    break
+  endif
+  for j = 0 to 10
+    if j != 5 then
+      pass
+    else
+      break
+    endif
+	a += 1
+  next
+next
+========================
+# test8 途中でcontinue
+var i: int
+var a = 0
+for i = 0 to 10
+  if i >= 5 then
+    continue
+  endif
+  a += 1
+next
+========================
+# test9 二重ループ途中でcontinue
+var i: int
+var j: int
+var a = 0
+for i = 0 to 10
+  if i >= 5 then
+    continue
+  endif
+  for j = 0 to 10
+    if j < 5 then
+      pass
+    else
+      continue
+    endif
+    a += 1
+  next
+next
+

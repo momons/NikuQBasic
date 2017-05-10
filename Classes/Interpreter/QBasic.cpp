@@ -109,6 +109,7 @@ void QBasic::initAndRun(const bool run) {
 	// 初期化
 	isRun = run;
 	isExit = false;
+	isBreak = false;
 	pushBacked = "";
 	variables.clear();
 	localVariables.clear();
@@ -440,12 +441,13 @@ QBasicVariableEntity QBasic::factor(const bool run) {
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::statement(const bool run) {
+bool QBasic::statement(bool run) {
     
     auto sym = getSymbol();
     
     // 終了
     if (sym.empty()) {
+		isExit = true;
         return false;
     }
 
@@ -458,6 +460,20 @@ bool QBasic::statement(const bool run) {
 		return analysisIf(run);
     } else if(sym == "for") {
 		return analysisFor(run);
+	} else if(sym == "break") {
+		if (run) {
+			// TODO: ループ内ではないときの対応を入れる
+			run = false;
+			isBreak = true;
+		}
+		return !run;
+	} else if(sym == "continue") {
+		if (run) {
+			// TODO: ループ内ではないときの対応を入れる
+			run = false;
+			isContinue = true;
+		}
+		return !run;
 	} else if(sym == "func") {
 		return analysisFunc(run);
 	} else if(sym == "return") {
@@ -469,6 +485,8 @@ bool QBasic::statement(const bool run) {
 			isExit = true;
 		}
 		return !run;
+	} else if(sym == "pass") {
+		return true;
     } else if (statements->hasName(sym)) {
         // ステートメント
 		// 引数取得
@@ -966,7 +984,7 @@ bool QBasic::analysisVarListDict(const bool run, const string &variableName, vec
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisIf(const bool run) {
+bool QBasic::analysisIf(bool run) {
 	// if文
 	auto value = expression(run);
 	if (!QBasicValidation::isValidIf(value)) {
@@ -976,7 +994,11 @@ bool QBasic::analysisIf(const bool run) {
 	bool isValid = value.boolValue;
 	bool isElse = false;
 	match("then");
-	while (statement(isValid && run && !isExit)) {
+	while (statement(isValid && run)) {
+		if (isBreak || isContinue) {
+			// 非実行モードへ
+			run = false;
+		}
 		auto sym = getSymbol();
 		if (sym == "endif") {
 			break;
@@ -1014,7 +1036,7 @@ bool QBasic::analysisIf(const bool run) {
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisFor(const bool run) {
+bool QBasic::analysisFor(bool run) {
 	string variableName = getSymbol();
 	
 	if (!run) {
@@ -1076,28 +1098,36 @@ bool QBasic::analysisFor(const bool run) {
 	int count = 0;
 	int pcfor = symbols->offset();
 	string pushbackfor = pushBacked;
+	isBreak = false;
+	isContinue = false;
 	while (!run ||
 		   (isUpLoop && variables[variableName].intValue <= to) ||
 		   (!isUpLoop && variables[variableName].intValue >= to)) {
 		
 		symbols->jumpOffset(pcfor);
 		pushBacked = pushbackfor;
-		
+
 		while (true) {
 			sym = getSymbol();
 			if (sym == "next") {
 				break;
-			} else {
-				pushBack(sym);
 			}
-			if (!statement(run)) {
+			pushBack(sym);
+			if (!statement(run && !isContinue)) {
 				if (isExit) {
 					return false;
 				}
 				break;
 			}
+			if (isBreak) {
+				// ブレイクしたら非実行モードへ
+				run = false;
+				isBreak = false;
+			}
 		}
 		
+		isContinue = false;
+
 		// カウント加算
 		count++;
 		
@@ -1108,7 +1138,7 @@ bool QBasic::analysisFor(const bool run) {
 		}
 	}
 	if (count <= 0) {
-		// 一回もループされなかったら捨てループ
+		// 一回もループされなかったらnextを検索する
 		while (true) {
 			sym = getSymbol();
 			if (sym == "next") {

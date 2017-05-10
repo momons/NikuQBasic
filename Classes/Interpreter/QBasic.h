@@ -102,6 +102,10 @@ private:
 	bool isRun;
 	/// 終了フラグ
 	bool isExit;
+	/// breakフラグ
+	bool isBreak;
+	/// continueフラグ
+	bool isContinue;
 
     /// プッシュバック用
     string pushBacked;
@@ -200,7 +204,7 @@ private:
      * @param run 実行中フラグ
      * @return 終了フラグ false:終了 true:進行
      */
-    bool statement(const bool run);
+    bool statement(bool run);
     
 	/**
 	 *  処理を１つ戻す
@@ -272,14 +276,14 @@ private:
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisIf(const bool run);
+	bool analysisIf(bool run);
 	
 	/**
 	 * for文を解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisFor(const bool run);
+	bool analysisFor(bool run);
 	
 	/**
 	 * 関数を解析
