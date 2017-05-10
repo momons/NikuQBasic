@@ -52,7 +52,7 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 /// 文字列長取得
 vector<QBasicVariableEntity> QBasicStringFunctions::len_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::len_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -62,9 +62,9 @@ QBasicVariableEntity QBasicStringFunctions::len_qb(QBasic *interpreter, const ve
 /// 真ん中切り取り
 vector<QBasicVariableEntity> QBasicStringFunctions::mid_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("index", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("length", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -74,8 +74,8 @@ QBasicVariableEntity QBasicStringFunctions::mid_qb(QBasic *interpreter, const ve
 /// 左切り取り
 vector<QBasicVariableEntity> QBasicStringFunctions::left_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("length", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -85,8 +85,8 @@ QBasicVariableEntity QBasicStringFunctions::left_qb(QBasic *interpreter, const v
 /// 右切り取り
 vector<QBasicVariableEntity> QBasicStringFunctions::right_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("length", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -96,8 +96,8 @@ QBasicVariableEntity QBasicStringFunctions::right_qb(QBasic *interpreter, const 
 /// 分割
 vector<QBasicVariableEntity> QBasicStringFunctions::split_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("delimiter", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -112,7 +112,7 @@ QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const 
 // Empty
 vector<QBasicVariableEntity> QBasicStringFunctions::empty_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -122,7 +122,7 @@ QBasicVariableEntity QBasicStringFunctions::empty_qb(QBasic *interpreter, const 
 // NotEmpty
 vector<QBasicVariableEntity> QBasicStringFunctions::notEmpty_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::notEmpty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -132,9 +132,9 @@ QBasicVariableEntity QBasicStringFunctions::notEmpty_qb(QBasic *interpreter, con
 /// 置換
 vector<QBasicVariableEntity> QBasicStringFunctions::replase_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("search", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("rep", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::replase_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {

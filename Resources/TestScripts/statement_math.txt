@@ -1,86 +1,86 @@
 # test0 abs
-var a = abs(-1.0)
-var b = abs(10.0)
+var a = abs(v: -1.0)
+var b = abs(v: 10.0)
 ========================
 # test1 max
-var a = max(1.0, 2.0)
-var b = max(a, 1.5)
+var a = max(v1: 1.0, v2: 2.0)
+var b = max(v1: a, v2: 1.5)
 ========================
 # test2 min
-var a = min(1.0, 2.0)
-var b = min(a, 1.5)
+var a = min(v1: 1.0, v2: 2.0)
+var b = min(v1: a, v2: 1.5)
 ========================
 # test3 deg2rad
-var a = deg2rad(90.0)
+var a = deg2rad(deg: 90.0)
 ========================
 # test4 sin
-var a = sin(deg2rad(45.0))
+var a = sin(x: deg2rad(deg: 45.0))
 ========================
 # test5 cos
-var a = cos(deg2rad(45.0))
+var a = cos(x: deg2rad(deg: 45.0))
 ========================
 # test6 tan
-var a = tan(deg2rad(45.0))
+var a = tan(x: deg2rad(deg: 45.0))
 ========================
 # test7 asin
-var a = asin(deg2rad(45.0))
+var a = asin(x: deg2rad(deg: 45.0))
 ========================
 # test8 acos
-var a = acos(deg2rad(45.0))
+var a = acos(x: deg2rad(deg: 45.0))
 ========================
 # test9 atan
-var a = atan(deg2rad(45.0))
+var a = atan(x: deg2rad(deg: 45.0))
 ========================
 # test10 atan2
-var a = atan2(1.0, 1.0)
+var a = atan2(y: 1.0, x: 1.0)
 ========================
 # test11 cbrt
-var a = cbrt(1.0)
+var a = cbrt(x: 1.0)
 ========================
 # test12 pow
-var a = pow(1.0, 1.0)
+var a = pow(x: 1.0, y: 1.0)
 ========================
 # test13 rand
 var i: int
 var a: int
 var isValid = true
 for i = 0 to 500
-  a = rand(100)
+  a = rand(v: 100)
   if a < 0 || a >= 100 then
      isValid = false
   endif
 next
 ========================
 # test14 rad2deg
-var a = rad2deg(deg2rad(45.0))
+var a = rad2deg(rad: deg2rad(deg: 45.0))
 ========================
 # test15 round
-var a = round(0.4999)
-var b = round(0.5001)
+var a = round(x: 0.4999)
+var b = round(x: 0.5001)
 ========================
 # test16 floor
-var a = floor(0.4999)
-var b = floor(0.5001)
+var a = floor(x: 0.4999)
+var b = floor(x: 0.5001)
 ========================
 # test17 ceil
-var a = ceil(0.4999)
-var b = ceil(0.5001)
+var a = ceil(x: 0.4999)
+var b = ceil(x: 0.5001)
 ========================
 # test18 sinh
-var a = sinh(1.0)
+var a = sinh(x: 1.0)
 ========================
 # test19 cosh
-var a = cosh(1.0)
+var a = cosh(x: 1.0)
 ========================
 # test20 tanh
-var a = tanh(1.0)
+var a = tanh(x: 1.0)
 ========================
 # test21 exp
-var a = exp(1.0)
+var a = exp(x: 1.0)
 ========================
 # test22 log
-var a = log(1.0)
+var a = log(x: 1.0)
 ========================
 # test23 log10
-var a = log10(1.0)
+var a = log10(x: 1.0)
 ========================

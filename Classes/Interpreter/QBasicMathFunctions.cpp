@@ -82,7 +82,7 @@ unordered_map<string, QBasicStatementEntity> QBasicMathFunctions::buildStatement
 /// 絶対値
 vector<QBasicVariableEntity> QBasicMathFunctions::abs_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("v", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -92,8 +92,8 @@ QBasicVariableEntity QBasicMathFunctions::abs_qb(QBasic *interpreter, const vect
 /// 最大値
 vector<QBasicVariableEntity> QBasicMathFunctions::max_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val1", VariableType::Float, nullptr));
-	argNames.push_back(QBasicVariableEntity("val2", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("v1", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("v2", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -103,8 +103,8 @@ QBasicVariableEntity QBasicMathFunctions::max_qb(QBasic *interpreter, const vect
 /// 最小値
 vector<QBasicVariableEntity> QBasicMathFunctions::min_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val1", VariableType::Float, nullptr));
-	argNames.push_back(QBasicVariableEntity("val2", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("v1", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("v2", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -114,7 +114,7 @@ QBasicVariableEntity QBasicMathFunctions::min_qb(QBasic *interpreter, const vect
 /// サイン
 vector<QBasicVariableEntity> QBasicMathFunctions::sin_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::sin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -124,7 +124,7 @@ QBasicVariableEntity QBasicMathFunctions::sin_qb(QBasic *interpreter, const vect
 /// コサイン
 vector<QBasicVariableEntity> QBasicMathFunctions::cos_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::cos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -134,7 +134,7 @@ QBasicVariableEntity QBasicMathFunctions::cos_qb(QBasic *interpreter, const vect
 /// タンジェント
 vector<QBasicVariableEntity> QBasicMathFunctions::tan_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::tan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -144,7 +144,7 @@ QBasicVariableEntity QBasicMathFunctions::tan_qb(QBasic *interpreter, const vect
 /// アークサイン
 vector<QBasicVariableEntity> QBasicMathFunctions::asin_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::asin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -154,7 +154,7 @@ QBasicVariableEntity QBasicMathFunctions::asin_qb(QBasic *interpreter, const vec
 /// アークコサイン
 vector<QBasicVariableEntity> QBasicMathFunctions::acos_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::acos_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -164,7 +164,7 @@ QBasicVariableEntity QBasicMathFunctions::acos_qb(QBasic *interpreter, const vec
 /// アークタンジェント
 vector<QBasicVariableEntity> QBasicMathFunctions::atan_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::atan_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -174,8 +174,8 @@ QBasicVariableEntity QBasicMathFunctions::atan_qb(QBasic *interpreter, const vec
 /// アークタンジェント2
 vector<QBasicVariableEntity> QBasicMathFunctions::atan2_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	argNames.push_back(QBasicVariableEntity("y", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::atan2_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -185,7 +185,7 @@ QBasicVariableEntity QBasicMathFunctions::atan2_qb(QBasic *interpreter, const ve
 /// ハイパボリックサイン
 vector<QBasicVariableEntity> QBasicMathFunctions::sinh_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::sinh_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -195,7 +195,7 @@ QBasicVariableEntity QBasicMathFunctions::sinh_qb(QBasic *interpreter, const vec
 /// ハイパボリックコサイン
 vector<QBasicVariableEntity> QBasicMathFunctions::cosh_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::cosh_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -205,7 +205,7 @@ QBasicVariableEntity QBasicMathFunctions::cosh_qb(QBasic *interpreter, const vec
 /// ハイパボリックタンジェント
 vector<QBasicVariableEntity> QBasicMathFunctions::tanh_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::tanh_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -215,7 +215,7 @@ QBasicVariableEntity QBasicMathFunctions::tanh_qb(QBasic *interpreter, const vec
 /// 平方根
 vector<QBasicVariableEntity> QBasicMathFunctions::cbrt_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::cbrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -225,8 +225,8 @@ QBasicVariableEntity QBasicMathFunctions::cbrt_qb(QBasic *interpreter, const vec
 /// へき乗
 vector<QBasicVariableEntity> QBasicMathFunctions::pow_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val1", VariableType::Float, nullptr));
-	argNames.push_back(QBasicVariableEntity("val2", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("y", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::pow_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -236,7 +236,7 @@ QBasicVariableEntity QBasicMathFunctions::pow_qb(QBasic *interpreter, const vect
 /// ルート
 vector<QBasicVariableEntity> QBasicMathFunctions::sqrt_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::sqrt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -246,7 +246,7 @@ QBasicVariableEntity QBasicMathFunctions::sqrt_qb(QBasic *interpreter, const vec
 /// 乗を求める
 vector<QBasicVariableEntity> QBasicMathFunctions::exp_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::exp_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -256,7 +256,7 @@ QBasicVariableEntity QBasicMathFunctions::exp_qb(QBasic *interpreter, const vect
 /// 自然対数
 vector<QBasicVariableEntity> QBasicMathFunctions::log_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::log_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -266,7 +266,7 @@ QBasicVariableEntity QBasicMathFunctions::log_qb(QBasic *interpreter, const vect
 /// 常用対数
 vector<QBasicVariableEntity> QBasicMathFunctions::log10_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::log10_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -276,7 +276,7 @@ QBasicVariableEntity QBasicMathFunctions::log10_qb(QBasic *interpreter, const ve
 /// デグリーからラジアン
 vector<QBasicVariableEntity> QBasicMathFunctions::deg2rad_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("deg", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::deg2rad_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -286,7 +286,7 @@ QBasicVariableEntity QBasicMathFunctions::deg2rad_qb(QBasic *interpreter, const 
 /// ラジアンからデグリー
 vector<QBasicVariableEntity> QBasicMathFunctions::rad2deg_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("rad", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::rad2deg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -296,7 +296,7 @@ QBasicVariableEntity QBasicMathFunctions::rad2deg_qb(QBasic *interpreter, const 
 /// 乱数
 vector<QBasicVariableEntity> QBasicMathFunctions::rand_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("v", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::rand_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -306,7 +306,7 @@ QBasicVariableEntity QBasicMathFunctions::rand_qb(QBasic *interpreter, const vec
 /// 四捨五入
 vector<QBasicVariableEntity> QBasicMathFunctions::round_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::round_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -316,7 +316,7 @@ QBasicVariableEntity QBasicMathFunctions::round_qb(QBasic *interpreter, const ve
 /// 四捨五入
 vector<QBasicVariableEntity> QBasicMathFunctions::floor_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::floor_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
@@ -326,7 +326,7 @@ QBasicVariableEntity QBasicMathFunctions::floor_qb(QBasic *interpreter, const ve
 /// 切り捨て
 vector<QBasicVariableEntity> QBasicMathFunctions::ceil_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("x", VariableType::Float, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::ceil_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
