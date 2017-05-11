@@ -18,6 +18,8 @@
 #include "QBasicStatementEntity.h"
 #include "QBasicFunctions.h"
 #include "QBasicFunctionEntity.h"
+#include "QBasicFors.h"
+#include "QBasicForEntity.h"
 #include "QBasicSymbols.h"
 #include "QBasicSymbolEntity.h"
 #include "QBasicScene.h"
@@ -42,10 +44,11 @@
  */
 QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId) {
 
-    // 定数取得
+    // 必要なサブクラスを取得
 	statements = QBasicStatements::sharedInstance();
 	messages = QBasicMessages::sharedInstance();
 	functions = new QBasicFunctions();
+	fors = new QBasicFors();
 	
     // 退避
     this->source = source;
@@ -64,6 +67,7 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
 QBasic::~QBasic() {
 	// 解放
 	delete functions;
+	delete fors;
 	delete netFunc;
 	delete subFunc;
 	delete symbols;
@@ -1036,7 +1040,7 @@ bool QBasic::analysisIf(bool run) {
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisFor(bool run) {
+bool QBasic::analysisFor(const bool run) {
 	string variableName = getSymbol();
 	
 	if (!run) {
@@ -1084,6 +1088,7 @@ bool QBasic::analysisFor(bool run) {
 		step = run ? value.intValue : 0;
 		isUpLoop = step >= 0 ? true : false;
 	} else {
+		popBack(run);
 		if (run) {
 			if (from <= to) {
 				step = 1;
@@ -1092,9 +1097,10 @@ bool QBasic::analysisFor(bool run) {
 				isUpLoop = false;
 			}
 		}
-		pushBack(sym);
 	}
-	
+
+	int startOffset = symbols->offset();
+
 	int count = 0;
 	int pcfor = symbols->offset();
 	string pushbackfor = pushBacked;
@@ -1110,6 +1116,10 @@ bool QBasic::analysisFor(bool run) {
 		while (true) {
 			sym = getSymbol();
 			if (sym == "next") {
+				if (!run) {
+					// forに追加
+					fors->addUpdate(startOffset, symbols->offset() - 1);
+				}
 				break;
 			}
 			pushBack(sym);
@@ -1120,40 +1130,38 @@ bool QBasic::analysisFor(bool run) {
 				break;
 			}
 			if (isBreak) {
-				// ブレイクしたら非実行モードへ
-				run = false;
-				isBreak = false;
+				break;
 			}
+		}
+		
+		// カウント加算
+		count++;
+		
+		if (isBreak) {
+			isBreak = false;
+			break;
 		}
 		
 		isContinue = false;
 
-		// カウント加算
-		count++;
-		
 		if (run) {
 			variables[variableName].intValue += step;
 		} else {
 			break;
 		}
 	}
-	if (count <= 0) {
-		// 一回もループされなかったらnextを検索する
-		while (true) {
-			sym = getSymbol();
-			if (sym == "next") {
-				break;
-			} else {
-				pushBack(sym);
-			}
-			if (!statement(false)) {
-				if (isExit) {
-					return false;
-				}
-				break;
-			}
+	
+	// 次の処理まで飛ばす
+	if (run) {
+		auto forEntity = fors->getFor(startOffset);
+		if (forEntity == nullptr) {
+			// TODO: エラー
+			
+			return false;
 		}
+		symbols->jumpOffset(forEntity->endOffset + 1);
 	}
+	
 	return true;
 }
 

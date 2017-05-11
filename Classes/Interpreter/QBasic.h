@@ -16,6 +16,7 @@ using namespace std;
 
 class QBasicStatements;
 class QBasicFunctions;
+class QBasicFors;
 class QBasicSymbols;
 class QBasicPushBackEntity;
 class QBasicSubFunction;
@@ -122,6 +123,8 @@ private:
 	QBasicStatements *statements;
 	/// ファンクション群
 	QBasicFunctions *functions;
+	/// for群
+	QBasicFors *fors;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
 	
@@ -283,7 +286,7 @@ private:
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisFor(bool run);
+	bool analysisFor(const bool run);
 	
 	/**
 	 * 関数を解析
