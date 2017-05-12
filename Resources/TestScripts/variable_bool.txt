@@ -17,7 +17,7 @@ a = "true"
 # test4 型推論テスト bool
 var a = true
 var b = 0
-if a == true then
+if a
   b = 1
 endif
 ========================

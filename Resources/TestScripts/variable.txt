@@ -34,7 +34,7 @@ a = b
 var b: int
 b = 1
 var a: int
-if b == 1 then
+if b == 1
   a = 1
 else
   a = 2
@@ -46,7 +46,7 @@ var b: int
 var c: int
 b = 10
 c = 10
-if b == c then
+if b == c
   a = 1
 else
   a = 2

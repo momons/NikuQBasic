@@ -210,7 +210,7 @@ private:
      * @param run 実行中フラグ
      * @return 終了フラグ false:終了 true:進行
      */
-    bool statement(bool run);
+    bool statement(const bool run);
     
 	/**
 	 *  処理を１つ戻す

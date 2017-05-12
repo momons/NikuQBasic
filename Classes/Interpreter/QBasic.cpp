@@ -118,6 +118,7 @@ void QBasic::initAndRun(const bool run) {
 	isRun = run;
 	isExit = false;
 	isBreak = false;
+	isContinue = false;
 	pushBacked = "";
 	variables.clear();
 	localVariables.clear();
@@ -455,7 +456,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::statement(bool run) {
+bool QBasic::statement(const bool run) {
     
     auto sym = getSymbol();
     
@@ -477,14 +478,12 @@ bool QBasic::statement(bool run) {
 	} else if(sym == "break") {
 		if (run) {
 			// TODO: ループ内ではないときの対応を入れる
-			run = false;
 			isBreak = true;
 		}
 		return !run;
 	} else if(sym == "continue") {
 		if (run) {
 			// TODO: ループ内ではないときの対応を入れる
-			run = false;
 			isContinue = true;
 		}
 		return !run;
@@ -1011,7 +1010,6 @@ bool QBasic::analysisIf(const bool run) {
 		setThrow("BadVariableTypeIf", nullptr);
 		return false;
 	}
-	match("then");
 	if (run && !value.boolValue) {
 		ifIndex += 1;
 		if (!jumpIf(ifKey, ifIndex)) {
@@ -1056,7 +1054,6 @@ bool QBasic::analysisIf(const bool run) {
 				setThrow("BadVariableTypeIf", nullptr);
 				return false;
 			}
-			match("then");
 			if (run && !value.boolValue) {
 				ifIndex += 1;
 				if (!jumpIf(ifKey, ifIndex)) {
@@ -1212,7 +1209,7 @@ bool QBasic::analysisFor(const bool run) {
 				}
 				break;
 			}
-			if (isBreak) {
+			if (isBreak || isContinue) {
 				break;
 			}
 		}
@@ -1220,13 +1217,13 @@ bool QBasic::analysisFor(const bool run) {
 		// カウント加算
 		count++;
 		
+		isContinue = false;
+		
 		if (isBreak) {
 			isBreak = false;
 			break;
 		}
 		
-		isContinue = false;
-
 		if (run) {
 			variables[variableName].intValue += step;
 		} else {
