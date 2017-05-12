@@ -25,14 +25,14 @@ public:
 	 * @param endOffset   終了オフセット
 	 * @return For情報
 	 */
-	QBasicForEntity *addUpdate(int startOffset, int endOffset);
+	QBasicForEntity *addUpdate(const int startOffset, const int endOffset);
 	
 	/**
 	 * For取得
 	 * @param startOffset 開始オフセット
 	 * @return For情報
 	 */
-	QBasicForEntity *getFor(int startOffset);
+	QBasicForEntity *getFor(const int startOffset);
 	
 	/**
 	 * for情報をクリア

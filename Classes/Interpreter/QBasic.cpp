@@ -18,10 +18,12 @@
 #include "QBasicStatementEntity.h"
 #include "QBasicFunctions.h"
 #include "QBasicFunctionEntity.h"
-#include "QBasicFors.h"
-#include "QBasicForEntity.h"
 #include "QBasicSymbols.h"
 #include "QBasicSymbolEntity.h"
+#include "QBasicFors.h"
+#include "QBasicForEntity.h"
+#include "QBasicIfs.h"
+#include "QBasicIfEntity.h"
 #include "QBasicScene.h"
 #include "QBasicVariableEntity.h"
 #include "QBasicPushBackEntity.h"
@@ -49,6 +51,7 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
 	messages = QBasicMessages::sharedInstance();
 	functions = new QBasicFunctions();
 	fors = new QBasicFors();
+	ifs = new QBasicIfs();
 	
     // 退避
     this->source = source;
@@ -67,10 +70,11 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
 QBasic::~QBasic() {
 	// 解放
 	delete functions;
-	delete fors;
 	delete netFunc;
 	delete subFunc;
 	delete symbols;
+	delete fors;
+	delete ifs;
 }
 
 /**
@@ -119,6 +123,8 @@ void QBasic::initAndRun(const bool run) {
 	localVariables.clear();
 	if (!run) {
 		functions->clear();
+		fors->clear();
+		ifs->clear();
 		lastFunctionName = "";
 	}
 	functionPushBacks.clear();
@@ -188,10 +194,14 @@ QBasicVariableEntity QBasic::expression(const bool run) {
 			
 			auto valueDist = relop(run);
 			if (QBasicValidation::isValidExpression(value, valueDist)) {
-				if (sym == "&&") {
-					value = value.expressionAnd(valueDist);
+				if (run) {
+					if (sym == "&&") {
+						value = value.expressionAnd(valueDist);
+					} else {
+						value = value.expressionOr(valueDist);
+					}
 				} else {
-					value = value.expressionOr(valueDist);
+					return QBasicVariableEntity("", "true");
 				}
 			} else {
 				setThrow("BadCompareVariableType");
@@ -988,51 +998,124 @@ bool QBasic::analysisVarListDict(const bool run, const string &variableName, vec
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisIf(bool run) {
+bool QBasic::analysisIf(const bool run) {
+
+	int ifKey = symbols->offset();
+	int startOffset = ifKey;
+	int ifIndex = 0;
+	bool isElse = false;
+	
 	// if文
 	auto value = expression(run);
 	if (!QBasicValidation::isValidIf(value)) {
 		setThrow("BadVariableTypeIf", nullptr);
 		return false;
 	}
-	bool isValid = value.boolValue;
-	bool isElse = false;
 	match("then");
-	while (statement(isValid && run)) {
+	if (run && !value.boolValue) {
+		ifIndex += 1;
+		if (!jumpIf(ifKey, ifIndex)) {
+			return true;
+		}
+	} else {
+		if (!statement(run)) {
+			return !isExit;
+		}
+		if (run) {
+			jumpIf(ifKey, -1);
+			return !isExit;
+		}
+	}
+	while (true) {
 		if (isBreak || isContinue) {
-			// 非実行モードへ
-			run = false;
+			// ループを抜ける
+			jumpIf(ifKey, -1);
+			break;
 		}
 		auto sym = getSymbol();
 		if (sym == "endif") {
+			if (run) {
+				// ループを抜ける
+				jumpIf(ifKey, -1);
+			} else {
+				ifs->add(ifKey, startOffset, symbols->offset());
+			}
 			break;
 		} else if(sym == "elseif") {
-			if (isElse) {
-				// [ERROR]不正な場所にelseifがあります。
-				setThrow("BadElseif", nullptr);
-				return false;
+			if (!run) {
+				if (isElse) {
+					// [ERROR]不正な場所にelseifがあります。
+					setThrow("BadElseif", nullptr);
+					return false;
+				}
+				ifs->add(ifKey, startOffset, symbols->offset() - 2);
+				startOffset = symbols->offset() - 1;
 			}
 			auto value = expression(run);
 			if (!QBasicValidation::isValidIf(value)) {
 				setThrow("BadVariableTypeIf", nullptr);
 				return false;
 			}
-			isValid = value.boolValue;
 			match("then");
-		} else if(sym == "else") {
-			if (isElse) {
-				// [ERROR]不正な場所にelseがあります。
-				setThrow("BadElse", nullptr);
-				return false;
+			if (run && !value.boolValue) {
+				ifIndex += 1;
+				if (!jumpIf(ifKey, ifIndex)) {
+					break;
+				}
+			} else {
+				if (!statement(run)) {
+					break;
+				}
+				if (run) {
+					jumpIf(ifKey, -1);
+					break;
+				}
 			}
-			isValid = !isValid;
+		} else if(sym == "else") {
+			if (!run) {
+				if (isElse) {
+					// [ERROR]不正な場所にelseがあります。
+					setThrow("BadElse", nullptr);
+					return false;
+				}
+				ifs->add(ifKey, startOffset, symbols->offset() - 2);
+				startOffset = symbols->offset() - 1;
+			}
+			if (!statement(run)) {
+				break;
+			}
 			// フラグON
 			isElse = true;
 		} else {
 			pushBack(sym);
+			if (!statement(run)) {
+				break;
+			}
 		}
 	}
 	return !isExit;
+}
+
+/**
+ * 次のif分へ
+ * @param key   キー
+ * @param index インデックス
+ * @return 終了フラグ false:もうなし true:次へ
+ */
+bool QBasic::jumpIf(const int key, const int index) {
+	pushBacked = "";
+	auto ifEntities = ifs->getIf(key);
+	if (ifEntities == nullptr) {
+		// TODO:エラー
+		return false;
+	}
+	if (index < 0 || index >= ifEntities->size()) {
+		// もう次がない
+		symbols->jumpOffset((ifEntities->end() - 1)->endOffset);
+		return false;
+	}
+	symbols->jumpOffset(ifEntities->at(index).startOffset);
+	return true;
 }
 
 /**

@@ -16,8 +16,9 @@ using namespace std;
 
 class QBasicStatements;
 class QBasicFunctions;
-class QBasicFors;
 class QBasicSymbols;
+class QBasicFors;
+class QBasicIfs;
 class QBasicPushBackEntity;
 class QBasicSubFunction;
 class QBasicStringFunctions;
@@ -125,6 +126,8 @@ private:
 	QBasicFunctions *functions;
 	/// for群
 	QBasicFors *fors;
+	/// if群
+	QBasicIfs *ifs;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
 	
@@ -279,7 +282,15 @@ private:
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisIf(bool run);
+	bool analysisIf(const bool run);
+	
+	/**
+	 * 次のif分へ
+	 * @param key   キー
+	 * @param index インデックス
+	 * @return 終了フラグ false:もうなし true:次へ
+	 */
+	bool jumpIf(const int key, const int index);
 	
 	/**
 	 * for文を解析

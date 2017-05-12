@@ -16,7 +16,7 @@
  * @param endOffset   終了オフセット
  * @return For情報
  */
-QBasicForEntity *QBasicFors::addUpdate(int startOffset, int endOffset) {
+QBasicForEntity *QBasicFors::addUpdate(const int startOffset, const int endOffset) {
 	QBasicForEntity entity;
 	entity.startOffset = startOffset;
 	entity.endOffset = endOffset;
@@ -29,7 +29,7 @@ QBasicForEntity *QBasicFors::addUpdate(int startOffset, int endOffset) {
  * @param startOffset 開始オフセット
  * @return For情報
  */
-QBasicForEntity *QBasicFors::getFor(int startOffset) {
+QBasicForEntity *QBasicFors::getFor(const int startOffset) {
 	if (fors.find(startOffset) == fors.end()) {
 		return nullptr;
 	}
