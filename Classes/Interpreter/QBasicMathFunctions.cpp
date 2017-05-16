@@ -280,7 +280,7 @@ vector<QBasicVariableEntity> QBasicMathFunctions::deg2rad_params() {
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::deg2rad_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	auto answer = arg[0].floatValue * 3.14159265 / 180.0;
+	auto answer = arg[0].floatValue * M_PI / 180.0;
 	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// ラジアンからデグリー
@@ -290,7 +290,7 @@ vector<QBasicVariableEntity> QBasicMathFunctions::rad2deg_params() {
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::rad2deg_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	auto answer = arg[0].floatValue * 180.0 / 3.14159265;
+	auto answer = arg[0].floatValue * 180.0 / M_PI;
 	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 乱数

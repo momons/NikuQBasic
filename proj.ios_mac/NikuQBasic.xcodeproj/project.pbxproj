@@ -514,7 +514,7 @@
 			name = Entity;
 			sourceTree = "<group>";
 		};
-		2FA5D8841E7C6D3D0044BB85 /* SubFunctions */ = {
+		2FA5D8841E7C6D3D0044BB85 /* Statements */ = {
 			isa = PBXGroup;
 			children = (
 				2F83DF4C1EB13F8200B825BA /* QBasicTypeChangeFunctions.cpp */,
@@ -548,7 +548,7 @@
 				2F443C6F1E8178C900F027F7 /* QBasicDebugFunctions.cpp */,
 				2F443C711E8178D300F027F7 /* QBasicDebugFunctions.h */,
 			);
-			name = SubFunctions;
+			name = Statements;
 			sourceTree = "<group>";
 		};
 		2FF185561E23C01800F97DBC /* Interpreter */ = {
@@ -567,7 +567,7 @@
 				2F9149141EB8BFEA00210232 /* QBasicSymbols.cpp */,
 				2F9149131EB8BFDD00210232 /* QBasicSymbols.h */,
 				2F98EFEF1E9EA8F40057B6C9 /* Entity */,
-				2FA5D8841E7C6D3D0044BB85 /* SubFunctions */,
+				2FA5D8841E7C6D3D0044BB85 /* Statements */,
 				2FF185671E23C46700F97DBC /* QBasicSubFunction.cpp */,
 				2FF185681E23C46700F97DBC /* QBasicSubFunction.h */,
 				2F5CE4251E857D0D00EF0D65 /* QBasicValidation.cpp */,
