@@ -224,10 +224,9 @@ private:
 	 * func実行
 	 * @param run            実行中フラグ
 	 * @param functionName   関数名
-	 * @param returnVariable 戻り値
-	 * @return 終了フラグ false:終了 true:進行
+	 * @return 戻り値
 	 */
-	bool executeFunction(const bool run, const string &functionName, QBasicVariableEntity &returnVariable);
+	QBasicVariableEntity executeFunction(const bool run, const string &functionName);
 	
 	/**
 	 * func終了実行
@@ -312,7 +311,7 @@ private:
 	 * @param run      実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisArg(const bool run, vector<QBasicVariableEntity> &argNames);
+	bool analysisArguments(const bool run, vector<QBasicVariableEntity> &argNames);
 	
 	/**
 	 * returnを解析

@@ -116,4 +116,30 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// func内に２重定義すれば大丈夫
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 1);
+}
+
+/// func内の２重定義はダメ
+- (void)test13 {
+	interpreter = new QBasic(nullptr, [scripts[13] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
+/// funcの引数名とグローバル変数が２重定義はOK
+- (void)test14 {
+	interpreter = new QBasic(nullptr, [scripts[14] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 1);
+}
+
+/// funcの引数名で２重定義はダメ
+- (void)test15 {
+	interpreter = new QBasic(nullptr, [scripts[15] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+}
+
 @end

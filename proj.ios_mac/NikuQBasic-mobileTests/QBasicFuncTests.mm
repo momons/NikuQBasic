@@ -59,7 +59,7 @@
 /// 変数名がかぶっている
 - (void)test3 {
 	interpreter = new QBasic(nullptr, [scripts[3] UTF8String], "");
-	XCTAssertThrows(interpreter->run());
+	XCTAssertNoThrow(interpreter->run());
 }
 
 /// 引数の変数名がかぶっている

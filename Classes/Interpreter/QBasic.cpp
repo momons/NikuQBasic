@@ -122,11 +122,11 @@ void QBasic::initAndRun(const bool run) {
 	pushBacked = "";
 	variables.clear();
 	localVariables.clear();
+	lastFunctionName = "";
 	if (!run) {
 		functions->clear();
 		fors->clear();
 		ifs->clear();
-		lastFunctionName = "";
 	}
 	functionPushBacks.clear();
 	symbols->jumpOffset(0);
@@ -440,9 +440,7 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	
 	// ファンクション
 	if (functions->hasName(sym)) {
-		QBasicVariableEntity returnValue;
-		executeFunction(run, sym, returnValue);
-		return returnValue;
+		return executeFunction(run, sym);
 	}
 	
 	// [ERROR]不明な文字が見つかりました。
@@ -512,8 +510,8 @@ bool QBasic::statement(const bool run) {
 		return true;
 	} else if (functions->hasName(sym)) {
 		// ファンクション
-		QBasicVariableEntity returnValue;
-		return executeFunction(run, sym, returnValue);
+		executeFunction(run, sym);
+		return true;
 	} else if (sym.c_str()[0] == '#') {
 		// コメント
 		return true;
@@ -639,10 +637,9 @@ void QBasic::popBack(const bool run) {
  * func実行
  * @param run            実行中フラグ
  * @param functionName   関数名
- * @param returnVariable 戻り値
- * @return 終了フラグ false:終了 true:進行
+ * @return 戻り値
  */
-bool QBasic::executeFunction(const bool run, const string &functionName, QBasicVariableEntity &returnVariable) {
+QBasicVariableEntity QBasic::executeFunction(const bool run, const string &functionName) {
 
 	// 引数取得
 	auto argList = getArguments(run);
@@ -656,12 +653,11 @@ bool QBasic::executeFunction(const bool run, const string &functionName, QBasicV
 		if (entity == nullptr) {
 			setThrow("FunctionNotFound", functionName.c_str());
 		}
-		returnVariable = QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
-		return true;
+		return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
 	}
 	
 	// ローカル変数に行数とプッシュバック変数を退避
-	auto pushBackEntity = QBasicPushBackEntity(entity->alias, pushBacked, symbols->offset(), localVariables);
+	auto pushBackEntity = QBasicPushBackEntity(lastFunctionName, pushBacked, symbols->offset(), localVariables);
 	functionPushBacks.push_back(pushBackEntity);
 
 	// 実行オフセットを設定
@@ -687,10 +683,10 @@ bool QBasic::executeFunction(const bool run, const string &functionName, QBasicV
 	
 	// 戻り値が設定されているので返却
 	if (variables.find(FUNCTION_RETURN_VARIABLE_NAME) != variables.end()) {
-		returnVariable = variables[FUNCTION_RETURN_VARIABLE_NAME];
+		return variables[FUNCTION_RETURN_VARIABLE_NAME];
+	} else {
+		return QBasicVariableEntity("", VariableType::Void, nullptr);
 	}
-	
-	return true;
 }
 
 /**
@@ -882,14 +878,22 @@ bool QBasic::analysisVar(const bool run) {
 			setThrow(QBasicValidation::errorMessage);
 			return false;
 		}
-		// すでに宣言済み
-		if (variables.find(variableName) != variables.end()) {
-			// [ERROR]変数名が二重に定義されています。
-			setThrow("VariableNameOverlap", variableName.c_str());
-			return false;
+		if (!lastFunctionName.empty()) {
+			// func内の宣言ならばローカル変数
+			if (localVariables.find(variableName) != localVariables.end()) {
+				// [ERROR]変数名が二重に定義されています。
+				setThrow("VariableNameOverlap", variableName.c_str());
+				return false;
+			}
+		} else {
+			// すでに宣言済み
+			if (variables.find(variableName) != variables.end()) {
+				// [ERROR]変数名が二重に定義されています。
+				setThrow("VariableNameOverlap", variableName.c_str());
+				return false;
+			}
 		}
 		// TODO:関数名ともチェック
-		
 	}
 
 	auto sym = getSymbol();
@@ -931,22 +935,28 @@ bool QBasic::analysisVar(const bool run) {
 		if (!sym.empty()) {
 			popBack(run);
 		}
+		QBasicVariableEntity variableEntity;
 		switch (variableType) {
 			case VariableType::List:
-				variables[variableName] = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
+				variableEntity = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
 				break;
 			case VariableType::Dict:
-				variables[variableName] = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
+				variableEntity = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
 				break;
 			default:
-				variables[variableName] = QBasicVariableEntity(variableName, variableType, nullptr);
+				variableEntity = QBasicVariableEntity(variableName, variableType, nullptr);
 				break;
+		}
+		if (!lastFunctionName.empty()) {
+			localVariables[variableName] = variableEntity;
+		} else {
+			variables[variableName] = variableEntity;
 		}
 		return true;
 	}
 
 	// 初期値取得
-	QBasicVariableEntity value = expression(run);
+	auto value = expression(run);
 	if (variableType != VariableType::Unknown) {
 		if (!QBasicValidation::isValidVariableType(value, variableType, valueVariableTypes)) {
 			setThrow("BadVariableType", nullptr);
@@ -957,7 +967,11 @@ bool QBasic::analysisVar(const bool run) {
 	}
 
 	value.name = variableName;
-	variables[variableName] = value;
+	if (!lastFunctionName.empty()) {
+		localVariables[variableName] = value;
+	} else {
+		variables[variableName] = value;
+	}
 	
 	return true;
 }
@@ -1274,7 +1288,7 @@ bool QBasic::analysisFunc(const bool run) {
 
 	// 引数を解析
 	vector<QBasicVariableEntity> argNames;
-	bool isSuccess = analysisArg(run, argNames);
+	bool isSuccess = analysisArguments(run, argNames);
 	if (!isSuccess) {
 		return false;
 	}
@@ -1346,7 +1360,7 @@ bool QBasic::analysisFunc(const bool run) {
  * @param run      実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames) {
+bool QBasic::analysisArguments(const bool run, vector<QBasicVariableEntity> &argNames) {
 
 	// 引数を解析
 	match("(");
@@ -1367,12 +1381,6 @@ bool QBasic::analysisArg(const bool run, vector<QBasicVariableEntity> &argNames)
 			// 変数名が不正
 			if (!QBasicValidation::isValidVariableName(variableName)) {
 				setThrow(QBasicValidation::errorMessage);
-				return false;
-			}
-			// すでに宣言済み
-			if (variables.find(variableName) != variables.end()) {
-				// [ERROR]変数名が二重に定義されています。
-				setThrow("VariableNameOverlap", variableName.c_str());
 				return false;
 			}
 			for (auto it = argNames.begin();it != argNames.end();it++) {
