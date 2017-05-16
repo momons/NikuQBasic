@@ -25,11 +25,17 @@ unordered_map<string, QBasicStatementEntity> QBasicMathFunctions::buildStatement
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("abs", abs_params(), VariableType::Float, abs_qb);
+	entity = QBasicStatementEntity("abs", abs_params(), VariableType::Int, abs_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("max", max_params(), VariableType::Float, max_qb);
+	entity = QBasicStatementEntity("abs", fabs_params(), VariableType::Float, fabs_qb);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("min", min_params(), VariableType::Float, min_qb);
+	entity = QBasicStatementEntity("max", max_params(), VariableType::Int, max_qb);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("max", fmax_params(), VariableType::Float, fmax_qb);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("min", min_params(), VariableType::Int, min_qb);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("min", fmin_params(), VariableType::Float, fmin_qb);
 	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("sin", sin_params(), VariableType::Float, sin_qb);
 	statementList[entity.alias] = entity;
@@ -82,33 +88,62 @@ unordered_map<string, QBasicStatementEntity> QBasicMathFunctions::buildStatement
 /// 絶対値
 vector<QBasicVariableEntity> QBasicMathFunctions::abs_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("v", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("i", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	auto answer = fabs(arg[0].floatValue);
+	int answer = abs(arg[0].intValue);
+	return QBasicVariableEntity("", VariableType::Int, &answer);
+}
+vector<QBasicVariableEntity> QBasicMathFunctions::fabs_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("f", VariableType::Float, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicMathFunctions::fabs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	double answer = fabs(arg[0].floatValue);
 	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 最大値
 vector<QBasicVariableEntity> QBasicMathFunctions::max_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("v1", VariableType::Float, nullptr));
-	argNames.push_back(QBasicVariableEntity("v2", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("i1", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("i2", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	auto answer = fmax(arg[0].floatValue, arg[1].floatValue);
+	int answer = max(arg[0].intValue, arg[1].intValue);
+	return QBasicVariableEntity("", VariableType::Int, &answer);
+}
+vector<QBasicVariableEntity> QBasicMathFunctions::fmax_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("f1", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("f2", VariableType::Float, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicMathFunctions::fmax_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	double answer = fmax(arg[0].floatValue, arg[1].floatValue);
 	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// 最小値
 vector<QBasicVariableEntity> QBasicMathFunctions::min_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("v1", VariableType::Float, nullptr));
-	argNames.push_back(QBasicVariableEntity("v2", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("i1", VariableType::Int, nullptr));
+	argNames.push_back(QBasicVariableEntity("i2", VariableType::Int, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicMathFunctions::min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	auto answer = fmin(arg[0].floatValue, arg[1].floatValue);
+	int answer = min(arg[0].intValue, arg[1].intValue);
+	return QBasicVariableEntity("", VariableType::Int, &answer);
+}
+vector<QBasicVariableEntity> QBasicMathFunctions::fmin_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("f1", VariableType::Float, nullptr));
+	argNames.push_back(QBasicVariableEntity("f2", VariableType::Float, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicMathFunctions::fmin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	double answer = fmin(arg[0].floatValue, arg[1].floatValue);
 	return QBasicVariableEntity("", VariableType::Float, &answer);
 }
 /// サイン

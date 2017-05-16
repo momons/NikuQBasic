@@ -1,5 +1,7 @@
 # NikuQBasic
 
+
+
 ### 型変換ファンクション
 
 |ファンクション|引数|戻り値|説明|
@@ -21,9 +23,12 @@
 
 |ファンクション|引数|戻り値|説明|
 |:--|:--|:--|:--|
-|abs(v:)|v(float):小数値|(float):絶対値|絶対値を求める。|
-|max(v1:,v2:)|v1(float):比較1<br>v2(float):比較2|(float):大きい方の値|大きい方を求める。|
-|min(v1:,v2:)|v1(float):比較1<br>v2(float):比較2|(float):小さい方の値|小さい方を求める。|
+|abs(i:)|i(int):整数値|(int):結果|int型の絶対値を求める。|
+|abs(f:)|f(float):小数値|(float):結果|float型の絶対値を求める。|
+|max(i1:,i2:)|i1(int):比較1<br>i2(int):比較2|(int):結果|int型の大きい方を求める。|
+|max(f1:,f2:)|f1(float):比較1<br>f2(float):比較2|(float):結果|float型の大きい方を求める。|
+|min(i1:,i2:)|i1(int):比較1<br>v2(int):比較2|(int):結果|int型の小さい方を求める。|
+|min(f1:,f2:)|f1(float):比較1<br>f2(float):比較2|(float):結果|float型の小さい方を求める。|
 |sin(x:)|x(float):角度|(float):結果|サインの計算。|
 |cos(x:)|x(float):角度|(float):結果|コサインの計算。|
 |tan(x:)|x(float):角度|(float):結果|タンジェントの計算。|

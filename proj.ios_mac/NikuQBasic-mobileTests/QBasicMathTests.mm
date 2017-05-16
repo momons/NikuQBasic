@@ -175,5 +175,26 @@
 	interpreter = new QBasic(nullptr, [scripts[23] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 }
+/// abs(int型)
+- (void)test24 {
+	interpreter = new QBasic(nullptr, [scripts[24] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(roundf(interpreter->variables["a"].intValue), 1);
+	XCTAssertEqual(roundf(interpreter->variables["b"].intValue), 10);
+}
+/// max(int型)
+- (void)test25 {
+	interpreter = new QBasic(nullptr, [scripts[25] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(roundf(interpreter->variables["a"].intValue), 2);
+	XCTAssertEqual(roundf(interpreter->variables["b"].intValue), 2);
+}
+/// min(int型)
+- (void)test26 {
+	interpreter = new QBasic(nullptr, [scripts[26] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(roundf(interpreter->variables["a"].intValue), 1);
+	XCTAssertEqual(roundf(interpreter->variables["b"].intValue), 0);
+}
 
 @end

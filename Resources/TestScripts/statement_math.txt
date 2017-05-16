@@ -1,14 +1,14 @@
 # test0 abs
-var a = abs(v: -1.0)
-var b = abs(v: 10.0)
+var a = abs(f: -1.0)
+var b = abs(f: 10.0)
 ========================
 # test1 max
-var a = max(v1: 1.0, v2: 2.0)
-var b = max(v1: a, v2: 1.5)
+var a = max(f1: 1.0, f2: 2.0)
+var b = max(f1: a, f2: 1.5)
 ========================
 # test2 min
-var a = min(v1: 1.0, v2: 2.0)
-var b = min(v1: a, v2: 1.5)
+var a = min(f1: 1.0, f2: 2.0)
+var b = min(f1: a, f2: 1.5)
 ========================
 # test3 deg2rad
 var a = deg2rad(deg: 90.0)
@@ -84,3 +84,14 @@ var a = log(x: 1.0)
 # test23 log10
 var a = log10(x: 1.0)
 ========================
+# test24 abs(int型)
+var a = abs(i: -1)
+var b = abs(i: 10)
+========================
+# test25 max(int型)
+var a = max(i1: 1, i2: 2)
+var b = max(i1: a, i2: 0)
+========================
+# test26 min(int型)
+var a = min(i1: 1, i2: 2)
+var b = min(i1: a, i2: 0)

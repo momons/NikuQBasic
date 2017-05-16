@@ -35,12 +35,18 @@ public:
 	/// 絶対値
 	static vector<QBasicVariableEntity> abs_params();
 	static QBasicVariableEntity abs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static vector<QBasicVariableEntity> fabs_params();
+	static QBasicVariableEntity fabs_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 最大値
 	static vector<QBasicVariableEntity> max_params();
 	static QBasicVariableEntity max_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static vector<QBasicVariableEntity> fmax_params();
+	static QBasicVariableEntity fmax_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// 最小値
 	static vector<QBasicVariableEntity> min_params();
 	static QBasicVariableEntity min_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static vector<QBasicVariableEntity> fmin_params();
+	static QBasicVariableEntity fmin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 	/// サイン
 	static vector<QBasicVariableEntity> sin_params();
 	static QBasicVariableEntity sin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
