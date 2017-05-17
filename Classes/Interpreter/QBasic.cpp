@@ -91,7 +91,7 @@ void QBasic::run() {
 	initAndRun(false);
 	// コンパイルエラーがあればここで終了
 	if (errors->hasError()) {
-		throw;
+		throw "Compile error!";
 	}
 	// 実行
 	initAndRun(true);
@@ -203,19 +203,19 @@ QBasicVariableEntity QBasic::expression(const bool run) {
 			int offset = symbols->offset();
 			
 			auto valueDist = relop(run);
-			if (QBasicValidation::isValidExpression(value, valueDist)) {
-				if (run) {
-					if (sym == "&&") {
-						value = value.expressionAnd(valueDist);
-					} else {
-						value = value.expressionOr(valueDist);
-					}
+			if (run) {
+				if (sym == "&&") {
+					value = value.expressionAnd(valueDist);
 				} else {
-					return QBasicVariableEntity("", "true");
+					value = value.expressionOr(valueDist);
 				}
 			} else {
-				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				if (!QBasicValidation::isValidExpression(value, valueDist)) {
+					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				}
+				return QBasicVariableEntity("", "true");
 			}
+			
         } else {
             break;
         }
@@ -245,8 +245,10 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 			sym == ">=" ||
 			sym == "!=" ) {
 			
+			int offset = symbols->offset();
+			
 			auto valueDist = addsub(run);
-			if (value.type == valueDist.type) {
+			if (run) {
 				int result = value.compare(valueDist);
 				value.type = VariableType::Bool;
 				value.boolValue = ((sym == "==" && result == 0) ||
@@ -256,7 +258,11 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 								   (sym == ">=" && result >= 0) ||
 								   (sym == "!=" && result != 0));
 			} else {
-				setThrow("BadCompareVariableType");
+				if (value.type != valueDist.type) {
+					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				}
+				value.type = VariableType::Bool;
+				value.boolValue = true;
 			}
         } else {
             break;
@@ -282,18 +288,20 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
     if (sym == "+") {
         value = muldiv(run);
     } else if(sym == "-") {
+		int offset = symbols->offset();
         value = muldiv(run);
-		if (QBasicValidation::isValidSub(value)) {
+		if (run || QBasicValidation::isValidSub(value)) {
 			value = value.mul(value.type, -1);
 		} else {
-			setThrow("BadVariableTypeSub", nullptr);
+			errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int, VariableType::Float}, value));
 		}
     } else if(sym == "not") {
+		int offset = symbols->offset();
 		value = muldiv(run);
-		if (QBasicValidation::isValidNot(value)) {
+		if (run || QBasicValidation::isValidNot(value)) {
 			value = value.expressionNot();
 		} else {
-			setThrow("BadVariableTypeNot", nullptr);
+			errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Bool}, value));
 		}
     } else {
         pushBack(sym);
@@ -304,18 +312,20 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
     sym = getSymbol();
     while (true) {
         if (sym == "+") {
+			int offset = symbols->offset();
             auto valueDist = muldiv(run);
-			if (QBasicValidation::isValidAdd(value, valueDist)) {
+			if (run || QBasicValidation::isValidAdd(value, valueDist)) {
 				value = value.add(valueDist);
 			} else {
-				setThrow("BadVariableTypeAdd", nullptr);
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
         } else if(sym == "-") {
+			int offset = symbols->offset();
 			auto valueDist = muldiv(run);
-			if (QBasicValidation::isValidSub(value, valueDist)) {
+			if (run || QBasicValidation::isValidSub(value, valueDist)) {
 				value = value.sub(valueDist);
 			} else {
-				setThrow("BadVariableTypeSub", nullptr);
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
         } else {
             break;
@@ -340,35 +350,28 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
     string sym = getSymbol();
     while (true) {
 		if (sym == "*") {
+			int offset = symbols->offset();
 			auto valueDist = factor(run);
-			if (QBasicValidation::isValidMul(value, valueDist)) {
+			if (run || QBasicValidation::isValidMul(value, valueDist)) {
 				value = value.mul(valueDist);
 			} else {
-				setThrow("BadVariableTypeMul", nullptr);
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
 		} else if (sym == "/") {
+			int offset = symbols->offset();
 			auto valueDist = factor(run);
-			if (QBasicValidation::isValidDiv(value, valueDist)) {
-				if (run) {
-					value = value.div(valueDist);
-				} else {
-					// TODO:
-					value = QBasicVariableEntity("", value.type, nullptr);
-				}
+			if (run || QBasicValidation::isValidDiv(value, valueDist)) {
+				value = value.div(valueDist);
 			} else {
-				setThrow("BadVariableTypeDiv", nullptr);
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
 		} else if (sym == "%") {
+			int offset = symbols->offset();
 			auto valueDist = factor(run);
-			if (QBasicValidation::isValidMod(value, valueDist)) {
-				if (run) {
-					value = value.mod(valueDist);
-				} else {
-					// TODO:
-					value = QBasicVariableEntity("", value.type, nullptr);
-				}
+			if (run || QBasicValidation::isValidMod(value, valueDist)) {
+				value = value.mod(valueDist);
 			} else {
-				setThrow("BadVariableTypeMod", nullptr);
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
         } else {
             break;
@@ -393,9 +396,6 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 		variables.find(sym) != variables.end()) {
 		// グローバル変数
 		auto variable = getVariable(run, sym);
-		if (variable == nullptr) {
-			return QBasicVariableEntity();
-		}
 		return *variable;
 	} else if (sym.length() == 1) {
 		switch (sym.c_str()[0]) {
@@ -432,18 +432,24 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	
 	// ステートメント
 	if (statements->hasName(sym)) {
+		int offset = symbols->offset() - 1;
 		// 引数取得
 		auto argList = getArguments(run);
 		auto entity = statements->getStatement(sym, argList);
-		if (entity != nullptr) {
+		if (run) {
+			return entity->func(this, argList);
+		} else {
+			// 該当のステートメントなし
+			if (entity == nullptr) {
+				errors->addError(offset, ErrorType::UnknownFunction, sym);
+				return QBasicVariableEntity();
+			}
+			// 戻り値がvoid
 			if (entity->returnType == VariableType::Void) {
-				setThrow("ReturnTypeVoid", nullptr);
+				errors->addError(offset, ErrorType::ReturnTypeVoid, entity->alias);
+				return QBasicVariableEntity();
 			}
-			if (run) {
-				return entity->func(this, argList);
-			} else {
-				return QBasicVariableEntity("", entity->returnType, nullptr);
-			}
+			return QBasicVariableEntity("", entity->returnType, nullptr);
 		}
 	}
 	
@@ -452,8 +458,8 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 		return executeFunction(run, sym);
 	}
 	
-	// [ERROR]不明な文字が見つかりました。
-	setThrow("UnknownSymbol", sym.c_str());
+	// 不明な文字が見つかりました。
+	errors->addError(ErrorType::UnknownSymbol, sym);
 
     return QBasicVariableEntity("", sym);
 }
@@ -586,9 +592,10 @@ QBasicVariableEntity QBasic::dictValue(const bool run) {
 		if (count > 0) {
 			match(",");
 		}
+		int offset = symbols->offset();
 		auto keyValue = expression(run);
-		if (keyValue.type != VariableType::Str) {
-			setThrow("BadVariableType", nullptr);
+		if (!run && keyValue.type != VariableType::Str) {
+			errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Str}, keyValue));
 		}
 		match(":");
 		QBasicVariableEntity value;
@@ -650,6 +657,8 @@ void QBasic::popBack(const bool run) {
  */
 QBasicVariableEntity QBasic::executeFunction(const bool run, const string &functionName) {
 
+	int offset = symbols->offset() - 1;
+	
 	// 引数取得
 	auto argList = getArguments(run);
 	// 省略引数とマージ
@@ -660,7 +669,7 @@ QBasicVariableEntity QBasic::executeFunction(const bool run, const string &funct
 
 	if (!run) {
 		if (entity == nullptr) {
-			setThrow("FunctionNotFound", functionName.c_str());
+			errors->addError(offset, ErrorType::UnknownFunction, functionName);
 		}
 		return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
 	}
@@ -782,12 +791,14 @@ QBasicVariableEntity *QBasic::getVariable(const bool run, const string &name) {
 			break;
 		}
 		
+		int offset = symbols->offset();
+		
 		auto keyValue = expression(run);
 		match("]");
 		
 		if (variable->type == VariableType::List) {
-			if (keyValue.type != VariableType::Int) {
-				setThrow("BadVariableTypeListKey", nullptr);
+			if (!run && keyValue.type != VariableType::Int) {
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int}, keyValue));
 				return nullptr;
 			}
 			if (keyValue.intValue < 0 || keyValue.intValue >= variable->listValue.size()) {

@@ -15,6 +15,7 @@ class QBasicSymbols;
 class QBasicErrorEntity;
 enum class ErrorType;
 class QBasicVariableEntity;
+enum class VariableType;
 
 /**
  * エラー制御用クラス
@@ -80,6 +81,14 @@ public:
 	 *  @return メッセージ
 	 */
 	static string buildBadVariableType(const QBasicVariableEntity &trueVariable, const QBasicVariableEntity &falseVariable);
+
+	/**
+	 *  エラータイプBadVariableTypeのメッセージ作成
+	 *  @param trueTypes     正しいタイプ
+	 *  @param falseVariable 間違ったタイプ
+	 *  @return メッセージ
+	 */
+	static string buildBadVariableType(const vector<VariableType> &trueTypes, const QBasicVariableEntity &falseVariable);
 
 private:
 	

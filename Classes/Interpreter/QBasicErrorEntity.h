@@ -22,20 +22,12 @@ enum class ErrorType {
 	MissingFound,
 	/// 変数型が不正
 	BadVariableType,
-	/// 整数
-	Int,
-	/// 小数
-	Float,
-	/// 文字
-	Str,
-	/// ブール
-	Bool,
-	/// 配列
-	List,
-	/// 連想配列
-	Dict,
-	/// 不明
-	Unknown,
+	/// 戻り値がvoid
+	ReturnTypeVoid,
+	/// 該当関数なし
+	UnknownFunction,
+	/// 不明なシンボル
+	UnknownSymbol,
 };
 
 /**

@@ -95,3 +95,24 @@ string QBasicErrors::buildBadVariableType(const QBasicVariableEntity &trueVariab
 	return stream.str();
 }
 
+/**
+ *  エラータイプBadVariableTypeのメッセージ作成
+ *  @param trueTypes     正しいタイプ
+ *  @param falseVariable 間違ったタイプ
+ *  @return メッセージ
+ */
+string QBasicErrors::buildBadVariableType(const vector<VariableType> &trueTypes, const QBasicVariableEntity &falseVariable) {
+	ostringstream stream;
+	stream << "o:";
+	for (auto it = trueTypes.begin();it != trueTypes.end();it++) {
+		stream << "'" << QBasicVariableEntity::toString(*it) << "'";
+		if (it == trueTypes.end() - 1) {
+			stream << " ";
+		} else {
+			stream << ",";
+		}
+	}
+	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.type, falseVariable.valueTypes) << "'";
+	return stream.str();
+}
+
