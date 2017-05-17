@@ -221,7 +221,7 @@ public:
 	
 	/**
 	 *  変数タイプの取得 階層
-	 * @param entity 変数entity
+	 *  @param entity 変数entity
 	 *  @return 変数タイプ群
 	 */
 	static vector<VariableType> getVariableTypes(const QBasicVariableEntity &entity);
@@ -260,6 +260,21 @@ public:
 	 */
 	QBasicVariableEntity expressionNot();
 	
+	/**
+	 *  変数タイプを文字列に変換
+	 *  @param type      メインタイプ
+	 *  @param subTypes  サブタイプ
+	 *  @return 文字列
+	 */
+	static string toString(const VariableType type, const vector<VariableType> &subTypes);
+
+	/**
+	 *  変数タイプを文字列に変換
+	 *  @param type      メインタイプ
+	 *  @return 文字列
+	 */
+	static string toString(const VariableType type);
+
 private:
 	
 	/**

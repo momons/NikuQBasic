@@ -16,9 +16,10 @@ using namespace std;
 
 class QBasicStatements;
 class QBasicFunctions;
-class QBasicSymbols;
 class QBasicFors;
 class QBasicIfs;
+class QBasicSymbols;
+class QBasicErrors;
 class QBasicPushBackEntity;
 class QBasicSubFunction;
 class QBasicStringFunctions;
@@ -130,6 +131,8 @@ private:
 	QBasicIfs *ifs;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
+	/// エラー群
+	QBasicErrors *errors;
 	
 	/**
 	 *  実行 or コンパイル

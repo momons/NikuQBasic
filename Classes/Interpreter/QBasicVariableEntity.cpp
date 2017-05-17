@@ -679,6 +679,52 @@ QBasicVariableEntity QBasicVariableEntity::copyNotValue() {
 	return returnEntity;
 }
 
+/**
+ *  変数タイプを文字列に変換
+ *  @param type      メインタイプ
+ *  @param subTypes  サブタイプ
+ *  @return 文字列
+ */
+string QBasicVariableEntity::toString(const VariableType type, const vector<VariableType> &subTypes) {
+	ostringstream stream;
+	// メインタイプ
+	stream << toString(type);
+	// サブタイプ
+	for (auto it = subTypes.begin();it != subTypes.end();it++) {
+		stream << "<" << toString(*it);
+	}
+	for (int i = 0;i < subTypes.size();i++) {
+		stream << ">";
+	}
+	return stream.str();
+}
+
+/**
+ *  変数タイプを文字列に変換
+ *  @param type      メインタイプ
+ *  @return 文字列
+ */
+string QBasicVariableEntity::toString(const VariableType type) {
+	switch(type) {
+		case VariableType::Void:
+			return "void";
+		case VariableType::Int:
+			return "int";
+		case VariableType::Float:
+			return "float";
+		case VariableType::Str:
+			return "str";
+		case VariableType::Bool:
+			return "bool";
+		case VariableType::List:
+			return "list";
+		case VariableType::Dict:
+			return "dict";
+		default:
+			return "";
+	}
+}
+
 
 
 

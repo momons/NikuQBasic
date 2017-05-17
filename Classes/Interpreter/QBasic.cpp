@@ -18,12 +18,14 @@
 #include "QBasicStatementEntity.h"
 #include "QBasicFunctions.h"
 #include "QBasicFunctionEntity.h"
-#include "QBasicSymbols.h"
-#include "QBasicSymbolEntity.h"
 #include "QBasicFors.h"
 #include "QBasicForEntity.h"
 #include "QBasicIfs.h"
 #include "QBasicIfEntity.h"
+#include "QBasicSymbols.h"
+#include "QBasicSymbolEntity.h"
+#include "QBasicErrors.h"
+#include "QBasicErrorEntity.h"
 #include "QBasicScene.h"
 #include "QBasicVariableEntity.h"
 #include "QBasicPushBackEntity.h"
@@ -62,6 +64,8 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
 	
 	// シンボル解析
 	symbols = new QBasicSymbols(source);
+	// エラー確保
+	errors = new QBasicErrors(symbols);
 }
 
 /**
@@ -72,9 +76,10 @@ QBasic::~QBasic() {
 	delete functions;
 	delete netFunc;
 	delete subFunc;
-	delete symbols;
 	delete fors;
 	delete ifs;
+	delete errors;
+	delete symbols;
 }
 
 /**
@@ -84,6 +89,10 @@ QBasic::~QBasic() {
 void QBasic::run() {
 	// コンパイル
 	initAndRun(false);
+	// コンパイルエラーがあればここで終了
+	if (errors->hasError()) {
+		throw;
+	}
 	// 実行
 	initAndRun(true);
 }
@@ -130,6 +139,7 @@ void QBasic::initAndRun(const bool run) {
 	}
 	functionPushBacks.clear();
 	symbols->jumpOffset(0);
+	errors->clear();
 	
 	// 実行
 	while(true) {
@@ -157,7 +167,7 @@ string QBasic::getSymbol() {
     // 残しておいたシンボルを返却
     if (!pushBacked.empty()) {
         string pushbackedBackup = pushBacked;
-		pushBacked.clear();
+		pushBacked = "";
         return pushbackedBackup;
     }
 
@@ -171,10 +181,7 @@ string QBasic::getSymbol() {
 void QBasic::match(const string &str) {
     string sym = getSymbol();
     if (sym != str) {
-		// [ERROR]想定の文字が見つかりませんでした。
-		ostringstream stream;
-		stream << "o:'" << str << "' x:'" << sym << "'";
-		setThrow("MissingFound", stream.str().c_str());
+		errors->addError(ErrorType::MissingFound, QBasicErrors::buildMissingFound(str, sym));
     }
 }
 
@@ -193,6 +200,8 @@ QBasicVariableEntity QBasic::expression(const bool run) {
         if (sym == "&&" ||
 			sym == "||" ) {
 			
+			int offset = symbols->offset();
+			
 			auto valueDist = relop(run);
 			if (QBasicValidation::isValidExpression(value, valueDist)) {
 				if (run) {
@@ -205,7 +214,7 @@ QBasicVariableEntity QBasic::expression(const bool run) {
 					return QBasicVariableEntity("", "true");
 				}
 			} else {
-				setThrow("BadCompareVariableType");
+				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
         } else {
             break;

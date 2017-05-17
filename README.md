@@ -65,7 +65,7 @@ var e5 = {"a": "あ", "b": "い", "c": "う"}
 |abs(f:)|f(float):小数値|(float):結果|float型の絶対値を求める。|
 |max(i1:,i2:)|i1(int):比較1<br>i2(int):比較2|(int):結果|int型の大きい方を求める。|
 |max(f1:,f2:)|f1(float):比較1<br>f2(float):比較2|(float):結果|float型の大きい方を求める。|
-|min(i1:,i2:)|i1(int):比較1<br>v2(int):比較2|(int):結果|int型の小さい方を求める。|
+|min(i1:,i2:)|i1(int):比較1<br>i2(int):比較2|(int):結果|int型の小さい方を求める。|
 |min(f1:,f2:)|f1(float):比較1<br>f2(float):比較2|(float):結果|float型の小さい方を求める。|
 |sin(x:)|x(float):角度|(float):結果|サインの計算。|
 |cos(x:)|x(float):角度|(float):結果|コサインの計算。|
