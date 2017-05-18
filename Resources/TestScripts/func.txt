@@ -1,138 +1,138 @@
 # test0 引数なし
 func a()
-end
+endfunc
 ========================
 # test1 引数あり
 func a(a: int, b: int, c: int)
-end
+endfunc
 ========================
 # test2 関数名に予約語を使用
 func if()
-end
+endfunc
 ========================
 # test3 変数名がかぶっている
 var a: int
 func b(a: int)
-end
+endfunc
 ========================
 # test4 引数の変数名がかぶっている
 func a(b: int, c: int, b: int)
-end
+endfunc
 ========================
 # test5 funcの中にfunc
 func a()
   func b()
-  end
-end
+  endfunc
+endfunc
 ========================
 # test6 同一funcを二重定義
 func a()
-end
+endfunc
 func b()
-end
+endfunc
 func a()
-end
+endfunc
 ========================
 # test7 戻り値テスト
 func a() -> void
-end
+endfunc
 func b() -> int
   return 1
-end
+endfunc
 func c() -> float
   return 1.0
-end
+endfunc
 func d() -> str
   return "1"
-end
+endfunc
 func e() -> bool
   return true
-end
+endfunc
 func f() -> list<int>
   return [1]
-end
+endfunc
 func g() -> dict<str>
   return {"1":"2"}
-end
+endfunc
 ========================
 # test8 不正な戻り値テスト
 func a() sdsds
-end
+endfunc
 ========================
 # test9 引数の型テスト int
 func a(b: int, c: float, d: str, e: bool)
-end
+endfunc
 ========================
 # test10 引数の型テスト void
 func a(b: void)
-end
+endfunc
 ========================
 # test11 不正な引数の型テスト
 func a(asas: c)
-end
+endfunc
 ========================
 # test12 デフォルト値設定
 func a(b: int = 2, c = "aaa", d: float = 1.0, e = [1], f: dict<str> = { "1": "a" })
-end
+endfunc
 ========================
 # test13 デフォルト値が型指定と違う int
 func a(b: int = true)
-end
+endfunc
 ========================
 # test14 デフォルト値が型指定と違う float
 func a(b: float = 2)
-end
+endfunc
 ========================
 # test15 デフォルト値が型指定と違う str
 func a(b: str = 2.0)
-end
+endfunc
 ========================
 # test16 デフォルト値が型指定と違う bool
 func a(b: bool = 2)
-end
+endfunc
 ========================
 # test17 デフォルト値が型指定と違う list<int>
 func a(b: list<int> = ["1"])
-end
+endfunc
 ========================
 # test18 デフォルト値が型指定と違う dict<str>
 func a(b: dict<str> = {"1": 1})
-end
+endfunc
 ========================
 # test19 funcの実行
 func a(b: int) -> int
   return b
-end
+endfunc
 var c = a(b: 1)
 ========================
 # test20 引数省略funcの実行
 func a(b = 0) -> int
   return b
-end
+endfunc
 var c = a(b: 1)
 var d = a()
 ========================
 # test21 引数省略複数funcの実行
 func a(b = 0, c: int, d = 1) -> int
   return b + c + d
-end
+endfunc
 var e = a(b: 1, c: 2, d: 3)
 var f = a(c: 10)
 ========================
 # test22 曖昧な場合は後勝ち
 func a(b = 0) -> int
   return 1
-end
+endfunc
 func a() -> int
   return 2
-end
+endfunc
 var c = a()
 ========================
 # test23 複数でも曖昧な場合は後勝ち
 func a(b = 0, c: int) -> int
   return 1
-end
+endfunc
 func a(c: int) -> int
   return 2
-end
+endfunc
 var d = a(c: 0)

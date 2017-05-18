@@ -63,24 +63,24 @@ var a = 1
 func b()
   var a = 2
   a = 3
-end
+endfunc
 ========================
 # test13 func内の２重定義はダメ
 var a = 1
 func b()
   var a = 2
   var a: int
-end
+endfunc
 ========================
 # test14 funcの引数名とグローバル変数が２重定義はOK
 var a = 1
 func b(a: int)
   a = 2
-end
+endfunc
 ========================
 # test15 funcの引数名で２重定義はダメ
 var a = 1
 func b(a: int, c: int, a: int)
   a = 2
-end
+endfunc
 

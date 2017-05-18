@@ -504,7 +504,7 @@ bool QBasic::statement(const bool run) {
 		return analysisFunc(run);
 	} else if(sym == "return") {
 		return analysisReturn(run);
-	} else if(sym == "end") {
+	} else if(sym == "endfunc") {
 		return analysisEnd(run);
 	} else if(sym == "exit") {
 		if (run) {

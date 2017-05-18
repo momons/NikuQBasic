@@ -37,7 +37,7 @@ const vector<string> QBasicValidation::basicStatementNames = {
 	"or",
 	"xor",
 	"func",
-	"end",
+	"endfunc",
 	"void",
 	"int",
 	"float",
