@@ -431,25 +431,8 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	
 	// ステートメント
 	if (statements->hasName(sym)) {
-		int offset = symbols->offset() - 1;
-		// 引数取得
-		auto argList = getArguments(run);
-		auto entity = statements->getStatement(sym, argList);
-		if (run) {
-			return entity->func(this, argList);
-		} else {
-			// 該当のステートメントなし
-			if (entity == nullptr) {
-				errors->addError(offset, ErrorType::UnknownFunction, sym);
-				return QBasicVariableEntity();
-			}
-			// 戻り値がvoid
-			if (entity->returnType == VariableType::Void) {
-				errors->addError(offset, ErrorType::ReturnTypeVoid, entity->alias);
-				return QBasicVariableEntity();
-			}
-			return QBasicVariableEntity("", entity->returnType, nullptr);
-		}
+		auto value = executeStatement(run, sym, true);
+		return value;
 	}
 	
 	// ファンクション
@@ -514,13 +497,7 @@ bool QBasic::statement(const bool run) {
 		return true;
     } else if (statements->hasName(sym)) {
         // ステートメント
-		// 引数取得
-		auto argList = getArguments(run);
-		auto entity = statements->getStatement(sym, argList);
-		if (run) {
-			// ステートメント実行
-			entity->func(this, argList);
-		}
+		executeStatement(run, sym, false);
 		return true;
 	} else if (functions->hasName(sym)) {
 		// ファンクション
@@ -649,6 +626,38 @@ void QBasic::popBack(const bool run) {
 #pragma mark - 実行
 
 /**
+ * ステートメント実行
+ * @param run              実行中フラグ
+ * @param functionName     関数名
+ * @param needsReturnValue 戻り値
+ * @return 戻り値
+ */
+QBasicVariableEntity QBasic::executeStatement(const bool run, const string &functionName, const bool needsReturnValue) {
+	int offset = symbols->offset() - 1;
+	
+	// 引数取得
+	auto argList = getArguments(run);
+	// 省略引数とマージ
+	argList = statements->mergeArguments(functionName, argList);
+
+	auto entity = statements->getStatement(functionName, argList);
+	if (run) {
+		return entity->func(this, argList);
+	}
+	// 該当のステートメントなし
+	if (entity == nullptr) {
+		errors->addError(offset, ErrorType::UnknownFunction, functionName);
+		return QBasicVariableEntity();
+	}
+	// 戻り値がvoid
+	if (needsReturnValue && entity->returnType == VariableType::Void) {
+		errors->addError(offset, ErrorType::ReturnTypeVoid, entity->alias);
+		return QBasicVariableEntity();
+	}
+	return QBasicVariableEntity("", entity->returnType, nullptr);
+}
+
+/**
  * func実行
  * @param run            実行中フラグ
  * @param functionName   関数名
@@ -669,6 +678,7 @@ QBasicVariableEntity QBasic::executeFunction(const bool run, const string &funct
 	if (!run) {
 		if (entity == nullptr) {
 			errors->addError(offset, ErrorType::UnknownFunction, functionName);
+			return QBasicVariableEntity("", VariableType::Void, nullptr);
 		}
 		return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
 	}
@@ -749,10 +759,19 @@ vector<QBasicVariableEntity> QBasic::getArguments(const bool run) {
 			match(",");
 			variableName = getSymbol();
 		}
-		match(":");
-		auto value = expression(run);
-		value.name = variableName;
-		argList.push_back(value);
+		auto sym = getSymbol();
+		if (sym == "=") {
+			auto value = expression(run);
+			value.name = variableName;
+			argList.push_back(value);
+		} else {
+			// 2個戻す
+			popBack(run);
+			popBack(run);
+			auto value = expression(run);
+			value.name = "";
+			argList.push_back(value);
+		}
 		count += 1;
 	}
 	

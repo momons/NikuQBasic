@@ -103,21 +103,21 @@ endfunc
 func a(b: int): int
   return b
 endfunc
-var c = a(b: 1)
+var c = a(b = 1)
 ========================
 # test20 引数省略funcの実行
 func a(b = 0): int
   return b
 endfunc
-var c = a(b: 1)
+var c = a(b = 1)
 var d = a()
 ========================
 # test21 引数省略複数funcの実行
 func a(b = 0, c: int, d = 1): int
   return b + c + d
 endfunc
-var e = a(b: 1, c: 2, d: 3)
-var f = a(c: 10)
+var e = a(b = 1, c = 2, d = 3)
+var f = a(c = 10)
 ========================
 # test22 曖昧な場合は後勝ち
 func a(b = 0): int
@@ -135,4 +135,4 @@ endfunc
 func a(c: int): int
   return 2
 endfunc
-var d = a(c: 0)
+var d = a(c = 0)

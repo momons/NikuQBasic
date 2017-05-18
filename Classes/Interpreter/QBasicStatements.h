@@ -44,6 +44,14 @@ public:
 	QBasicStatementEntity *getStatement(const string &name, const vector<QBasicVariableEntity> &variableTypes);
 
 	/**
+	 * 省略引数をマージする
+	 * @param name      関数名
+	 * @param arguments 引数
+	 * @return 引数群
+	 */
+	vector<QBasicVariableEntity> mergeArguments(const string &name, const vector<QBasicVariableEntity> &arguments);
+
+	/**
 	 * デストラクタ
 	 */
 	~QBasicStatements();

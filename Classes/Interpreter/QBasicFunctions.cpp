@@ -100,7 +100,6 @@ QBasicFunctionEntity *QBasicFunctions::operator [] (const string &alias) {
 	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
 }
 
-
 /**
  * 省略引数をマージする
  * @param name      関数名
@@ -127,7 +126,11 @@ vector<QBasicVariableEntity> QBasicFunctions::mergeArguments(const string &name,
 			auto value = *argIt;
 			if (argIt->isEmpty) {
 				// 省略不可
-				if (index < arguments.size() && argIt->name != arguments[index].name) {
+				if (index >= arguments.size()) {
+					// 引数の数が合わないので終了
+					break;
+				}
+				if (!arguments[index].name.empty() && argIt->name != arguments[index].name) {
 					// 名前が一致してないので終了
 					break;
 				}
@@ -138,7 +141,7 @@ vector<QBasicVariableEntity> QBasicFunctions::mergeArguments(const string &name,
 			}
 			
 			// 省略可
-			if (index < arguments.size() && argIt->name == arguments[index].name) {
+			if (index < arguments.size() && (arguments[index].name.empty() || argIt->name == arguments[index].name)) {
 				// 名前一致
 				value.set(arguments[index]);
 				argList.push_back(value);

@@ -208,6 +208,74 @@ QBasicStatementEntity *QBasicStatements::getStatement(const string &name, const 
 }
 
 /**
+ * 省略引数をマージする
+ * @param name      関数名
+ * @param arguments 引数
+ * @return 引数群
+ */
+vector<QBasicVariableEntity> QBasicStatements::mergeArguments(const string &name, const vector<QBasicVariableEntity> &arguments) {
+	
+	bool isSuccess = false;
+	vector<QBasicVariableEntity> argList;
+	vector<string> functionNames;
+	
+	// 対象のファンクションを取得する
+	for (auto funcIt = statements.begin();funcIt != statements.end();funcIt++) {
+		if (funcIt->second.name != name) {
+			continue;
+		}
+		
+		argList.clear();
+		
+		// 引数チェック
+		int index = 0;
+		for (auto argIt = funcIt->second.argNames.begin();argIt != funcIt->second.argNames.end();argIt++) {
+			auto value = *argIt;
+			if (argIt->isEmpty) {
+				// 省略不可
+				if (index >= arguments.size()) {
+					// 引数の数が合わないので終了
+					break;
+				}
+				if (!arguments[index].name.empty() && argIt->name != arguments[index].name) {
+					// 名前が一致してないので終了
+					break;
+				}
+				value.set(arguments[index]);
+				argList.push_back(value);
+				index++;
+				continue;
+			}
+			
+			// 省略可
+			if (index < arguments.size() && (arguments[index].name.empty() || argIt->name == arguments[index].name)) {
+				// 名前一致
+				value.set(arguments[index]);
+				argList.push_back(value);
+				index++;
+				continue;
+			}
+			
+			// そのまま設定
+			argList.push_back(value);
+		}
+		isSuccess = (index == arguments.size());
+		
+		// TODO: 複数該当のファンクションがあった場合はエラーにする。
+		
+		if (isSuccess) {
+			break;
+		}
+	}
+	
+	if (!isSuccess) {
+		return arguments;
+	}
+	
+	return argList;
+}
+
+/**
  * 名前でさまった一覧作成
  */
 void QBasicStatements::buildSummaryNames() {

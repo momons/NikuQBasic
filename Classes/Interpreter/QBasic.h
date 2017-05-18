@@ -224,6 +224,15 @@ private:
 #pragma mark - 実行
 	
 	/**
+	 * ステートメント実行
+	 * @param run              実行中フラグ
+	 * @param functionName     関数名
+	 * @param needsReturnValue 戻り値
+	 * @return 戻り値
+	 */
+	QBasicVariableEntity executeStatement(const bool run, const string &functionName, const bool needsReturnValue);
+
+	/**
 	 * func実行
 	 * @param run            実行中フラグ
 	 * @param functionName   関数名
