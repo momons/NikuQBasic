@@ -21,11 +21,10 @@ void QBasicIfs::add(const int key, const int startOffset, const int endOffset) {
 	entity.startOffset = startOffset;
 	entity.endOffset = endOffset;
 	// 現在のものを取得
-	auto ifEntities = getIf(key);
-	if (ifEntities == nullptr) {
+	if (ifs.find(key) == ifs.end()) {
 		ifs[key] = vector<QBasicIfEntity> { entity };
 	} else {
-		ifEntities->push_back(entity);
+		ifs[key].push_back(entity);
 	}
 }
 
@@ -34,7 +33,7 @@ void QBasicIfs::add(const int key, const int startOffset, const int endOffset) {
  * @param startOffset 開始オフセット
  * @return For情報
  */
-vector<QBasicIfEntity> *QBasicIfs::getIf(const int startOffset) {
+vector<QBasicIfEntity> *QBasicIfs::operator [] (const int startOffset) {
 	if (ifs.find(startOffset) == ifs.end()) {
 		return nullptr;
 	}

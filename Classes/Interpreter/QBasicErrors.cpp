@@ -49,6 +49,18 @@ void QBasicErrors::addError(const int symbolIndex, const ErrorType errorType, co
 }
 
 /**
+ *  エラー取得
+ *  @param index インデックス
+ *  @return エラー情報
+ */
+QBasicErrorEntity *QBasicErrors::operator [] (const int index) {
+	if (index < 0 || index >= errors.size()) {
+		return nullptr;
+	}
+	return &errors[index];
+}
+
+/**
  *  エラークリア
  */
 void QBasicErrors::clear() {
@@ -58,7 +70,7 @@ void QBasicErrors::clear() {
 /**
  *  カウント
  */
-int QBasicErrors::count() {
+int QBasicErrors::size() {
 	return (int)errors.size();
 }
 

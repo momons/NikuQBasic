@@ -96,7 +96,7 @@ QBasicFunctionEntity *QBasicFunctions::getFunction(const string &name, const vec
  * @param alias 別名
  * @return 関数情報
  */
-QBasicFunctionEntity *QBasicFunctions::getFunction(const string &alias) {
+QBasicFunctionEntity *QBasicFunctions::operator [] (const string &alias) {
 	return functions.find(alias) != functions.end() ? &functions[alias] : nullptr;
 }
 

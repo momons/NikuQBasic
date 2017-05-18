@@ -69,7 +69,7 @@ public:
 	 * @param alias 別名
 	 * @return 関数情報
 	 */
-	QBasicFunctionEntity *getFunction(const string &alias);
+	QBasicFunctionEntity *operator [] (const string &alias);
 	
 	/**
 	 * 省略引数をマージする

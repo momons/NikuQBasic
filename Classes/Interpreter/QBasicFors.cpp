@@ -29,7 +29,7 @@ QBasicForEntity *QBasicFors::addUpdate(const int startOffset, const int endOffse
  * @param startOffset 開始オフセット
  * @return For情報
  */
-QBasicForEntity *QBasicFors::getFor(const int startOffset) {
+QBasicForEntity *QBasicFors::operator [] (const int startOffset) {
 	if (fors.find(startOffset) == fors.end()) {
 		return nullptr;
 	}

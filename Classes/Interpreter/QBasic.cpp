@@ -1134,7 +1134,7 @@ bool QBasic::analysisIf(const bool run) {
  */
 bool QBasic::jumpIf(const int key, const int index) {
 	pushBacked = "";
-	auto ifEntities = ifs->getIf(key);
+	auto ifEntities = (*ifs)[key];
 	if (ifEntities == nullptr) {
 		// TODO:エラー
 		return false;
@@ -1266,7 +1266,7 @@ bool QBasic::analysisFor(const bool run) {
 	
 	// 次の処理まで飛ばす
 	if (run) {
-		auto forEntity = fors->getFor(startOffset);
+		auto forEntity = (*fors)[startOffset];
 		if (forEntity == nullptr) {
 			// TODO: エラー
 			
@@ -1480,7 +1480,7 @@ bool QBasic::analysisArguments(const bool run, vector<QBasicVariableEntity> &arg
  * @return 終了フラグ false:終了 true:進行
  */
 bool QBasic::analysisReturn(const bool run) {
-	auto entity = functions->getFunction(lastFunctionName);
+	auto entity = (*functions)[lastFunctionName];
 	// 終了オフセットを退避
 	if (entity->returnType == VariableType::Void) {
 		if (run) {
@@ -1517,7 +1517,7 @@ bool QBasic::analysisReturn(const bool run) {
  * @return 終了フラグ false:終了 true:進行
  */
 bool QBasic::analysisEnd(const bool run) {
-	auto entity = functions->getFunction(lastFunctionName);
+	auto entity = (*functions)[lastFunctionName];
 	if (run) {
 		// 戻り値あるはずがない
 		if (entity->returnType != VariableType::Void) {

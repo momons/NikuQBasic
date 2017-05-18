@@ -32,7 +32,7 @@ public:
 	 * @param startOffset 開始オフセット
 	 * @return For情報
 	 */
-	QBasicForEntity *getFor(const int startOffset);
+	QBasicForEntity *operator [] (const int startOffset);
 	
 	/**
 	 * for情報をクリア

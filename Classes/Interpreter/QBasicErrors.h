@@ -50,6 +50,13 @@ public:
 	void addError(const int symbolIndex, const ErrorType errorType, const string &message);
 
 	/**
+	 *  エラー取得
+	 *  @param index インデックス
+	 *  @return エラー情報
+	 */
+	QBasicErrorEntity *operator [] (const int index);
+	
+	/**
 	 *  エラークリア
 	 */
 	void clear();
@@ -58,7 +65,7 @@ public:
 	 *  エラーの個数
 	 *  @return エラーの個数
 	 */
-	int count();
+	int size();
 
 	/**
 	 *  エラー有無

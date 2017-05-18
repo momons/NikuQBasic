@@ -32,7 +32,7 @@ public:
 	 * @param startOffset 開始オフセット
 	 * @return For情報
 	 */
-	vector<QBasicIfEntity> *getIf(const int startOffset);
+	vector<QBasicIfEntity> *operator [] (const int startOffset);
 	
 	/**
 	 * if情報をクリア
