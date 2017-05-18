@@ -1333,7 +1333,7 @@ bool QBasic::analysisFunc(const bool run) {
 	auto sym = getSymbol();
 	VariableType returnType;
 	vector<VariableType> valueVariableTypes;
-	if (sym != "->") {
+	if (sym != ":") {
 		// 引数省略
 		returnType = VariableType::Void;
 		// オフセットを戻す

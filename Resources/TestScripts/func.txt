@@ -34,24 +34,24 @@ func a()
 endfunc
 ========================
 # test7 戻り値テスト
-func a() -> void
+func a(): void
 endfunc
-func b() -> int
+func b(): int
   return 1
 endfunc
-func c() -> float
+func c(): float
   return 1.0
 endfunc
-func d() -> str
+func d(): str
   return "1"
 endfunc
-func e() -> bool
+func e(): bool
   return true
 endfunc
-func f() -> list<int>
+func f(): list<int>
   return [1]
 endfunc
-func g() -> dict<str>
+func g(): dict<str>
   return {"1":"2"}
 endfunc
 ========================
@@ -100,39 +100,39 @@ func a(b: dict<str> = {"1": 1})
 endfunc
 ========================
 # test19 funcの実行
-func a(b: int) -> int
+func a(b: int): int
   return b
 endfunc
 var c = a(b: 1)
 ========================
 # test20 引数省略funcの実行
-func a(b = 0) -> int
+func a(b = 0): int
   return b
 endfunc
 var c = a(b: 1)
 var d = a()
 ========================
 # test21 引数省略複数funcの実行
-func a(b = 0, c: int, d = 1) -> int
+func a(b = 0, c: int, d = 1): int
   return b + c + d
 endfunc
 var e = a(b: 1, c: 2, d: 3)
 var f = a(c: 10)
 ========================
 # test22 曖昧な場合は後勝ち
-func a(b = 0) -> int
+func a(b = 0): int
   return 1
 endfunc
-func a() -> int
+func a(): int
   return 2
 endfunc
 var c = a()
 ========================
 # test23 複数でも曖昧な場合は後勝ち
-func a(b = 0, c: int) -> int
+func a(b = 0, c: int): int
   return 1
 endfunc
-func a(c: int) -> int
+func a(c: int): int
   return 2
 endfunc
 var d = a(c: 0)
