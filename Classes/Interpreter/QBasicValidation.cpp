@@ -311,8 +311,7 @@ bool QBasicValidation::isValidVariableTypeDict(
  *  @return 論理演算可否
  */
 bool QBasicValidation::isValidExpression(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
-	return (srcEntity.type == VariableType::Bool && dstEntity.type == VariableType::Bool) ||
-	(srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int);
+	return (srcEntity.type == VariableType::Bool && dstEntity.type == VariableType::Bool);
 }
 
 /**

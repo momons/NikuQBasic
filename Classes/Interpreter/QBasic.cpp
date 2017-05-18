@@ -205,9 +205,9 @@ QBasicVariableEntity QBasic::expression(const bool run) {
 			auto valueDist = relop(run);
 			if (run) {
 				if (sym == "&&") {
-					value = value.expressionAnd(valueDist);
+					value = value && valueDist;
 				} else {
-					value = value.expressionOr(valueDist);
+					value = value || valueDist;
 				}
 			} else {
 				if (!QBasicValidation::isValidExpression(value, valueDist)) {
@@ -249,14 +249,13 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 			
 			auto valueDist = addsub(run);
 			if (run) {
-				int result = value.compare(valueDist);
+				value.boolValue = ((sym == "==" && value == valueDist) ||
+								   (sym == "<" && value < valueDist) ||
+								   (sym == "<=" && value <= valueDist) ||
+								   (sym == ">" && value > valueDist) ||
+								   (sym == ">=" && value >= valueDist) ||
+								   (sym == "!=" && value != valueDist));
 				value.type = VariableType::Bool;
-				value.boolValue = ((sym == "==" && result == 0) ||
-								   (sym == "<" && result < 0) ||
-								   (sym == "<=" && result <= 0) ||
-								   (sym == ">" && result > 0) ||
-								   (sym == ">=" && result >= 0) ||
-								   (sym == "!=" && result != 0));
 			} else {
 				if (value.type != valueDist.type) {
 					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
@@ -299,7 +298,7 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
 		int offset = symbols->offset();
 		value = muldiv(run);
 		if (run || QBasicValidation::isValidNot(value)) {
-			value = value.expressionNot();
+			value = !value;
 		} else {
 			errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Bool}, value));
 		}
@@ -315,7 +314,7 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
 			int offset = symbols->offset();
             auto valueDist = muldiv(run);
 			if (run || QBasicValidation::isValidAdd(value, valueDist)) {
-				value = value.add(valueDist);
+				value = value + valueDist;
 			} else {
 				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
@@ -323,7 +322,7 @@ QBasicVariableEntity QBasic::addsub(const bool run) {
 			int offset = symbols->offset();
 			auto valueDist = muldiv(run);
 			if (run || QBasicValidation::isValidSub(value, valueDist)) {
-				value = value.sub(valueDist);
+				value = value - valueDist;
 			} else {
 				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
@@ -353,7 +352,7 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
 			int offset = symbols->offset();
 			auto valueDist = factor(run);
 			if (run || QBasicValidation::isValidMul(value, valueDist)) {
-				value = value.mul(valueDist);
+				value = value * valueDist;
 			} else {
 				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
@@ -361,7 +360,7 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
 			int offset = symbols->offset();
 			auto valueDist = factor(run);
 			if (run || QBasicValidation::isValidDiv(value, valueDist)) {
-				value = value.div(valueDist);
+				value = value / valueDist;
 			} else {
 				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
@@ -369,7 +368,7 @@ QBasicVariableEntity QBasic::muldiv(const bool run) {
 			int offset = symbols->offset();
 			auto valueDist = factor(run);
 			if (run || QBasicValidation::isValidMod(value, valueDist)) {
-				value = value.mod(valueDist);
+				value = value % valueDist;
 			} else {
 				errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 			}
@@ -846,31 +845,31 @@ bool QBasic::analysisValueAssigned(const bool run, const string &variableName) {
 	if (run) {
 		if (operate == "+=") {
 			if (QBasicValidation::isValidAdd(*variable, value)) {
-				value = variable->add(value);
+				value = *variable + value;
 			} else {
 				setThrow("BadVariableTypeAdd", nullptr);
 			}
 		} else if (operate == "-=") {
 			if (QBasicValidation::isValidSub(*variable, value)) {
-				value = variable->sub(value);
+				value = *variable - value;
 			} else {
 				setThrow("BadVariableTypeSub", nullptr);
 			}
 		} else if (operate == "*=") {
 			if (QBasicValidation::isValidMul(*variable, value)) {
-				value = variable->mul(value);
+				value = *variable * value;
 			} else {
 				setThrow("BadVariableTypeMul", nullptr);
 			}
 		} else if (operate == "/=") {
 			if (QBasicValidation::isValidDiv(*variable, value)) {
-				value = variable->div(value);
+				value = *variable / value;
 			} else {
 				setThrow("BadVariableTypeDiv", nullptr);
 			}
 		} else if (operate == "%=") {
 			if (QBasicValidation::isValidMod(*variable, value)) {
-				value = variable->mod(value);
+				value = *variable % value;
 			} else {
 				setThrow("BadVariableTypeMod", nullptr);
 			}

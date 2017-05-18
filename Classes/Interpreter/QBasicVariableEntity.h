@@ -128,7 +128,49 @@ public:
 	 * @return 比較結果
 	 */
 	int compare(const QBasicVariableEntity &entity);
+	
+	/**
+	 * ==比較
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	bool operator == (const QBasicVariableEntity &entity);
 
+	/**
+	 * !=比較
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	bool operator != (const QBasicVariableEntity &entity);
+	
+	/**
+	 * >比較
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	bool operator > (const QBasicVariableEntity &entity);
+	
+	/**
+	 * <比較
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	bool operator < (const QBasicVariableEntity &entity);
+	
+	/**
+	 * >=比較
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	bool operator >= (const QBasicVariableEntity &entity);
+	
+	/**
+	 * <=比較
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	bool operator <= (const QBasicVariableEntity &entity);
+	
 #pragma mark - 四則演算
 
 	/**
@@ -142,21 +184,21 @@ public:
 	 * @param entity 変数entity
 	 * @return 結果
 	 */
-	QBasicVariableEntity add(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator + (const QBasicVariableEntity &entity);
 
 	/**
 	 * 引き算
 	 * @param entity 変数entity
 	 * @return 結果
 	 */
-	QBasicVariableEntity sub(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator - (const QBasicVariableEntity &entity);
 
 	/**
 	 * 掛け算
 	 * @param entity 変数entity
 	 * @return 結果
 	 */
-	QBasicVariableEntity mul(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator * (const QBasicVariableEntity &entity);
 
 	/**
 	 * 掛け算 数値
@@ -171,14 +213,14 @@ public:
 	 * @param entity 変数entity
 	 * @return 結果
 	 */
-	QBasicVariableEntity div(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator / (const QBasicVariableEntity &entity);
 
 	/**
 	 * 余り
 	 * @param entity 変数entity
 	 * @return 結果
 	 */
-	QBasicVariableEntity mod(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator % (const QBasicVariableEntity &entity);
 	
 #pragma mark - 論理演算
 
@@ -187,21 +229,41 @@ public:
 	 * @param entity 変数entity
 	 * @return 比較結果
 	 */
-	QBasicVariableEntity expressionAnd(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator & (const QBasicVariableEntity &entity);
+
+	/**
+	 * And比較論理演算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity operator && (const QBasicVariableEntity &entity);
 
 	/**
 	 * OR論理演算
 	 * @param entity 変数entity
 	 * @return 比較結果
 	 */
-	QBasicVariableEntity expressionOr(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator | (const QBasicVariableEntity &entity);
 
+	/**
+	 * OR比較論理演算
+	 * @param entity 変数entity
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity operator || (const QBasicVariableEntity &entity);
+	
 	/**
 	 * XOR論理演算
 	 * @param entity 変数entity
 	 * @return 比較結果
 	 */
-	QBasicVariableEntity expressionXor(const QBasicVariableEntity &entity);
+	QBasicVariableEntity operator ^ (const QBasicVariableEntity &entity);
+
+	/**
+	 * NOT論理演算
+	 * @return 比較結果
+	 */
+	QBasicVariableEntity operator ! ();
 
 #pragma mark - チェック
 	
@@ -253,12 +315,6 @@ public:
 	QBasicVariableEntity toBool();
 
 #pragma mark - その他
-	
-	/**
-	 * NOT論理演算
-	 * @return 比較結果
-	 */
-	QBasicVariableEntity expressionNot();
 	
 	/**
 	 *  変数タイプを文字列に変換

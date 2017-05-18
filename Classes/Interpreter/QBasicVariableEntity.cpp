@@ -210,6 +210,60 @@ int QBasicVariableEntity::compare(const QBasicVariableEntity &entity) {
 	}
 }
 
+/**
+ * ==比較
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+bool QBasicVariableEntity::operator == (const QBasicVariableEntity &entity) {
+	return compare(entity) == 0;
+}
+
+/**
+ * !=比較
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+bool QBasicVariableEntity::operator != (const QBasicVariableEntity &entity) {
+	return compare(entity) != 0;
+}
+
+/**
+ * >比較
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+bool QBasicVariableEntity::operator > (const QBasicVariableEntity &entity) {
+	return compare(entity) > 0;
+}
+
+/**
+ * <比較
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+bool QBasicVariableEntity::operator < (const QBasicVariableEntity &entity) {
+	return compare(entity) < 0;
+}
+
+/**
+ * >=比較
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+bool QBasicVariableEntity::operator >= (const QBasicVariableEntity &entity) {
+	return compare(entity) >= 0;
+}
+
+/**
+ * <=比較
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+bool QBasicVariableEntity::operator <= (const QBasicVariableEntity &entity) {
+	return compare(entity) <= 0;
+}
+
 #pragma mark - 四則演算
 
 /**
@@ -247,7 +301,7 @@ void QBasicVariableEntity::set(const QBasicVariableEntity &entity) {
  * @param entity 変数entity
  * @return 結果
  */
-QBasicVariableEntity QBasicVariableEntity::add(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator + (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Int:
@@ -271,7 +325,7 @@ QBasicVariableEntity QBasicVariableEntity::add(const QBasicVariableEntity &entit
  * @param entity 変数entity
  * @return 結果
  */
-QBasicVariableEntity QBasicVariableEntity::sub(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator - (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Int:
@@ -292,7 +346,7 @@ QBasicVariableEntity QBasicVariableEntity::sub(const QBasicVariableEntity &entit
  * @param entity 変数entity
  * @return 結果
  */
-QBasicVariableEntity QBasicVariableEntity::mul(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator * (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Int:
@@ -335,14 +389,18 @@ QBasicVariableEntity QBasicVariableEntity::mul(VariableType type, double value) 
  * @param entity 変数entity
  * @return 結果
  */
-QBasicVariableEntity QBasicVariableEntity::div(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator / (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Int:
-			returnEntity.intValue = intValue / entity.intValue;
+			if (entity.intValue != 0) {
+				returnEntity.intValue = intValue / entity.intValue;
+			}
 			break;
 		case VariableType::Float:
-			returnEntity.floatValue = floatValue / entity.floatValue;
+			if (entity.floatValue != 0) {
+				returnEntity.floatValue = floatValue / entity.floatValue;
+			}
 			break;
 		default:
 			// 上位でチェックしているのでエラーは不要
@@ -356,11 +414,15 @@ QBasicVariableEntity QBasicVariableEntity::div(const QBasicVariableEntity &entit
  * @param entity 変数entity
  * @return 結果
  */
-QBasicVariableEntity QBasicVariableEntity::mod(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator % (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Int:
-			returnEntity.intValue = intValue % entity.intValue;
+			if (entity.intValue != 0) {
+				returnEntity.intValue = intValue % entity.intValue;
+			} else {
+				returnEntity.intValue = intValue;
+			}
 			break;
 		default:
 			// 上位でチェックしているのでエラーは不要
@@ -376,7 +438,7 @@ QBasicVariableEntity QBasicVariableEntity::mod(const QBasicVariableEntity &entit
  * @param entity 変数entity
  * @return 比較結果
  */
-QBasicVariableEntity QBasicVariableEntity::expressionAnd(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator & (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Bool:
@@ -393,11 +455,29 @@ QBasicVariableEntity QBasicVariableEntity::expressionAnd(const QBasicVariableEnt
 }
 
 /**
+ * And比較論理演算
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+QBasicVariableEntity QBasicVariableEntity::operator && (const QBasicVariableEntity &entity) {
+	QBasicVariableEntity returnEntity = copyNotValue();
+	switch (type) {
+		case VariableType::Bool:
+			returnEntity.boolValue = boolValue && entity.boolValue;
+			break;
+		default:
+			// 上位でチェックしているのでエラーは不要
+			break;
+	}
+	return returnEntity;
+}
+
+/**
  * OR論理演算
  * @param entity 変数entity
  * @return 比較結果
  */
-QBasicVariableEntity QBasicVariableEntity::expressionOr(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator | (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Bool:
@@ -414,11 +494,29 @@ QBasicVariableEntity QBasicVariableEntity::expressionOr(const QBasicVariableEnti
 }
 
 /**
+ * OR比較論理演算
+ * @param entity 変数entity
+ * @return 比較結果
+ */
+QBasicVariableEntity QBasicVariableEntity::operator || (const QBasicVariableEntity &entity) {
+	QBasicVariableEntity returnEntity = copyNotValue();
+	switch (type) {
+		case VariableType::Bool:
+			returnEntity.boolValue = boolValue || entity.boolValue;
+			break;
+		default:
+			// 上位でチェックしているのでエラーは不要
+			break;
+	}
+	return returnEntity;
+}
+
+/**
  * XOR論理演算
  * @param entity 変数entity
  * @return 比較結果
  */
-QBasicVariableEntity QBasicVariableEntity::expressionXor(const QBasicVariableEntity &entity) {
+QBasicVariableEntity QBasicVariableEntity::operator ^ (const QBasicVariableEntity &entity) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Bool:
@@ -439,7 +537,7 @@ QBasicVariableEntity QBasicVariableEntity::expressionXor(const QBasicVariableEnt
  * @param entity 変数entity
  * @return 比較結果
  */
-QBasicVariableEntity QBasicVariableEntity::expressionNot() {
+QBasicVariableEntity QBasicVariableEntity::operator ! () {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	switch (type) {
 		case VariableType::Bool:
