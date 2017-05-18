@@ -71,12 +71,12 @@ private:
 	/**
 	 * ステートメント一覧作成
 	 */
-	void buildStatements();
+	void inline buildStatements();
 
 	/**
 	 * 名前でさまった一覧作成
 	 */
-	void buildSummaryNames();
+	void inline buildSummaryNames();
 };
 
 #endif /* defined(__ToolQTheWorld__QBasicStatements__) */

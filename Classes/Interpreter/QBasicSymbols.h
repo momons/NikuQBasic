@@ -78,13 +78,13 @@ private:
 	 *  シンボルをビルド
 	 *  @param source プログラムソース
 	 */
-	void buildSymbols(const string &source);
+	void inline buildSymbols(const string &source);
 	
 	/**
 	 * 単語取得
 	 * @param symbolEntity 単語Entity
 	 */
-	void getSymbol(QBasicSymbolEntity &symbolEntity);
+	void inline getSymbol(QBasicSymbolEntity &symbolEntity);
 
 	/**
 	 *  行項アップデート

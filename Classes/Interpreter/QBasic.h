@@ -261,14 +261,14 @@ private:
 	 * @param variableName 変数名
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisValueAssigned(const bool run, const string &variableName);
+	bool inline analysisValueAssigned(const bool run, const string &variableName);
 
 	/**
 	 * 変数を解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisVar(const bool run);
+	bool inline analysisVar(const bool run);
 
 	/**
 	 * 変数を解析 配列型
@@ -284,7 +284,7 @@ private:
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisIf(const bool run);
+	bool inline analysisIf(const bool run);
 	
 	/**
 	 * 次のif分へ
@@ -299,14 +299,14 @@ private:
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisFor(const bool run);
+	bool inline analysisFor(const bool run);
 	
 	/**
 	 * 関数を解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisFunc(const bool run);
+	bool inline analysisFunc(const bool run);
 	
 	/**
 	 * 引数を解析
@@ -314,21 +314,21 @@ private:
 	 * @param run      実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisArguments(const bool run, vector<QBasicVariableEntity> &argNames);
+	bool inline analysisArguments(const bool run, vector<QBasicVariableEntity> &argNames);
 	
 	/**
 	 * returnを解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisReturn(const bool run);
+	bool inline analysisReturn(const bool run);
 
 	/**
 	 * Endを解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisEnd(const bool run);
+	bool inline analysisEnd(const bool run);
 	
 };
 

@@ -104,7 +104,7 @@ private:
 	/**
 	 * 名前でさまった一覧作成
 	 */
-	void buildSummaryNames();
+	void inline buildSummaryNames();
 };
 
 #endif /* QBasicFunctions_h */
