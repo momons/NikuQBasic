@@ -393,10 +393,16 @@ QBasicVariableEntity QBasic::factor(const bool run) {
     
 	if (localVariables.find(sym) != localVariables.end() ||
 		variables.find(sym) != variables.end()) {
-		// グローバル変数
-		auto variable = getVariable(run, sym);
-		return *variable;
-	} else if (sym.length() == 1) {
+		auto operate = getSymbol();
+		if (operate != "(") {
+			pushBack(operate);
+			auto variable = getVariable(run, sym);
+			return *variable;
+		}
+		pushBack(operate);
+	}
+ 
+	if (sym.length() == 1) {
 		switch (sym.c_str()[0]) {
 			case '(': {
 				auto value = expression(run);
@@ -463,55 +469,73 @@ bool QBasic::statement(const bool run) {
 
 	if (localVariables.find(sym) != localVariables.end() ||
 		variables.find(sym) != variables.end()) {
-		return analysisValueAssigned(run, sym);
-	} else if(sym == "var") {
+		auto operate = getSymbol();
+		if (operate != "(") {
+			pushBack(operate);
+			return analysisValueAssigned(run, sym);
+		}
+		pushBack(operate);
+	}
+	if (sym == "var") {
 		return analysisVar(run);
-    } else if(sym == "if") {
+    }
+	if (sym == "if") {
 		return analysisIf(run);
-    } else if(sym == "for") {
+    }
+	if (sym == "for") {
 		return analysisFor(run);
-	} else if(sym == "break") {
+	}
+	if (sym == "break") {
 		if (run) {
 			// TODO: ループ内ではないときの対応を入れる
 			isBreak = true;
 		}
 		return !run;
-	} else if(sym == "continue") {
+	}
+	if (sym == "continue") {
 		if (run) {
 			// TODO: ループ内ではないときの対応を入れる
 			isContinue = true;
 		}
 		return !run;
-	} else if(sym == "func") {
+	}
+	if (sym == "func") {
 		return analysisFunc(run);
-	} else if(sym == "return") {
+	}
+	if (sym == "return") {
 		return analysisReturn(run);
-	} else if(sym == "endfunc") {
+	}
+	if (sym == "endfunc") {
 		return analysisEnd(run);
-	} else if(sym == "exit") {
+	}
+	if (sym == "exit") {
 		if (run) {
 			isExit = true;
 		}
 		return !run;
-	} else if(sym == "pass") {
+	}
+	if (sym == "pass") {
 		return true;
-    } else if (statements->hasName(sym)) {
+    }
+	if (statements->hasName(sym)) {
         // ステートメント
 		executeStatement(run, sym, false);
 		return true;
-	} else if (functions->hasName(sym)) {
+	}
+	if (functions->hasName(sym)) {
 		// ファンクション
 		executeFunction(run, sym);
 		return true;
-	} else if (sym.c_str()[0] == '#') {
+	}
+	if (sym.c_str()[0] == '#') {
 		// コメント
 		return true;
-	} else {
-		pushBack(sym);
-		expression(run);
-		
-		return true;
-    }
+	}
+ 
+	pushBack(sym);
+	expression(run);
+	
+	return true;
 }
 
 /**

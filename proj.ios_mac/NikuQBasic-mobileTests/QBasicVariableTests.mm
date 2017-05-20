@@ -72,7 +72,9 @@
 /// ステートメント名と被っているとコンパイルエラー
 - (void)test5 {
 	interpreter = new QBasic(nullptr, [scripts[5] UTF8String], "");
-	XCTAssertThrows(interpreter->run());
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["len"].intValue, 1);
+	XCTAssertEqual(interpreter->variables["a"].intValue, 3);
 }
 
 /// 数値を入れて取り出せるか 1

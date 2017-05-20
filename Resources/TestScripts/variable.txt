@@ -14,7 +14,8 @@ var 1basasasaefe: int
 var exit: int
 ========================
 # test5 ステートメント名と被っているとコンパイルエラー
-var len: int
+var len = 1
+var a = len("abc")
 ========================
 # test6 数値を入れて取り出せるか 1
 var a: int
