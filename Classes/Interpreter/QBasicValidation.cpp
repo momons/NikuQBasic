@@ -62,12 +62,6 @@ bool QBasicValidation::isValidVariableName(const string &variableName) {
 		errorMessage = QBasicMessages::sharedInstance()->getMessage("BadVariableName1", variableName.c_str());
 		return false;
 	}
-	auto statements = QBasicStatements::sharedInstance();
-	if (statements->hasName(variableName)) {
-		// [ERROR]変数名が予約語と被っています。
-		errorMessage = QBasicMessages::sharedInstance()->getMessage("BadVariableName1", variableName.c_str());
-		return false;
-	}
 	
 	int i = 0;
 	for (i = 0;i < variableName.length();i++) {
