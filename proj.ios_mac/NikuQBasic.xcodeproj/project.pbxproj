@@ -45,6 +45,7 @@
 		2F7544011E95498B004715F9 /* QBasicRemTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544001E95498B004715F9 /* QBasicRemTests.mm */; };
 		2F7544031E954F12004715F9 /* QBasicExitTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7544021E954F12004715F9 /* QBasicExitTests.mm */; };
 		2F7CE5C41EAE51EC00660E89 /* QBasicMathTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F7CE5C31EAE51EC00660E89 /* QBasicMathTests.mm */; };
+		2F81E3181ED0A1A700B355BE /* QBasicDebugTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F81E3171ED0A1A700B355BE /* QBasicDebugTests.mm */; };
 		2F83DF4D1EB13F8200B825BA /* QBasicTypeChangeFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F83DF4C1EB13F8200B825BA /* QBasicTypeChangeFunctions.cpp */; };
 		2F9149151EB8BFEA00210232 /* QBasicSymbols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F9149141EB8BFEA00210232 /* QBasicSymbols.cpp */; };
 		2F9149171EB8C07800210232 /* QBasicSymbolEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F9149161EB8C07800210232 /* QBasicSymbolEntity.cpp */; };
@@ -226,6 +227,7 @@
 		2F7544001E95498B004715F9 /* QBasicRemTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBasicRemTests.mm; sourceTree = "<group>"; };
 		2F7544021E954F12004715F9 /* QBasicExitTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBasicExitTests.mm; sourceTree = "<group>"; };
 		2F7CE5C31EAE51EC00660E89 /* QBasicMathTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBasicMathTests.mm; sourceTree = "<group>"; };
+		2F81E3171ED0A1A700B355BE /* QBasicDebugTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBasicDebugTests.mm; sourceTree = "<group>"; };
 		2F83DF4C1EB13F8200B825BA /* QBasicTypeChangeFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicTypeChangeFunctions.cpp; path = Interpreter/QBasicTypeChangeFunctions.cpp; sourceTree = "<group>"; };
 		2F83DF4E1EB13F9800B825BA /* QBasicTypeChangeFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicTypeChangeFunctions.h; path = Interpreter/QBasicTypeChangeFunctions.h; sourceTree = "<group>"; };
 		2F86205C1EC0C91C009442EE /* AppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -490,6 +492,7 @@
 				2FB4C2991E9BDE7D00D283CF /* QBasicFuncTests.mm */,
 				2F98EFED1E9E96DB0057B6C9 /* QBasicValidationTests.mm */,
 				2F7CE5C31EAE51EC00660E89 /* QBasicMathTests.mm */,
+				2F81E3171ED0A1A700B355BE /* QBasicDebugTests.mm */,
 				2F5CE3E21E85416000EF0D65 /* Info.plist */,
 				2F5CE42B1E85987F00EF0D65 /* TestFileUtils.m */,
 				2F5CE42D1E85988C00EF0D65 /* TestFileUtils.h */,
@@ -969,6 +972,7 @@
 				2F7543FF1E953ED5004715F9 /* QBasicForTests.mm in Sources */,
 				2F5CE42A1E85938900EF0D65 /* QBasicCalculationTests.mm in Sources */,
 				2FB064A91EAA5F6300BC3C2E /* QBasicVariableIntTests.mm in Sources */,
+				2F81E3181ED0A1A700B355BE /* QBasicDebugTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
