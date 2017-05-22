@@ -1,0 +1,7 @@
+# test1 symbols[4]でBadVariableType
+var a: aaa
+========================
+# test1 symbols[6]でBadVariableName
+var a = 0
+var 1223offdf = 0
+========================

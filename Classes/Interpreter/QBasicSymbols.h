@@ -43,6 +43,13 @@ public:
 	QBasicSymbolEntity *beforeSymbolEntity();
 	
 	/**
+	 * シンボル情報取得
+	 * @param offset オフセット
+	 * @return シンボル情報のポインタ
+	 */
+	QBasicSymbolEntity *operator [] (const int offset);
+	
+	/**
 	 *  オフセット設定
 	 *  @param offset オフセット
 	 */
