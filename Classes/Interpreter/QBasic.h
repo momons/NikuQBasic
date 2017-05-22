@@ -215,12 +215,6 @@ private:
      */
     bool statement(const bool run);
     
-	/**
-	 *  処理を１つ戻す
-	 * @param run 実行中フラグ
-	 */
-	void popBack(const bool run);
-
 #pragma mark - 実行
 	
 	/**

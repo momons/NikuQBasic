@@ -24,10 +24,36 @@ enum class ErrorType {
 	BadVariableType,
 	/// 戻り値がvoid
 	ReturnTypeVoid,
+	/// 該当変数なし
+	UnknownVariable,
 	/// 該当関数なし
 	UnknownFunction,
 	/// 不明なシンボル
 	UnknownSymbol,
+	/// 配列範囲外
+	ListIndexOutOfBounds,
+	/// 連想配列不正キー
+	DictUnknownKey,
+	/// 変数二重定義
+	OverlapVariableName,
+	/// 変数名が不正
+	BadVariableName,
+	/// 関数二重定義
+	OverlapFunctionName,
+	/// 関数名が不正
+	BadFunctionName,
+	/// 不正なelseif
+	BadElseif,
+	/// 不正なelse
+	BadElse,
+	/// endifがない
+	NothingEndif,
+	/// nextがない
+	NothingNext,
+	/// 関数内に関数
+	FunctionOverFunction,
+	/// 戻り値がない
+	NothingReturnValue,
 };
 
 /**
