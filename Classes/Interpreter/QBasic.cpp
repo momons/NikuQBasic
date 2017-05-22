@@ -964,7 +964,7 @@ bool QBasic::analysisVar(const bool run) {
 		if (!run) {
 			if (variableType == VariableType::Void ||
 				variableType == VariableType::Unknown) {
-				errors->addError(offset, ErrorType::BadVariableType, variableName);
+				errors->addError(offset, ErrorType::BadVariableType, sym);
 			}
 		}
 		if (variableType == VariableType::List ||

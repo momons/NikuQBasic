@@ -46,6 +46,9 @@ public:
 	/// ローカル変数
 	unordered_map<string, QBasicVariableEntity> localVariables;
 
+	/// エラー群
+	QBasicErrors *errors;
+
 	/**
 	 *  コンストラクタ
 	 *  @param scene     シーン
@@ -131,8 +134,6 @@ private:
 	QBasicIfs *ifs;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
-	/// エラー群
-	QBasicErrors *errors;
 	
 	/**
 	 *  実行 or コンパイル
