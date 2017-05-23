@@ -1,7 +1,20 @@
-# test1 symbols[4]でBadVariableType
+# test0 symbols[4]でBadVariableType
 var a: aaa
 ========================
 # test1 symbols[6]でBadVariableName
 var a = 0
 var 1223offdf = 0
+========================
+# test2 symbols[10]でMissingFound
+var a = { "a": "aa", "b", "bb" }
+========================
+# test3 symbols[6]でBadVariableType
+var a: int = "a"
+========================
+# test4 symbols[4]でReturnTypeVoid
+var a = print("voidだよ")
+========================
+# test5 symbols[5]でUnknownVariable
+var a = 1
+b = 2
 ========================

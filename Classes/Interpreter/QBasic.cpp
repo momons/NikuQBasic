@@ -964,7 +964,7 @@ bool QBasic::analysisVar(const bool run) {
 		if (!run) {
 			if (variableType == VariableType::Void ||
 				variableType == VariableType::Unknown) {
-				errors->addError(offset, ErrorType::BadVariableType, sym);
+				errors->addError(offset, ErrorType::UnknownSymbol, sym);
 			}
 		}
 		if (variableType == VariableType::List ||
@@ -1011,7 +1011,6 @@ bool QBasic::analysisVar(const bool run) {
 	if (variableType != VariableType::Unknown) {
 		if (!QBasicValidation::isValidVariableType(value, variableType, valueVariableTypes)) {
 			errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({variableType}, value));
-			return false;
 		}
 	} else {
 		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
@@ -1042,7 +1041,7 @@ bool QBasic::analysisVarListDict(const bool run, const string &variableName, vec
 		if (!run) {
 			if (valueVariableType == VariableType::Void ||
 				valueVariableType == VariableType::Unknown) {
-				errors->addError(offset, ErrorType::BadVariableType, variableName);
+				errors->addError(offset, ErrorType::UnknownSymbol, sym);
 			}
 		}
 		valueVariableTypes->push_back(valueVariableType);
