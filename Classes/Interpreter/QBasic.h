@@ -328,11 +328,11 @@ private:
 	bool inline analysisReturn(const bool run);
 
 	/**
-	 * Endを解析
+	 * endfuncを解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool inline analysisEnd(const bool run);
+	bool inline analysisEndfunc(const bool run);
 	
 };
 

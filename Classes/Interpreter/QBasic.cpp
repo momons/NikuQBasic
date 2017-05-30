@@ -505,7 +505,7 @@ bool QBasic::statement(const bool run) {
 		return analysisReturn(run);
 	}
 	if (sym == "endfunc") {
-		return analysisEnd(run);
+		return analysisEndfunc(run);
 	}
 	if (sym == "exit") {
 		if (run) {
@@ -1384,6 +1384,7 @@ bool QBasic::analysisFunc(const bool run) {
 	// 最後の関数名を退避
 	lastFunctionName = entity->alias;
 	// ローカル変数に引数を設定する
+	localVariables.clear();
 	for (auto it = argNames.begin();it != argNames.end();it++) {
 		localVariables[it->name] = *it;
 	}
@@ -1505,7 +1506,7 @@ bool QBasic::analysisReturn(const bool run) {
 		if (run) {
 			executeFunctionEnd(run);
 		}
-		return false;
+		return !run;
 	}
 	// 戻り値取得
 	int offset = symbols->offset();
@@ -1524,11 +1525,11 @@ bool QBasic::analysisReturn(const bool run) {
 }
 
 /**
- * Endを解析
+ * endfuncを解析
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisEnd(const bool run) {
+bool QBasic::analysisEndfunc(const bool run) {
 	auto entity = (*functions)[lastFunctionName];
 	if (run) {
 		// 戻り値あるはずがない

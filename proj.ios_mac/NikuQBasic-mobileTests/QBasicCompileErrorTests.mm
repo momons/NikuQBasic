@@ -89,13 +89,91 @@
 	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::ReturnTypeVoid);
 }
 
-/// symbols[5]でUnknownVariable
+/// symbols[5]でUnknownSymbol
 - (void)test5 {
 	interpreter = new QBasic(nullptr, [scripts[5] UTF8String], "");
 	XCTAssertThrows(interpreter->run());
 	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
 	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 5);
-	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::UnknownVariable);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::UnknownSymbol);
+}
+
+/// symbols[10]でUnknownFunction
+- (void)test6 {
+	interpreter = new QBasic(nullptr, [scripts[6] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 10);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::UnknownFunction);
+}
+
+/// symbols[9]でBadVariableTypeになりそうだが無視される...
+- (void)test7 {
+	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+}
+
+/// symbols[8]でBadVariableType
+- (void)test8 {
+	interpreter = new QBasic(nullptr, [scripts[8] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 8);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::BadVariableType);
+}
+
+/// symbols[18]でBadVariableType
+- (void)test9 {
+	interpreter = new QBasic(nullptr, [scripts[9] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 18);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::BadVariableType);
+}
+
+/// symbols[18]でOverlapFunctionName
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 8);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::OverlapFunctionName);
+}
+
+/// symbols[13]でBadElseif
+- (void)test11 {
+	interpreter = new QBasic(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 13);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::BadElseif);
+}
+
+/// symbols[12]でNothingEndif
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 12);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::NothingEndif);
+}
+
+/// symbols[13]でBadElse
+- (void)test13 {
+	interpreter = new QBasic(nullptr, [scripts[13] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 13);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::BadElse);
+}
+
+/// symbols[11]でNothingNext
+- (void)test14 {
+	interpreter = new QBasic(nullptr, [scripts[14] UTF8String], "");
+	XCTAssertThrows(interpreter->run());
+	XCTAssertGreaterThanOrEqual(interpreter->errors->size(), 1);
+	XCTAssertEqual((*interpreter->errors)[0]->symbolIndex, 11);
+	XCTAssertEqual((*interpreter->errors)[0]->type, ErrorType::NothingNext);
 }
 
 @end
