@@ -37,3 +37,26 @@ a /= 2.0
 # test9 省略余り
 var a = 10.0
 a %= 4.0
+========================
+# test10 初期値nil
+var a: float
+========================
+# test11 nil + 1.0 = nil
+var a: float
+a += 1.0
+========================
+# test12 nil - 1.0 = nil
+var a: float
+a -= 1.0
+========================
+# test13 nil * 1.0 = nil
+var a: float
+a *= 1.0
+========================
+# test14 nil / 1.0 = nil
+var a: float
+a /= 1.0
+========================
+# test15 nilの代入
+var a = 0.0
+a = nil

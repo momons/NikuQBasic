@@ -102,4 +102,25 @@
 	XCTAssertEqual(interpreter->variables["a"].strValue, "abcdef");
 }
 
+/// 初期値nil
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
+/// nil + "a" = nil
+- (void)test11 {
+	interpreter = new QBasic(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
+/// nilの代入
+- (void)test12 {
+	interpreter = new QBasic(nullptr, [scripts[12] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
 @end

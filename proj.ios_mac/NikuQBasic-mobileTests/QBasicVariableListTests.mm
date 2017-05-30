@@ -217,4 +217,18 @@
 	XCTAssertEqual(interpreter->variables["e"].floatValue, 10.0);
 }
 
+/// 初期値nil
+- (void)test27 {
+	interpreter = new QBasic(nullptr, [scripts[27] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
+/// nilの代入
+- (void)test28 {
+	interpreter = new QBasic(nullptr, [scripts[28] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
 @end

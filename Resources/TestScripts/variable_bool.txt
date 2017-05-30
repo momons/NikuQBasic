@@ -40,3 +40,10 @@ a /= true
 # test9 省略余り
 var a = true
 a %= true
+========================
+# test10 初期値nil
+var a: bool
+========================
+# test11 nilの代入
+var a = true
+a = nil

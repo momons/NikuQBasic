@@ -37,3 +37,30 @@ a /= 2
 # test9 省略余り
 var a = 10
 a %= 4
+========================
+# test10 初期値nil
+var a: int
+========================
+# test11 nil + 1 = nil
+var a: int
+a += 1
+========================
+# test12 nil - 1 = nil
+var a: int
+a -= 1
+========================
+# test13 nil * 1 = nil
+var a: int
+a *= 1
+========================
+# test14 nil / 1 = nil
+var a: int
+a /= 1
+========================
+# test15 nil % 1 = nil
+var a: int
+a %= 1
+========================
+# test16 nilの代入
+var a = 0
+a = nil
