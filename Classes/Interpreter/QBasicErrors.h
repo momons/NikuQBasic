@@ -35,6 +35,13 @@ public:
 	~QBasicErrors();
 
 	/**
+	 *  例外エラーを発生させる
+	 *  @param errorType エラータイプ
+	 *  @param message   メッセージ
+	 */
+	void setThrow(const int symbolIndex, const ErrorType errorType, const string &message);
+
+	/**
 	 *  エラー追加
 	 *  @param errorType エラータイプ
 	 *  @param message   メッセージ
@@ -96,6 +103,15 @@ public:
 	 *  @return メッセージ
 	 */
 	static string buildBadVariableType(const vector<VariableType> &trueTypes, const QBasicVariableEntity &falseVariable);
+
+	/**
+	 *  エラータイプListIndexOutOfBoundsのメッセージ作成
+	 *  @param trueFrom      正しい範囲From
+	 *  @param trueTo        正しい範囲To
+	 *  @param falseIndex    間違ったインデックス
+	 *  @return メッセージ
+	 */
+	static string buildListIndexOutOfBounds(const int trueFrom, const int trueTo, const int falseIndex);
 
 private:
 	

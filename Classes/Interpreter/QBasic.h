@@ -46,6 +46,9 @@ public:
 	/// ローカル変数
 	unordered_map<string, QBasicVariableEntity> localVariables;
 
+	/// エラー群
+	QBasicErrors *errors;
+
 	/**
 	 *  コンストラクタ
 	 *  @param scene     シーン
@@ -131,8 +134,6 @@ private:
 	QBasicIfs *ifs;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
-	/// エラー群
-	QBasicErrors *errors;
 	
 	/**
 	 *  実行 or コンパイル
@@ -215,12 +216,6 @@ private:
      */
     bool statement(const bool run);
     
-	/**
-	 *  処理を１つ戻す
-	 * @param run 実行中フラグ
-	 */
-	void popBack(const bool run);
-
 #pragma mark - 実行
 	
 	/**
@@ -333,11 +328,11 @@ private:
 	bool inline analysisReturn(const bool run);
 
 	/**
-	 * Endを解析
+	 * endfuncを解析
 	 * @param run 実行中フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool inline analysisEnd(const bool run);
+	bool inline analysisEndfunc(const bool run);
 	
 };
 

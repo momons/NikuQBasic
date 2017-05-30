@@ -39,6 +39,18 @@ string QBasicSymbols::nextSymbol() {
 }
 
 /**
+ * シンボル情報取得
+ * @param offset オフセット
+ * @return シンボル情報のポインタ
+ */
+QBasicSymbolEntity *QBasicSymbols::operator [] (const int offset) {
+	if (offset < 0 || offset >= symbols.size()) {
+		return nullptr;
+	}
+	return &symbols[offset];
+}
+
+/**
  *  一個前のシンボルを取得
  *  @return シンボル
  */

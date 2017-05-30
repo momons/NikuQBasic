@@ -9,6 +9,7 @@
 #include "QBasicErrors.h"
 
 #include "QBasicSymbols.h"
+#include "QBasicSymbolEntity.h"
 #include "QBasicErrorEntity.h"
 #include "QBasicVariableEntity.h"
 
@@ -25,6 +26,18 @@ QBasicErrors::QBasicErrors(QBasicSymbols *symbols) {
  */
 QBasicErrors::~QBasicErrors() {
 	
+}
+
+/**
+ *  例外エラーを発生させる
+ *  @param errorType エラータイプ
+ *  @param message   メッセージ
+ */
+void QBasicErrors::setThrow(const int symbolIndex, const ErrorType errorType, const string &message) {
+	ostringstream stream;
+	QBasicSymbolEntity *symbolEntity = (*symbols)[symbolIndex];
+	stream << "row:" << symbolEntity->row << " col:" << symbolEntity->col << " " << message;
+	throw range_error(stream.str());
 }
 
 /**
@@ -125,6 +138,20 @@ string QBasicErrors::buildBadVariableType(const vector<VariableType> &trueTypes,
 		}
 	}
 	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.type, falseVariable.valueTypes) << "'";
+	return stream.str();
+}
+
+/**
+ *  エラータイプListIndexOutOfBoundsのメッセージ作成
+ *  @param trueFrom      正しい範囲From
+ *  @param trueTo        正しい範囲To
+ *  @param falseIndex    間違ったインデックス
+ *  @return メッセージ
+ */
+string QBasicErrors::buildListIndexOutOfBounds(const int trueFrom, const int trueTo, const int falseIndex) {
+	ostringstream stream;
+	stream << "o:" << trueFrom << "-" << trueTo << " ";
+	stream << "x:" << falseIndex;
 	return stream.str();
 }
 
