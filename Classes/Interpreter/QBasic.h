@@ -281,7 +281,7 @@ private:
 	 * @param valueVariableTypes 値タイプ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	bool analysisVarListDict(const bool run, const string &variableName, vector<VariableType> *valueVariableTypes);
+	bool analysisVarListDict(const bool run, const string &variableName, vector<VariableType> &valueVariableTypes);
 
 	/**
 	 * if文を解析

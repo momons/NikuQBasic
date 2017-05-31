@@ -973,7 +973,7 @@ bool QBasic::analysisVar(const bool run) {
 		if (variableType == VariableType::List ||
 			variableType == VariableType::Dict ) {
 			// 配列の場合は型の宣言が必要
-			analysisVarListDict(run, variableName, &valueVariableTypes);
+			analysisVarListDict(run, variableName, valueVariableTypes);
 		}
 	
 		// 次を取得
@@ -1034,7 +1034,7 @@ bool QBasic::analysisVar(const bool run) {
  * @param run 実行中フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasic::analysisVarListDict(const bool run, const string &variableName, vector<VariableType> *valueVariableTypes) {
+bool QBasic::analysisVarListDict(const bool run, const string &variableName, vector<VariableType> &valueVariableTypes) {
 	// リストの場合は型の宣言が必要
 	while(true) {
 		match("<");
@@ -1047,12 +1047,12 @@ bool QBasic::analysisVarListDict(const bool run, const string &variableName, vec
 				errors->addError(offset, ErrorType::UnknownSymbol, sym);
 			}
 		}
-		valueVariableTypes->push_back(valueVariableType);
+		valueVariableTypes.push_back(valueVariableType);
 		if (valueVariableType != VariableType::List && valueVariableType != VariableType::Dict) {
 			break;
 		}
 	}
-	for (auto i = 0;i < valueVariableTypes->size();i++) {
+	for (auto i = 0;i < valueVariableTypes.size();i++) {
 		match(">");
 	}
 	return true;
@@ -1377,7 +1377,7 @@ bool QBasic::analysisFunc(const bool run) {
 		if (returnType == VariableType::List ||
 			returnType == VariableType::Dict ) {
 			// 配列の場合は型の宣言が必要
-			analysisVarListDict(run, "", &valueVariableTypes);
+			analysisVarListDict(run, "", valueVariableTypes);
 		}
 	}
 
@@ -1454,7 +1454,7 @@ bool QBasic::analysisArguments(const bool run, vector<QBasicVariableEntity> &arg
 			if (variableType == VariableType::List ||
 				variableType == VariableType::Dict ) {
 				// 配列の場合は型の宣言が必要
-				analysisVarListDict(run, variableName, &valueVariableTypes);
+				analysisVarListDict(run, variableName, valueVariableTypes);
 			}
 			
 			// 次を取得
