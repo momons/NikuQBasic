@@ -181,6 +181,12 @@ int QBasicVariableEntity::compare(const QBasicVariableEntity &entity) {
 	if (isNil && entity.isNil) {
 		return 0;
 	}
+	if (isNil && !entity.isNil) {
+		return 1;
+	}
+	if (!isNil && entity.isNil) {
+		return -1;
+	}
 	if (type != entity.type) {
 		return MISMATCH_VARIABLE_TYPE_VALUE;
 	}

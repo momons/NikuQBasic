@@ -257,7 +257,7 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 								  (sym == "!=" && value != valueDist));
 				value.set(boolValue);
 			} else {
-				if (value.type != valueDist.type) {
+				if (!QBasicValidation::isValidVariableType(value, valueDist)) {
 					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 				}
 				value.set(true);

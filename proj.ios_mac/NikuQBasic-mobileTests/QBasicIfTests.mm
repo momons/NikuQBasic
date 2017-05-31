@@ -293,4 +293,39 @@
 	XCTAssertNoThrow(interpreter->run());
 	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
 }
+
+/// nil判定
+- (void)test37 {
+	interpreter = new QBasic(nullptr, [scripts[37] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
+}
+
+/// int = nil判定
+- (void)test38 {
+	interpreter = new QBasic(nullptr, [scripts[38] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, false);
+}
+
+/// float = nil判定
+- (void)test39 {
+	interpreter = new QBasic(nullptr, [scripts[39] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, false);
+}
+
+/// str = nil判定
+- (void)test40 {
+	interpreter = new QBasic(nullptr, [scripts[40] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, false);
+}
+
+/// bool = nil判定
+- (void)test41 {
+	interpreter = new QBasic(nullptr, [scripts[41] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].boolValue, false);
+}
 @end
