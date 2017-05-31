@@ -258,3 +258,38 @@ var b: bool = true
 if b >= false && b >= true
   a = true
 endif
+========================
+# test37 nil判定
+var a = false
+var b: int
+if b == nil
+  a = true
+endif
+========================
+# test38 int = nil判定
+var a = false
+var b = 0
+if b == nil
+  a = true
+endif
+========================
+# test39 float = nil判定
+var a = false
+var b = 0.0
+if b == nil
+  a = true
+endif
+========================
+# test40 str = nil判定
+var a = false
+var b = "a"
+if b == nil
+  a = true
+endif
+========================
+# test41 bool = nil判定
+var a = false
+var b = true
+if b == nil
+  a = true
+endif

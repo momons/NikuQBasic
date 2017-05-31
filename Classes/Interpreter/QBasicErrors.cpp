@@ -130,7 +130,7 @@ string QBasicErrors::buildBadVariableType(const vector<VariableType> &trueTypes,
 	ostringstream stream;
 	stream << "o:";
 	for (auto it = trueTypes.begin();it != trueTypes.end();it++) {
-		stream << "'" << QBasicVariableEntity::toString(*it) << "'";
+		stream << "'" << QBasicVariableEntity::getVariableTypeString(*it) << "'";
 		if (it == trueTypes.end() - 1) {
 			stream << " ";
 		} else {

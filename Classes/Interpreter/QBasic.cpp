@@ -249,19 +249,18 @@ QBasicVariableEntity QBasic::relop(const bool run) {
 			
 			auto valueDist = addsub(run);
 			if (run) {
-				value.boolValue = ((sym == "==" && value == valueDist) ||
-								   (sym == "<" && value < valueDist) ||
-								   (sym == "<=" && value <= valueDist) ||
-								   (sym == ">" && value > valueDist) ||
-								   (sym == ">=" && value >= valueDist) ||
-								   (sym == "!=" && value != valueDist));
-				value.type = VariableType::Bool;
+				bool boolValue = ((sym == "==" && value == valueDist) ||
+								  (sym == "<" && value < valueDist) ||
+								  (sym == "<=" && value <= valueDist) ||
+								  (sym == ">" && value > valueDist) ||
+								  (sym == ">=" && value >= valueDist) ||
+								  (sym == "!=" && value != valueDist));
+				value.set(boolValue);
 			} else {
-				if (value.type != valueDist.type) {
+				if (!QBasicValidation::isValidVariableType(value, valueDist)) {
 					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
 				}
-				value.type = VariableType::Bool;
-				value.boolValue = true;
+				value.set(true);
 			}
         } else {
             break;
@@ -433,6 +432,11 @@ QBasicVariableEntity QBasic::factor(const bool run) {
 	// bool値ならば
 	if (sym == "true" || sym == "false") {
 		return QBasicVariableEntity("", sym);
+	}
+	
+	// nil値ならば
+	if (sym == "nil") {
+		return QBasicVariableEntity("", VariableType::Unknown, nullptr);
 	}
 	
 	// ステートメント
@@ -892,8 +896,7 @@ bool QBasic::analysisValueAssigned(const bool run, const string &variableName) {
 		} else if (operate == "%=") {
 			value = *variable % value;
 		}
-		value.name = variableName;
-		*variable = value;
+		variable->set(value);
 		return true;
 	}
 	if (!QBasicValidation::isValidVariableType(value, variable->type, variable->valueTypes)) {
@@ -1205,7 +1208,7 @@ bool QBasic::analysisFor(const bool run) {
 	if (!run && !QBasicValidation::isValidFor(value)) {
 		errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int}, value));
 	}
-	variables[variableName].intValue = run ? value.intValue : 0;
+	variables[variableName].set(run ? value.intValue : 0);
 	
 	int from = variables[variableName].intValue;
 	
@@ -1482,7 +1485,7 @@ bool QBasic::analysisArguments(const bool run, vector<QBasicVariableEntity> &arg
 			variableEntity = value;
 			variableEntity.name = variableName;
 			variableEntity.valueTypes = valueVariableTypes;
-			variableEntity.isEmpty = false;
+			variableEntity.isNil = false;
 		}
 		
 		argNames.push_back(variableEntity);

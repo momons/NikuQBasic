@@ -47,6 +47,7 @@ const vector<string> QBasicValidation::basicStatementNames = {
 	"dict",
 	"true",
 	"false",
+	"nil",
 };
 
 /**
@@ -212,6 +213,41 @@ bool QBasicValidation::isBool(const string &str) {
 }
 
 /**
+ *  変数タイプチェック
+ *  @param value1     変数Entity1
+ *  @param value2     変数Entity2
+ *  @return 変数可否
+ */
+bool QBasicValidation::isValidVariableType(
+										   const QBasicVariableEntity &value1,
+										   const QBasicVariableEntity &value2) {
+	if (value1.isNil && value2.isNil) {
+		return true;
+	}
+	if ((value1.isNil && value1.type == VariableType::Unknown) || (value2.isNil && value2.type == VariableType::Unknown)) {
+		return true;
+	}
+	if (value1.type != value2.type) {
+		return false;
+	}
+	switch (value1.type) {
+		case VariableType::List:
+			if (!QBasicValidation::isValidVariableTypeList(value1, value2.valueTypes, 0)) {
+				return false;
+			}
+			break;
+		case VariableType::Dict:
+			if (!QBasicValidation::isValidVariableTypeDict(value1, value2.valueTypes, 0)) {
+				return false;
+			}
+			break;
+		default:
+			break;
+	}
+	return true;
+}
+
+/**
  *  変数チェック
  *  @param variableEntity     変数Entity
  *  @param variableType       親変数タイプ
@@ -219,9 +255,12 @@ bool QBasicValidation::isBool(const string &str) {
  *  @return 配列変数可否
  */
 bool QBasicValidation::isValidVariableType(
-							const QBasicVariableEntity &variableEntity,
-							VariableType variableType,
-							const vector<VariableType> &valueVariableTypes) {
+										   const QBasicVariableEntity &variableEntity,
+										   VariableType variableType,
+										   const vector<VariableType> &valueVariableTypes) {
+	if (variableEntity.type == VariableType::Unknown && variableEntity.isNil) {
+		return true;
+	}
 	if (variableEntity.type != variableType) {
 		return false;
 	}
@@ -324,6 +363,10 @@ bool QBasicValidation::isValidNot(const QBasicVariableEntity &entity) {
  *  @return 足し算可否
  */
 bool QBasicValidation::isValidAdd(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	if ((srcEntity.type == VariableType::Unknown && srcEntity.isNil) ||
+		(dstEntity.type == VariableType::Unknown && dstEntity.isNil) ) {
+		return true;
+	}
 	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
 	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float) ||
 	(srcEntity.type == VariableType::Str && dstEntity.type == VariableType::Str);
@@ -345,6 +388,10 @@ bool QBasicValidation::isValidSub(const QBasicVariableEntity &entity) {
  *  @return 引き算可否
  */
 bool QBasicValidation::isValidSub(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	if ((srcEntity.type == VariableType::Unknown && srcEntity.isNil) ||
+		(dstEntity.type == VariableType::Unknown && dstEntity.isNil) ) {
+		return true;
+	}
 	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
 	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float);
 }
@@ -356,6 +403,10 @@ bool QBasicValidation::isValidSub(const QBasicVariableEntity &srcEntity, const Q
  *  @return 引き算可否
  */
 bool QBasicValidation::isValidMul(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	if ((srcEntity.type == VariableType::Unknown && srcEntity.isNil) ||
+		(dstEntity.type == VariableType::Unknown && dstEntity.isNil) ) {
+		return true;
+	}
 	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
 	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float);
 }
@@ -367,6 +418,10 @@ bool QBasicValidation::isValidMul(const QBasicVariableEntity &srcEntity, const Q
  *  @return 引き算可否
  */
 bool QBasicValidation::isValidDiv(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	if ((srcEntity.type == VariableType::Unknown && srcEntity.isNil) ||
+		(dstEntity.type == VariableType::Unknown && dstEntity.isNil) ) {
+		return true;
+	}
 	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int) ||
 	(srcEntity.type == VariableType::Float && dstEntity.type == VariableType::Float);
 }
@@ -378,6 +433,10 @@ bool QBasicValidation::isValidDiv(const QBasicVariableEntity &srcEntity, const Q
  *  @return 引き算可否
  */
 bool QBasicValidation::isValidMod(const QBasicVariableEntity &srcEntity, const QBasicVariableEntity &dstEntity) {
+	if ((srcEntity.type == VariableType::Unknown && srcEntity.isNil) ||
+		(dstEntity.type == VariableType::Unknown && dstEntity.isNil) ) {
+		return true;
+	}
 	return (srcEntity.type == VariableType::Int && dstEntity.type == VariableType::Int);
 }
 

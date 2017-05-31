@@ -61,8 +61,8 @@ public:
 	/// 連想配列
 	map<string, QBasicVariableEntity> dictValue;
 	
-	/// emptyフラグ
-	bool isEmpty = true;
+	/// nilフラグ
+	bool isNil = true;
 	
 	/**
 	 * コンストラクタ
@@ -178,7 +178,31 @@ public:
 	 * @param entity 変数entity
 	 */
 	void set(const QBasicVariableEntity &entity);
-	
+
+	/**
+	 * int代入
+	 * @param value 値
+	 */
+	void set(const int value);
+
+	/**
+	 * float代入
+	 * @param value 値
+	 */
+	void set(const double value);
+
+	/**
+	 * str代入
+	 * @param value 値
+	 */
+	void set(const string &value);
+
+	/**
+	 * bool代入
+	 * @param value 値
+	 */
+	void set(const bool value);
+
 	/**
 	 * 足し算
 	 * @param entity 変数entity
@@ -323,13 +347,6 @@ public:
 	 *  @return 文字列
 	 */
 	static string toString(const VariableType type, const vector<VariableType> &subTypes);
-
-	/**
-	 *  変数タイプを文字列に変換
-	 *  @param type      メインタイプ
-	 *  @return 文字列
-	 */
-	static string toString(const VariableType type);
 
 private:
 	

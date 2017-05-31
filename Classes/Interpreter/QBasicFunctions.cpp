@@ -124,7 +124,8 @@ vector<QBasicVariableEntity> QBasicFunctions::mergeArguments(const string &name,
 		int index = 0;
 		for (auto argIt = funcIt->second.argNames.begin();argIt != funcIt->second.argNames.end();argIt++) {
 			auto value = *argIt;
-			if (argIt->isEmpty) {
+			value.isNil = false;
+			if (argIt->isNil) {
 				// 省略不可
 				if (index >= arguments.size()) {
 					// 引数の数が合わないので終了

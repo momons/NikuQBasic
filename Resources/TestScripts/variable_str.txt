@@ -37,3 +37,14 @@ a %= "def"
 # test9 省略足し算
 var a = "abc"
 a += "def"
+========================
+# test10 初期値nil
+var a: str
+========================
+# test11 nil + "a" = nil
+var a: str
+a += "a"
+========================
+# test12 nilの代入
+var a = "abc"
+a = nil

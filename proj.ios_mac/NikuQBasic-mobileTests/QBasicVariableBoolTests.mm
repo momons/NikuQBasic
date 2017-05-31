@@ -101,4 +101,18 @@
 	XCTAssertThrows(interpreter->run());
 }
 
+/// 初期値nil
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
+/// nilの代入
+- (void)test11 {
+	interpreter = new QBasic(nullptr, [scripts[11] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].isNil, true);
+}
+
 @end
