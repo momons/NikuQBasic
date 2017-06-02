@@ -1,0 +1,47 @@
+# test0 len
+var a = len("aaa")
+var b = len("bbbbb")
+var c = len("あああああ")
+========================
+# test1 mid
+var a = mid("abc", 0, 2)
+var b = mid("abcdef", 4, 5)
+========================
+# test2 left
+var a = left("abc", 2)
+var b = left("abcdef", 3)
+========================
+# test3 right
+var a = right("abc", 2)
+var b = right("abcdef", 3)
+========================
+# test4 split
+var b = "a|bc|def|ghij"
+var a = split(b, "|")
+var c0 = a[0]
+var c1 = a[1]
+var c2 = a[2]
+var c3 = a[3]
+========================
+# test5 empty
+var a = empty("")
+var b = empty("aaa")
+========================
+# test6 notEmpty
+var a = notEmpty("")
+var b = notEmpty("aaa")
+========================
+# test7 replase
+var a = replase("abc,def,ghi", ",", "-")
+var b = replase("あいうえおかきくけこさしすせそ", "あいうえお", "")
+========================
+# test8 prefix
+var a = prefix("abcdefghi", "abc")
+var b = prefix("あいうえお", "あい")
+var c = prefix("あいうえお", "いうえお")
+========================
+# test9 suffix
+var a = suffix("abcdefghi", "ghi")
+var b = suffix("あいうえお", "うえお")
+var c = suffix("あいうえお", "あいうえ")
+========================

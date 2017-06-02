@@ -349,6 +349,15 @@ public:
 	static string toString(const VariableType type, const vector<VariableType> &subTypes);
 
 private:
+
+	/**
+	 *  変数タイプを文字列に変換
+	 *  @param name  変数名
+	 *  @param type  変数タイプ
+	 *  @param value 値のポインタ
+	 *  @return 文字列
+	 */
+	void configureEntity(const string &name, const VariableType type, void *value);
 	
 	/**
 	 * 値なしコピー

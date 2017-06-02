@@ -673,7 +673,7 @@ QBasicVariableEntity QBasic::executeStatement(const bool run, const string &func
 		errors->addError(offset, ErrorType::ReturnTypeVoid, entity->alias);
 		return QBasicVariableEntity();
 	}
-	return QBasicVariableEntity("", entity->returnType, nullptr);
+	return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
 }
 
 /**
@@ -808,14 +808,16 @@ vector<QBasicVariableEntity> QBasic::getArguments(const bool run) {
 QBasicVariableEntity *QBasic::getVariable(const bool run, const string &name) {
 
 	// 変数があるかどうかは上位でチェックしている
-	QBasicVariableEntity *variable;
+	QBasicVariableEntity *parentVariable;
 	if (localVariables.find(name) != localVariables.end()) {
 		// ローカル
-		variable = &localVariables[name];
+		parentVariable = &localVariables[name];
 	} else {
 		// グローバル
-		variable = &variables[name];
+		parentVariable = &variables[name];
 	}
+	int count = 0;
+	QBasicVariableEntity *variable = parentVariable;
 	while (true) {
 		if (variable->type != VariableType::List &&
 			variable->type != VariableType::Dict) {
@@ -839,26 +841,36 @@ QBasicVariableEntity *QBasic::getVariable(const bool run, const string &name) {
 					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int}, keyValue));
 					return nullptr;
 				}
+				if (variable->listValue.size() <= 0) {
+					variable->listValue.push_back(QBasicVariableEntity("", parentVariable->valueTypes[count], nullptr));
+				}
+				variable = &variable->listValue[0];
+				count += 1;
 			} else {
 				if (keyValue.intValue < 0 || keyValue.intValue >= variable->listValue.size()) {
 					errors->setThrow(offset, ErrorType::ListIndexOutOfBounds, QBasicErrors::buildListIndexOutOfBounds(0, (int)variable->listValue.size() - 1, keyValue.intValue));
 					return nullptr;
 				}
+				variable = &variable->listValue[keyValue.intValue];
 			}
-			variable = &variable->listValue[keyValue.intValue];
 		} else {
 			if (!run) {
 				if (keyValue.type != VariableType::Str) {
 					errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Str}, keyValue));
 					return nullptr;
 				}
+				if (variable->listValue.size() <= 0) {
+					variable->dictValue[""] = QBasicVariableEntity("", parentVariable->valueTypes[count], nullptr);
+				}
+				variable = &variable->dictValue[""];
+				count += 1;
 			} else {
 				if (variable->dictValue.find(keyValue.strValue) == variable->dictValue.end()) {
 					errors->setThrow(offset, ErrorType::DictUnknownKey, keyValue.strValue);
 					return nullptr;
 				}
+				variable = &variable->dictValue[keyValue.strValue];
 			}
-			variable = &variable->dictValue[keyValue.strValue];
 		}
 	}
 	

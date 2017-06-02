@@ -69,7 +69,7 @@ vector<QBasicVariableEntity> QBasicStringFunctions::mid_params() {
 }
 QBasicVariableEntity QBasicStringFunctions::mid_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	auto answer = arg[0].strValue.substr(arg[1].intValue, arg[2].intValue);
-	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
+	return QBasicVariableEntity("", VariableType::Str, &answer);
 }
 /// 左切り取り
 vector<QBasicVariableEntity> QBasicStringFunctions::left_params() {
@@ -80,7 +80,7 @@ vector<QBasicVariableEntity> QBasicStringFunctions::left_params() {
 }
 QBasicVariableEntity QBasicStringFunctions::left_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	auto answer = arg[0].strValue.substr(0, arg[1].intValue);
-	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
+	return QBasicVariableEntity("", VariableType::Str, &answer);
 }
 /// 右切り取り
 vector<QBasicVariableEntity> QBasicStringFunctions::right_params() {
@@ -91,7 +91,7 @@ vector<QBasicVariableEntity> QBasicStringFunctions::right_params() {
 }
 QBasicVariableEntity QBasicStringFunctions::right_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
 	auto answer = arg[0].strValue.substr(arg[0].strValue.length() - arg[1].intValue, arg[1].intValue);
-	return QBasicVariableEntity("", VariableType::Str, (void *)answer.c_str());
+	return QBasicVariableEntity("", VariableType::Str, &answer);
 }
 /// 分割
 vector<QBasicVariableEntity> QBasicStringFunctions::split_params() {
@@ -105,7 +105,8 @@ QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const 
 	StringUtil::split(answer, arg[0].strValue, arg[1].strValue);
 	vector<QBasicVariableEntity> values;
 	for (auto it = answer.begin();it != answer.end();it++) {
-		values.push_back(QBasicVariableEntity("", VariableType::Str, &it));
+		string str = *it;
+		values.push_back(QBasicVariableEntity("", VariableType::Str, &str));
 	}
 	return QBasicVariableEntity("", {VariableType::Str}, values);
 }
@@ -116,8 +117,8 @@ vector<QBasicVariableEntity> QBasicStringFunctions::empty_params() {
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::empty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	bool answer = arg[0].strValue.empty();
-	return QBasicVariableEntity("", VariableType::Str, &answer);
+	bool answer = arg[0].strValue.empty() || arg[0].isNil;
+	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }
 // NotEmpty
 vector<QBasicVariableEntity> QBasicStringFunctions::notEmpty_params() {
@@ -126,8 +127,8 @@ vector<QBasicVariableEntity> QBasicStringFunctions::notEmpty_params() {
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::notEmpty_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	bool answer = !arg[0].strValue.empty();
-	return QBasicVariableEntity("", VariableType::Str, &answer);
+	bool answer = !arg[0].strValue.empty() && !arg[0].isNil;
+	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }
 /// 置換
 vector<QBasicVariableEntity> QBasicStringFunctions::replase_params() {
@@ -144,25 +145,30 @@ QBasicVariableEntity QBasicStringFunctions::replase_qb(QBasic *interpreter, cons
 		retStr.replace(pos, arg[1].strValue.length(), arg[2].strValue);
 		pos = retStr.find(arg[1].strValue, pos + arg[2].strValue.length());
 	}
-	return QBasicVariableEntity("", VariableType::Str, (void *)retStr.c_str());
+	return QBasicVariableEntity("", VariableType::Str, &retStr);
 }
 /// 前方一致
 vector<QBasicVariableEntity> QBasicStringFunctions::prefix_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("search", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::prefix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	bool answer = mismatch(arg[0].strValue.begin(), arg[0].strValue.end(), arg[1].strValue.begin()).first == arg[1].strValue.begin();
+	bool answer = mismatch(arg[1].strValue.begin(), arg[1].strValue.end(), arg[0].strValue.begin()).first == arg[1].strValue.end();
 	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }
 /// 後方一致
 vector<QBasicVariableEntity> QBasicStringFunctions::suffix_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("val", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("search", VariableType::Str, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicStringFunctions::suffix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-	bool answer = mismatch(arg[0].strValue.begin(), arg[0].strValue.end(), arg[1].strValue.begin()).first == arg[1].strValue.begin();
+	bool answer = false;
+	if (arg[0].strValue.length() >= arg[1].strValue.length()) {
+		answer = arg[0].strValue.compare(arg[0].strValue.length() - arg[1].strValue.length(), arg[1].strValue.length(), arg[1].strValue) == 0;
+	}
 	return QBasicVariableEntity("", VariableType::Bool, &answer);
 }

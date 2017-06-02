@@ -26,34 +26,7 @@ QBasicVariableEntity::QBasicVariableEntity() {
  * @param value 値のポインタ
  */
 QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, void *value) {
-	// 退避
-	this->name = name;
-	this->type = type;
-	if (value != nullptr) {
-		switch (this->type) {
-			case VariableType::Int:
-				intValue = *(int *)value;
-				break;
-			case VariableType::Float:
-				floatValue = *(double *)value;
-				break;
-			case VariableType::Str:
-				strValue = string((char *)value);
-				break;
-			case VariableType::Bool:
-				boolValue = *(bool *)value;
-				break;
-			case VariableType::List:
-				listValue = *reinterpret_cast<vector<QBasicVariableEntity>*>(value);
-				break;
-			case VariableType::Dict:
-				dictValue = *reinterpret_cast<map<string, QBasicVariableEntity>*>(value);
-				break;
-			default:
-				break;
-		}
-		isNil = false;
-	}
+	configureEntity(name, type, value);
 }
 
 /**
@@ -64,7 +37,7 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
  * @param value       値のポインタ
  */
 QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, const vector<VariableType> &valueTypes, void *value) {
-	QBasicVariableEntity(name, type, value);
+	configureEntity(name, type, value);
 	this->valueTypes = valueTypes;
 }
 
@@ -910,6 +883,44 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
 }
 
 #pragma mark - その他
+
+/**
+ *  変数タイプを文字列に変換
+ *  @param name  変数名
+ *  @param type  変数タイプ
+ *  @param value 値のポインタ
+ *  @return 文字列
+ */
+void QBasicVariableEntity::configureEntity(const string &name, const VariableType type, void *value) {
+	// 退避
+	this->name = name;
+	this->type = type;
+	if (value != nullptr) {
+		switch (this->type) {
+			case VariableType::Int:
+				intValue = *(int *)value;
+				break;
+			case VariableType::Float:
+				floatValue = *(double *)value;
+				break;
+			case VariableType::Str:
+				strValue = *reinterpret_cast<string*>(value);
+				break;
+			case VariableType::Bool:
+				boolValue = *(bool *)value;
+				break;
+			case VariableType::List:
+				listValue = *reinterpret_cast<vector<QBasicVariableEntity>*>(value);
+				break;
+			case VariableType::Dict:
+				dictValue = *reinterpret_cast<map<string, QBasicVariableEntity>*>(value);
+				break;
+			default:
+				break;
+		}
+		isNil = false;
+	}
+}
 
 /**
  * 値なしコピー
