@@ -1,5 +1,5 @@
 //
-//  QBasicDebugTests.m
+//  QBasicFunctionDebugTests.m
 //  NikuQBasic
 //
 //  Created by HaraKazunari on 2017/05/21.
@@ -14,7 +14,7 @@
 #import "QBasicVariableEntity.h"
 
 /// デバッグ関数テスト
-@interface QBasicDebugTests : XCTestCase {
+@interface QBasicFunctionDebugTests : XCTestCase {
 @private
 	/// テストするスクリプト群
 	NSArray<NSString *> *scripts;
@@ -23,12 +23,12 @@
 }
 @end
 
-@implementation QBasicDebugTests
+@implementation QBasicFunctionDebugTests
 
 - (void)setUp {
 	[super setUp];
 	
-	NSString *script = [TestFileUtils loadFile:@"statement_debug" clazz:[self class]];
+	NSString *script = [TestFileUtils loadFile:@"function_debug" clazz:[self class]];
 	// 内容を分割
 	scripts = [script componentsSeparatedByString:@"========================"];
 }

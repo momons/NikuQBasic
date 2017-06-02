@@ -1,5 +1,5 @@
 //
-//  QBasicMathTests.m
+//  QBasicFunctionMathTests.m
 //  NikuQBasic
 //
 //  Created by HaraKazunari on 2017/04/25.
@@ -14,7 +14,7 @@
 #import "QBasicVariableEntity.h"
 
 /// スクリプト math関連テスト
-@interface QBasicMathTests : XCTestCase {
+@interface QBasicFunctionMathTests : XCTestCase {
 @private
 	/// テストするスクリプト群
 	NSArray<NSString *> *scripts;
@@ -23,12 +23,12 @@
 }
 @end
 
-@implementation QBasicMathTests
+@implementation QBasicFunctionMathTests
 
 - (void)setUp {
 	[super setUp];
 	
-	NSString *script = [TestFileUtils loadFile:@"statement_math" clazz:[self class]];
+	NSString *script = [TestFileUtils loadFile:@"function_math" clazz:[self class]];
 	// 内容を分割
 	scripts = [script componentsSeparatedByString:@"========================"];
 }

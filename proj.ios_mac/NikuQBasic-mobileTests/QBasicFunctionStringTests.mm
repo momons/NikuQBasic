@@ -1,5 +1,5 @@
 //
-//  QBasicStringTests.m
+//  QBasicFunctionStringTests.m
 //  NikuQBasic
 //
 //  Created by HaraKazunari on 2017/06/01.
@@ -14,7 +14,7 @@
 #import "QBasicVariableEntity.h"
 
 /// 文字関数テスト
-@interface QBasicStringTests : XCTestCase {
+@interface QBasicFunctionStringTests : XCTestCase {
 @private
 	/// テストするスクリプト群
 	NSArray<NSString *> *scripts;
@@ -23,12 +23,12 @@
 }
 @end
 
-@implementation QBasicStringTests
+@implementation QBasicFunctionStringTests
 
 - (void)setUp {
 	[super setUp];
 	
-	NSString *script = [TestFileUtils loadFile:@"statement_string" clazz:[self class]];
+	NSString *script = [TestFileUtils loadFile:@"function_string" clazz:[self class]];
 	// 内容を分割
 	scripts = [script componentsSeparatedByString:@"========================"];
 }
@@ -124,6 +124,15 @@
 	XCTAssertEqual(interpreter->variables["a"].boolValue, true);
 	XCTAssertEqual(interpreter->variables["b"].boolValue, true);
 	XCTAssertEqual(interpreter->variables["c"].boolValue, false);
+}
+
+/// find
+- (void)test10 {
+	interpreter = new QBasic(nullptr, [scripts[10] UTF8String], "");
+	XCTAssertNoThrow(interpreter->run());
+	XCTAssertEqual(interpreter->variables["a"].intValue, 2);
+	XCTAssertEqual(interpreter->variables["b"].intValue, 6);
+	XCTAssertEqual(interpreter->variables["c"].intValue, -1);
 }
 
 @end

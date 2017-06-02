@@ -64,6 +64,9 @@ public:
 	/// 後方一致
 	static inline vector<QBasicVariableEntity> suffix_params();
 	static inline QBasicVariableEntity suffix_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 検索
+	static inline vector<QBasicVariableEntity> find_params();
+	static inline QBasicVariableEntity find_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 	/**
 	 * デストラクタ

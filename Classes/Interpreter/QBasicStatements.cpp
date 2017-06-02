@@ -15,6 +15,7 @@
 #include "QBasic.h"
 #include "QBasicSubFunction.h"
 #include "QBasicVariableEntity.h"
+#include "QBasicTypeChangeFunctions.h"
 #include "QBasicMathFunctions.h"
 #include "QBasicStringFunctions.h"
 #include "QBasicDrawFunctions.h"
@@ -90,6 +91,13 @@ void QBasicStatements::buildStatements() {
 	
 	QBasicStatementEntity entity;
 	unordered_map<string, QBasicStatementEntity> statements;
+
+	//===== 型変換
+	statements.clear();
+	statements = QBasicTypeChangeFunctions::buildStatements();
+	for (auto it = statements.begin();it != statements.end();it++) {
+		this->statements[it->first] = it->second;
+	}
 
 	//===== 最大値、最小値、絶対値
 	statements.clear();

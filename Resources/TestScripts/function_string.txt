@@ -45,3 +45,8 @@ var a = suffix("abcdefghi", "ghi")
 var b = suffix("あいうえお", "うえお")
 var c = suffix("あいうえお", "あいうえ")
 ========================
+# test10 find
+var a = find("abcdefghi", "cde")
+var b = find("あいうえお", "うえお")
+var c = find("あいうえお", "か")
+========================

@@ -45,6 +45,8 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 	statementList[entity.alias] = entity;
 	entity = QBasicStatementEntity("suffix", suffix_params(), VariableType::Bool, suffix_qb);
 	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("find", find_params(), VariableType::Int, find_qb);
+	statementList[entity.alias] = entity;
 
 	return statementList;
 }
@@ -171,4 +173,15 @@ QBasicVariableEntity QBasicStringFunctions::suffix_qb(QBasic *interpreter, const
 		answer = arg[0].strValue.compare(arg[0].strValue.length() - arg[1].strValue.length(), arg[1].strValue.length(), arg[1].strValue) == 0;
 	}
 	return QBasicVariableEntity("", VariableType::Bool, &answer);
+}
+/// 検索
+vector<QBasicVariableEntity> QBasicStringFunctions::find_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("s", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("search", VariableType::Str, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicStringFunctions::find_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	int answer = (int)arg[0].strValue.find(arg[1].strValue);
+	return QBasicVariableEntity("", VariableType::Int, &answer);
 }

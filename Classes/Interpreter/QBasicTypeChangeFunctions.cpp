@@ -76,7 +76,7 @@ QBasicVariableEntity QBasicTypeChangeFunctions::str2int_qb(QBasic *interpreter, 
 /// bool→int変換
 vector<QBasicVariableEntity> QBasicTypeChangeFunctions::bool2int_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("v", VariableType::Str, nullptr));
+	argNames.push_back(QBasicVariableEntity("v", VariableType::Bool, nullptr));
 	return argNames;
 }
 QBasicVariableEntity QBasicTypeChangeFunctions::bool2int_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
