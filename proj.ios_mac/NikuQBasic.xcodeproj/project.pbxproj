@@ -65,6 +65,9 @@
 		2FB064AF1EAA5F9500BC3C2E /* QBasicVariableBoolTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FB064AE1EAA5F9500BC3C2E /* QBasicVariableBoolTests.mm */; };
 		2FB4C2971E9BCCF700D283CF /* QBasicFunctionEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */; };
 		2FB4C29A1E9BDE7D00D283CF /* QBasicFuncTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FB4C2991E9BDE7D00D283CF /* QBasicFuncTests.mm */; };
+		2FC9FB2A1EE75A0D00D869AF /* QBasicCompile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9FB291EE75A0D00D869AF /* QBasicCompile.cpp */; };
+		2FC9FB2D1EE75B3200D869AF /* QBasicExec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */; };
+		2FC9FB301EE75B5400D869AF /* QBasicBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */; };
 		2FD4A9901E897435005E6C7A /* QBasicMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98F1E897435005E6C7A /* QBasicMessages.cpp */; };
 		2FD4A9941E8975FA005E6C7A /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD4A9961E8975FA005E6C7A /* Localize.strings */; };
 		2FF185541E23B81400F97DBC /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF185531E23B81400F97DBC /* libcocos2d iOS.a */; };
@@ -259,6 +262,12 @@
 		2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicFunctionEntity.cpp; path = Interpreter/QBasicFunctionEntity.cpp; sourceTree = "<group>"; };
 		2FB4C2981E9BCD1200D283CF /* QBasicFunctionEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicFunctionEntity.h; path = Interpreter/QBasicFunctionEntity.h; sourceTree = "<group>"; };
 		2FB4C2991E9BDE7D00D283CF /* QBasicFuncTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBasicFuncTests.mm; sourceTree = "<group>"; };
+		2FC9FB281EE75A0200D869AF /* QBasicCompile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicCompile.h; path = Interpreter/QBasicCompile.h; sourceTree = "<group>"; };
+		2FC9FB291EE75A0D00D869AF /* QBasicCompile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicCompile.cpp; path = Interpreter/QBasicCompile.cpp; sourceTree = "<group>"; };
+		2FC9FB2B1EE75B2400D869AF /* QBasicExec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicExec.h; path = Interpreter/QBasicExec.h; sourceTree = "<group>"; };
+		2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicExec.cpp; path = Interpreter/QBasicExec.cpp; sourceTree = "<group>"; };
+		2FC9FB2E1EE75B4800D869AF /* QBasicBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicBase.h; path = Interpreter/QBasicBase.h; sourceTree = "<group>"; };
+		2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicBase.cpp; path = Interpreter/QBasicBase.cpp; sourceTree = "<group>"; };
 		2FD4A98F1E897435005E6C7A /* QBasicMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicMessages.cpp; path = Interpreter/QBasicMessages.cpp; sourceTree = "<group>"; };
 		2FD4A9911E897440005E6C7A /* QBasicMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicMessages.h; path = Interpreter/QBasicMessages.h; sourceTree = "<group>"; };
 		2FD4A9951E8975FA005E6C7A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localize.strings; sourceTree = "<group>"; };
@@ -576,6 +585,12 @@
 			children = (
 				2FF1855A1E23C0B300F97DBC /* QBasic.cpp */,
 				2FF1855B1E23C0B300F97DBC /* QBasic.h */,
+				2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */,
+				2FC9FB2E1EE75B4800D869AF /* QBasicBase.h */,
+				2FC9FB291EE75A0D00D869AF /* QBasicCompile.cpp */,
+				2FC9FB281EE75A0200D869AF /* QBasicCompile.h */,
+				2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */,
+				2FC9FB2B1EE75B2400D869AF /* QBasicExec.h */,
 				2FF1855C1E23C0B300F97DBC /* QBasicStatements.cpp */,
 				2FF1855D1E23C0B300F97DBC /* QBasicStatements.h */,
 				2F3B9B241EB2952400BB7A96 /* QBasicFunctions.cpp */,
@@ -915,6 +930,7 @@
 				2F443C6A1E816F9800F027F7 /* QBasicStorageFunctions.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				2FA5D8891E7C73BB0044BB85 /* StringUtil.cpp in Sources */,
+				2FC9FB2A1EE75A0D00D869AF /* QBasicCompile.cpp in Sources */,
 				2F5CE4281E857E1200EF0D65 /* QBasicValidation.cpp in Sources */,
 				2F307A371E26515E003B6938 /* ProjectListScene.cpp in Sources */,
 				2F443C761E817D4A00F027F7 /* QBasicSoundFunctions.cpp in Sources */,
@@ -926,6 +942,7 @@
 				2F3B9B251EB2952400BB7A96 /* QBasicFunctions.cpp in Sources */,
 				2F443C731E817A6500F027F7 /* QBasicAlertFunctions.cpp in Sources */,
 				2FD4A9901E897435005E6C7A /* QBasicMessages.cpp in Sources */,
+				2FC9FB2D1EE75B3200D869AF /* QBasicExec.cpp in Sources */,
 				2F443C701E8178C900F027F7 /* QBasicDebugFunctions.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				2F3B56B91ECC8127008F4678 /* QBasicErrorEntity.cpp in Sources */,
@@ -949,6 +966,7 @@
 				2FF185621E23C0B300F97DBC /* QBasicStatementEntity.cpp in Sources */,
 				2FF185611E23C0B300F97DBC /* QBasicStatements.cpp in Sources */,
 				2FB4C2971E9BCCF700D283CF /* QBasicFunctionEntity.cpp in Sources */,
+				2FC9FB301EE75B5400D869AF /* QBasicBase.cpp in Sources */,
 				2F9149151EB8BFEA00210232 /* QBasicSymbols.cpp in Sources */,
 				2FF1856E1E23C47100F97DBC /* QBNetFetcher.cpp in Sources */,
 				2FF185831E23C47E00F97DBC /* QBSoundEffectManager.cpp in Sources */,

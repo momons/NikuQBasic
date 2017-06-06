@@ -46,6 +46,9 @@ public:
 	/// ローカル変数
 	unordered_map<string, QBasicVariableEntity> localVariables;
 
+	/// シンボル制御
+	QBasicSymbols *symbols;
+	
 	/// エラー群
 	QBasicErrors *errors;
 
@@ -100,9 +103,6 @@ private:
     
     /// 実行プログラムソース
     string source;
-	
-	/// シンボル制御
-	QBasicSymbols *symbols;
 	
 	/// runフラグ
 	bool isRun;
