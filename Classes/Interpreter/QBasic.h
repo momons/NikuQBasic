@@ -52,6 +52,19 @@ public:
 	/// エラー群
 	QBasicErrors *errors;
 
+	/// ステートメント群
+	QBasicStatements *statements;
+	/// ファンクション群
+	QBasicFunctions *functions;
+
+	/// ファンクション退避
+	vector<QBasicPushBackEntity> functionPushBacks;
+
+	/// for群
+	QBasicFors *fors;
+	/// if群
+	QBasicIfs *ifs;
+
 	/**
 	 *  コンストラクタ
 	 *  @param scene     シーン
@@ -116,22 +129,11 @@ private:
     /// プッシュバック用
     string pushBacked;
 	
-	/// ファンクション退避
-	vector<QBasicPushBackEntity> functionPushBacks;
-	
 	/// 最後にアクセスした関数名
 	string lastFunctionName;
 	/// returnがあったかどうか
 	bool hasReturnSymbol;
 
-    /// ステートメント群
-	QBasicStatements *statements;
-	/// ファンクション群
-	QBasicFunctions *functions;
-	/// for群
-	QBasicFors *fors;
-	/// if群
-	QBasicIfs *ifs;
 	/// コンパイルメッセージ群
 	QBasicMessages *messages;
 	
