@@ -31,6 +31,12 @@ QBasicCompile::QBasicCompile(QBasic *interpreter): QBasicBase(interpreter) {
 }
 
 /**
+ * デストラクタ
+ */
+QBasicCompile::~QBasicCompile() {
+}
+
+/**
  * 単語が一致しているかをチェック
  * @param str 比較文字列
  */

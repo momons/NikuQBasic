@@ -24,6 +24,12 @@ QBasicBase::QBasicBase(QBasic *interpreter) {
 }
 
 /**
+ * デストラクタ
+ */
+QBasicBase::~QBasicBase() {
+}
+
+/**
  * 単語を退避しておく
  * @param symbol 単語
  */

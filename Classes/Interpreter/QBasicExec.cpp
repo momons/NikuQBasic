@@ -33,6 +33,16 @@
  */
 QBasicExec::QBasicExec(QBasic *interpreter): QBasicBase(interpreter) {
 	isExit = false;
+	isBreak = false;
+	isContinue = false;
+	functionPushBacks.clear();
+}
+
+/**
+ * デストラクタ
+ */
+QBasicExec::~QBasicExec() {
+	
 }
 
 /**
@@ -462,7 +472,7 @@ QBasicVariableEntity QBasicExec::executeFunction(const bool run, const string &f
 	
 	// ローカル変数に行数とプッシュバック変数を退避
 	auto pushBackEntity = QBasicPushBackEntity(lastFunctionName, pushBacked, interpreter->symbols->offset(), interpreter->localVariables);
-	interpreter->functionPushBacks.push_back(pushBackEntity);
+	functionPushBacks.push_back(pushBackEntity);
 	
 	// 実行オフセットを設定
 	lastFunctionName = entity->alias;
@@ -500,18 +510,18 @@ QBasicVariableEntity QBasicExec::executeFunction(const bool run, const string &f
  */
 bool QBasicExec::executeFunctionEnd(const bool run) {
 	// 関数内ではない
-	if (interpreter->functionPushBacks.size() <= 0) {
+	if (functionPushBacks.size() <= 0) {
 		return false;
 	}
 	// 退避していたものを戻す
-	QBasicPushBackEntity entity = *(interpreter->functionPushBacks.end() - 1);
+	QBasicPushBackEntity entity = *(functionPushBacks.end() - 1);
 	lastFunctionName = entity.name;
 	pushBacked = entity.symbol;
 	interpreter->symbols->jumpOffset(entity.execOffset);
 	interpreter->localVariables.clear();
 	interpreter->localVariables = entity.localVariables;
 	// 削除
-	interpreter->functionPushBacks.pop_back();
+	functionPushBacks.pop_back();
 	return true;
 }
 

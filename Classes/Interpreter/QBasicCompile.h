@@ -24,8 +24,15 @@ public:
 	/**
 	 * デストラクタ
 	 */
-	~QBasicCompile() {}
+	~QBasicCompile();
 
+	/**
+	 * 戻り値なし実行
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool statement(const bool run) override;
+	
 private:
 
 	/**
@@ -68,13 +75,6 @@ private:
 	 * @return 値
 	 */
 	QBasicVariableEntity factor(const bool run) override;
-	
-	/**
-	 * 戻り値なし実行
-	 * @param run 実行中フラグ
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	bool statement(const bool run) override;
 	
 	/**
 	 * dict型の取得

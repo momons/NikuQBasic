@@ -31,8 +31,15 @@ public:
 	/**
 	 * デストラクタ
 	 */
-	~QBasicBase() {}
+	~QBasicBase();
 
+	/**
+	 * 戻り値なし実行
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	virtual bool statement(const bool run) = 0;
+	
 protected:
 	
 	/// 大元クラス
@@ -97,13 +104,6 @@ protected:
 	 * @return 値
 	 */
 	virtual QBasicVariableEntity factor(const bool run) = 0;
-
-	/**
-	 * 戻り値なし実行
-	 * @param run 実行中フラグ
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	virtual bool statement(const bool run) = 0;
 
 	/**
 	 * list型の取得

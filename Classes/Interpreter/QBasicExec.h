@@ -11,6 +11,8 @@
 
 #include "QBasicBase.h"
 
+class QBasicPushBackEntity;
+
 /// インタプリタメイン 実行用
 class QBasicExec final: public QBasicBase {
 public:
@@ -24,8 +26,15 @@ public:
 	/**
 	 * デストラクタ
 	 */
-	~QBasicExec() {}
+	~QBasicExec();
 
+	/**
+	 * 戻り値なし実行
+	 * @param run 実行中フラグ
+	 * @return 終了フラグ false:終了 true:進行
+	 */
+	bool statement(const bool run) override;
+	
 private:
 	
 	/// 終了フラグ
@@ -34,6 +43,9 @@ private:
 	bool isBreak;
 	/// continueフラグ
 	bool isContinue;
+
+	/// ファンクション退避
+	vector<QBasicPushBackEntity> functionPushBacks;
 
 	/**
 	 * 単語が一致しているかをチェック
@@ -75,13 +87,6 @@ private:
 	 * @return 値
 	 */
 	QBasicVariableEntity factor(const bool run) override;
-	
-	/**
-	 * 戻り値なし実行
-	 * @param run 実行中フラグ
-	 * @return 終了フラグ false:終了 true:進行
-	 */
-	bool statement(const bool run) override;
 	
 	/**
 	 * dict型の取得
