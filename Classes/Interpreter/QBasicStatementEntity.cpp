@@ -21,7 +21,8 @@ QBasicStatementEntity::QBasicStatementEntity() {
 	argNames.clear();
 	returnType = VariableType::Void;
 	returnSubTypes.clear();
-	func = nullptr;
+	execFunc = nullptr;
+	compileFunc = nullptr;
 }
 
 /**
@@ -29,18 +30,21 @@ QBasicStatementEntity::QBasicStatementEntity() {
  * @param name           ステートメント名
  * @param argTypes       引数変数タイプ
  * @param returnType     戻り値
- * @param func		 	実行ファンクション
+ * @param execFunc		 実行ファンクション
+ * @param compileFunc    コンパイルファンクション
  */
 QBasicStatementEntity::QBasicStatementEntity(
 											 const string &name,
 											 const vector<QBasicVariableEntity> &argNames,
 											 const VariableType returnType,
-											 const statmentFunction &func) {
+											 const statmentFunction &execFunc,
+											 const compileFunction &compileFunc) {
 	// 初期値設定
 	this->name = name;
 	this->argNames = argNames;
 	this->returnType = returnType;
-	this->func = func;
+	this->execFunc = execFunc;
+	this->compileFunc = compileFunc;
 	configureAlias();
 }
 
@@ -50,20 +54,23 @@ QBasicStatementEntity::QBasicStatementEntity(
  * @param argTypes       引数変数タイプ
  * @param returnType     戻り値
  * @param returnSubTypes 戻り値サブタイプ
- * @param func		 	実行ファンクション
+ * @param execFunc       実行ファンクション
+ * @param compileFunc    コンパイルファンクション
  */
 QBasicStatementEntity::QBasicStatementEntity(
 											 const string &name,
 											 const vector<QBasicVariableEntity> &argNames,
 											 const VariableType returnType,
 											 const vector<VariableType> &returnSubTypes,
-											 const statmentFunction &func) {
+											 const statmentFunction &execFunc,
+											 const compileFunction &compileFunc) {
 	// 初期値設定
 	this->name = name;
 	this->argNames = argNames;
 	this->returnType = returnType;
 	this->returnSubTypes = returnSubTypes;
-	this->func = func;
+	this->execFunc = execFunc;
+	this->compileFunc = compileFunc;
 	configureAlias();
 }
 

@@ -260,29 +260,37 @@ void QBasicVariableEntity::set(const QBasicVariableEntity &entity) {
 		isNil = true;
 		return;
 	}
-	switch (type) {
+	switch (entity.type) {
 		case VariableType::Int:
 			intValue = entity.intValue;
+			type = entity.type;
 			isNil = false;
 			break;
 		case VariableType::Float:
 			floatValue = entity.floatValue;
+			type = entity.type;
 			isNil = false;
 			break;
 		case VariableType::Str:
 			strValue = entity.strValue;
+			type = entity.type;
 			isNil = false;
 			break;
 		case VariableType::Bool:
 			boolValue = entity.boolValue;
+			type = entity.type;
 			isNil = false;
 			break;
 		case VariableType::List:
 			listValue = entity.listValue;
+			type = entity.type;
+			valueTypes = entity.valueTypes;
 			isNil = false;
 			break;
 		case VariableType::Dict:
 			dictValue = entity.dictValue;
+			type = entity.type;
+			valueTypes = entity.valueTypes;
 			isNil = false;
 			break;
 		default:
@@ -658,17 +666,17 @@ QBasicVariableEntity QBasicVariableEntity::toInt() {
 		return returnEntity;
 	}
 	switch (type) {
+		case VariableType::Int:
+			returnEntity.set(intValue);
+			break;
 		case VariableType::Float:
-			returnEntity.intValue = !boolValue;
-			returnEntity.isNil = false;
+			returnEntity.set((int)floatValue);
 			break;
 		case VariableType::Str:
-			returnEntity.intValue = atoi(strValue.c_str());
-			returnEntity.isNil = false;
+			returnEntity.set(atoi(strValue.c_str()));
 			break;
 		case VariableType::Bool:
-			returnEntity.intValue = boolValue ? 1 : 0;
-			returnEntity.isNil = false;
+			returnEntity.set((int)(boolValue ? 1 : 0));
 			break;
 		default:
 			// 上位でチェックしているのでエラーは不要
@@ -690,16 +698,13 @@ QBasicVariableEntity QBasicVariableEntity::toFloat() {
 	}
 	switch (type) {
 		case VariableType::Int:
-			returnEntity.floatValue = (double)intValue;
-			returnEntity.isNil = false;
+			returnEntity.set((double)intValue);
 			break;
 		case VariableType::Str:
-			returnEntity.floatValue = atof(strValue.c_str());
-			returnEntity.isNil = false;
+			returnEntity.set(atof(strValue.c_str()));
 			break;
 		case VariableType::Bool:
-			returnEntity.floatValue = boolValue ? 1 : 0;
-			returnEntity.isNil = false;
+			returnEntity.set((double)(boolValue ? 1 : 0));
 			break;
 		default:
 			break;
@@ -720,16 +725,13 @@ QBasicVariableEntity QBasicVariableEntity::toStr() {
 	}
 	switch (type) {
 		case VariableType::Int:
-			returnEntity.strValue = StringUtil::toString((double)intValue);
-			returnEntity.isNil = false;
+			returnEntity.set(StringUtil::toString((double)intValue));
 			break;
 		case VariableType::Float:
-			returnEntity.strValue = StringUtil::toString(floatValue);
-			returnEntity.isNil = false;
+			returnEntity.set(StringUtil::toString(floatValue));
 			break;
 		case VariableType::Bool:
-			returnEntity.strValue = boolValue ? "true" : "false";
-			returnEntity.isNil = false;
+			returnEntity.set((string)(boolValue ? "true" : "false"));
 			break;
 		default:
 			break;
@@ -750,16 +752,13 @@ QBasicVariableEntity QBasicVariableEntity::toBool() {
 	}
 	switch (type) {
 		case VariableType::Int:
-			returnEntity.boolValue = intValue != 0;
-			returnEntity.isNil = false;
+			returnEntity.set((bool)(intValue != 0));
 			break;
 		case VariableType::Str:
-			returnEntity.boolValue = strValue.compare("true") == 0;
-			returnEntity.isNil = false;
+			returnEntity.set((bool)(strValue == "true"));
 			break;
 		case VariableType::Float:
-			returnEntity.boolValue = floatValue != 0;
-			returnEntity.isNil = false;
+			returnEntity.set((bool)(floatValue != 0));
 			break;
 		default:
 			break;

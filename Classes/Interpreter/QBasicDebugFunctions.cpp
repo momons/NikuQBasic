@@ -26,11 +26,11 @@ unordered_map<string, QBasicStatementEntity> QBasicDebugFunctions::buildStatemen
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-	entity = QBasicStatementEntity("wait", wait_params(), VariableType::Void, wait_qb);
+	entity = QBasicStatementEntity("wait", wait_params(), VariableType::Void, wait_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("print", print_params(), VariableType::Void, print_qb);
+	entity = QBasicStatementEntity("print", print_params(), VariableType::Void, print_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("error", error_params(), VariableType::Void, error_qb);
+	entity = QBasicStatementEntity("error", error_params(), VariableType::Void, error_qb, nullptr);
 	statementList[entity.alias] = entity;
 	
 	return statementList;

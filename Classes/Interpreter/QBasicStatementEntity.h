@@ -15,8 +15,11 @@ class QBasic;
 class QBasicVariableEntity;
 enum class VariableType;
 
-/** ステートメント */
-typedef function <QBasicVariableEntity (QBasic *, const vector<QBasicVariableEntity>&)> statmentFunction;
+/// 実行ステートメント
+typedef function <QBasicVariableEntity (QBasic *, vector<QBasicVariableEntity>&)> statmentFunction;
+
+/// コンパイルステートメント
+typedef function <void (QBasic *, vector<QBasicVariableEntity>&, int)> compileFunction;
 
 /**
  * ステートメントEntity
@@ -40,8 +43,10 @@ public:
 	vector<VariableType> returnSubTypes;
 	
 	/// 実行ファンクション
-	statmentFunction func;
-    
+	statmentFunction execFunc;
+	/// コンパイルファンクション
+	compileFunction compileFunc;
+	
     /**
      * コンストラクタ
      */
@@ -52,13 +57,15 @@ public:
 	 * @param name           ステートメント名
 	 * @param argNames       引数変数タイプ
 	 * @param returnType     戻り値タイプ
-	 * @param func			 実行ファンクション
+	 * @param execFunc		 実行ファンクション
+	 * @param compileFunc    コンパイルファンクション
 	 */
 	QBasicStatementEntity(
 						  const string &name,
 						  const vector<QBasicVariableEntity> &argNames,
 						  const VariableType returnType,
-						  const statmentFunction &func);
+						  const statmentFunction &exeFunc,
+						  const compileFunction &compileFunc);
 	
 	/**
 	 * コンストラクタ
@@ -66,14 +73,16 @@ public:
 	 * @param argTypes       引数変数タイプ
 	 * @param returnType     戻り値タイプ
 	 * @param returnSubTypes 戻り値サブタイプ
-	 * @param func			 実行ファンクション
+	 * @param execFunc		 実行ファンクション
+	 * @param compileFunc    コンパイルファンクション
 	 */
 	QBasicStatementEntity(
 						  const string &name,
 						  const vector<QBasicVariableEntity> &argNames,
 						  const VariableType returnType,
 						  const vector<VariableType> &returnSubTypes,
-						  const statmentFunction &func);
+						  const statmentFunction &exeFunc,
+						  const compileFunction &compileFunc);
 	
     /**
      * デストラクタ

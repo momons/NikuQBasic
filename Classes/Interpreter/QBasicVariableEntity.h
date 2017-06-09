@@ -355,7 +355,6 @@ private:
 	 *  @param name  変数名
 	 *  @param type  変数タイプ
 	 *  @param value 値のポインタ
-	 *  @return 文字列
 	 */
 	void configureEntity(const string &name, const VariableType type, void *value);
 	

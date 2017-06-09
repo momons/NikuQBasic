@@ -32,42 +32,22 @@ public:
 	 *  @param arg         引数
 	 *  @return 戻り値
 	 */
-	/// float→int変換
-	static inline vector<QBasicVariableEntity> float2int_params();
-	static inline QBasicVariableEntity float2int_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// str→int変換
-	static inline vector<QBasicVariableEntity> str2int_params();
-	static inline QBasicVariableEntity str2int_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// bool→int変換
-	static inline vector<QBasicVariableEntity> bool2int_params();
-	static inline QBasicVariableEntity bool2int_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// int→float変換
-	static inline vector<QBasicVariableEntity> int2float_params();
-	static inline QBasicVariableEntity int2float_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// str→float変換
-	static inline vector<QBasicVariableEntity> str2float_params();
-	static inline QBasicVariableEntity str2float_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// bool→float変換
-	static inline vector<QBasicVariableEntity> bool2float_params();
-	static inline QBasicVariableEntity bool2float_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// int→str変換
-	static inline vector<QBasicVariableEntity> int2str_params();
-	static inline QBasicVariableEntity int2str_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// float→str変換
-	static inline vector<QBasicVariableEntity> float2str_params();
-	static inline QBasicVariableEntity float2str_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// bool→str変換
-	static inline vector<QBasicVariableEntity> bool2str_params();
-	static inline QBasicVariableEntity bool2str_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// int→bool変換
-	static inline vector<QBasicVariableEntity> int2bool_params();
-	static inline QBasicVariableEntity int2bool_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// float→bool変換
-	static inline vector<QBasicVariableEntity> float2bool_params();
-	static inline QBasicVariableEntity float2bool_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// str→bool変換
-	static inline vector<QBasicVariableEntity> str2bool_params();
-	static inline QBasicVariableEntity str2bool_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// int変換
+	static inline vector<QBasicVariableEntity> toInt_params();
+	static inline QBasicVariableEntity toInt_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
+	static inline void toInt_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset);
+	/// float変換
+	static inline vector<QBasicVariableEntity> toFloat_params();
+	static inline QBasicVariableEntity toFloat_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
+	static inline void toFloat_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset);
+	/// str変換
+	static inline vector<QBasicVariableEntity> toStr_params();
+	static inline QBasicVariableEntity toStr_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
+	static inline void toStr_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset);
+	/// bool変換
+	static inline vector<QBasicVariableEntity> toBool_params();
+	static inline QBasicVariableEntity toBool_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
+	static inline void toBool_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset);
 	
 };
 

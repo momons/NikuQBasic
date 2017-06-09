@@ -11,6 +11,18 @@
 
 using namespace std;
 
+/// シンボルタイプ
+enum class symbolType {
+	Plus,
+	Comment,
+	Int,
+	Float,
+	Str,
+	Bool,
+	Other,
+};
+
+
 /**
  * シンボルEntity
  */
