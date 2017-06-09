@@ -451,7 +451,7 @@ QBasicVariableEntity QBasicExec::executeStatement(const bool run, const string &
 	
 	auto entity = interpreter->statements->getStatement(functionName, argList);
 	
-	return entity->func(interpreter, argList);
+	return entity->execFunc(interpreter, argList);
 }
 
 /**

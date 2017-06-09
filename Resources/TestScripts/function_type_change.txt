@@ -1,49 +1,49 @@
 # test0 float2int
-var a = float2int(1.0)
-var b = float2int(2.5)
+var a = toInt(1.0)
+var b = toInt(2.5)
 ========================
 # test1 str2int
-var a = str2int("10")
-var b = str2int("a")
+var a = toInt("10")
+var b = toInt("a")
 ========================
 # test2 bool2int
-var a = bool2int(true)
-var b = bool2int(false)
+var a = toInt(true)
+var b = toInt(false)
 ========================
 # test3 int2float
-var a = int2float(10)
-var b = int2float(5)
+var a = toFloat(10)
+var b = toFloat(5)
 ========================
 # test4 str2float
-var a = str2float("10")
-var b = str2float("a")
+var a = toFloat("10")
+var b = toFloat("a")
 ========================
 # test5 bool2float
-var a = bool2float(true)
-var b = bool2float(false)
+var a = toFloat(true)
+var b = toFloat(false)
 ========================
 # test6 int2str
-var a = int2str(10)
-var b = int2str(20)
+var a = toStr(10)
+var b = toStr(20)
 ========================
 # test7 float2str
-var a = float2str(10.5)
-var b = float2str(20.4)
+var a = toStr(10.5)
+var b = toStr(20.4)
 ========================
 # test8 bool2str
-var a = bool2str(true)
-var b = bool2str(false)
+var a = toStr(true)
+var b = toStr(false)
 ========================
 # test9 int2bool
-var a = int2bool(10)
-var b = int2bool(0)
+var a = toBool(10)
+var b = toBool(0)
 ========================
 # test10 float2bool
-var a = float2bool(10.0)
-var b = float2bool(0.0)
+var a = toBool(10.0)
+var b = toBool(0.0)
 ========================
 # test11 str2bool
-var a = str2bool("true")
-var b = str2bool("false")
-var c = str2bool("a")
+var a = toBool("true")
+var b = toBool("false")
+var c = toBool("a")
 ========================

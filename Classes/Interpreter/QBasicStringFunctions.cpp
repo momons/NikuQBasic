@@ -25,27 +25,27 @@ unordered_map<string, QBasicStatementEntity> QBasicStringFunctions::buildStateme
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 
-	entity = QBasicStatementEntity("len", len_params(), VariableType::Int, len_qb);
+	entity = QBasicStatementEntity("len", len_params(), VariableType::Int, len_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("mid", mid_params(), VariableType::Str, mid_qb);
+	entity = QBasicStatementEntity("mid", mid_params(), VariableType::Str, mid_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("left", left_params(), VariableType::Str, left_qb);
+	entity = QBasicStatementEntity("left", left_params(), VariableType::Str, left_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("right", right_params(), VariableType::Str, right_qb);
+	entity = QBasicStatementEntity("right", right_params(), VariableType::Str, right_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("split", split_params(), VariableType::List, {VariableType::Str}, split_qb);
+	entity = QBasicStatementEntity("split", split_params(), VariableType::List, {VariableType::Str}, split_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("empty", empty_params(), VariableType::Bool, empty_qb);
+	entity = QBasicStatementEntity("empty", empty_params(), VariableType::Bool, empty_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("notEmpty", notEmpty_params(), VariableType::Bool, notEmpty_qb);
+	entity = QBasicStatementEntity("notEmpty", notEmpty_params(), VariableType::Bool, notEmpty_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("replase", replase_params(), VariableType::Str, replase_qb);
+	entity = QBasicStatementEntity("replase", replase_params(), VariableType::Str, replase_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("prefix", prefix_params(), VariableType::Bool, prefix_qb);
+	entity = QBasicStatementEntity("prefix", prefix_params(), VariableType::Bool, prefix_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("suffix", suffix_params(), VariableType::Bool, suffix_qb);
+	entity = QBasicStatementEntity("suffix", suffix_params(), VariableType::Bool, suffix_qb, nullptr);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("find", find_params(), VariableType::Int, find_qb);
+	entity = QBasicStatementEntity("find", find_params(), VariableType::Int, find_qb, nullptr);
 	statementList[entity.alias] = entity;
 
 	return statementList;

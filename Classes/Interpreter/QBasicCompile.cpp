@@ -504,6 +504,12 @@ QBasicVariableEntity QBasicCompile::executeStatement(const bool run, const strin
 		interpreter->errors->addError(offset, ErrorType::ReturnTypeVoid, entity->alias);
 		return QBasicVariableEntity();
 	}
+	
+	// コンパイルファンクションが定義されていたらそちらを実行。
+	if (entity->compileFunc != nullptr) {
+		entity->compileFunc(interpreter, argList, offset);
+	}
+	
 	return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
 }
 
