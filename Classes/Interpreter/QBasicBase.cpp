@@ -85,6 +85,7 @@ QBasicVariableEntity QBasicBase::listValue(const bool run) {
 		returnValue.listValue.push_back(value);
 		count += 1;
 	}
+	returnValue.isNil = false;
 	return returnValue;
 }
 

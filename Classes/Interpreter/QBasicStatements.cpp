@@ -16,6 +16,7 @@
 #include "QBasicSubFunction.h"
 #include "QBasicVariableEntity.h"
 #include "QBasicTypeChangeFunctions.h"
+#include "QBasicTypeIsFunctions.h"
 #include "QBasicMathFunctions.h"
 #include "QBasicStringFunctions.h"
 #include "QBasicDrawFunctions.h"
@@ -95,6 +96,13 @@ void QBasicStatements::buildStatements() {
 	//===== 型変換
 	statements.clear();
 	statements = QBasicTypeChangeFunctions::buildStatements();
+	for (auto it = statements.begin();it != statements.end();it++) {
+		this->statements[it->first] = it->second;
+	}
+
+	//===== 型判別
+	statements.clear();
+	statements = QBasicTypeIsFunctions::buildStatements();
 	for (auto it = statements.begin();it != statements.end();it++) {
 		this->statements[it->first] = it->second;
 	}

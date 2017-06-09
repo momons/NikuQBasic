@@ -1,0 +1,126 @@
+# test0 intをisInt
+var a = isInt(100)
+========================
+# test1 floatをisInt
+var a = isInt(100.0)
+========================
+# test2 strをisInt
+var a = isInt("a")
+========================
+# test3 boolをisInt
+var a = isInt(false)
+========================
+# test4 listをisInt
+var a = isInt([1,2,3])
+========================
+# test5 dictをisInt
+var a = isInt({"a":1,"b":2,"c":3})
+========================
+# test6 nilをisInt
+var a = isInt(nil)
+========================
+# test7 intをisFloat
+var a = isFloat(100)
+========================
+# test8 floatをisFloat
+var a = isFloat(100.0)
+========================
+# test9 strをisFloat
+var a = isFloat("a")
+========================
+# test10 boolをisFloat
+var a = isFloat(false)
+========================
+# test11 listをisFloat
+var a = isFloat([1,2,3])
+========================
+# test12 dictをisFloat
+var a = isFloat({"a":1,"b":2,"c":3})
+========================
+# test13 nilをisFloat
+var a = isFloat(nil)
+========================
+# test14 intをisStr
+var a = isStr(100)
+========================
+# test15 floatをisStr
+var a = isStr(100.0)
+========================
+# test16 strをisStr
+var a = isStr("a")
+========================
+# test17 boolをisStr
+var a = isStr(false)
+========================
+# test18 listをisStr
+var a = isStr([1,2,3])
+========================
+# test19 dictをisStr
+var a = isStr({"a":1,"b":2,"c":3})
+========================
+# test20 nilをisStr
+var a = isStr(nil)
+========================
+# test21 intをisBool
+var a = isBool(100)
+========================
+# test22 floatをisBool
+var a = isBool(100.0)
+========================
+# test23 strをisBool
+var a = isBool("a")
+========================
+# test24 boolをisBool
+var a = isBool(false)
+========================
+# test25 listをisBool
+var a = isBool([1,2,3])
+========================
+# test26 dictをisBool
+var a = isBool({"a":1,"b":2,"c":3})
+========================
+# test27 nilをisBool
+var a = isBool(nil)
+========================
+# test28 intをisList
+var a = isList(100)
+========================
+# test29 floatをisList
+var a = isList(100.0)
+========================
+# test30 strをisList
+var a = isList("a")
+========================
+# test31 boolをisList
+var a = isList(false)
+========================
+# test32 listをisList
+var a = isList([1,2,3])
+========================
+# test33 dictをisList
+var a = isList({"a":1,"b":2,"c":3})
+========================
+# test34 nilをisList
+var a = isList(nil)
+========================
+# test35 intをisDict
+var a = isDict(100)
+========================
+# test36 floatをisDict
+var a = isDict(100.0)
+========================
+# test37 strをisDict
+var a = isDict("a")
+========================
+# test38 boolをisDict
+var a = isDict(false)
+========================
+# test39 listをisDict
+var a = isDict([1,2,3])
+========================
+# test40 dictをisDict
+var a = isDict({"a":1,"b":2,"c":3})
+========================
+# test41 nilをisDict
+var a = isDict(nil)
+========================
