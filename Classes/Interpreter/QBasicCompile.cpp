@@ -412,6 +412,7 @@ QBasicVariableEntity QBasicCompile::dictValue(const bool run) {
 		returnValue.dictValue[keyValue.strValue] = value;
 		count += 1;
 	}
+	returnValue.isNil = false;
 	return returnValue;
 }
 
