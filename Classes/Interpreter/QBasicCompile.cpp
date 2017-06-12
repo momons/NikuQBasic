@@ -66,7 +66,7 @@ QBasicVariableEntity QBasicCompile::expression(const bool run) {
 			
 			auto valueDist = relop(run);
 			if (!QBasicValidation::isValidExpression(value, valueDist)) {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 			value = QBasicVariableEntity("", "true");
 			
@@ -103,7 +103,7 @@ QBasicVariableEntity QBasicCompile::relop(const bool run) {
 			
 			auto valueDist = addsub(run);
 			if (!QBasicValidation::isValidVariableType(value, valueDist)) {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 			value.set(true);
 		} else {
@@ -159,7 +159,7 @@ QBasicVariableEntity QBasicCompile::addsub(const bool run) {
 			if (QBasicValidation::isValidAdd(value, valueDist)) {
 				value = value + valueDist;
 			} else {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 		} else if(sym == "-") {
 			int offset = interpreter->symbols->offset();
@@ -167,7 +167,7 @@ QBasicVariableEntity QBasicCompile::addsub(const bool run) {
 			if (QBasicValidation::isValidSub(value, valueDist)) {
 				value = value - valueDist;
 			} else {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 		} else {
 			break;
@@ -197,7 +197,7 @@ QBasicVariableEntity QBasicCompile::muldiv(const bool run) {
 			if (QBasicValidation::isValidMul(value, valueDist)) {
 				value = value * valueDist;
 			} else {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 		} else if (sym == "/") {
 			int offset = interpreter->symbols->offset();
@@ -205,7 +205,7 @@ QBasicVariableEntity QBasicCompile::muldiv(const bool run) {
 			if (QBasicValidation::isValidDiv(value, valueDist)) {
 				value = value / valueDist;
 			} else {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 		} else if (sym == "%") {
 			int offset = interpreter->symbols->offset();
@@ -213,7 +213,7 @@ QBasicVariableEntity QBasicCompile::muldiv(const bool run) {
 			if (QBasicValidation::isValidMod(value, valueDist)) {
 				value = value % valueDist;
 			} else {
-				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value, valueDist));
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 		} else {
 			break;
@@ -386,7 +386,7 @@ QBasicVariableEntity QBasicCompile::dictValue(const bool run) {
 	int count = 0;
 	while (true) {
 		auto sym = getSymbol();
-		if (sym == "}") {
+		if (sym == "}" || sym.empty()) {
 			break;
 		}
 		interpreter->symbols->popBack();
@@ -413,6 +413,7 @@ QBasicVariableEntity QBasicCompile::dictValue(const bool run) {
 		count += 1;
 	}
 	returnValue.isNil = false;
+	returnValue.types = QBasicVariableEntity::getVariableTypes(returnValue);
 	return returnValue;
 }
 
@@ -433,7 +434,7 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 		// グローバル
 		parentVariable = &interpreter->variables[name];
 	}
-	int count = 0;
+	int count = 1;
 	QBasicVariableEntity *variable = parentVariable;
 	while (true) {
 		if (variable->types[0] != VariableType::List &&
@@ -444,6 +445,9 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 		auto sym = getSymbol();
 		if (sym != "[") {
 			interpreter->symbols->popBack();
+			break;
+		}
+		if (sym.empty()) {
 			break;
 		}
 		
@@ -467,10 +471,10 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Str}, keyValue));
 				return nullptr;
 			}
-			if (variable->listValue.size() <= 0) {
+			if (variable->dictValue.size() <= 0) {
 				variable->dictValue[""] = QBasicVariableEntity("", { parentVariable->types[count] }, nullptr);
 			}
-			variable = &variable->dictValue[""];
+			variable = &variable->dictValue.begin()->second;
 			count += 1;
 		}
 	}
@@ -621,11 +625,9 @@ bool QBasicCompile::analysisVar(const bool run) {
 		int offset = interpreter->symbols->offset();
 		sym = getSymbol();
 		variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
-		if (!run) {
-			if (variableTypes[0] == VariableType::Void ||
-				variableTypes[0] == VariableType::Unknown) {
-				interpreter->errors->addError(offset, ErrorType::UnknownSymbol, sym);
-			}
+		if (variableTypes[0] == VariableType::Void ||
+			variableTypes[0] == VariableType::Unknown) {
+			interpreter->errors->addError(offset, ErrorType::UnknownSymbol, sym);
 		}
 		if (variableTypes[0] == VariableType::List ||
 			variableTypes[0] == VariableType::Dict ) {
@@ -707,7 +709,7 @@ bool QBasicCompile::analysisVarListDict(const bool run, const string &variableNa
 			break;
 		}
 	}
-	for (auto i = 0;i < valueVariableTypes.size();i++) {
+	for (auto i = 0;i < valueVariableTypes.size() - 1;i++) {
 		match(">");
 	}
 	return true;
@@ -1008,8 +1010,6 @@ bool QBasicCompile::analysisArguments(const bool run, vector<QBasicVariableEntit
 			}
 			variableEntity = value;
 			variableEntity.name = variableName;
-			variableEntity.types = variableTypes;
-			variableEntity.isNil = false;
 		}
 		
 		argNames.push_back(variableEntity);

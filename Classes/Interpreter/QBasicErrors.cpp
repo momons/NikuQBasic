@@ -109,14 +109,14 @@ string QBasicErrors::buildMissingFound(const string &trueSymbol, const string &f
 
 /**
  *  エラータイプBadVariableTypeのメッセージ作成
- *  @param trueVariable  正しいタイプ
- *  @param falseVariable 間違ったタイプ
+ *  @param trueTypes  正しいタイプ
+ *  @param falseTypes 間違ったタイプ
  *  @return メッセージ
  */
-string QBasicErrors::buildBadVariableType(const QBasicVariableEntity &trueVariable, const QBasicVariableEntity &falseVariable) {
+string QBasicErrors::buildBadVariableType(const vector<VariableType> &trueTypes, const vector<VariableType> &falseTypes) {
 	ostringstream stream;
-	stream << "o:'" << QBasicVariableEntity::toString(trueVariable.types) << "' ";
-	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.types) << "'";
+	stream << "o:'" << QBasicVariableEntity::toString(trueTypes) << "' ";
+	stream << "x:'" << QBasicVariableEntity::toString(falseTypes) << "'";
 	return stream.str();
 }
 

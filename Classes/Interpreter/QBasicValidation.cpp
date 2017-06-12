@@ -299,7 +299,7 @@ bool QBasicValidation::isValidVariableTypeList(
 			if (!isValidVariableTypeList(*it, variableTypes, level + 1)) {
 				return false;
 			}
-		} else if (it->types[level] == VariableType::Dict ) {
+		} else if (it->types[0] == VariableType::Dict ) {
 			if (!isValidVariableTypeDict(*it, variableTypes, level + 1)) {
 				return false;
 			}
@@ -320,14 +320,14 @@ bool QBasicValidation::isValidVariableTypeDict(
 										   const vector<VariableType> &variableTypes,
 										   const int level) {
 	for (auto it = variableEntity.dictValue.begin();it != variableEntity.dictValue.end();it++) {
-		if (variableTypes[level] != it->second.types[level]) {
+		if (variableTypes[level] != it->second.types[0]) {
 			return false;
 		}
-		if (it->second.types[level] == VariableType::List) {
+		if (it->second.types[0] == VariableType::List) {
 			if (!isValidVariableTypeList(it->second, variableTypes, level + 1)) {
 				return false;
 			}
-		} else if (it->second.types[level] == VariableType::Dict ) {
+		} else if (it->second.types[0] == VariableType::Dict) {
 			if (!isValidVariableTypeDict(it->second, variableTypes, level + 1)) {
 				return false;
 			}

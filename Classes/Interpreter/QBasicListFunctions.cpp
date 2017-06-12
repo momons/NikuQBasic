@@ -81,7 +81,7 @@ QBasicVariableEntity QBasicListFunctions::append_qb(QBasic *interpreter, const v
 }
 void QBasicListFunctions::append_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset) {
 	if (!QBasicValidation::isValidVariableTypeList(arg[1], arg[0].types, 0)) {
-		interpreter->errors->addError(symbolOffset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({arg[0]}, arg[1]));
+		interpreter->errors->addError(symbolOffset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(arg[0].types, arg[1].types));
 	}
 }
 

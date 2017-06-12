@@ -90,11 +90,11 @@ public:
 
 	/**
 	 *  エラータイプBadVariableTypeのメッセージ作成
-	 *  @param trueVariable  正しいタイプ
-	 *  @param falseVariable 間違ったタイプ
+	 *  @param trueTypes  正しいタイプ
+	 *  @param falseTypes 間違ったタイプ
 	 *  @return メッセージ
 	 */
-	static string buildBadVariableType(const QBasicVariableEntity &trueVariable, const QBasicVariableEntity &falseVariable);
+	static string buildBadVariableType(const vector<VariableType> &trueTypes, const vector<VariableType> &falseTypes);
 
 	/**
 	 *  エラータイプBadVariableTypeのメッセージ作成

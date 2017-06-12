@@ -110,7 +110,7 @@ QBasicVariableEntity QBasicStringFunctions::split_qb(QBasic *interpreter, const 
 		string str = *it;
 		values.push_back(QBasicVariableEntity("", { VariableType::Str }, &str));
 	}
-	return QBasicVariableEntity("", {VariableType::List, VariableType::Str}, values);
+	return QBasicVariableEntity("", {VariableType::List, VariableType::Str}, &values);
 }
 // Empty
 vector<QBasicVariableEntity> QBasicStringFunctions::empty_params() {

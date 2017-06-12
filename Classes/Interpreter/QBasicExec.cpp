@@ -358,7 +358,7 @@ QBasicVariableEntity QBasicExec::dictValue(const bool run) {
 	int count = 0;
 	while (true) {
 		auto sym = getSymbol();
-		if (sym == "}") {
+		if (sym == "}" || sym.empty()) {
 			break;
 		}
 		interpreter->symbols->popBack();
@@ -381,6 +381,7 @@ QBasicVariableEntity QBasicExec::dictValue(const bool run) {
 		count += 1;
 	}
 	returnValue.isNil = false;
+	returnValue.types = QBasicVariableEntity::getVariableTypes(returnValue);
 	return returnValue;
 }
 
@@ -411,6 +412,9 @@ QBasicVariableEntity *QBasicExec::getVariable(const bool run, const string &name
 		auto sym = getSymbol();
 		if (sym != "[") {
 			interpreter->symbols->popBack();
+			break;
+		}
+		if (sym.empty()) {
 			break;
 		}
 		
@@ -643,7 +647,7 @@ bool QBasicExec::analysisVarListDict(const bool run, const string &variableName,
 			break;
 		}
 	}
-	for (auto i = 0;i < valueVariableTypes.size();i++) {
+	for (auto i = 0;i < valueVariableTypes.size() - 1;i++) {
 		match(">");
 	}
 	return true;
@@ -869,7 +873,7 @@ bool QBasicExec::analysisArguments(const bool run, vector<QBasicVariableEntity> 
 	match("(");
 	while(true) {
 		auto variableName = getSymbol();
-		if (variableName == ")") {
+		if (variableName == ")" || variableName.empty()) {
 			// 終了
 			break;
 		}
@@ -907,8 +911,6 @@ bool QBasicExec::analysisArguments(const bool run, vector<QBasicVariableEntity> 
 			QBasicVariableEntity value = expression(run);
 			variableEntity = value;
 			variableEntity.name = variableName;
-			variableEntity.types = variableTypes;
-			variableEntity.isNil = false;
 		}
 		
 		argNames.push_back(variableEntity);
