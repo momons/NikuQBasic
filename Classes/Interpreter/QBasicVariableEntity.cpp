@@ -16,7 +16,15 @@
  * コンストラクタ
  */
 QBasicVariableEntity::QBasicVariableEntity() {
-	
+	name = "";
+	types = { VariableType::Unknown };
+	intValue = 0;
+	floatValue = 0;
+	strValue = "";
+	boolValue = false;
+	listValue.clear();
+	dictValue.clear();
+	isNil = true;
 }
 
 /**
@@ -25,20 +33,8 @@ QBasicVariableEntity::QBasicVariableEntity() {
  * @param type  変数タイプ
  * @param value 値のポインタ
  */
-QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, void *value) {
-	configureEntity(name, type, value);
-}
-
-/**
- * コンストラクタ
- * @param name        変数名
- * @param type        変数タイプ
- * @param valueTypes  値変数タイプ群
- * @param value       値のポインタ
- */
-QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableType type, const vector<VariableType> &valueTypes, void *value) {
-	configureEntity(name, type, value);
-	this->valueTypes = valueTypes;
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &types, void *value) {
+	configureEntity(name, types, value);
 }
 
 /**
@@ -49,30 +45,30 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const VariableTyp
 QBasicVariableEntity::QBasicVariableEntity(const string &name, const string &value) {
 	// 退避
 	this->name = name;
-	type = VariableType::Unknown;
+	types = { VariableType::Unknown };
 
 	// タイプ判定
 	if (QBasicValidation::isInt(value)) {
-		this->type = VariableType::Int;
-		this->intValue = atoi(value.c_str());
+		types[0] = VariableType::Int;
+		intValue = atoi(value.c_str());
 		isNil = false;
 		return;
 	}
 	if (QBasicValidation::isFloat(value)) {
-		this->type = VariableType::Float;
-		this->floatValue = atof(value.c_str());
+		types[0] = VariableType::Float;
+		floatValue = atof(value.c_str());
 		isNil = false;
 		return;
 	}
 	if (QBasicValidation::isStr(value)) {
-		this->type = VariableType::Str;
-		this->strValue = value.substr(1, value.length() - 2);
+		types[0] = VariableType::Str;
+		strValue = value.substr(1, value.length() - 2);
 		isNil = false;
 		return;
 	}
 	if (QBasicValidation::isBool(value)) {
-		this->type = VariableType::Bool;
-		this->boolValue = value.compare("true") == 0;
+		types[0] = VariableType::Bool;
+		boolValue = value.compare("true") == 0;
 		isNil = false;
 		return;
 	}
@@ -80,30 +76,28 @@ QBasicVariableEntity::QBasicVariableEntity(const string &name, const string &val
 
 /**
  * コンストラクタ 配列用
- * @param name        変数名
- * @param valueTypes  値変数タイプ群
- * @param values      値
+ * @param name   変数名
+ * @param types  値変数タイプ群
+ * @param values 値
  */
-QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const vector<QBasicVariableEntity> &values) {
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &types, const vector<QBasicVariableEntity> &values) {
 	// 退避
 	this->name = name;
-	type = VariableType::List;
-	this->valueTypes = valueTypes;
+	this->types = types;
 	listValue = values;
 	isNil = listValue.size() <= 0;
 }
 
 /**
  * コンストラクタ 連想配列用
- * @param name        変数名
- * @param valueTypes  値変数タイプ群
- * @param values      値
+ * @param name   変数名
+ * @param types  値変数タイプ群
+ * @param values 値
  */
-QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const map<string, QBasicVariableEntity> &values) {
+QBasicVariableEntity::QBasicVariableEntity(const string &name, const vector<VariableType> &types, const map<string, QBasicVariableEntity> &values) {
 	// 退避
 	this->name = name;
-	type = VariableType::Dict;
-	this->valueTypes = valueTypes;
+	this->types = types;
 	dictValue = values;
 	isNil = listValue.size() <= 0;
 }
@@ -123,7 +117,7 @@ void *QBasicVariableEntity::getValue() {
 	if (isNil) {
 		return nullptr;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			return (void *)&intValue;
 			break;
@@ -160,10 +154,10 @@ int QBasicVariableEntity::compare(const QBasicVariableEntity &entity) {
 	if (!isNil && entity.isNil) {
 		return -1;
 	}
-	if (type != entity.type) {
+	if (types[0] != entity.types[0]) {
 		return MISMATCH_VARIABLE_TYPE_VALUE;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			if (intValue < entity.intValue) {
 				return -1;
@@ -260,37 +254,35 @@ void QBasicVariableEntity::set(const QBasicVariableEntity &entity) {
 		isNil = true;
 		return;
 	}
-	switch (entity.type) {
+	switch (entity.types[0]) {
 		case VariableType::Int:
 			intValue = entity.intValue;
-			type = entity.type;
+			types = entity.types;
 			isNil = false;
 			break;
 		case VariableType::Float:
 			floatValue = entity.floatValue;
-			type = entity.type;
+			types = entity.types;
 			isNil = false;
 			break;
 		case VariableType::Str:
 			strValue = entity.strValue;
-			type = entity.type;
+			types = entity.types;
 			isNil = false;
 			break;
 		case VariableType::Bool:
 			boolValue = entity.boolValue;
-			type = entity.type;
+			types = entity.types;
 			isNil = false;
 			break;
 		case VariableType::List:
 			listValue = entity.listValue;
-			type = entity.type;
-			valueTypes = entity.valueTypes;
+			types = entity.types;
 			isNil = false;
 			break;
 		case VariableType::Dict:
 			dictValue = entity.dictValue;
-			type = entity.type;
-			valueTypes = entity.valueTypes;
+			types = entity.types;
 			isNil = false;
 			break;
 		default:
@@ -305,7 +297,7 @@ void QBasicVariableEntity::set(const QBasicVariableEntity &entity) {
  * @param value 値
  */
 void QBasicVariableEntity::set(const int value) {
-	type = VariableType::Int;
+	types = { VariableType::Int };
 	intValue = value;
 	isNil = false;
 }
@@ -315,7 +307,7 @@ void QBasicVariableEntity::set(const int value) {
  * @param value 値
  */
 void QBasicVariableEntity::set(const double value) {
-	type = VariableType::Float;
+	types = { VariableType::Float };
 	floatValue = value;
 	isNil = false;
 }
@@ -325,7 +317,7 @@ void QBasicVariableEntity::set(const double value) {
  * @param value 値
  */
 void QBasicVariableEntity::set(const string &value) {
-	type = VariableType::Str;
+	types = { VariableType::Str };
 	strValue = value;
 	isNil = false;
 }
@@ -335,7 +327,7 @@ void QBasicVariableEntity::set(const string &value) {
  * @param value 値
  */
 void QBasicVariableEntity::set(const bool value) {
-	type = VariableType::Bool;
+	types = { VariableType::Bool };
 	boolValue = value;
 	isNil = false;
 }
@@ -350,7 +342,7 @@ QBasicVariableEntity QBasicVariableEntity::operator + (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.intValue = intValue + entity.intValue;
 			returnEntity.isNil = false;
@@ -380,7 +372,7 @@ QBasicVariableEntity QBasicVariableEntity::operator - (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.intValue = intValue - entity.intValue;
 			returnEntity.isNil = false;
@@ -406,7 +398,7 @@ QBasicVariableEntity QBasicVariableEntity::operator * (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.intValue = intValue * entity.intValue;
 			returnEntity.isNil = false;
@@ -428,12 +420,12 @@ QBasicVariableEntity QBasicVariableEntity::operator * (const QBasicVariableEntit
  * @param value 値
  * @return 結果
  */
-QBasicVariableEntity QBasicVariableEntity::mul(VariableType type, double value) {
+QBasicVariableEntity QBasicVariableEntity::mul(const vector<VariableType> types, const double value) {
 	QBasicVariableEntity returnEntity = copyNotValue();
 	if (isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.intValue = intValue * (int)value;
 			returnEntity.isNil = false;
@@ -459,7 +451,7 @@ QBasicVariableEntity QBasicVariableEntity::operator / (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			if (entity.intValue != 0) {
 				returnEntity.intValue = intValue / entity.intValue;
@@ -489,7 +481,7 @@ QBasicVariableEntity QBasicVariableEntity::operator % (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			if (entity.intValue != 0) {
 				returnEntity.intValue = intValue % entity.intValue;
@@ -518,7 +510,7 @@ QBasicVariableEntity QBasicVariableEntity::operator & (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Bool:
 			returnEntity.boolValue = boolValue & entity.boolValue;
 			returnEntity.isNil = false;
@@ -544,7 +536,7 @@ QBasicVariableEntity QBasicVariableEntity::operator && (const QBasicVariableEnti
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Bool:
 			returnEntity.boolValue = boolValue && entity.boolValue;
 			returnEntity.isNil = false;
@@ -566,7 +558,7 @@ QBasicVariableEntity QBasicVariableEntity::operator | (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Bool:
 			returnEntity.boolValue = boolValue | entity.boolValue;
 			returnEntity.isNil = false;
@@ -592,7 +584,7 @@ QBasicVariableEntity QBasicVariableEntity::operator || (const QBasicVariableEnti
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Bool:
 			returnEntity.boolValue = boolValue || entity.boolValue;
 			returnEntity.isNil = false;
@@ -614,7 +606,7 @@ QBasicVariableEntity QBasicVariableEntity::operator ^ (const QBasicVariableEntit
 	if (isNil || entity.isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Bool:
 			returnEntity.boolValue = boolValue ^ entity.boolValue;
 			returnEntity.isNil = false;
@@ -640,9 +632,30 @@ QBasicVariableEntity QBasicVariableEntity::operator ! () {
 	if (isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Bool:
 			returnEntity.boolValue = !boolValue;
+			returnEntity.isNil = false;
+			break;
+		default:
+			// 上位でチェックしているのでエラーは不要
+			break;
+	}
+	return returnEntity;
+}
+
+#pragma mark - 要素操作
+
+/**
+ * 要素追加
+ * @param entity 変数entity
+ * @return 結果entity
+ */
+QBasicVariableEntity QBasicVariableEntity::append(const QBasicVariableEntity &entity) {
+	QBasicVariableEntity returnEntity = copyNotValue();
+	switch (types[0]) {
+		case VariableType::List:
+			returnEntity.listValue.push_back(entity);
 			returnEntity.isNil = false;
 			break;
 		default:
@@ -661,11 +674,11 @@ QBasicVariableEntity QBasicVariableEntity::operator ! () {
  */
 QBasicVariableEntity QBasicVariableEntity::toInt() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.type = VariableType::Int;
+	returnEntity.types = { VariableType::Int };
 	if (isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.set(intValue);
 			break;
@@ -692,11 +705,11 @@ QBasicVariableEntity QBasicVariableEntity::toInt() {
  */
 QBasicVariableEntity QBasicVariableEntity::toFloat() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.type = VariableType::Float;
+	returnEntity.types = { VariableType::Float };
 	if (isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.set((double)intValue);
 			break;
@@ -719,11 +732,11 @@ QBasicVariableEntity QBasicVariableEntity::toFloat() {
  */
 QBasicVariableEntity QBasicVariableEntity::toStr() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.type = VariableType::Str;
+	returnEntity.types = { VariableType::Str };
 	if (isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.set(StringUtil::toString((double)intValue));
 			break;
@@ -746,11 +759,11 @@ QBasicVariableEntity QBasicVariableEntity::toStr() {
  */
 QBasicVariableEntity QBasicVariableEntity::toBool() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.type = VariableType::Bool;
+	returnEntity.types = { VariableType::Bool };
 	if (isNil) {
 		return returnEntity;
 	}
-	switch (type) {
+	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.set((bool)(intValue != 0));
 			break;
@@ -830,53 +843,57 @@ string QBasicVariableEntity::getVariableTypeString(const VariableType variableTy
  *  @return 変数タイプ群
  */
 vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariableEntity &entity) {
-	vector<VariableType> variableTypes;
-	auto variableType = VariableType::Unknown;
-	if (entity.type == VariableType::List) {
+	
+	auto variableTypes = entity.types;
+	variableTypes.push_back(VariableType::Unknown);
+	if (entity.types[0] == VariableType::List) {
 		for (auto it = entity.listValue.begin();it != entity.listValue.end();it++) {
-			if (variableType == VariableType::Unknown) {
-				variableType = it->type;
+			if (variableTypes[1] == VariableType::Unknown) {
+				variableTypes[1] = it->types[0];
 				continue;
 			}
-			if (variableType != it->type) {
+			if (variableTypes[1] != it->types[0]) {
 				// 型が不整合ならばvoid
-				variableType = VariableType::Void;
+				variableTypes[1] = VariableType::Void;
 				break;
 			}
 		}
-	} else if (entity.type == VariableType::Dict) {
+	} else if (entity.types[0] == VariableType::Dict) {
 		for (auto it = entity.dictValue.begin();it != entity.dictValue.end();it++) {
-			if (variableType == VariableType::Unknown) {
-				variableType = it->second.type;
+			if (variableTypes[1] == VariableType::Unknown) {
+				variableTypes[1] = it->second.types[0];
 				continue;
 			}
-			if (variableType != it->second.type) {
+			if (variableTypes[1] != it->second.types[0]) {
 				// 型が不整合ならばvoid
-				variableType = VariableType::Void;
+				variableTypes[1] = VariableType::Void;
 				break;
 			}
 		}
 	} else {
-		return vector<VariableType>();
+		return entity.types;
 	}
-	if (variableType == VariableType::Unknown) {
+	if (variableTypes[1] == VariableType::Unknown) {
 		// 値入ってないからわからない
-		return vector<VariableType>{ VariableType::Unknown };
+		return variableTypes;
 	}
-	if (variableType == VariableType::List ||
-		variableType == VariableType::Dict) {
+	if (variableTypes[1] == VariableType::List ||
+		variableTypes[1] == VariableType::Dict) {
 		QBasicVariableEntity childEntity;
-		if (entity.type == VariableType::List) {
+		if (variableTypes[1] == VariableType::List) {
 			childEntity = entity.listValue[0];
-		} else if (entity.type == VariableType::Dict) {
+		} else {
 			childEntity = entity.dictValue.begin()->second;
 		}
-		variableTypes = getVariableTypes(childEntity);
-		if (*variableTypes.begin() == VariableType::Unknown) {
+		auto childVariableTypes = getVariableTypes(childEntity);
+		if (childVariableTypes[1] == VariableType::Unknown) {
+			variableTypes.push_back(VariableType::Unknown);
 			return variableTypes;
 		}
+		// 1の要素を消去
+		variableTypes.pop_back();
+		copy(childVariableTypes.begin(), childVariableTypes.end(), back_inserter(variableTypes));
 	}
-	variableTypes.insert(variableTypes.begin(), variableType);
 	
 	return variableTypes;
 }
@@ -890,12 +907,12 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
  *  @param value 値のポインタ
  *  @return 文字列
  */
-void QBasicVariableEntity::configureEntity(const string &name, const VariableType type, void *value) {
+void QBasicVariableEntity::configureEntity(const string &name, const vector<VariableType> &types, void *value) {
 	// 退避
 	this->name = name;
-	this->type = type;
+	this->types = types;
 	if (value != nullptr) {
-		switch (this->type) {
+		switch (this->types[0]) {
 			case VariableType::Int:
 				intValue = *(int *)value;
 				break;
@@ -928,7 +945,7 @@ void QBasicVariableEntity::configureEntity(const string &name, const VariableTyp
 QBasicVariableEntity QBasicVariableEntity::copyNotValue() {
 	QBasicVariableEntity returnEntity;
 	returnEntity.name = name;
-	returnEntity.type = type;
+	returnEntity.types = types;
 	return returnEntity;
 }
 
@@ -938,15 +955,16 @@ QBasicVariableEntity QBasicVariableEntity::copyNotValue() {
  *  @param subTypes  サブタイプ
  *  @return 文字列
  */
-string QBasicVariableEntity::toString(const VariableType type, const vector<VariableType> &subTypes) {
+string QBasicVariableEntity::toString(const vector<VariableType> &types) {
 	ostringstream stream;
+	auto it = types.begin();
 	// メインタイプ
-	stream << getVariableTypeString(type);
+	stream << getVariableTypeString(*it);
 	// サブタイプ
-	for (auto it = subTypes.begin();it != subTypes.end();it++) {
+	for (;it != types.end();it++) {
 		stream << "<" << getVariableTypeString(*it);
 	}
-	for (int i = 0;i < subTypes.size();i++) {
+	for (int i = 0;i < types.size() - 1;i++) {
 		stream << ">";
 	}
 	return stream.str();

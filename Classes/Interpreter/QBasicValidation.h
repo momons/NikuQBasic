@@ -79,14 +79,12 @@ public:
 	/**
 	 *  変数タイプチェック
 	 *  @param variableEntity     変数Entity
-	 *  @param variableType       親変数タイプ
-	 *  @param valueVariableTypes 子変数タイプ群
+	 *  @param variableTypes      変数タイプ群
 	 *  @return 変数可否
 	 */
 	static bool isValidVariableType(
 									const QBasicVariableEntity &variableEntity,
-									VariableType variableType,
-									const vector<VariableType> &valueVariableTypes);
+									const vector<VariableType> &variableTypes);
 
 	/**
 	 *  配列変数チェック

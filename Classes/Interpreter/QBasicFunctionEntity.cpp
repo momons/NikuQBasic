@@ -19,8 +19,7 @@ QBasicFunctionEntity::QBasicFunctionEntity() {
 	name = "";
 	alias = "";
 	argNames.clear();
-	returnType = VariableType::Unknown;
-	returnSubTypes.clear();
+	returnTypes = { VariableType::Unknown };
 	startOffset = 0;
 	endOffset = -1;
 }
@@ -29,22 +28,19 @@ QBasicFunctionEntity::QBasicFunctionEntity() {
  * コンストラクタ
  * @param name           関数名
  * @param argNames       引数変数タイプ
- * @param returnType     戻り値タイプ
- * @param returnSubTypes 戻り値サブタイプ
+ * @param returnTypes    戻り値タイプ
  * @param startOffset    開始オフセット
  * @param endOffset      終了オフセット
  */
 QBasicFunctionEntity::QBasicFunctionEntity(
 										   const string &name,
 										   const vector<QBasicVariableEntity> &argNames,
-										   const VariableType returnType,
-										   const vector<VariableType> returnSubTypes,
+										   const vector<VariableType> returnTypes,
 										   const int startOffset,
 										   const int endOffset) {
 	this->name = name;
 	this->argNames = argNames;
-	this->returnType = returnType;
-	this->returnSubTypes = returnSubTypes;
+	this->returnTypes = returnTypes;
 	this->startOffset = startOffset;
 	this->endOffset = endOffset;
 	configureAlias();

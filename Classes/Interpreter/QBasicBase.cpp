@@ -60,7 +60,7 @@ string QBasicBase::getSymbol() {
  */
 QBasicVariableEntity QBasicBase::listValue(const bool run) {
 	QBasicVariableEntity returnValue;
-	returnValue.type = VariableType::List;
+	returnValue.types = { VariableType::List };
 	// 上位で"["のチェックがされる
 	int count = 0;
 	while (true) {
@@ -95,7 +95,6 @@ QBasicVariableEntity QBasicBase::listValue(const bool run) {
  * @return 引数群
  */
 vector<QBasicVariableEntity> QBasicBase::getArguments(const bool run) {
-	
 	// 引数取得
 	vector<QBasicVariableEntity> argList;
 	match("(");

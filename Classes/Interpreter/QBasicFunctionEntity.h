@@ -31,9 +31,7 @@ public:
 	vector<QBasicVariableEntity> argNames;
 	
 	/// 戻り値タイプ
-	VariableType returnType;
-	/// 戻り値サブタイプ
-	vector<VariableType> returnSubTypes;
+	vector<VariableType> returnTypes;
 	
 	/// 開始オフセット
 	int startOffset;
@@ -49,16 +47,14 @@ public:
 	 * コンストラクタ
 	 * @param name           関数名
 	 * @param argNames       引数変数タイプ
-	 * @param returnType     戻り値タイプ
-	 * @param returnSubTypes 戻り値サブタイプ
+	 * @param returnTypes    戻り値サブタイプ
 	 * @param startOffset    開始オフセット
 	 * @param endOffset      終了オフセット
 	 */
 	QBasicFunctionEntity(
 						 const string &name,
 						 const vector<QBasicVariableEntity> &argNames,
-						 const VariableType returnType,
-						 const vector<VariableType> returnSubTypes,
+						 const vector<VariableType> returnTypes,
 						 const int startOffset,
 						 const int endOffset);
 

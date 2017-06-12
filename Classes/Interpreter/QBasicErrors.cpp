@@ -115,8 +115,8 @@ string QBasicErrors::buildMissingFound(const string &trueSymbol, const string &f
  */
 string QBasicErrors::buildBadVariableType(const QBasicVariableEntity &trueVariable, const QBasicVariableEntity &falseVariable) {
 	ostringstream stream;
-	stream << "o:'" << QBasicVariableEntity::toString(trueVariable.type, trueVariable.valueTypes) << "' ";
-	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.type, falseVariable.valueTypes) << "'";
+	stream << "o:'" << QBasicVariableEntity::toString(trueVariable.types) << "' ";
+	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.types) << "'";
 	return stream.str();
 }
 
@@ -137,7 +137,7 @@ string QBasicErrors::buildBadVariableType(const vector<VariableType> &trueTypes,
 			stream << ",";
 		}
 	}
-	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.type, falseVariable.valueTypes) << "'";
+	stream << "x:'" << QBasicVariableEntity::toString(falseVariable.types) << "'";
 	return stream.str();
 }
 

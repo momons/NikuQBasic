@@ -133,7 +133,7 @@ QBasicVariableEntity QBasicCompile::addsub(const bool run) {
 		int offset = interpreter->symbols->offset();
 		value = muldiv(run);
 		if (QBasicValidation::isValidSub(value)) {
-			value = value.mul(value.type, -1);
+			value = value.mul(value.types, -1);
 		} else {
 			interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int, VariableType::Float}, value));
 		}
@@ -280,7 +280,7 @@ QBasicVariableEntity QBasicCompile::factor(const bool run) {
 	
 	// nil値ならば
 	if (sym == "nil") {
-		return QBasicVariableEntity("", VariableType::Unknown, nullptr);
+		return QBasicVariableEntity("", { VariableType::Unknown }, nullptr);
 	}
 	
 	// ステートメント
@@ -381,7 +381,7 @@ bool QBasicCompile::statement(const bool run) {
  */
 QBasicVariableEntity QBasicCompile::dictValue(const bool run) {
 	QBasicVariableEntity returnValue;
-	returnValue.type = VariableType::Dict;
+	returnValue.types = { VariableType::Dict };
 	// 上位で"{"のチェックがされる
 	int count = 0;
 	while (true) {
@@ -395,7 +395,7 @@ QBasicVariableEntity QBasicCompile::dictValue(const bool run) {
 		}
 		int offset = interpreter->symbols->offset();
 		auto keyValue = expression(run);
-		if (keyValue.type != VariableType::Str) {
+		if (keyValue.types[0] != VariableType::Str) {
 			interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Str}, keyValue));
 		}
 		match(":");
@@ -436,8 +436,8 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 	int count = 0;
 	QBasicVariableEntity *variable = parentVariable;
 	while (true) {
-		if (variable->type != VariableType::List &&
-			variable->type != VariableType::Dict) {
+		if (variable->types[0] != VariableType::List &&
+			variable->types[0] != VariableType::Dict) {
 			break;
 		}
 		
@@ -452,23 +452,23 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 		auto keyValue = expression(run);
 		match("]");
 		
-		if (variable->type == VariableType::List) {
-			if (keyValue.type != VariableType::Int) {
+		if (variable->types[0] == VariableType::List) {
+			if (keyValue.types[0] != VariableType::Int) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int}, keyValue));
 				return nullptr;
 			}
 			if (variable->listValue.size() <= 0) {
-				variable->listValue.push_back(QBasicVariableEntity("", parentVariable->valueTypes[count], nullptr));
+				variable->listValue.push_back(QBasicVariableEntity("", { parentVariable->types[count] }, nullptr));
 			}
 			variable = &variable->listValue[0];
 			count += 1;
 		} else {
-			if (keyValue.type != VariableType::Str) {
+			if (keyValue.types[0] != VariableType::Str) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Str}, keyValue));
 				return nullptr;
 			}
 			if (variable->listValue.size() <= 0) {
-				variable->dictValue[""] = QBasicVariableEntity("", parentVariable->valueTypes[count], nullptr);
+				variable->dictValue[""] = QBasicVariableEntity("", { parentVariable->types[count] }, nullptr);
 			}
 			variable = &variable->dictValue[""];
 			count += 1;
@@ -501,7 +501,7 @@ QBasicVariableEntity QBasicCompile::executeStatement(const bool run, const strin
 		return QBasicVariableEntity();
 	}
 	// 戻り値がvoid
-	if (needsReturnValue && entity->returnType == VariableType::Void) {
+	if (needsReturnValue && entity->returnTypes[0] == VariableType::Void) {
 		interpreter->errors->addError(offset, ErrorType::ReturnTypeVoid, entity->alias);
 		return QBasicVariableEntity();
 	}
@@ -511,7 +511,7 @@ QBasicVariableEntity QBasicCompile::executeStatement(const bool run, const strin
 		entity->compileFunc(interpreter, argList, offset);
 	}
 	
-	return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
+	return QBasicVariableEntity("", entity->returnTypes, nullptr);
 }
 
 /**
@@ -534,9 +534,9 @@ QBasicVariableEntity QBasicCompile::executeFunction(const bool run, const string
 	
 	if (entity == nullptr) {
 		interpreter->errors->addError(offset, ErrorType::UnknownFunction, functionName);
-		return QBasicVariableEntity("", VariableType::Void, nullptr);
+		return QBasicVariableEntity("", { VariableType::Void }, nullptr);
 	}
-	return QBasicVariableEntity("", entity->returnType, entity->returnSubTypes, nullptr);
+	return QBasicVariableEntity("", entity->returnTypes, nullptr);
 }
 
 /**
@@ -557,9 +557,9 @@ bool QBasicCompile::analysisValueAssigned(const bool run, const string &variable
 	// 変数
 	int valueOffset = interpreter->symbols->offset();
 	auto value = expression(run);
-	value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
-	if (!QBasicValidation::isValidVariableType(value, variable->type, variable->valueTypes)) {
-		interpreter->errors->addError(valueOffset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({variable->type}, value));
+	value.types = QBasicVariableEntity::getVariableTypes(value);
+	if (!QBasicValidation::isValidVariableType(value, variable->types)) {
+		interpreter->errors->addError(valueOffset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({variable->types[0]}, value));
 	}
 	if (operate == "+=") {
 		if (!QBasicValidation::isValidAdd(*variable, value)) {
@@ -615,23 +615,22 @@ bool QBasicCompile::analysisVar(const bool run) {
 
 	auto sym = getSymbol();
 	
-	auto variableType = VariableType::Unknown;
-	vector<VariableType> valueVariableTypes;
+	vector<VariableType> variableTypes = { VariableType::Unknown };
 	if (sym == ":") {
 		// 型をチェック
 		int offset = interpreter->symbols->offset();
 		sym = getSymbol();
-		variableType = QBasicVariableEntity::getVariableType(sym);
+		variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
 		if (!run) {
-			if (variableType == VariableType::Void ||
-				variableType == VariableType::Unknown) {
+			if (variableTypes[0] == VariableType::Void ||
+				variableTypes[0] == VariableType::Unknown) {
 				interpreter->errors->addError(offset, ErrorType::UnknownSymbol, sym);
 			}
 		}
-		if (variableType == VariableType::List ||
-			variableType == VariableType::Dict ) {
+		if (variableTypes[0] == VariableType::List ||
+			variableTypes[0] == VariableType::Dict ) {
 			// 配列の場合は型の宣言が必要
-			analysisVarListDict(run, variableName, valueVariableTypes);
+			analysisVarListDict(run, variableName, variableTypes);
 		}
 		
 		// 次を取得
@@ -640,22 +639,22 @@ bool QBasicCompile::analysisVar(const bool run) {
 	
 	// 初期値設定されているか
 	if (sym != "=") {
-		if (!run && variableType == VariableType::Unknown) {
+		if (!run && variableTypes[0] == VariableType::Unknown) {
 			interpreter->errors->addError(variableOffset, ErrorType::BadVariableType, variableName);
 		}
 		if (!sym.empty()) {
 			interpreter->symbols->popBack();
 		}
 		QBasicVariableEntity variableEntity;
-		switch (variableType) {
+		switch (variableTypes[0]) {
 			case VariableType::List:
-				variableEntity = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
+				variableEntity = QBasicVariableEntity(variableName, variableTypes, vector<QBasicVariableEntity>());
 				break;
 			case VariableType::Dict:
-				variableEntity = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
+				variableEntity = QBasicVariableEntity(variableName, variableTypes, map<string, QBasicVariableEntity>());
 				break;
 			default:
-				variableEntity = QBasicVariableEntity(variableName, variableType, nullptr);
+				variableEntity = QBasicVariableEntity(variableName, variableTypes, nullptr);
 				break;
 		}
 		if (!lastFunctionName.empty()) {
@@ -669,12 +668,12 @@ bool QBasicCompile::analysisVar(const bool run) {
 	// 初期値取得
 	int offset = interpreter->symbols->offset();
 	auto value = expression(run);
-	if (variableType != VariableType::Unknown) {
-		if (!QBasicValidation::isValidVariableType(value, variableType, valueVariableTypes)) {
-			interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({variableType}, value));
+	if (variableTypes[0] != VariableType::Unknown) {
+		if (!QBasicValidation::isValidVariableType(value, variableTypes)) {
+			interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(variableTypes, value));
 		}
 	} else {
-		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
+		value.types = QBasicVariableEntity::getVariableTypes(value);
 	}
 	
 	value.name = variableName;
@@ -892,30 +891,29 @@ bool QBasicCompile::analysisFunc(const bool run) {
 	
 	// 戻り値タイプを解析
 	auto sym = getSymbol();
-	VariableType returnType;
-	vector<VariableType> valueVariableTypes;
+	vector<VariableType> returnTypes = { VariableType::Unknown };
 	if (sym != ":") {
 		// 引数省略
-		returnType = VariableType::Void;
+		returnTypes[0] = VariableType::Void;
 		// オフセットを戻す
 		if (!sym.empty()) {
 			interpreter->symbols->popBack();
 		}
 	} else {
 		string returnVariableName = getSymbol();
-		returnType = QBasicVariableEntity::getVariableType(returnVariableName);
-		if (returnType == VariableType::Unknown) {
+		returnTypes[0] = QBasicVariableEntity::getVariableType(returnVariableName);
+		if (returnTypes[0] == VariableType::Unknown) {
 			interpreter->errors->addError(offset, ErrorType::BadVariableType, returnVariableName);
 		}
-		if (returnType == VariableType::List ||
-			returnType == VariableType::Dict ) {
+		if (returnTypes[0] == VariableType::List ||
+			returnTypes[0] == VariableType::Dict ) {
 			// 配列の場合は型の宣言が必要
-			analysisVarListDict(run, "", valueVariableTypes);
+			analysisVarListDict(run, "", returnTypes);
 		}
 	}
 	
 	// ファンクション追加
-	entity = interpreter->functions->addUpdate(functionName, argNames, returnType, valueVariableTypes, interpreter->symbols->offset(), 0);
+	entity = interpreter->functions->addUpdate(functionName, argNames, returnTypes, interpreter->symbols->offset(), 0);
 	
 	// 最後の関数名を退避
 	lastFunctionName = entity->alias;
@@ -967,22 +965,21 @@ bool QBasicCompile::analysisArguments(const bool run, vector<QBasicVariableEntit
 			}
 		}
 	
-		auto variableType = VariableType::Unknown;
-		vector<VariableType> valueVariableTypes;
+		vector<VariableType> variableTypes = { VariableType::Unknown };
 		auto sym = getSymbol();
 		if (sym == ":") {
 			// 型指定へ
 			int offset = interpreter->symbols->offset();
 			sym = getSymbol();
-			variableType = QBasicVariableEntity::getVariableType(sym);
-			if (variableType == VariableType::Void ||
-				variableType == VariableType::Unknown) {
+			variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
+			if (variableTypes[0] == VariableType::Void ||
+				variableTypes[0] == VariableType::Unknown) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, sym);
 			}
-			if (variableType == VariableType::List ||
-				variableType == VariableType::Dict ) {
+			if (variableTypes[0] == VariableType::List ||
+				variableTypes[0] == VariableType::Dict ) {
 				// 配列の場合は型の宣言が必要
-				analysisVarListDict(run, variableName, valueVariableTypes);
+				analysisVarListDict(run, variableName, variableTypes);
 			}
 			
 			// 次を取得
@@ -991,28 +988,27 @@ bool QBasicCompile::analysisArguments(const bool run, vector<QBasicVariableEntit
 		
 		QBasicVariableEntity variableEntity;
 		if (sym != "=") {
-			if (variableType == VariableType::Unknown) {
+			if (variableTypes[0] == VariableType::Unknown) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, variableName);
 			}
 			if (!sym.empty()) {
 				interpreter->symbols->popBack();
 			}
 			variableEntity.name = variableName;
-			variableEntity.type = variableType;
-			variableEntity.valueTypes = valueVariableTypes;
+			variableEntity.types = variableTypes;
 		} else {
 			// デフォルト値指定へ
 			int offset = interpreter->symbols->offset();
 			QBasicVariableEntity value = expression(run);
-			if (variableType != VariableType::Unknown) {
+			if (variableTypes[0] != VariableType::Unknown) {
 				// 型が一致するかをチェック
-				if (!QBasicValidation::isValidVariableType(value, variableType, valueVariableTypes)) {
-					interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({variableType}, value));
+				if (!QBasicValidation::isValidVariableType(value, variableTypes)) {
+					interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(variableTypes, value));
 				}
 			}
 			variableEntity = value;
 			variableEntity.name = variableName;
-			variableEntity.valueTypes = valueVariableTypes;
+			variableEntity.types = variableTypes;
 			variableEntity.isNil = false;
 		}
 		
@@ -1033,14 +1029,14 @@ bool QBasicCompile::analysisReturn(const bool run) {
 		return true;
 	}
 	// 終了オフセットを退避
-	if (entity->returnType == VariableType::Void) {
+	if (entity->returnTypes[0] == VariableType::Void) {
 		return true;
 	}
 	// 戻り値取得
 	int offset = interpreter->symbols->offset();
 	auto value = expression(run);
-	if (!QBasicValidation::isValidVariableType(value, entity->returnType, entity->returnSubTypes)) {
-		interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({entity->returnType}, value));
+	if (!QBasicValidation::isValidVariableType(value, entity->returnTypes)) {
+		interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(entity->returnTypes, value));
 	}
 	hasReturnSymbol = true;
 	return true;
@@ -1056,7 +1052,7 @@ bool QBasicCompile::analysisEndfunc(const bool run) {
 	if (entity == nullptr) {
 		return true;
 	}
-	if (entity->returnType != VariableType::Void && !hasReturnSymbol) {
+	if (entity->returnTypes[0] != VariableType::Void && !hasReturnSymbol) {
 		interpreter->errors->addError(ErrorType::NothingReturnValue, "");
 	}
 	// 終了オフセットを退避

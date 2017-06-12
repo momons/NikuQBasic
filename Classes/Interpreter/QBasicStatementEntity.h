@@ -38,9 +38,7 @@ public:
 	vector<QBasicVariableEntity> argNames;
     
 	/// 戻り値タイプ
-	VariableType returnType;
-	/// 戻り値サブタイプ
-	vector<VariableType> returnSubTypes;
+	vector<VariableType> returnTypes;
 	
 	/// 実行ファンクション
 	statmentFunction execFunc;
@@ -56,31 +54,14 @@ public:
 	 * コンストラクタ
 	 * @param name           ステートメント名
 	 * @param argNames       引数変数タイプ
-	 * @param returnType     戻り値タイプ
+	 * @param returnTypes    戻り値タイプ
 	 * @param execFunc		 実行ファンクション
 	 * @param compileFunc    コンパイルファンクション
 	 */
 	QBasicStatementEntity(
 						  const string &name,
 						  const vector<QBasicVariableEntity> &argNames,
-						  const VariableType returnType,
-						  const statmentFunction &exeFunc,
-						  const compileFunction &compileFunc);
-	
-	/**
-	 * コンストラクタ
-	 * @param name           ステートメント名
-	 * @param argTypes       引数変数タイプ
-	 * @param returnType     戻り値タイプ
-	 * @param returnSubTypes 戻り値サブタイプ
-	 * @param execFunc		 実行ファンクション
-	 * @param compileFunc    コンパイルファンクション
-	 */
-	QBasicStatementEntity(
-						  const string &name,
-						  const vector<QBasicVariableEntity> &argNames,
-						  const VariableType returnType,
-						  const vector<VariableType> &returnSubTypes,
+						  const vector<VariableType> &returnTypes,
 						  const statmentFunction &exeFunc,
 						  const compileFunction &compileFunc);
 	

@@ -19,6 +19,7 @@
 #include "QBasicTypeIsFunctions.h"
 #include "QBasicMathFunctions.h"
 #include "QBasicStringFunctions.h"
+#include "QBasicListFunctions.h"
 #include "QBasicDrawFunctions.h"
 #include "QBasicGeometryFunctions.h"
 #include "QBasicTextFunctions.h"
@@ -121,6 +122,13 @@ void QBasicStatements::buildStatements() {
 		this->statements[it->first] = it->second;
 	}
 
+	//===== 配列操作
+	statements.clear();
+	statements = QBasicListFunctions::buildStatements();
+	for (auto it = statements.begin();it != statements.end();it++) {
+		this->statements[it->first] = it->second;
+	}
+	
 	//===== 描画
 	statements.clear();
 	statements = QBasicDrawFunctions::buildStatements();
