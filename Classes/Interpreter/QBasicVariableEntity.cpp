@@ -880,10 +880,13 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
 	if (variableTypes[1] == VariableType::List ||
 		variableTypes[1] == VariableType::Dict) {
 		QBasicVariableEntity childEntity;
-		if (variableTypes[0] == VariableType::List) {
+		if (variableTypes[0] == VariableType::List && entity.listValue.size() > 0) {
 			childEntity = entity.listValue[0];
-		} else {
+		} else if (entity.dictValue.size() > 0) {
 			childEntity = entity.dictValue.begin()->second;
+		} else {
+			variableTypes.push_back(VariableType::Unknown);
+			return variableTypes;
 		}
 		auto childVariableTypes = getVariableTypes(childEntity);
 		if (childVariableTypes[1] == VariableType::Unknown) {

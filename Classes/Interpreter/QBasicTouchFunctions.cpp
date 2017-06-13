@@ -14,6 +14,7 @@
 #include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
 #include "QBasicScene.h"
+#include "QBasicVariableEntity.h"
 
 /** 範囲外の場合の座標 **/
 #define INVALID_TOUCH_LOCATION		"-9999"
@@ -29,95 +30,68 @@ unordered_map<string, QBasicStatementEntity> QBasicTouchFunctions::buildStatemen
 	
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
-	
-//	entity = QBasicStatementEntity("touchbegincnt", 0, true, touchbegincnt_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchbeginx", 1, true, touchbeginx_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchbeginy", 1, true, touchbeginy_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchmovecnt", 0, true, touchmovecnt_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchmovex", 1, true, touchmovex_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchmovey", 1, true, touchmovey_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchendcnt", 0, true, touchendcnt_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchendx", 1, true, touchendx_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("touchendy", 1, true, touchendy_qb);
-//	statementList[entity.name] = entity;
+
+	entity = QBasicStatementEntity("touchBegin", {}, { VariableType::List, VariableType::List, VariableType::Float }, touchBegin_qb, nullptr);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("touchMove", {}, { VariableType::List, VariableType::List, VariableType::Float }, touchMove_qb, nullptr);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("touchEnd", {}, { VariableType::List, VariableType::List, VariableType::Float }, touchEnd_qb, nullptr);
+	statementList[entity.alias] = entity;
 	
 	return statementList;
 }
 
-/// タッチ開始 カウント
-QBasicVariableEntity *QBasicTouchFunctions::touchbegincnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(interpreter->subFunc->scene->touchBegin.size());
-	return nullptr;
+/// タッチ開始
+QBasicVariableEntity QBasicTouchFunctions::touchBegin_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto value = QBasicVariableEntity("", { VariableType::List, VariableType::List, VariableType::Float }, nullptr);
+	if (interpreter->subFunc->scene != nullptr) {
+		for (auto it = interpreter->subFunc->scene->touchBegin.begin();it != interpreter->subFunc->scene->touchBegin.end();it++) {
+			auto locationValue = QBasicVariableEntity("", { VariableType::List, VariableType::Float }, nullptr);
+			double x = it->x;
+			double y = it->y;
+			auto xValue = QBasicVariableEntity("", { VariableType::Float }, &x);
+			auto yValue = QBasicVariableEntity("", { VariableType::Float }, &y);
+			locationValue.listValue.push_back(xValue);
+			locationValue.listValue.push_back(yValue);
+			value.listValue.push_back(locationValue);
+		}
+		value.isNil = value.listValue.size() <= 0;
+	}
+	return value;
 }
-/// タッチ開始 X座標取得
-QBasicVariableEntity *QBasicTouchFunctions::touchbeginx_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int index = stoi(arg[0]);
-//	if (index < 0 || index >= interpreter->subFunc->scene->touchBegin.size()) {
-//		return INVALID_TOUCH_LOCATION;
-//	}
-//	return StringUtil::toString(interpreter->subFunc->scene->touchBegin[index].x);
-	return nullptr;
+/// タッチ移動
+QBasicVariableEntity QBasicTouchFunctions::touchMove_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto value = QBasicVariableEntity("", { VariableType::List, VariableType::List, VariableType::Float }, nullptr);
+	if (interpreter->subFunc->scene != nullptr) {
+		for (auto it = interpreter->subFunc->scene->touchMove.begin();it != interpreter->subFunc->scene->touchMove.end();it++) {
+			auto locationValue = QBasicVariableEntity("", { VariableType::List, VariableType::Float }, nullptr);
+			double x = it->x;
+			double y = it->y;
+			auto xValue = QBasicVariableEntity("", { VariableType::Float }, &x);
+			auto yValue = QBasicVariableEntity("", { VariableType::Float }, &y);
+			locationValue.listValue.push_back(xValue);
+			locationValue.listValue.push_back(yValue);
+			value.listValue.push_back(locationValue);
+		}
+		value.isNil = value.listValue.size() <= 0;
+	}
+	return value;
 }
-/// タッチ開始 Y座標取得
-QBasicVariableEntity *QBasicTouchFunctions::touchbeginy_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int index = stoi(arg[0]);
-//	if (index < 0 || index >= interpreter->subFunc->scene->touchBegin.size()) {
-//		return INVALID_TOUCH_LOCATION;
-//	}
-//	return StringUtil::toString(interpreter->subFunc->scene->touchBegin[index].y);
-	return nullptr;
-}
-/// タッチ移動 カウント
-QBasicVariableEntity *QBasicTouchFunctions::touchmovecnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(interpreter->subFunc->scene->touchMove.size());
-	return nullptr;
-}
-/// タッチ移動 X座標取得
-QBasicVariableEntity *QBasicTouchFunctions::touchmovex_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int index = stoi(arg[0]);
-//	if (index < 0 || index >= interpreter->subFunc->scene->touchMove.size()) {
-//		return INVALID_TOUCH_LOCATION;
-//	}
-//	return StringUtil::toString(interpreter->subFunc->scene->touchMove[index].x);
-	return nullptr;
-}
-/// タッチ移動 Y座標取得
-QBasicVariableEntity *QBasicTouchFunctions::touchmovey_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int index = stoi(arg[0]);
-//	if (index < 0 || index >= interpreter->subFunc->scene->touchMove.size()) {
-//		return INVALID_TOUCH_LOCATION;
-//	}
-//	return StringUtil::toString(interpreter->subFunc->scene->touchMove[index].y);
-	return nullptr;
-}
-/// タッチ終了 カウント
-QBasicVariableEntity *QBasicTouchFunctions::touchendcnt_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return StringUtil::toString(interpreter->subFunc->scene->touchEnd.size());
-	return nullptr;
-}
-/// タッチ終了 X座標取得
-QBasicVariableEntity *QBasicTouchFunctions::touchendx_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int index = stoi(arg[0]);
-//	if (index < 0 || index >= interpreter->subFunc->scene->touchEnd.size()) {
-//		return INVALID_TOUCH_LOCATION;
-//	}
-//	return StringUtil::toString(interpreter->subFunc->scene->touchEnd[index].x);
-	return nullptr;
-}
-/// タッチ終了 Y座標取得
-QBasicVariableEntity *QBasicTouchFunctions::touchendy_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	int index = stoi(arg[0]);
-//	if (index < 0 || index >= interpreter->subFunc->scene->touchEnd.size()) {
-//		return INVALID_TOUCH_LOCATION;
-//	}
-//	return StringUtil::toString(interpreter->subFunc->scene->touchEnd[index].y);
-	return nullptr;
+/// タッチ終了
+QBasicVariableEntity QBasicTouchFunctions::touchEnd_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	auto value = QBasicVariableEntity("", { VariableType::List, VariableType::List, VariableType::Float }, nullptr);
+	if (interpreter->subFunc->scene != nullptr) {
+		for (auto it = interpreter->subFunc->scene->touchEnd.begin();it != interpreter->subFunc->scene->touchEnd.end();it++) {
+			auto locationValue = QBasicVariableEntity("", { VariableType::List, VariableType::Float }, nullptr);
+			double x = it->x;
+			double y = it->y;
+			auto xValue = QBasicVariableEntity("", { VariableType::Float }, &x);
+			auto yValue = QBasicVariableEntity("", { VariableType::Float }, &y);
+			locationValue.listValue.push_back(xValue);
+			locationValue.listValue.push_back(yValue);
+			value.listValue.push_back(locationValue);
+		}
+		value.isNil = value.listValue.size() <= 0;
+	}
+	return value;
 }

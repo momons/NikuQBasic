@@ -1,0 +1,9 @@
+# test0 touchBegin
+var a = touchBegin()
+========================
+# test1 touchMove
+var a = touchMove()
+========================
+# test2 touchEnd
+var a = touchEnd()
+========================
