@@ -27,8 +27,7 @@ public:
 	 * 関数追加更新
 	 * @param name           関数名
 	 * @param variableTypes  引数タイプ
-	 * @param returnType     戻り値タイプ
-	 * @param returnSubTypes 戻り値サブタイプ
+	 * @param returnTypes    戻り値タイプ
 	 * @param startOffset    開始オフセット
 	 * @param endOffset      終了オフセット
 	 * @return 関数情報
@@ -36,8 +35,7 @@ public:
 	QBasicFunctionEntity *addUpdate(
 									const string &name,
 									const vector<QBasicVariableEntity> &variableTypes,
-									const VariableType returnType,
-									const vector<VariableType> returnSubTypes,
+									const vector<VariableType> returnTypes,
 									const int startOffset,
 									const int endOffset);
 	

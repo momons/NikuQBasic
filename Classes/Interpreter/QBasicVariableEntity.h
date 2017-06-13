@@ -43,10 +43,8 @@ public:
 	/// 名前
 	string name;
 	
-	/// タイプ
-	VariableType type;
-	/// バリュータイプ 配列、連想配列用
-	vector<VariableType> valueTypes;
+	/// タイプ (配列、連想配列用は複数)
+	vector<VariableType> types;
 	
 	/// 整数値
 	int intValue = 0;
@@ -72,20 +70,11 @@ public:
 	/**
 	 * コンストラクタ
 	 * @param name  変数名
-	 * @param type  変数タイプ
+	 * @param types 変数タイプ
 	 * @param value 値のポインタ
 	 */
-	QBasicVariableEntity(const string &name, const VariableType type, void *value);
+	QBasicVariableEntity(const string &name, const vector<VariableType> &types, void *value);
 
-	/**
-	 * コンストラクタ
-	 * @param name        変数名
-	 * @param type        変数タイプ
-	 * @param valueTypes  値変数タイプ群
-	 * @param value       値のポインタ
-	 */
-	QBasicVariableEntity(const string &name, const VariableType type, const vector<VariableType> &valueTypes, void *value);
-	
 	/**
 	 * コンストラクタ
 	 * @param name  変数名
@@ -95,19 +84,19 @@ public:
 
 	/**
 	 * コンストラクタ 配列用
-	 * @param name        変数名
-	 * @param valueTypes  値変数タイプ群
-	 * @param values      値
+	 * @param name   変数名
+	 * @param types  値変数タイプ群
+	 * @param values 値
 	 */
-	QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const vector<QBasicVariableEntity> &values);
+	QBasicVariableEntity(const string &name, const vector<VariableType> &types, const vector<QBasicVariableEntity> &values);
 
 	/**
 	 * コンストラクタ 連想配列用
-	 * @param name        変数名
-	 * @param valueTypes  値変数タイプ群
-	 * @param values      値
+	 * @param name   変数名
+	 * @param types  値変数タイプ群
+	 * @param values 値
 	 */
-	QBasicVariableEntity(const string &name, const vector<VariableType> &valueTypes, const map<string, QBasicVariableEntity> &values);
+	QBasicVariableEntity(const string &name, const vector<VariableType> &types, const map<string, QBasicVariableEntity> &values);
 	
 	/**
 	 * デストラクタ
@@ -226,11 +215,11 @@ public:
 
 	/**
 	 * 掛け算 数値
-	 * @param type  変数タイプ
+	 * @param types 変数タイプ
 	 * @param value 値
 	 * @return 結果
 	 */
-	QBasicVariableEntity mul(VariableType type, double value);
+	QBasicVariableEntity mul(const vector<VariableType> types, const double value);
 
 	/**
 	 * 割り算
@@ -289,6 +278,16 @@ public:
 	 */
 	QBasicVariableEntity operator ! ();
 
+#pragma mark - 要素操作
+	
+	/**
+	 * 要素追加
+	 * @param entity 変数entity
+	 * @return 結果entity
+	 */
+	QBasicVariableEntity append(const QBasicVariableEntity &entity);
+	
+
 #pragma mark - チェック
 	
 	/**
@@ -342,21 +341,20 @@ public:
 	
 	/**
 	 *  変数タイプを文字列に変換
-	 *  @param type      メインタイプ
-	 *  @param subTypes  サブタイプ
+	 *  @param types  タイプ
 	 *  @return 文字列
 	 */
-	static string toString(const VariableType type, const vector<VariableType> &subTypes);
+	static string toString(const vector<VariableType> &types);
 
 private:
 
 	/**
 	 *  変数タイプを文字列に変換
 	 *  @param name  変数名
-	 *  @param type  変数タイプ
+	 *  @param types 変数タイプ
 	 *  @param value 値のポインタ
 	 */
-	void configureEntity(const string &name, const VariableType type, void *value);
+	void inline configureEntity(const string &name, const vector<VariableType> &types, void *value);
 	
 	/**
 	 * 値なしコピー

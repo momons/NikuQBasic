@@ -137,7 +137,7 @@ QBasicVariableEntity QBasicExec::addsub(const bool run) {
 		value = muldiv(run);
 	} else if(sym == "-") {
 		value = muldiv(run);
-		value = value.mul(value.type, -1);
+		value = value.mul(value.types, -1);
 	} else if(sym == "not") {
 		value = muldiv(run);
 		value = !value;
@@ -251,7 +251,7 @@ QBasicVariableEntity QBasicExec::factor(const bool run) {
 	
 	// nil値ならば
 	if (sym == "nil") {
-		return QBasicVariableEntity("", VariableType::Unknown, nullptr);
+		return QBasicVariableEntity("", { VariableType::Unknown }, nullptr);
 	}
 	
 	// ステートメント
@@ -354,11 +354,11 @@ bool QBasicExec::statement(const bool run) {
  */
 QBasicVariableEntity QBasicExec::dictValue(const bool run) {
 	QBasicVariableEntity returnValue;
-	returnValue.type = VariableType::Dict;
+	returnValue.types = { VariableType::Dict };
 	int count = 0;
 	while (true) {
 		auto sym = getSymbol();
-		if (sym == "}") {
+		if (sym == "}" || sym.empty()) {
 			break;
 		}
 		interpreter->symbols->popBack();
@@ -381,6 +381,7 @@ QBasicVariableEntity QBasicExec::dictValue(const bool run) {
 		count += 1;
 	}
 	returnValue.isNil = false;
+	returnValue.types = QBasicVariableEntity::getVariableTypes(returnValue);
 	return returnValue;
 }
 
@@ -403,8 +404,8 @@ QBasicVariableEntity *QBasicExec::getVariable(const bool run, const string &name
 	}
 	QBasicVariableEntity *variable = parentVariable;
 	while (true) {
-		if (variable->type != VariableType::List &&
-			variable->type != VariableType::Dict) {
+		if (variable->types[0] != VariableType::List &&
+			variable->types[0] != VariableType::Dict) {
 			break;
 		}
 		
@@ -413,13 +414,16 @@ QBasicVariableEntity *QBasicExec::getVariable(const bool run, const string &name
 			interpreter->symbols->popBack();
 			break;
 		}
+		if (sym.empty()) {
+			break;
+		}
 		
 		int offset = interpreter->symbols->offset();
 		
 		auto keyValue = expression(run);
 		match("]");
 		
-		if (variable->type == VariableType::List) {
+		if (variable->types[0] == VariableType::List) {
 			if (keyValue.intValue < 0 || keyValue.intValue >= variable->listValue.size()) {
 				interpreter->errors->setThrow(offset, ErrorType::ListIndexOutOfBounds, QBasicErrors::buildListIndexOutOfBounds(0, (int)variable->listValue.size() - 1, keyValue.intValue));
 				return nullptr;
@@ -500,7 +504,7 @@ QBasicVariableEntity QBasicExec::executeFunction(const bool run, const string &f
 	if (interpreter->variables.find(FUNCTION_RETURN_VARIABLE_NAME) != interpreter->variables.end()) {
 		return interpreter->variables[FUNCTION_RETURN_VARIABLE_NAME];
 	} else {
-		return QBasicVariableEntity("", VariableType::Unknown, nullptr);
+		return QBasicVariableEntity("", { VariableType::Unknown }, nullptr);
 	}
 }
 
@@ -542,7 +546,7 @@ bool QBasicExec::analysisValueAssigned(const bool run, const string &variableNam
 	auto operate = getSymbol();
 	// 変数
 	auto value = expression(run);
-	value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
+	value.types = QBasicVariableEntity::getVariableTypes(value);
 	if (operate == "+=") {
 		value = *variable + value;
 	} else if (operate == "-=") {
@@ -571,16 +575,15 @@ bool QBasicExec::analysisVar(const bool run) {
 	
 	auto sym = getSymbol();
 	
-	auto variableType = VariableType::Unknown;
-	vector<VariableType> valueVariableTypes;
+	vector<VariableType> variableTypes = { VariableType::Unknown };
 	if (sym == ":") {
 		// 型をチェック
 		sym = getSymbol();
-		variableType = QBasicVariableEntity::getVariableType(sym);
-		if (variableType == VariableType::List ||
-			variableType == VariableType::Dict ) {
+		variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
+		if (variableTypes[0] == VariableType::List ||
+			variableTypes[0] == VariableType::Dict ) {
 			// 配列の場合は型の宣言が必要
-			analysisVarListDict(run, variableName, valueVariableTypes);
+			analysisVarListDict(run, variableName, variableTypes);
 		}
 		
 		// 次を取得
@@ -593,15 +596,15 @@ bool QBasicExec::analysisVar(const bool run) {
 			interpreter->symbols->popBack();
 		}
 		QBasicVariableEntity variableEntity;
-		switch (variableType) {
+		switch (variableTypes[0]) {
 			case VariableType::List:
-				variableEntity = QBasicVariableEntity(variableName, valueVariableTypes, vector<QBasicVariableEntity>());
+				variableEntity = QBasicVariableEntity(variableName, variableTypes, vector<QBasicVariableEntity>());
 				break;
 			case VariableType::Dict:
-				variableEntity = QBasicVariableEntity(variableName, valueVariableTypes, map<string, QBasicVariableEntity>());
+				variableEntity = QBasicVariableEntity(variableName, variableTypes, map<string, QBasicVariableEntity>());
 				break;
 			default:
-				variableEntity = QBasicVariableEntity(variableName, variableType, nullptr);
+				variableEntity = QBasicVariableEntity(variableName, variableTypes, nullptr);
 				break;
 		}
 		if (!lastFunctionName.empty()) {
@@ -614,8 +617,8 @@ bool QBasicExec::analysisVar(const bool run) {
 	
 	// 初期値取得
 	auto value = expression(run);
-	if (variableType == VariableType::Unknown) {
-		value.valueTypes = QBasicVariableEntity::getVariableTypes(value);
+	if (variableTypes[0] == VariableType::Unknown) {
+		value.types = QBasicVariableEntity::getVariableTypes(value);
 	}
 	
 	value.name = variableName;
@@ -644,7 +647,7 @@ bool QBasicExec::analysisVarListDict(const bool run, const string &variableName,
 			break;
 		}
 	}
-	for (auto i = 0;i < valueVariableTypes.size();i++) {
+	for (auto i = 0;i < valueVariableTypes.size() - 1;i++) {
 		match(">");
 	}
 	return true;
@@ -870,7 +873,7 @@ bool QBasicExec::analysisArguments(const bool run, vector<QBasicVariableEntity> 
 	match("(");
 	while(true) {
 		auto variableName = getSymbol();
-		if (variableName == ")") {
+		if (variableName == ")" || variableName.empty()) {
 			// 終了
 			break;
 		}
@@ -880,17 +883,16 @@ bool QBasicExec::analysisArguments(const bool run, vector<QBasicVariableEntity> 
 			variableName = getSymbol();
 		}
 		
-		auto variableType = VariableType::Unknown;
-		vector<VariableType> valueVariableTypes;
+		vector<VariableType> variableTypes = { VariableType::Unknown };
 		auto sym = getSymbol();
 		if (sym == ":") {
 			// 型指定へ
 			sym = getSymbol();
-			variableType = QBasicVariableEntity::getVariableType(sym);
-			if (variableType == VariableType::List ||
-				variableType == VariableType::Dict ) {
+			variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
+			if (variableTypes[0] == VariableType::List ||
+				variableTypes[0] == VariableType::Dict ) {
 				// 配列の場合は型の宣言が必要
-				analysisVarListDict(run, variableName, valueVariableTypes);
+				analysisVarListDict(run, variableName, variableTypes);
 			}
 			
 			// 次を取得
@@ -903,15 +905,12 @@ bool QBasicExec::analysisArguments(const bool run, vector<QBasicVariableEntity> 
 				interpreter->symbols->popBack();
 			}
 			variableEntity.name = variableName;
-			variableEntity.type = variableType;
-			variableEntity.valueTypes = valueVariableTypes;
+			variableEntity.types = variableTypes;
 		} else {
 			// デフォルト値指定へ
 			QBasicVariableEntity value = expression(run);
 			variableEntity = value;
 			variableEntity.name = variableName;
-			variableEntity.valueTypes = valueVariableTypes;
-			variableEntity.isNil = false;
 		}
 		
 		argNames.push_back(variableEntity);
@@ -928,7 +927,7 @@ bool QBasicExec::analysisArguments(const bool run, vector<QBasicVariableEntity> 
 bool QBasicExec::analysisReturn(const bool run) {
 	auto entity = (*(interpreter->functions))[lastFunctionName];
 	// 終了オフセットを退避
-	if (entity->returnType == VariableType::Void) {
+	if (entity->returnTypes[0] == VariableType::Void) {
 		executeFunctionEnd(run);
 		return false;
 	}
@@ -951,7 +950,7 @@ bool QBasicExec::analysisEndfunc(const bool run) {
 	auto entity = (*(interpreter->functions))[lastFunctionName];
 
 	// 戻り値あるはずがない
-	if (entity->returnType != VariableType::Void) {
+	if (entity->returnTypes[0] != VariableType::Void) {
 		interpreter->errors->setThrow(interpreter->symbols->offset() - 1, ErrorType::NothingReturnValue, "");
 		return false;
 	}

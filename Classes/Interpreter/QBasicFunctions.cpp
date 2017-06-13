@@ -29,8 +29,7 @@ QBasicFunctions::~QBasicFunctions() {
  * 関数追加
  * @param name           関数名
  * @param variableTypes  引数タイプ
- * @param returnType     戻り値タイプ
- * @param returnSubTypes 戻り値サブタイプ
+ * @param returnTypes    戻り値タイプ
  * @param startOffset    開始オフセット
  * @param endOffset      終了オフセット
  * @return 関数情報
@@ -38,22 +37,20 @@ QBasicFunctions::~QBasicFunctions() {
 QBasicFunctionEntity *QBasicFunctions::addUpdate(
 												 const string &name,
 												 const vector<QBasicVariableEntity> &variableTypes,
-												 const VariableType returnType,
-												 const vector<VariableType> returnSubTypes,
+												 const vector<VariableType> returnTypes,
 												 const int startOffset,
 												 const int endOffset) {
 
 	auto func = getFunction(name, variableTypes);
 	if (func != nullptr) {
 		// 更新
-		func->returnType = returnType;
-		func->returnSubTypes = returnSubTypes;
+		func->returnTypes = returnTypes;
 		func->startOffset = startOffset;
 		func->endOffset = endOffset;
 		return func;
 	}
 	// 追加
-	QBasicFunctionEntity entity = QBasicFunctionEntity(name, variableTypes, returnType, returnSubTypes, startOffset, endOffset);
+	QBasicFunctionEntity entity = QBasicFunctionEntity(name, variableTypes, returnTypes, startOffset, endOffset);
 	functions[entity.alias] = entity;
 	// 名前サマリ更新
 	buildSummaryNames();
