@@ -1,4 +1,4 @@
-//
+	//
 //  QBasicListFunctions.cpp
 //  NikuQBasic
 //
@@ -30,8 +30,8 @@ unordered_map<string, QBasicStatementEntity> QBasicListFunctions::buildStatement
 	
 	entity = QBasicStatementEntity("count", count_params(), { VariableType::Int }, count_qb, count_compile);
 	statementList[entity.alias] = entity;
-	entity = QBasicStatementEntity("append", append_params(), { VariableType::List }, append_qb, append_compile);
-	statementList[entity.alias] = entity;
+//	entity = QBasicStatementEntity("append", append_params(), { VariableType::List }, append_qb, append_compile);
+//	statementList[entity.alias] = entity;
 //	entity = QBasicStatementEntity("extend", extend_params(), VariableType::List, count_qb, extend_compile);
 //	statementList[entity.alias] = entity;
 	
@@ -70,7 +70,7 @@ void QBasicListFunctions::count_compile(QBasic *interpreter, const vector<QBasic
 // 要素追加
 vector<QBasicVariableEntity> QBasicListFunctions::append_params() {
 	vector<QBasicVariableEntity> argNames;
-	argNames.push_back(QBasicVariableEntity("v", { VariableType::Unknown }, nullptr));
+	argNames.push_back(QBasicVariableEntity("v", { VariableType::List }, nullptr));
 	argNames.push_back(QBasicVariableEntity("append", { VariableType::Unknown }, nullptr));
 	return argNames;
 }
@@ -80,7 +80,7 @@ QBasicVariableEntity QBasicListFunctions::append_qb(QBasic *interpreter, const v
 	return QBasicVariableEntity("", answer.types, &answer);
 }
 void QBasicListFunctions::append_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset) {
-	if (!QBasicValidation::isValidVariableTypeList(arg[1], arg[0].types, 0)) {
+	if (!QBasicValidation::isValidVariableTypeList(arg[0], arg[1].types, 0)) {
 		interpreter->errors->addError(symbolOffset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(arg[0].types, arg[1].types));
 	}
 }
