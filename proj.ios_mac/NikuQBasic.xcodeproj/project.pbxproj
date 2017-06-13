@@ -72,6 +72,7 @@
 		2FC9FB2A1EE75A0D00D869AF /* QBasicCompile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9FB291EE75A0D00D869AF /* QBasicCompile.cpp */; };
 		2FC9FB2D1EE75B3200D869AF /* QBasicExec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */; };
 		2FC9FB301EE75B5400D869AF /* QBasicBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */; };
+		2FCDB50D1EF046830090C3C1 /* QBasicFunctionTouchTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FCDB50C1EF046830090C3C1 /* QBasicFunctionTouchTests.mm */; };
 		2FD4A9901E897435005E6C7A /* QBasicMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4A98F1E897435005E6C7A /* QBasicMessages.cpp */; };
 		2FD4A9941E8975FA005E6C7A /* Localize.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD4A9961E8975FA005E6C7A /* Localize.strings */; };
 		2FF185541E23B81400F97DBC /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF185531E23B81400F97DBC /* libcocos2d iOS.a */; };
@@ -278,6 +279,7 @@
 		2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicExec.cpp; path = Interpreter/QBasicExec.cpp; sourceTree = "<group>"; };
 		2FC9FB2E1EE75B4800D869AF /* QBasicBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicBase.h; path = Interpreter/QBasicBase.h; sourceTree = "<group>"; };
 		2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicBase.cpp; path = Interpreter/QBasicBase.cpp; sourceTree = "<group>"; };
+		2FCDB50C1EF046830090C3C1 /* QBasicFunctionTouchTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QBasicFunctionTouchTests.mm; sourceTree = "<group>"; };
 		2FD4A98F1E897435005E6C7A /* QBasicMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QBasicMessages.cpp; path = Interpreter/QBasicMessages.cpp; sourceTree = "<group>"; };
 		2FD4A9911E897440005E6C7A /* QBasicMessages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QBasicMessages.h; path = Interpreter/QBasicMessages.h; sourceTree = "<group>"; };
 		2FD4A9951E8975FA005E6C7A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localize.strings; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				2F7CE5C31EAE51EC00660E89 /* QBasicFunctionMathTests.mm */,
 				2F569EAD1EDF224400DA1AAC /* QBasicFunctionStringTests.mm */,
 				2F671E8B1EED6C890050B6BD /* QBasicFunctionListTests.mm */,
+				2FCDB50C1EF046830090C3C1 /* QBasicFunctionTouchTests.mm */,
 				2F81E3171ED0A1A700B355BE /* QBasicFunctionDebugTests.mm */,
 				2FA94DE01ED37952002282BE /* QBasicCompileErrorTests.mm */,
 				2F5CE3E21E85416000EF0D65 /* Info.plist */,
@@ -1006,6 +1009,7 @@
 				2F671E8C1EED6C890050B6BD /* QBasicFunctionListTests.mm in Sources */,
 				2FB064AB1EAA5F7100BC3C2E /* QBasicVariableFloatTests.mm in Sources */,
 				2F7544011E95498B004715F9 /* QBasicRemTests.mm in Sources */,
+				2FCDB50D1EF046830090C3C1 /* QBasicFunctionTouchTests.mm in Sources */,
 				2F2C538A1EEB0BC700E81CD1 /* QBasicFunctionTypeIsTests.mm in Sources */,
 				2FB4C29A1E9BDE7D00D283CF /* QBasicFuncTests.mm in Sources */,
 				2F5CE42C1E85987F00EF0D65 /* TestFileUtils.m in Sources */,
