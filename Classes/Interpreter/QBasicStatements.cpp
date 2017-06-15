@@ -32,7 +32,6 @@
 #include "QBasicAlertFunctions.h"
 #include "QBasicDebugFunctions.h"
 #include "QBasicScene.h"
-#include "QBUserDefaultsManager.h"
 #include "QBSoundBGMManager.h"
 #include "QBSoundEffectManager.h"
 //#include "QBAlertViewLauncher.h"

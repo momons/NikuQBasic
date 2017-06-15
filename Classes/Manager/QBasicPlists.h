@@ -1,72 +1,69 @@
 //
-//  QBPlistManager.h
+//  QBasicPlists.h
 //  NikuQBasic
 //
 //  Created by HaraKazunari on 2015/07/07.
 //
 //
 
-#ifndef __NikuQBasic__QBPlistManager__
-#define __NikuQBasic__QBPlistManager__
+#ifndef __NikuQBasic__QBasicPlists__
+#define __NikuQBasic__QBasicPlists__
 
 #include "cocos2d.h"
-#include <string>
-#include <map>
 
 using namespace std;
 USING_NS_CC;
 
 /**
- *  スクリプトインフォマネージャ
+ *  plistを扱うクラス
  */
-class QBPlistManager {
+class QBasicPlists final {
 public:
 	
 	/**
 	 *  コンストラクタ
 	 *  @param filePath ファイルパス
 	 */
-	QBPlistManager(string filePath);
+	QBasicPlists(const string &filePath);
 	
 	/**
 	 *  デストラクタ
 	 */
-	~QBPlistManager();
+	~QBasicPlists();
 	
 	/**
 	 *  読込
 	 *  @param filePath ファイルパス
 	 */
-	void read(string filePath);
+	void read(const string &filePath);
 	
 	/**
 	 *  書込
 	 *  @param filePath ファイルパス
 	 */
-	void write(string filePath);
+	void write(const string &filePath);
 		
 	/**
 	 *  値を取得
 	 *  @param key キー
 	 *  @return 値
 	 */
-	string getValue(string key);
+	string getValue(const string &key);
 	
 	/**
 	 *  値を設定
 	 *  @param key   キー
 	 *  @param value 値
 	 */
-	void setValue(string key, string value);
+	void setValue(const string &key, const string &value);
 	
 private:
 	
-	/** ファイルパス */
+	/// ファイルパス
 	string filePath;
 
-	/** データ */
+	/// データ
 	ValueMap data;
-	
 };
 
-#endif /* defined(__NikuQBasic__QBPlistManager__) */
+#endif /* defined(__NikuQBasic__QBasicPlists__) */

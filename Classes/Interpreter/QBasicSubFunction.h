@@ -15,7 +15,6 @@ using namespace std;
 USING_NS_CC;
 
 class QBasicScene;
-class QBUserDefaultsManager;
 
 /**
  *  スクリプト　サブファンクション
@@ -25,9 +24,6 @@ public:
 	
 	/** シーン */
 	QBasicScene *scene;
-	
-	/** セーブ */
-	QBUserDefaultsManager *userDefaultsManager;
 	
 	/**
 	 *  コンストラクタ

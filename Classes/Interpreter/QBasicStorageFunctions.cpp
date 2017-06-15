@@ -12,7 +12,7 @@
 #include "QBasicStatementEntity.h"
 #include "QBasicVariableEntity.h"
 #include "QBasicSubFunction.h"
-#include "QBUserDefaultsManager.h"
+#include "QBasicStorages.h"
 
 #pragma mark - スクリプトステートメント
 

@@ -779,6 +779,137 @@ QBasicVariableEntity QBasicVariableEntity::toBool() {
 	return returnEntity;
 }
 
+/**
+ * 保存用JSONオブジェクト変換
+ * @return JSONオブジェクト
+ */
+picojson::object QBasicVariableEntity::toStorageJsonObject() {
+	picojson::object returnObject;
+	picojson::array jsonTypes;
+	for (auto it = types.begin();it != types.end();it++) {
+		jsonTypes.push_back(picojson::value((double)VARIABLE_TYPE_RAWVALUE(*it)));
+	}
+	returnObject.insert(make_pair("types", picojson::value(jsonTypes)));
+	returnObject.insert(make_pair("isNil", picojson::value(isNil)));
+	if (!isNil) {
+		switch (types[0]) {
+			case VariableType::Int:
+				returnObject.insert(make_pair("value", picojson::value((double)intValue)));
+				break;
+			case VariableType::Float:
+				returnObject.insert(make_pair("value", picojson::value(floatValue)));
+				break;
+			case VariableType::Str:
+				returnObject.insert(make_pair("value", picojson::value(strValue)));
+				break;
+			case VariableType::Bool:
+				returnObject.insert(make_pair("value", picojson::value(boolValue)));
+				break;
+			case VariableType::List: {
+				picojson::array values;
+				for (auto it = listValue.begin();it != listValue.end();it++) {
+					auto value = it->toStorageJsonObject();
+					values.push_back(picojson::value(value));
+				}
+				returnObject.insert(make_pair("value", picojson::value(values)));
+				break;
+			}
+			case VariableType::Dict: {
+				picojson::object values;
+				for (auto it = dictValue.begin();it != dictValue.end();it++) {
+					auto value = it->second.toStorageJsonObject();
+					values.insert(make_pair(it->first, picojson::value(value)));
+				}
+				returnObject.insert(make_pair("value", picojson::value(values)));
+				break;
+			}
+			default:
+				break;
+		}
+	}
+	return returnObject;
+}
+
+/**
+ * 保存用JSONオブジェクト→QBasicVariableEntity変換
+ * @param object JSONオブジェクト
+ * @return QBasicVariableEntity
+ */
+QBasicVariableEntity QBasicVariableEntity::build(picojson::object &object) {
+	QBasicVariableEntity returnEntity;
+	// チェック
+	if (!object["types"].is<picojson::array>() ||
+		!object["isNil"].is<bool>()) {
+		return returnEntity;
+	}
+
+	auto jsonTypes = object["types"].get<picojson::array>();
+	returnEntity.types.clear();
+	for (auto it = jsonTypes.begin();it != jsonTypes.end();it++) {
+		int jsonType = it->get<double>();
+		VariableType variableType = VARIABLE_TYPE(jsonType);
+		returnEntity.types.push_back(variableType);
+	}
+	returnEntity.isNil = object["isNil"].get<bool>();
+	
+	if (!returnEntity.isNil) {
+		switch (returnEntity.types[0]) {
+			case VariableType::Int:
+				if (!object["value"].is<double>()) {
+					break;
+				}
+				returnEntity.intValue = (int)object["value"].get<double>();
+				break;
+			case VariableType::Float:
+				if (!object["value"].is<double>()) {
+					break;
+				}
+				returnEntity.floatValue = object["value"].get<double>();
+				break;
+			case VariableType::Str:
+				if (!object["value"].is<string>()) {
+					break;
+				}
+				returnEntity.strValue = object["value"].get<string>();
+				break;
+			case VariableType::Bool:
+				if (!object["value"].is<bool>()) {
+					break;
+				}
+				returnEntity.boolValue = object["value"].get<bool>();
+				break;
+			case VariableType::List: {
+				if (!object["value"].is<picojson::array>()) {
+					break;
+				}
+				auto jsonValues = object["value"].get<picojson::array>();
+				for (auto it = jsonValues.begin();it != jsonValues.end();it++) {
+					auto jsonValue = it->get<picojson::object>();
+					auto value = QBasicVariableEntity::build(jsonValue);
+					returnEntity.listValue.push_back(value);
+				}
+				break;
+			}
+			case VariableType::Dict: {
+				if (!object["value"].is<picojson::object>()) {
+					break;
+				}
+				auto jsonValues = object["value"].get<picojson::object>();
+				for (auto it = jsonValues.begin();it != jsonValues.end();it++) {
+					auto jsonValue = it->second.get<picojson::object>();
+					auto value = QBasicVariableEntity::build(jsonValue);
+					returnEntity.dictValue[it->first] = value;
+				}
+				break;
+			}
+			default:
+				break;
+		}
+	}
+	
+	return returnEntity;
+}
+
 #pragma mark - チェック
 
 /**
@@ -888,6 +1019,8 @@ vector<VariableType> QBasicVariableEntity::getVariableTypes(const QBasicVariable
 			variableTypes.push_back(VariableType::Unknown);
 			return variableTypes;
 		}
+		childEntity.types.clear();
+		childEntity.types.push_back(variableTypes[1]);
 		auto childVariableTypes = getVariableTypes(childEntity);
 		if (childVariableTypes[1] == VariableType::Unknown) {
 			return variableTypes;

@@ -10,7 +10,6 @@
 #define __NikuQBasic__QBSoundBGMManager__
 
 #include "cocos2d.h"
-#include "QBUserDefaultsManager.h"
 
 USING_NS_CC;
 using namespace std;
@@ -76,9 +75,6 @@ private:
 	
     /** インスタンス変数 */
 	static QBSoundBGMManager *_soundBGMManagerInstance;
-	
-	/** ユーザーデフォルツマネージャー */
-	QBUserDefaultsManager *_userDefaultsManager;
 	
 	/** ファイル名 */
 	string _fileName;

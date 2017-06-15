@@ -9,10 +9,14 @@
 #ifndef QBasicVariableEntity_h
 #define QBasicVariableEntity_h
 
+#include "picojson.h"
+
 using namespace std;
 
-/// enum→数値変換用マクロ
+/// int→enum変換用マクロ
 #define VARIABLE_TYPE(value) static_cast<VariableType>(value)
+/// enum→int変換用マクロ
+#define VARIABLE_TYPE_RAWVALUE(value) static_cast<int>(value)
 
 /// 変数タイプ
 enum class VariableType {
@@ -336,6 +340,19 @@ public:
 	 * @return 結果
 	 */
 	QBasicVariableEntity toBool();
+
+	/**
+	 * QBasicVariableEntity→保存用JSONオブジェクト変換
+	 * @return JSONオブジェクト
+	 */
+	picojson::object toStorageJsonObject();
+	
+	/**
+	 * 保存用JSONオブジェクト→QBasicVariableEntity変換
+	 * @param object JSONオブジェクト
+	 * @return QBasicVariableEntity
+	 */
+	static QBasicVariableEntity build(picojson::object &object);
 
 #pragma mark - その他
 	
