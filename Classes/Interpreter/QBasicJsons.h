@@ -26,7 +26,7 @@ public:
 	 *  @param error      エラー
 	 *  @param jsonString JSON文字列
 	 */
-	static void toObject(picojson::value *jsonValue, string *error, string *jsonString);
+	static void toObject(picojson::value &jsonValue, string *error, const string &jsonString);
 
 	/**
 	 *  JSON文字列変換

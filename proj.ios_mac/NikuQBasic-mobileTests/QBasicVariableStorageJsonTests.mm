@@ -46,7 +46,7 @@
 	interpreter = new QBasic(nullptr, [scripts[0] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 1);
 	XCTAssertEqual(value.types[0], VariableType::Int);
 	XCTAssertEqual(value.intValue, 10);
@@ -58,7 +58,7 @@
 	interpreter = new QBasic(nullptr, [scripts[1] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 1);
 	XCTAssertEqual(value.types[0], VariableType::Float);
 	XCTAssertEqual(value.floatValue, 20);
@@ -70,7 +70,7 @@
 	interpreter = new QBasic(nullptr, [scripts[2] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 1);
 	XCTAssertEqual(value.types[0], VariableType::Str);
 	XCTAssertEqual(value.strValue, "abcdefg");
@@ -82,7 +82,7 @@
 	interpreter = new QBasic(nullptr, [scripts[3] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 1);
 	XCTAssertEqual(value.types[0], VariableType::Bool);
 	XCTAssertEqual(value.boolValue, true);
@@ -94,7 +94,7 @@
 	interpreter = new QBasic(nullptr, [scripts[4] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 2);
 	XCTAssertEqual(value.types[0], VariableType::List);
 	XCTAssertEqual(value.types[1], VariableType::Int);
@@ -111,7 +111,7 @@
 	interpreter = new QBasic(nullptr, [scripts[5] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 3);
 	XCTAssertEqual(value.types[0], VariableType::List);
 	XCTAssertEqual(value.types[1], VariableType::Dict);
@@ -145,7 +145,7 @@
 	interpreter = new QBasic(nullptr, [scripts[6] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 2);
 	XCTAssertEqual(value.types[0], VariableType::Dict);
 	XCTAssertEqual(value.types[1], VariableType::Str);
@@ -170,7 +170,7 @@
 	interpreter = new QBasic(nullptr, [scripts[7] UTF8String], "");
 	XCTAssertNoThrow(interpreter->run());
 	auto object = interpreter->variables["a"].toStorageJsonObject();
-	auto value = QBasicVariableEntity::build(object);
+	auto value = QBasicVariableEntity::buildForStorageJsonObject(object);
 	XCTAssertEqual(value.types.size(), 3);
 	XCTAssertEqual(value.types[0], VariableType::Dict);
 	XCTAssertEqual(value.types[1], VariableType::List);

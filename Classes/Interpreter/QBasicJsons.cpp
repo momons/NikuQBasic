@@ -15,16 +15,16 @@
  *  @param error      エラー
  *  @param jsonString JSON文字列
  */
-void QBasicJsons::toObject(picojson::value *jsonValue, string *error, string *jsonString) {
+void QBasicJsons::toObject(picojson::value &jsonValue, string *error, const string &jsonString) {
 	
 	// データ取得
-	string::size_type jsonSize = jsonString->length();
+	string::size_type jsonSize = jsonString.length();
 	char *jsonBuff = (char*)malloc(jsonSize + 1);
 	memset(jsonBuff, 0x00, jsonSize + 1);
-	memcpy(jsonBuff, jsonString->c_str(), jsonSize);
+	memcpy(jsonBuff, jsonString.c_str(), jsonSize);
 	
 	// JSON
-	picojson::parse(*jsonValue, jsonBuff, jsonBuff + jsonSize, error);
+	picojson::parse(jsonValue, jsonBuff, jsonBuff + jsonSize, error);
 	
 	// 解放
 	free(jsonBuff);

@@ -780,6 +780,99 @@ QBasicVariableEntity QBasicVariableEntity::toBool() {
 }
 
 /**
+ * QBasicVariableEntity→JSONオブジェクト変換
+ * @return JSONオブジェクト
+ */
+picojson::object QBasicVariableEntity::toJsonObject() {
+	picojson::object returnObject;
+	if (types[0] != VariableType::Dict) {
+		// Dict以外はダメ
+		return returnObject;
+	}
+	if (isNil) {
+		// nilは無視
+		return returnObject;
+	}
+	for (auto it = dictValue.begin();it != dictValue.end();it++) {
+		switch (it->second.types[0]) {
+			case VariableType::Int:
+				returnObject.insert(make_pair(it->first, picojson::value((double)it->second.intValue)));
+				break;
+			case VariableType::Float:
+				returnObject.insert(make_pair(it->first, picojson::value(it->second.floatValue)));
+				break;
+			case VariableType::Str:
+				returnObject.insert(make_pair(it->first, picojson::value(it->second.strValue)));
+				break;
+			case VariableType::Bool:
+				returnObject.insert(make_pair(it->first, picojson::value(it->second.boolValue)));
+				break;
+			case VariableType::List: {
+				auto value = it->second.toJsonArray();
+				returnObject.insert(make_pair(it->first, picojson::value(value)));
+				break;
+			}
+			case VariableType::Dict: {
+				auto value = it->second.toJsonObject();
+				returnObject.insert(make_pair(it->first, picojson::value(value)));
+				break;
+			}
+			default:
+				break;
+		}
+	}
+	return returnObject;
+}
+
+/**
+ * QBasicVariableEntity→JSON配列変換
+ * @return JSON配列
+ */
+picojson::array QBasicVariableEntity::toJsonArray() {
+	picojson::array returnArray;
+	if (types[0] != VariableType::List) {
+		// Dict以外はダメ
+		return returnArray;
+	}
+	if (isNil) {
+		// nilは無視
+		return returnArray;
+	}
+	for (auto it = listValue.begin();it != listValue.end();it++) {
+		if (it->isNil) {
+			continue;
+		}
+		switch (it->types[0]) {
+			case VariableType::Int:
+				returnArray.push_back(picojson::value((double)it->intValue));
+				break;
+			case VariableType::Float:
+				returnArray.push_back(picojson::value(it->floatValue));
+				break;
+			case VariableType::Str:
+				returnArray.push_back(picojson::value(it->strValue));
+				break;
+			case VariableType::Bool:
+				returnArray.push_back(picojson::value(it->boolValue));
+				break;
+			case VariableType::List: {
+				auto value = it->toJsonArray();
+				returnArray.push_back(picojson::value(value));
+				break;
+			}
+			case VariableType::Dict: {
+				auto value = it->toJsonObject();
+				returnArray.push_back(picojson::value(value));
+				break;
+			}
+			default:
+				break;
+		}
+	}
+	return returnArray;
+}
+
+/**
  * 保存用JSONオブジェクト変換
  * @return JSONオブジェクト
  */
@@ -835,7 +928,7 @@ picojson::object QBasicVariableEntity::toStorageJsonObject() {
  * @param object JSONオブジェクト
  * @return QBasicVariableEntity
  */
-QBasicVariableEntity QBasicVariableEntity::build(picojson::object &object) {
+QBasicVariableEntity QBasicVariableEntity::buildForStorageJsonObject(picojson::object &object) {
 	QBasicVariableEntity returnEntity;
 	// チェック
 	if (!object["types"].is<picojson::array>() ||
@@ -885,7 +978,7 @@ QBasicVariableEntity QBasicVariableEntity::build(picojson::object &object) {
 				auto jsonValues = object["value"].get<picojson::array>();
 				for (auto it = jsonValues.begin();it != jsonValues.end();it++) {
 					auto jsonValue = it->get<picojson::object>();
-					auto value = QBasicVariableEntity::build(jsonValue);
+					auto value = QBasicVariableEntity::buildForStorageJsonObject(jsonValue);
 					returnEntity.listValue.push_back(value);
 				}
 				break;
@@ -897,7 +990,7 @@ QBasicVariableEntity QBasicVariableEntity::build(picojson::object &object) {
 				auto jsonValues = object["value"].get<picojson::object>();
 				for (auto it = jsonValues.begin();it != jsonValues.end();it++) {
 					auto jsonValue = it->second.get<picojson::object>();
-					auto value = QBasicVariableEntity::build(jsonValue);
+					auto value = QBasicVariableEntity::buildForStorageJsonObject(jsonValue);
 					returnEntity.dictValue[it->first] = value;
 				}
 				break;

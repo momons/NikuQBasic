@@ -342,6 +342,18 @@ public:
 	QBasicVariableEntity toBool();
 
 	/**
+	 * QBasicVariableEntity→JSONオブジェクト変換
+	 * @return JSONオブジェクト
+	 */
+	picojson::object toJsonObject();
+
+	/**
+	 * QBasicVariableEntity→JSON配列変換
+	 * @return JSON配列
+	 */
+	picojson::array toJsonArray();
+
+	/**
 	 * QBasicVariableEntity→保存用JSONオブジェクト変換
 	 * @return JSONオブジェクト
 	 */
@@ -352,7 +364,7 @@ public:
 	 * @param object JSONオブジェクト
 	 * @return QBasicVariableEntity
 	 */
-	static QBasicVariableEntity build(picojson::object &object);
+	static QBasicVariableEntity buildForStorageJsonObject(picojson::object &object);
 
 #pragma mark - その他
 	
