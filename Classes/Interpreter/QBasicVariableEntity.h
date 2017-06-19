@@ -360,6 +360,20 @@ public:
 	picojson::object toStorageJsonObject();
 	
 	/**
+	 * JSONオブジェクト→QBasicVariableEntity変換
+	 * @param object JSONオブジェクト
+	 * @return QBasicVariableEntity
+	 */
+	static QBasicVariableEntity buildForJsonObject(picojson::object &object);
+
+	/**
+	 * JSON配列→QBasicVariableEntity変換
+	 * @param object JSONオブジェクト
+	 * @return QBasicVariableEntity
+	 */
+	static QBasicVariableEntity buildForJsonArray(picojson::array &object);
+	
+	/**
 	 * 保存用JSONオブジェクト→QBasicVariableEntity変換
 	 * @param object JSONオブジェクト
 	 * @return QBasicVariableEntity

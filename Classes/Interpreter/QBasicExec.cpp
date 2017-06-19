@@ -617,10 +617,6 @@ bool QBasicExec::analysisVar(const bool run) {
 	
 	// 初期値取得
 	auto value = expression(run);
-	if (variableTypes[0] == VariableType::Unknown) {
-		value.types = QBasicVariableEntity::getVariableTypes(value);
-	}
-	
 	value.name = variableName;
 	if (!lastFunctionName.empty()) {
 		interpreter->localVariables[variableName] = value;

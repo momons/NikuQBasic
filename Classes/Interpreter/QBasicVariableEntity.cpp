@@ -928,6 +928,77 @@ picojson::object QBasicVariableEntity::toStorageJsonObject() {
  * @param object JSONオブジェクト
  * @return QBasicVariableEntity
  */
+QBasicVariableEntity QBasicVariableEntity::buildForJsonObject(picojson::object &object) {
+	QBasicVariableEntity returnEntity;
+	returnEntity.types[0] = VariableType::Dict;
+	for (auto it = object.begin();it != object.end();it++) {
+		QBasicVariableEntity valueEntity;
+		if (it->second.is<double>()) {
+			auto value = it->second.get<double>();
+			if (value - (int)value != 0) {
+				valueEntity.set(value);
+			} else {
+				valueEntity.set((int)value);
+			}
+		} else if (it->second.is<string>()) {
+			auto value = it->second.get<string>();
+			valueEntity.set(value);
+		} else if (it->second.is<bool>()) {
+			auto value = it->second.get<bool>();
+			valueEntity.set(value);
+		} else if (it->second.is<picojson::array>()) {
+			auto value = it->second.get<picojson::array>();
+			valueEntity = buildForJsonArray(value);
+		} else if (it->second.is<picojson::object>()) {
+			auto value = it->second.get<picojson::object>();
+			valueEntity = buildForJsonObject(value);
+		}
+		returnEntity.dictValue[it->first] = valueEntity;
+	}
+	returnEntity.isNil = returnEntity.dictValue.size() <= 0;
+	return returnEntity;
+}
+
+/**
+ * JSON配列→QBasicVariableEntity変換
+ * @param object JSONオブジェクト
+ * @return QBasicVariableEntity
+ */
+QBasicVariableEntity QBasicVariableEntity::buildForJsonArray(picojson::array &object) {
+	QBasicVariableEntity returnEntity;
+	returnEntity.types[0] = VariableType::List;
+	for (auto it = object.begin();it != object.end();it++) {
+		QBasicVariableEntity valueEntity;
+		if (it->is<double>()) {
+			auto value = it->get<double>();
+			if (value - (int)value != 0) {
+				valueEntity.set(value);
+			} else {
+				valueEntity.set((int)value);
+			}
+		} else if (it->is<string>()) {
+			auto value = it->get<string>();
+			valueEntity.set(value);
+		} else if (it->is<bool>()) {
+			auto value = it->get<bool>();
+			valueEntity.set(value);
+		} else if (it->is<picojson::array>()) {
+			auto value = it->get<picojson::array>();
+			valueEntity = buildForJsonArray(value);
+		} else if (it->is<picojson::object>()) {
+			auto value = it->get<picojson::object>();
+			valueEntity = buildForJsonObject(value);
+		}
+		returnEntity.listValue.push_back(valueEntity);
+	}
+	return returnEntity;
+}
+
+/**
+ * 保存用JSONオブジェクト→QBasicVariableEntity変換
+ * @param object JSONオブジェクト
+ * @return QBasicVariableEntity
+ */
 QBasicVariableEntity QBasicVariableEntity::buildForStorageJsonObject(picojson::object &object) {
 	QBasicVariableEntity returnEntity;
 	// チェック
