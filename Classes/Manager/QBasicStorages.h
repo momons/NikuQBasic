@@ -35,38 +35,41 @@ public:
 	~QBasicStorages();
 	
 	/**
+	 *  キーの存在チェック
+	 *  @param key キー
+	 *  @return キーあり/キーなし
+	 */
+	QBasicVariableEntity hasKey(const string &key);
+
+	/**
 	 *  読込
 	 *  @param key キー
-	 *  @return 文字列
+	 *  @return 変数Entity
 	 */
-	string read(const string &key);
+	QBasicVariableEntity read(const string &key);
+
+	/**
+	 *  書込
+	 *  @param key   キー
+	 *  @param value 変数Entity
+	 */
+	void write(const string &key, QBasicVariableEntity &value);
+
+	/**
+	 *  削除
+	 *  @param key   キー
+	 */
+	void remove(const string &key);
 	
 	/**
-	 *  書込
-	 *  @param key   キー
-	 *  @param value 値
+	 *  全て削除
 	 */
-	void write(const string &key, const string &value);
-
-	/**
-	 *  書込
-	 *  @param key   キー
-	 *  @param value 値
-	 */
-	void write(const string &key, const QBasicVariableEntity &value);
-
-	/**
-	 *  全てを書込
-	 */
-	void writeAll();
+	void removeAll();
 
 private:
 	
 	/// ファイルパス
 	string filePath;
-	
-	/// セーブデータ
-	map<string, string> data;
 	
 	/// plistマネージャ
 	QBasicPlists *plistManager;

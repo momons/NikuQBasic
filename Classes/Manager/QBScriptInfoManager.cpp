@@ -84,6 +84,6 @@ void QBScriptInfoManager::write() {
 	_plistManager->setValue("copyright", this->copyright);
 	_plistManager->setValue("comment", this->comment);
 	
-	_plistManager->write(_filePath);
+	_plistManager->write();
 
 }

@@ -33,15 +33,13 @@ public:
 	
 	/**
 	 *  読込
-	 *  @param filePath ファイルパス
 	 */
-	void read(const string &filePath);
+	void read();
 	
 	/**
 	 *  書込
-	 *  @param filePath ファイルパス
 	 */
-	void write(const string &filePath);
+	void write();
 		
 	/**
 	 *  値を取得
@@ -56,7 +54,18 @@ public:
 	 *  @param value 値
 	 */
 	void setValue(const string &key, const string &value);
-	
+
+	/**
+	 *  値を削除
+	 *  @param key   キー
+	 */
+	void clearValue(const string &key);
+
+	/**
+	 *  全て削除
+	 */
+	void clearAll();
+
 private:
 	
 	/// ファイルパス

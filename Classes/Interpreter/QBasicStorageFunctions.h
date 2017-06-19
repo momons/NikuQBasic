@@ -34,10 +34,19 @@ public:
 	 *  @param arg         引数
 	 *  @return 戻り値
 	 */
-	/// 読み込み
-	static QBasicVariableEntity *load_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
-	/// セーブ
-	static QBasicVariableEntity *save_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 読込
+	static inline vector<QBasicVariableEntity> loadFile_params();
+	static inline QBasicVariableEntity loadFile_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 保存
+	static inline vector<QBasicVariableEntity> saveFile_params();
+	static inline QBasicVariableEntity saveFile_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
+	/// キーが存在するかチェック
+	static inline vector<QBasicVariableEntity> hasFileKey_params();
+	static inline QBasicVariableEntity hasFileKey_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	/// 削除
+	static inline vector<QBasicVariableEntity> removeFile_params();
+	static inline QBasicVariableEntity removeFile_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	
 
 };
 

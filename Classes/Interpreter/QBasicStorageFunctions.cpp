@@ -26,24 +26,57 @@ unordered_map<string, QBasicStatementEntity> QBasicStorageFunctions::buildStatem
 	unordered_map<string, QBasicStatementEntity> statementList;
 	QBasicStatementEntity entity;
 	
-//	entity = QBasicStatementEntity("load", { VariableType::Str }, VariableType::Str, load_qb);
-//	statementList[entity.name] = entity;
-//	entity = QBasicStatementEntity("save", { VariableType::Str, VariableType::Str }, VariableType::Void, save_qb);
-//	statementList[entity.name] = entity;
+	entity = QBasicStatementEntity("loadFile", loadFile_params(), { VariableType::Void }, loadFile_qb, nullptr);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("saveFile", saveFile_params(), { VariableType::Void }, saveFile_qb, nullptr);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("hasFileKey", hasFileKey_params(), { VariableType::Bool }, hasFileKey_qb, nullptr);
+	statementList[entity.alias] = entity;
+	entity = QBasicStatementEntity("removeFile", removeFile_params(), { VariableType::Void }, removeFile_qb, nullptr);
+	statementList[entity.alias] = entity;
 	
 	return statementList;
 }
 
 /// 読み込み
-QBasicVariableEntity *QBasicStorageFunctions::load_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	return interpreter->subFunc->userDefaultsManager->read(arg[0]);
-	return nullptr;
+vector<QBasicVariableEntity> QBasicStorageFunctions::loadFile_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("key", { VariableType::Str }, nullptr));
+	return argNames;
 }
+QBasicVariableEntity QBasicStorageFunctions::loadFile_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	return interpreter->storages->read(arg[0].strValue);
+}
+
 /// セーブ
-QBasicVariableEntity *QBasicStorageFunctions::save_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
-//	interpreter->subFunc->userDefaultsManager->write(arg[0], arg[1]);
-	return nullptr;
+vector<QBasicVariableEntity> QBasicStorageFunctions::saveFile_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("key", { VariableType::Str }, nullptr));
+	argNames.push_back(QBasicVariableEntity("value", { VariableType::Void }, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicStorageFunctions::saveFile_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg) {
+	interpreter->storages->write(arg[0].strValue, arg[1]);
+	return QBasicVariableEntity("", { VariableType::Void }, nullptr);
 }
 
-#pragma mark - サブルーチン
+/// キーが存在するかチェック
+vector<QBasicVariableEntity> QBasicStorageFunctions::hasFileKey_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("key", { VariableType::Str }, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicStorageFunctions::hasFileKey_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	return interpreter->storages->hasKey(arg[0].strValue);
+}
 
+/// 削除
+vector<QBasicVariableEntity> QBasicStorageFunctions::removeFile_params() {
+	vector<QBasicVariableEntity> argNames;
+	argNames.push_back(QBasicVariableEntity("key", { VariableType::Str }, nullptr));
+	return argNames;
+}
+QBasicVariableEntity QBasicStorageFunctions::removeFile_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg) {
+	interpreter->storages->remove(arg[0].strValue);
+	return QBasicVariableEntity("", { VariableType::Void }, nullptr);
+}

@@ -18,7 +18,7 @@ QBasicPlists::QBasicPlists(const string &filePath) {
 	this->filePath = filePath;
 	
 	// 読み込み
-	read(filePath);
+	read();
 }
 
 /**
@@ -29,18 +29,16 @@ QBasicPlists::~QBasicPlists() {
 
 /**
  *  読込
- *  @param filePath ファイルパス
  */
-void QBasicPlists::read(const string &filePath) {
+void QBasicPlists::read() {
 	// ファイル読込
 	data = FileUtils::getInstance()->getValueMapFromFile(filePath);
 }
 
 /**
  *  書込
- *  @param filePath ファイルパス
  */
-void QBasicPlists::write(const string &filePath) {
+void QBasicPlists::write() {
 	FileUtils::getInstance()->writeToFile(data, filePath);
 }
 
@@ -50,6 +48,9 @@ void QBasicPlists::write(const string &filePath) {
  *  @return 値
  */
 string QBasicPlists::getValue(const string &key) {
+	if (data.find(key) == data.end()) {
+		return "";
+	}
 	return data[key].asString();
 }
 
@@ -60,5 +61,24 @@ string QBasicPlists::getValue(const string &key) {
  */
 void QBasicPlists::setValue(const string &key, const string &value) {
 	data[key] = value;
-	
 }
+
+/**
+ *  値を削除
+ *  @param key   キー
+ */
+void QBasicPlists::clearValue(const string &key) {
+	auto it = data.find(key);
+	if (it == data.end()) {
+		return;
+	}
+	data.erase(it);
+}
+
+/**
+ *  全て削除
+ */
+void QBasicPlists::clearAll() {
+	data.clear();
+}
+
