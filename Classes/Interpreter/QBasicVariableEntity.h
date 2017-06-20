@@ -65,6 +65,8 @@ public:
 	
 	/// nilフラグ
 	bool isNil = true;
+	/// 定数フラグ
+	bool isConst = false;
 	
 	/**
 	 * コンストラクタ
@@ -388,6 +390,12 @@ public:
 	 *  @return 文字列
 	 */
 	static string toString(const vector<VariableType> &types);
+	
+	/**
+	 *  定数化設定
+	 *  @param isConst  true:定数、false:変数
+	 */
+	void setConst(const bool isConst);
 
 private:
 

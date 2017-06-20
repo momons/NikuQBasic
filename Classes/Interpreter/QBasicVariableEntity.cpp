@@ -1273,3 +1273,25 @@ string QBasicVariableEntity::toString(const vector<VariableType> &types) {
 	}
 	return stream.str();
 }
+
+/**
+ *  定数化設定
+ *  @param isConst  true:定数、false:変数
+ */
+void QBasicVariableEntity::setConst(const bool isConst) {
+	this->isConst = isConst;
+	switch (types[0]) {
+		case VariableType::List:
+			for (auto it = listValue.begin();it != listValue.end();it++) {
+				it->setConst(isConst);
+			}
+			break;
+		case VariableType::Dict:
+			for (auto it = dictValue.begin();it != dictValue.end();it++) {
+				it->second.setConst(isConst);
+			}
+			break;
+		default:
+			break;
+	}
+}

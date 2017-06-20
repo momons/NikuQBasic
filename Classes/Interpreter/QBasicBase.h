@@ -161,10 +161,11 @@ protected:
 	
 	/**
 	 * 変数を解析
-	 * @param run 実行中フラグ
+	 * @param run     実行中フラグ
+	 * @param isConst 定数フラグ
 	 * @return 終了フラグ false:終了 true:進行
 	 */
-	virtual bool analysisVar(const bool run) = 0;
+	virtual bool analysisVar(const bool run, const bool isConst) = 0;
 	
 	/**
 	 * 変数を解析 配列型

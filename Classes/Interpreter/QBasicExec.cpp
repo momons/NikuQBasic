@@ -291,8 +291,8 @@ bool QBasicExec::statement(const bool run) {
 		}
 		pushBack(operate);
 	}
-	if (sym == "var") {
-		return analysisVar(run);
+	if (sym == "var" || sym == "let") {
+		return analysisVar(run, sym == "let");
 	}
 	if (sym == "if") {
 		return analysisIf(run);
@@ -565,10 +565,11 @@ bool QBasicExec::analysisValueAssigned(const bool run, const string &variableNam
 
 /**
  * 変数を解析
- * @param run 実行中フラグ
+ * @param run     実行中フラグ
+ * @param isConst 定数フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasicExec::analysisVar(const bool run) {
+bool QBasicExec::analysisVar(const bool run, const bool isConst) {
 	
 	// 変数宣言
 	auto variableName = getSymbol();
@@ -618,6 +619,9 @@ bool QBasicExec::analysisVar(const bool run) {
 	// 初期値取得
 	auto value = expression(run);
 	value.name = variableName;
+	if (isConst) {
+		value.setConst(true);
+	}
 	if (!lastFunctionName.empty()) {
 		interpreter->localVariables[variableName] = value;
 	} else {
