@@ -54,6 +54,10 @@ enum class ErrorType {
 	FunctionOverFunction,
 	/// 戻り値がない
 	NothingReturnValue,
+	/// 定数に値を設定していない
+	NothingConstValue,
+	/// 定数は値を変更できない
+	NoChangeConstValue,
 };
 
 /**

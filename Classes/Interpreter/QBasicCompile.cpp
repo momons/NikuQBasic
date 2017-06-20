@@ -323,8 +323,8 @@ bool QBasicCompile::statement(const bool run) {
 		}
 		pushBack(operate);
 	}
-	if (sym == "var") {
-		return analysisVar(run);
+	if (sym == "var" || sym == "let") {
+		return analysisVar(run, sym == "let");
 	}
 	if (sym == "if") {
 		return analysisIf(run);
@@ -465,6 +465,7 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 				variable->listValue.push_back(QBasicVariableEntity("", { parentVariable->types[count] }, nullptr));
 			}
 			variable = &variable->listValue[0];
+			variable->isConst = parentVariable->isConst;
 			count += 1;
 		} else {
 			if (keyValue.types[0] != VariableType::Str) {
@@ -475,6 +476,7 @@ QBasicVariableEntity *QBasicCompile::getVariable(const bool run, const string &n
 				variable->dictValue[""] = QBasicVariableEntity("", { parentVariable->types[count] }, nullptr);
 			}
 			variable = &variable->dictValue.begin()->second;
+			variable->isConst = parentVariable->isConst;
 			count += 1;
 		}
 	}
@@ -551,9 +553,14 @@ QBasicVariableEntity QBasicCompile::executeFunction(const bool run, const string
 bool QBasicCompile::analysisValueAssigned(const bool run, const string &variableName) {
 	
 	// 変数取得
+	int variableOffset = interpreter->symbols->offset();
 	auto variable = getVariable(run, variableName);
 	if (variable == nullptr) {
 		return false;
+	}
+	// 定数ならば
+	if (variable->isConst) {
+		interpreter->errors->addError(variableOffset - 2, ErrorType::NoChangeConstValue, variableName);
 	}
 	// 記号
 	int operateOffset = interpreter->symbols->offset();
@@ -593,10 +600,11 @@ bool QBasicCompile::analysisValueAssigned(const bool run, const string &variable
 
 /**
  * 変数を解析
- * @param run 実行中フラグ
+ * @param run     実行中フラグ
+ * @param isConst 定数フラグ
  * @return 終了フラグ false:終了 true:進行
  */
-bool QBasicCompile::analysisVar(const bool run) {
+bool QBasicCompile::analysisVar(const bool run, const bool isConst) {
 	// 変数宣言
 	int variableOffset = interpreter->symbols->offset();
 	auto variableName = getSymbol();
@@ -641,7 +649,10 @@ bool QBasicCompile::analysisVar(const bool run) {
 	
 	// 初期値設定されているか
 	if (sym != "=") {
-		if (!run && variableTypes[0] == VariableType::Unknown) {
+		if (isConst) {
+			interpreter->errors->addError(variableOffset, ErrorType::NothingConstValue, variableName);
+		}
+		if (variableTypes[0] == VariableType::Unknown) {
 			interpreter->errors->addError(variableOffset, ErrorType::BadVariableType, variableName);
 		}
 		if (!sym.empty()) {
@@ -679,6 +690,9 @@ bool QBasicCompile::analysisVar(const bool run) {
 	}
 	
 	value.name = variableName;
+	if (isConst) {
+		value.setConst(true);
+	}
 	if (!lastFunctionName.empty()) {
 		interpreter->localVariables[variableName] = value;
 	} else {
