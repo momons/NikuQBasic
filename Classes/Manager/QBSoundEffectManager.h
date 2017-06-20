@@ -10,7 +10,6 @@
 #define __NikuQBasic__QBSoundEffectManager__
 
 #include "cocos2d.h"
-#include "QBUserDefaultsManager.h"
 #include "map"
 
 USING_NS_CC;
@@ -83,9 +82,6 @@ private:
 	
     /** インスタンス変数 */
 	static QBSoundEffectManager *_QBSoundEffectManagerInstance;
-	
-	/** ユーザーデフォルツマネージャー */
-	QBUserDefaultsManager *_userDefaultsManager;
 	
 	/** ファイル名郡 */
 	map<int, string> _fileName;

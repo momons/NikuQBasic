@@ -8,7 +8,7 @@
 
 #include "QBScriptInfoManager.h"
 
-#include "QBPlistManager.h"
+#include "QBasicPlists.h"
 
 /**
  *  コンストラクタ
@@ -57,7 +57,7 @@ void QBScriptInfoManager::read() {
 	}
 	
 	// 読み込み
-	_plistManager = new QBPlistManager(_filePath);
+	_plistManager = new QBasicPlists(_filePath);
 	
 	// 情報取得
 	this->projectId = _plistManager->getValue("projectId");
@@ -84,6 +84,6 @@ void QBScriptInfoManager::write() {
 	_plistManager->setValue("copyright", this->copyright);
 	_plistManager->setValue("comment", this->comment);
 	
-	_plistManager->write(_filePath);
+	_plistManager->write();
 
 }

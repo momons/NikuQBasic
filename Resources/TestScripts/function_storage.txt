@@ -1,0 +1,115 @@
+# test0 intを保存し読込
+var a = 10
+var b: int
+var c: float
+var d: str
+var e: bool
+var f: list<int>
+var g: dict<int>
+saveInt("test", a)
+if hasFileKey("test")
+  b = loadInt("test")
+  c = loadFloat("test")
+  d = loadStr("test")
+  e = loadBool("test")
+  f = loadList("test")
+  g = loadDict("test")
+endif
+removeStorage("test")
+========================
+# test1 floatを保存し読込
+var a = 10.5
+var b: int
+var c: float
+var d: str
+var e: bool
+var f: list<int>
+var g: dict<int>
+saveFloat("test", a)
+if hasFileKey("test")
+  b = loadInt("test")
+  c = loadFloat("test")
+  d = loadStr("test")
+  e = loadBool("test")
+  f = loadList("test")
+  g = loadDict("test")
+endif
+removeStorage("test")
+========================
+# test2 strを保存し読込
+var a = "123.5"
+var b: int
+var c: float
+var d: str
+var e: bool
+var f: list<int>
+var g: dict<int>
+saveStr("test", a)
+if hasFileKey("test")
+  b = loadInt("test")
+  c = loadFloat("test")
+  d = loadStr("test")
+  e = loadBool("test")
+  f = loadList("test")
+  g = loadDict("test")
+endif
+removeStorage("test")
+========================
+# test3 boolを保存し読込
+var a = true
+var b: int
+var c: float
+var d: str
+var e: bool
+var f: list<int>
+var g: dict<int>
+saveBool("test", a)
+if hasFileKey("test")
+  b = loadInt("test")
+  c = loadFloat("test")
+  d = loadStr("test")
+  e = loadBool("test")
+  f = loadList("test")
+  g = loadDict("test")
+endif
+removeStorage("test")
+========================
+# test4 listを保存し読込
+var a = [1, 2, 3]
+var b: int
+var c: float
+var d: str
+var e: bool
+var f: list<int>
+var g: dict<int>
+saveList("test", a)
+if hasFileKey("test")
+  b = loadInt("test")
+  c = loadFloat("test")
+  d = loadStr("test")
+  e = loadBool("test")
+  f = loadList("test")
+  g = loadDict("test")
+endif
+removeStorage("test")
+========================
+# test5 dictを保存し読込
+var a = { "a": 1, "b": 2, "c": 3 }
+var b: int
+var c: float
+var d: str
+var e: bool
+var f: list<int>
+var g: dict<int>
+saveList("test", a)
+if hasFileKey("test")
+  b = loadInt("test")
+  c = loadFloat("test")
+  d = loadStr("test")
+  e = loadBool("test")
+  f = loadList("test")
+  g = loadDict("test")
+endif
+removeStorage("test")
+========================
+

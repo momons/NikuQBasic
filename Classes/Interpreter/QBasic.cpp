@@ -31,6 +31,7 @@
 #include "QBasicNetFunctions.h"
 #include "QBasicValidation.h"
 #include "StringUtil.h"
+#include "QBasicStorages.h"
 
 /** 関数返却変数名 */
 #define FUNCTION_RETURN_VARIABLE_NAME  "__return_variable__"
@@ -50,6 +51,7 @@ QBasic::QBasic(QBasicScene *scene, const string &source, const string &projectId
     this->source = source;
 	
 	// サブファンクション作成
+	storages = new QBasicStorages(projectId);
 	netFunc = new QBasicNetFunctions();
 	subFunc = new QBasicSubFunction(scene, projectId);
 }
@@ -70,6 +72,7 @@ QBasic::~QBasic() {
 	}
 	delete netFunc;
 	delete subFunc;
+	delete storages;
 	if (fors != nullptr) {
 		delete fors;
 	}

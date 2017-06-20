@@ -13,7 +13,7 @@
 #include <string>
 #include <map>
 
-class QBPlistManager;
+class QBasicPlists;
 
 using namespace std;
 USING_NS_CC;
@@ -72,7 +72,7 @@ private:
 	string _filePath;
 	
 	/** plistマネージャ */
-	QBPlistManager *_plistManager;
+	QBasicPlists *_plistManager;
 	
 };
 

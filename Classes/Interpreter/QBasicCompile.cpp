@@ -137,7 +137,7 @@ QBasicVariableEntity QBasicCompile::addsub(const bool run) {
 		} else {
 			interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType({VariableType::Int, VariableType::Float}, value));
 		}
-	} else if(sym == "not") {
+	} else if(sym == "!") {
 		int offset = interpreter->symbols->offset();
 		value = muldiv(run);
 		if (QBasicValidation::isValidNot(value)) {

@@ -11,8 +11,6 @@
 #include "QBasicSetupNodeEntity.h"
 #include "QBasicScene.h"
 
-#include "QBUserDefaultsManager.h"
-
 /**
  *  コンストラクタ
  *  @param scene     シーン
@@ -32,7 +30,6 @@ QBasicSubFunction::QBasicSubFunction(QBasicScene *scene, const string &projectId
  *  デストラクタ
  */
 QBasicSubFunction::~QBasicSubFunction() {
-	delete userDefaultsManager;
 }
 
 /**
@@ -40,9 +37,6 @@ QBasicSubFunction::~QBasicSubFunction() {
  */
 void QBasicSubFunction::init() {
 
-	// ユーザデフォルト作成
-	userDefaultsManager = new QBUserDefaultsManager(projectId);
-	
 	color = cocos2d::Color4F(0, 0, 0, 1);
 	lineWidth = 1;
 	fontName = "";

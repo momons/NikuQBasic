@@ -27,6 +27,7 @@ class QBasicVariableEntity;
 class QBasicBase;
 class QBasicCompile;
 class QBasicExec;
+class QBasicStorages;
 
 /**
  * イベントスクリプトインタプリタクラス
@@ -64,6 +65,9 @@ public:
 	/// if群
 	QBasicIfs *ifs = nullptr;
 
+	/// ストレージ
+	QBasicStorages *storages;
+	
 	/**
 	 *  コンストラクタ
 	 *  @param scene     シーン

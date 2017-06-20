@@ -37,6 +37,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <string>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -224,9 +225,9 @@ namespace picojson {
     case null_type:      return "null";
     case boolean_type:   return boolean_ ? "true" : "false";
     case number_type:    {
-      char buf[256];
-      SNPRINTF(buf, sizeof(buf), "%f", number_);
-      return buf;
+      std::ostringstream oss;
+	  oss << number_;
+	  return oss.str();
     }
     case string_type:    return *string_;
     case array_type:     return "array";

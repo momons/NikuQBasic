@@ -1,50 +1,44 @@
 //
-//  QBPlistManager.cpp
+//  QBasicPlists.cpp
 //  NikuQBasic
 //
 //  Created by HaraKazunari on 2015/07/07.
 //
 //
 
-#include "QBPlistManager.h"
+#include "QBasicPlists.h"
 
 /**
  *  コンストラクタ
  *  @param filePath ファイルパス
  */
-QBPlistManager::QBPlistManager(string filePath) {
+QBasicPlists::QBasicPlists(const string &filePath) {
 
 	// ファイルパス退避
 	this->filePath = filePath;
 	
 	// 読み込み
-	read(filePath);
+	read();
 }
 
 /**
  *  デストラクタ
  */
-QBPlistManager::~QBPlistManager() {
-	filePath.clear();
-	filePath.shrink_to_fit();
-	data.clear();
+QBasicPlists::~QBasicPlists() {
 }
 
 /**
  *  読込
- *  @param filePath ファイルパス
  */
-void QBPlistManager::read(string filePath) {
-	
+void QBasicPlists::read() {
 	// ファイル読込
 	data = FileUtils::getInstance()->getValueMapFromFile(filePath);
 }
 
 /**
  *  書込
- *  @param filePath ファイルパス
  */
-void QBPlistManager::write(string filePath) {
+void QBasicPlists::write() {
 	FileUtils::getInstance()->writeToFile(data, filePath);
 }
 
@@ -53,7 +47,10 @@ void QBPlistManager::write(string filePath) {
  *  @param key キー
  *  @return 値
  */
-string QBPlistManager::getValue(string key) {
+string QBasicPlists::getValue(const string &key) {
+	if (data.find(key) == data.end()) {
+		return "";
+	}
 	return data[key].asString();
 }
 
@@ -62,7 +59,26 @@ string QBPlistManager::getValue(string key) {
  *  @param key   キー
  *  @param value 値
  */
-void QBPlistManager::setValue(string key, string value) {
+void QBasicPlists::setValue(const string &key, const string &value) {
 	data[key] = value;
-	
 }
+
+/**
+ *  値を削除
+ *  @param key   キー
+ */
+void QBasicPlists::clearValue(const string &key) {
+	auto it = data.find(key);
+	if (it == data.end()) {
+		return;
+	}
+	data.erase(it);
+}
+
+/**
+ *  全て削除
+ */
+void QBasicPlists::clearAll() {
+	data.clear();
+}
+
