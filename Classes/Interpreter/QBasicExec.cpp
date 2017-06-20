@@ -138,7 +138,7 @@ QBasicVariableEntity QBasicExec::addsub(const bool run) {
 	} else if(sym == "-") {
 		value = muldiv(run);
 		value = value.mul(value.types, -1);
-	} else if(sym == "not") {
+	} else if(sym == "!") {
 		value = muldiv(run);
 		value = !value;
 	} else {
@@ -659,6 +659,7 @@ bool QBasicExec::analysisIf(const bool run) {
 	int ifKey = interpreter->symbols->offset();
 	int ifIndex = 0;
 	bool isElse = false;
+	bool isSuccess = false;
 	
 	// if文
 	auto value = expression(run);
@@ -668,11 +669,7 @@ bool QBasicExec::analysisIf(const bool run) {
 			return true;
 		}
 	} else {
-		if (!statement(run)) {
-			return !isExit;
-		}
-		jumpIf(ifKey, -1);
-		return !isExit;
+		isSuccess = true;
 	}
 	while (true) {
 		if (isBreak || isContinue) {
@@ -686,6 +683,10 @@ bool QBasicExec::analysisIf(const bool run) {
 			jumpIf(ifKey, -1);
 			break;
 		} else if(sym == "elseif") {
+			if (isSuccess) {
+				jumpIf(ifKey, -1);
+				break;
+			}
 			auto value = expression(run);
 			if (!value.boolValue) {
 				ifIndex += 1;
@@ -693,15 +694,19 @@ bool QBasicExec::analysisIf(const bool run) {
 					break;
 				}
 			} else {
+				isSuccess = true;
 				if (!statement(run)) {
 					break;
 				}
-				if (run) {
-					jumpIf(ifKey, -1);
-					break;
-				}
+				jumpIf(ifKey, -1);
+				break;
 			}
 		} else if(sym == "else") {
+			if (isSuccess) {
+				jumpIf(ifKey, -1);
+				break;
+			}
+			isSuccess = true;
 			if (!statement(run)) {
 				break;
 			}

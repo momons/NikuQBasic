@@ -674,7 +674,6 @@ QBasicVariableEntity QBasicVariableEntity::append(const QBasicVariableEntity &en
  */
 QBasicVariableEntity QBasicVariableEntity::toInt() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.types = { VariableType::Int };
 	if (isNil) {
 		return returnEntity;
 	}
@@ -705,13 +704,15 @@ QBasicVariableEntity QBasicVariableEntity::toInt() {
  */
 QBasicVariableEntity QBasicVariableEntity::toFloat() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.types = { VariableType::Float };
 	if (isNil) {
 		return returnEntity;
 	}
 	switch (types[0]) {
 		case VariableType::Int:
 			returnEntity.set((double)intValue);
+			break;
+		case VariableType::Float:
+			returnEntity.set(floatValue);
 			break;
 		case VariableType::Str:
 			returnEntity.set(atof(strValue.c_str()));
@@ -732,7 +733,6 @@ QBasicVariableEntity QBasicVariableEntity::toFloat() {
  */
 QBasicVariableEntity QBasicVariableEntity::toStr() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.types = { VariableType::Str };
 	if (isNil) {
 		return returnEntity;
 	}
@@ -742,6 +742,9 @@ QBasicVariableEntity QBasicVariableEntity::toStr() {
 			break;
 		case VariableType::Float:
 			returnEntity.set(StringUtil::toString(floatValue));
+			break;
+		case VariableType::Str:
+			returnEntity.set(strValue);
 			break;
 		case VariableType::Bool:
 			returnEntity.set((string)(boolValue ? "true" : "false"));
@@ -759,7 +762,6 @@ QBasicVariableEntity QBasicVariableEntity::toStr() {
  */
 QBasicVariableEntity QBasicVariableEntity::toBool() {
 	QBasicVariableEntity returnEntity;
-	returnEntity.types = { VariableType::Bool };
 	if (isNil) {
 		return returnEntity;
 	}
@@ -772,6 +774,9 @@ QBasicVariableEntity QBasicVariableEntity::toBool() {
 			break;
 		case VariableType::Float:
 			returnEntity.set((bool)(floatValue != 0));
+			break;
+		case VariableType::Bool:
+			returnEntity.set(boolValue);
 			break;
 		default:
 			break;
