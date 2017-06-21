@@ -9,8 +9,7 @@
 #ifndef QBasicNetFunctions_h
 #define QBasicNetFunctions_h
 
-#include <stdio.h>
-#include "QBNetFetcher.h"
+#include "QBasicFetchers.h"
 
 using namespace std;
 
@@ -19,7 +18,7 @@ class QBasicStatementEntity;
 class QBasicVariableEntity;
 
 /// スクリプト 通信操作サブ関数群
-class QBasicNetFunctions final: public QBNetFetcherDelegate {
+class QBasicNetFunctions final: public QBasicFetchersDelegate {
 public:
 
 	/// 通信中フラグ
@@ -54,12 +53,15 @@ public:
 	 *  通信成功
 	 *  @param responseData レスポンスデータ
 	 */
-	void successNetFetcher(const string responseData);
+	void successNetFetcher(const string responseData) override;
 	
 	/**
 	 *  通信失敗
+	 *  @param fetcher 対象フェッチャー
+	 *  @param status  HTTPステータス
+	 *  @param message メッセージ
 	 */
-	void failureNetFetcher();
+	void failure(const QBasicFetchers *fetcher, const long status, const string &message) override;
 
 	/**
 	 *  コンストラクタ
@@ -74,7 +76,7 @@ public:
 private:
 	
 	/// ネット通信用
-	QBNetFetcher *netFetcher = nullptr;
+	QBasicFetchers *fetcher = nullptr;
 	
 	/// ネット通信返却用ポインタ
 	string *retNetValue = nullptr;

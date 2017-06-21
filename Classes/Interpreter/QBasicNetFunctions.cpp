@@ -71,13 +71,13 @@ void QBasicNetFunctions::startNetFetcher(const string &url, string *retNetValue)
 	this->retNetValue = retNetValue;
 	
 	// 解放
-	if (netFetcher != nullptr) {
-		delete netFetcher;
-	}
+//	if (netFetcher != nullptr) {
+//		delete netFetcher;
+//	}
 	
 	// フェッチャスタート
-	netFetcher = new QBNetFetcher();
-	netFetcher->startRequest(url, this);
+//	netFetcher = new QBNetFetcher();
+//	netFetcher->startRequest(url, this);
 }
 
 /**
@@ -93,15 +93,18 @@ void QBasicNetFunctions::successNetFetcher(const string responseData) {
 	isConnect = false;
 	
 	// 解放
-	delete netFetcher;
-	netFetcher = nullptr;
+//	delete netFetcher;
+//	netFetcher = nullptr;
 }
 
 /**
  *  通信失敗
+ *  @param fetcher 対象フェッチャー
+ *  @param status  HTTPステータス
+ *  @param message メッセージ
  */
-void QBasicNetFunctions::failureNetFetcher() {
-	
+void QBasicNetFunctions::failure(const QBasicFetchers *fetcher, const long status, const string &message) {
+
 	// 変数設定
 	*retNetValue = "ERROR";
 	
@@ -109,6 +112,6 @@ void QBasicNetFunctions::failureNetFetcher() {
 	isConnect = false;
 	
 	// 解放
-	delete netFetcher;
-	netFetcher = nullptr;
+//	delete netFetcher;
+//	netFetcher = nullptr;
 }
