@@ -31,7 +31,7 @@ string QBasicQueries::toQueryString(QBasicVariableEntity &value) {
 			case VariableType::Float:
 			case VariableType::Str:
 			case VariableType::Bool:
-				ostr << QBasicUrlEncode::urlEncode(it->second.toStr().strValue);
+				ostr << QBasicUrlEncode::encode(it->second.toStr().strValue);
 				break;
 			case VariableType::List:
 				break;

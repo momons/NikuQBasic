@@ -9,6 +9,8 @@
 #ifndef QBasicUrlEncode_h
 #define QBasicUrlEncode_h
 
+#include <string>
+
 using namespace std;
 
 class QBasicVariableEntity;
@@ -24,7 +26,14 @@ public:
 	 *  @param value  変換前文字列
 	 *  @return 変換後文字列
 	 */
-	static string urlEncode(const string &value);
+	static string encode(const string &value);
+	
+	/**
+	 *  URLデコード
+	 *  @param value  変換前文字列
+	 *  @return 変換後文字列
+	 */
+	static string decode(const string &value);
 	
 private:
 	
