@@ -51,9 +51,10 @@ public:
 	
 	/**
 	 *  通信成功
-	 *  @param responseData レスポンスデータ
+	 *  @param fetcher  対象フェッチャー
+	 *  @param response レスポンスデータ
 	 */
-	void successNetFetcher(const string responseData) override;
+	void success(const QBasicFetchers *fetcher, const QBasicVariableEntity &response) override;
 	
 	/**
 	 *  通信失敗

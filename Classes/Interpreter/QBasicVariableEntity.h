@@ -354,6 +354,12 @@ public:
 	 * @return JSON配列
 	 */
 	picojson::array toJsonArray();
+	
+	/**
+	 * QBasicVariableEntity→JSON文字列
+	 * @return JSON文字列
+	 */
+	string toJsonString();
 
 	/**
 	 * QBasicVariableEntity→保存用JSONオブジェクト変換

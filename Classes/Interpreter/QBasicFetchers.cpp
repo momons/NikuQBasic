@@ -9,6 +9,8 @@
 #include "QBasicFetchers.h"
 
 #include "picojson.h"
+#include "QBasicQueries.h"
+#include "QBasicJsons.h"
 
 /**
  *  コンストラクタ
@@ -39,21 +41,53 @@ void QBasicFetchers::startRequest(string url, QBasicFetchersDelegate* delegate) 
 	// 通信設定
 	request->setUrl(url.c_str());
 	request->setRequestType(method);
+	if (bodyData.size() > 0) {
+		request->setRequestData(bodyData.data(), bodyData.size());
+	}
+	// ヘッダ設定
+	vector<string> headers = this->headers;
+	switch (bodyEncodeType) {
+		case BodyEncodeType::JSON:
+			headers.push_back("Content-Type: application/json; charset=UTF-8");
+			break;
+		default:
+			headers.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
+			break;
+	}
+	request->setHeaders(headers);
 	request->setResponseCallback([this](network::HttpClient* client, network::HttpResponse* response) {
 		
 		// エラー
 		if(!response->isSucceed() ||
 		   response->getResponseCode() != 200){
-			// 変換エラー
+			// エラー
 			this->delegate->failure(this, response->getResponseCode(), response->getErrorBuffer());
 			return;
 		}
 		
 		// レスポンス取得
 		vector<char> *buff = response->getResponseData();
+		string responseString = string(buff->begin(), buff->end());
 		
-		// デリゲートコール
-		this->delegate->successNetFetcher(string(buff->begin(), buff->end()));
+		// JSON変換のみ
+		picojson::value jsonValue;
+		string error;
+		QBasicJsons::toObject(jsonValue, &error, responseString);
+		
+		if (error.length() > 0) {
+			// TODO: 変換エラー
+			return;
+		}
+		
+		QBasicVariableEntity responseEntity;
+		if (jsonValue.is<picojson::array>()) {
+			responseEntity = QBasicVariableEntity::buildForJsonArray(jsonValue.get<picojson::array>());
+		} else if (jsonValue.is<picojson::object>()) {
+			responseEntity = QBasicVariableEntity::buildForJsonObject(jsonValue.get<picojson::object>());
+		}
+		
+		// 成功
+		this->delegate->success(this, responseEntity);
 	});
 	
 	// 通信開始
@@ -81,16 +115,48 @@ void QBasicFetchers::setMethodString(const string &method) {
 
 /**
  *  ボディ指定
- *  @param value          値
+ *  @param body           値
  *  @param bodyEncodeType エンコードタイプ
  */
-void QBasicFetchers::setBody(const QBasicVariableEntity &body, const BodyEncodeType bodyEncodeType) {
+void QBasicFetchers::setBody(QBasicVariableEntity &body, const BodyEncodeType bodyEncodeType) {
 	
 	// 退避
 	this->body = body;
 	this->bodyEncodeType = bodyEncodeType;
 	
+	string bodyString;
+	switch(bodyEncodeType) {
+		case BodyEncodeType::JSON:
+			bodyString = body.toJsonString();
+			break;
+		case BodyEncodeType::Quary:
+			bodyString = QBasicQueries::toQueryString(body);
+			break;
+		case BodyEncodeType::Binary:
+			// TODO:まぁそのうち
+			break;
+	}
 	
+	bodyData = vector<char>(bodyString.begin(), bodyString.end());
+}
+
+/**
+ *  ヘッダ指定
+ *  @param headers ヘッダ
+ */
+void QBasicFetchers::setHeaders(QBasicVariableEntity &value) {
+	// Dict以外は無視
+	if (value.types[0] != VariableType::Dict) {
+		return;
+	}
+
+	headers.clear();
+	// 日本語のエンコードは...まいっか
+	for (auto it = value.dictValue.begin();it != value.dictValue.end();it++) {
+		ostringstream oss;
+		oss << it->first << ": " << it->second.toStr().strValue;
+		headers.push_back(oss.str());
+	}
 }
 
 

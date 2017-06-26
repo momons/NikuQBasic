@@ -878,6 +878,29 @@ picojson::array QBasicVariableEntity::toJsonArray() {
 }
 
 /**
+ * QBasicVariableEntity→JSON文字列
+ * @return JSON文字列
+ */
+string QBasicVariableEntity::toJsonString() {
+	picojson::value jsonValue;
+	switch (types[0]) {
+		case VariableType::List: {
+			auto jsonArray = toJsonArray();
+			jsonValue = picojson::value(jsonArray);
+			break;
+		}
+		case VariableType::Dict: {
+			auto jsonObject = toJsonObject();
+			jsonValue = picojson::value(jsonObject);
+			break;
+		}
+		default:
+			break;
+	}
+	return jsonValue.serialize();
+}
+
+/**
  * 保存用JSONオブジェクト変換
  * @return JSONオブジェクト
  */

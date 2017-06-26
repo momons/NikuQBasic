@@ -23,7 +23,9 @@ enum class BodyEncodeType {
 	/// JSON
 	JSON,
 	/// クエリ
-	Quary
+	Quary,
+	/// バイナリ
+	Binary,
 };
 
 /**
@@ -34,9 +36,10 @@ public:
 	
 	/**
 	 *  通信成功
-	 *  @param responseData レスポンスデータ
+	 *  @param fetcher  対象フェッチャー
+	 *  @param response レスポンスデータ
 	 */
-	virtual void successNetFetcher(string responseData) = 0;
+	virtual void success(const QBasicFetchers *fetcher, const QBasicVariableEntity &response) = 0;
 	
 	/**
 	 *  通信失敗
@@ -78,11 +81,17 @@ public:
 	
 	/**
 	 *  ボディ指定
-	 *  @param value          値
+	 *  @param body           値
 	 *  @param bodyEncodeType エンコードタイプ
 	 */
-	void setBody(const QBasicVariableEntity &body, const BodyEncodeType bodyEncodeType);
-	
+	void setBody(QBasicVariableEntity &body, const BodyEncodeType bodyEncodeType);
+
+	/**
+	 *  ヘッダ指定
+	 *  @param value ヘッダ
+	 */
+	void setHeaders(QBasicVariableEntity &value);
+
 private:
 
 	/// URL
@@ -94,8 +103,12 @@ private:
 	network::HttpRequest::Type method;
 	/// ボディデータ
 	QBasicVariableEntity body;
+	/// ボディバイナリデータ
+	vector<char> bodyData;
 	/// ボディエンコードタイプ
 	BodyEncodeType bodyEncodeType;
+	/// ヘッダー情報
+	vector<string> headers;
 
 	/// デリゲート
 	QBasicFetchersDelegate *delegate;

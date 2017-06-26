@@ -24,7 +24,11 @@ string QBasicUrlEncode::encode(const string &value) {
 		
 		string::value_type chr = *it;
 		
-		if (isalnum(chr) || chr == '-' || chr == '_' || chr == '.' || chr == '~') {
+		if (isalnum(chr) ||
+			chr == '-' ||
+			chr == '_' ||
+			chr == '.' ||
+			chr == '~') {
 			encode << chr;
 			continue;
 		}
@@ -51,7 +55,7 @@ string QBasicUrlEncode::decode(const string &value) {
 		
 		if (chr == '%' && i < value.length() - 2) {
 			int decodeChr = 0;
-			sscanf(value.substr(i + 1,2).c_str(), "%x", &decodeChr);
+			sscanf(value.substr(i + 1, 2).c_str(), "%x", &decodeChr);
 			chr = static_cast<char>(decodeChr);
 			i += 2;
 		}

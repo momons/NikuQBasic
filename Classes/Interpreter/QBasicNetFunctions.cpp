@@ -82,19 +82,13 @@ void QBasicNetFunctions::startNetFetcher(const string &url, string *retNetValue)
 
 /**
  *  通信成功
- *  @param responseData レスポンスデータ
+ *  @param fetcher  対象フェッチャー
+ *  @param response レスポンスデータ
  */
-void QBasicNetFunctions::successNetFetcher(const string responseData) {
-	
-	// 変数設定
-	*retNetValue = responseData;
+void QBasicNetFunctions::success(const QBasicFetchers *fetcher, const QBasicVariableEntity &response) {
 	
 	// フラグOFF
 	isConnect = false;
-	
-	// 解放
-//	delete netFetcher;
-//	netFetcher = nullptr;
 }
 
 /**
