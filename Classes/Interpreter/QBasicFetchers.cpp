@@ -58,10 +58,8 @@ void QBasicFetchers::startRequest(string url, QBasicFetchersDelegate* delegate) 
 	request->setResponseCallback([this](network::HttpClient* client, network::HttpResponse* response) {
 		
 		// エラー
-		if(!response->isSucceed() ||
-		   response->getResponseCode() != 200){
-			// エラー
-			this->delegate->failure(this, response->getResponseCode(), response->getErrorBuffer());
+		if(!response->isSucceed()) {
+			this->delegate->failure(this, 0L, QBasicFetchersErrorType::ConnectFailure);
 			return;
 		}
 		
@@ -75,7 +73,8 @@ void QBasicFetchers::startRequest(string url, QBasicFetchersDelegate* delegate) 
 		QBasicJsons::toObject(jsonValue, &error, responseString);
 		
 		if (error.length() > 0) {
-			// TODO: 変換エラー
+			// 変換エラー
+			this->delegate->failure(this, response->getResponseCode(), QBasicFetchersErrorType::JSONError);
 			return;
 		}
 		
@@ -87,7 +86,7 @@ void QBasicFetchers::startRequest(string url, QBasicFetchersDelegate* delegate) 
 		}
 		
 		// 成功
-		this->delegate->success(this, responseEntity);
+		this->delegate->success(this, response->getResponseCode(), responseEntity);
 	});
 	
 	// 通信開始

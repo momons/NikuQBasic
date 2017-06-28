@@ -33,8 +33,17 @@ string QBasicQueries::toQueryString(QBasicVariableEntity &value) {
 			case VariableType::Bool:
 				ostr << QBasicUrlEncode::encode(it->second.toStr().strValue);
 				break;
-			case VariableType::List:
+			case VariableType::List: {
+				int count2 = 0;
+				for (auto it2 = it->second.listValue.begin();it2 != it->second.listValue.end();it2++) {
+					if (count2 > 0) {
+						ostr << "&" << it->first << "=";
+					}
+					ostr << QBasicUrlEncode::encode(it2->toStr().strValue);
+					count2 += 1;
+				}
 				break;
+			}
 			default:
 				// Dictとそれ以外は無視
 				break;

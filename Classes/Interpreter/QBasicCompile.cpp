@@ -633,8 +633,7 @@ bool QBasicCompile::analysisVar(const bool run, const bool isConst) {
 		int offset = interpreter->symbols->offset();
 		sym = getSymbol();
 		variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
-		if (variableTypes[0] == VariableType::Void ||
-			variableTypes[0] == VariableType::Unknown) {
+		if (variableTypes[0] == VariableType::Unknown) {
 			interpreter->errors->addError(offset, ErrorType::UnknownSymbol, sym);
 		}
 		if (variableTypes[0] == VariableType::List ||
@@ -988,8 +987,7 @@ bool QBasicCompile::analysisArguments(const bool run, vector<QBasicVariableEntit
 			int offset = interpreter->symbols->offset();
 			sym = getSymbol();
 			variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
-			if (variableTypes[0] == VariableType::Void ||
-				variableTypes[0] == VariableType::Unknown) {
+			if (variableTypes[0] == VariableType::Unknown) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, sym);
 			}
 			if (variableTypes[0] == VariableType::List ||

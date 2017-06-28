@@ -28,6 +28,14 @@ enum class BodyEncodeType {
 	Binary,
 };
 
+/// エラータイプ
+enum class QBasicFetchersErrorType {
+	/// 接続失敗
+	ConnectFailure,
+	/// JSON変換エラー
+	JSONError,
+};
+
 /**
  *  通信デリゲート
  */
@@ -36,18 +44,19 @@ public:
 	
 	/**
 	 *  通信成功
-	 *  @param fetcher  対象フェッチャー
-	 *  @param response レスポンスデータ
+	 *  @param fetcher    対象フェッチャー
+	 *  @param statusCode HTTPステータス
+	 *  @param response   レスポンスデータ
 	 */
-	virtual void success(const QBasicFetchers *fetcher, const QBasicVariableEntity &response) = 0;
+	virtual void success(const QBasicFetchers *fetcher, const long statusCode, const QBasicVariableEntity &response) = 0;
 	
 	/**
 	 *  通信失敗
-	 *  @param fetcher 対象フェッチャー
-	 *  @param status  HTTPステータス
-	 *  @param message メッセージ
+	 *  @param fetcher     対象フェッチャー
+	 *  @param statusCode  HTTPステータス
+	 *  @param errorType   エラータイプ
 	 */
-	virtual void failure(const QBasicFetchers *fetcher, const long status, const string &message) = 0;
+	virtual void failure(const QBasicFetchers *fetcher, const long statusCode, const QBasicFetchersErrorType errorType) = 0;
 };
 
 /**

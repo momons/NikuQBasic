@@ -333,6 +333,28 @@ void QBasicVariableEntity::set(const bool value) {
 }
 
 /**
+ * list代入
+ * @param value 値
+ */
+void QBasicVariableEntity::set(const vector<QBasicVariableEntity> &value) {
+	types = { VariableType::List };
+	listValue = value;
+	types = getVariableTypes(*this);
+	isNil = false;
+}
+
+/**
+ * dict代入
+ * @param value 値
+ */
+void QBasicVariableEntity::set(const map<string, QBasicVariableEntity> &value) {
+	types = { VariableType::Dict };
+	dictValue = value;
+	types = getVariableTypes(*this);
+	isNil = false;
+}
+
+/**
  * 足し算
  * @param entity 変数entity
  * @return 結果

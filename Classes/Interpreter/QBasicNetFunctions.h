@@ -38,9 +38,15 @@ public:
 	 *  @return 戻り値 (通信結果)
 	 */
 	/// ネット通信
-	static QBasicVariableEntity *net_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static inline vector<QBasicVariableEntity> net_params();
+	static inline QBasicVariableEntity net_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static inline void net_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset);
+	/// クエリパラメータ変換
+	static inline vector<QBasicVariableEntity> toQuaryParams_params();
+	static inline QBasicVariableEntity toQuaryParams_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
 	/// ブラウザ
-	static QBasicVariableEntity *browser_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static inline vector<QBasicVariableEntity> browser_params();
+	static inline QBasicVariableEntity browser_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 	/**
 	 *  HTTPスタート
@@ -51,18 +57,19 @@ public:
 	
 	/**
 	 *  通信成功
-	 *  @param fetcher  対象フェッチャー
-	 *  @param response レスポンスデータ
+	 *  @param fetcher    対象フェッチャー
+	 *  @param statusCode HTTPステータス
+	 *  @param response   レスポンスデータ
 	 */
-	void success(const QBasicFetchers *fetcher, const QBasicVariableEntity &response) override;
+	void success(const QBasicFetchers *fetcher, const long statusCode, const QBasicVariableEntity &response) override;
 	
 	/**
 	 *  通信失敗
-	 *  @param fetcher 対象フェッチャー
-	 *  @param status  HTTPステータス
-	 *  @param message メッセージ
+	 *  @param fetcher     対象フェッチャー
+	 *  @param statusCode  HTTPステータス
+	 *  @param errorType   エラータイプ
 	 */
-	void failure(const QBasicFetchers *fetcher, const long status, const string &message) override;
+	void failure(const QBasicFetchers *fetcher, const long statusCode, const QBasicFetchersErrorType errorType) override;
 
 	/**
 	 *  コンストラクタ
