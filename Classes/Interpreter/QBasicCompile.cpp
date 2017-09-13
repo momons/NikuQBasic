@@ -987,7 +987,8 @@ bool QBasicCompile::analysisArguments(const bool run, vector<QBasicVariableEntit
 			int offset = interpreter->symbols->offset();
 			sym = getSymbol();
 			variableTypes[0] = QBasicVariableEntity::getVariableType(sym);
-			if (variableTypes[0] == VariableType::Unknown) {
+			if (variableTypes[0] == VariableType::Unknown ||
+				variableTypes[0] == VariableType::Void) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, sym);
 			}
 			if (variableTypes[0] == VariableType::List ||
