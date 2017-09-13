@@ -55,6 +55,7 @@ void QBasicCompile::match(const string &str) {
 QBasicVariableEntity QBasicCompile::expression(const bool run) {
 	
 	// 式の値取得
+	int variableOffset = interpreter->symbols->offset();
 	auto value = relop(run);
 	
 	auto sym = getSymbol();
@@ -69,6 +70,23 @@ QBasicVariableEntity QBasicCompile::expression(const bool run) {
 				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, valueDist.types));
 			}
 			value = QBasicVariableEntity("", "true");
+			
+		} else if (sym == "?") {
+
+			if (value.types[0] != VariableType::Bool) {
+				interpreter->errors->addError(variableOffset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value.types, {VariableType::Bool}));
+			}
+			
+			int offset = interpreter->symbols->offset();
+			auto value1 = expression(run);
+			match(":");
+			auto value2 = expression(run);
+			
+			if (!QBasicValidation::isValidVariableType(value1, value2)) {
+				interpreter->errors->addError(offset, ErrorType::BadVariableType, QBasicErrors::buildBadVariableType(value1.types, value2.types));
+			}
+			
+			value = value1;
 			
 		} else {
 			break;
