@@ -199,6 +199,18 @@ public:
 	void set(const bool value);
 
 	/**
+	 * list代入
+	 * @param value 値
+	 */
+	void set(const vector<QBasicVariableEntity> &value);
+	
+	/**
+	 * dict代入
+	 * @param value 値
+	 */
+	void set(const map<string, QBasicVariableEntity> &value);
+	
+	/**
 	 * 足し算
 	 * @param entity 変数entity
 	 * @return 結果
@@ -354,6 +366,12 @@ public:
 	 * @return JSON配列
 	 */
 	picojson::array toJsonArray();
+	
+	/**
+	 * QBasicVariableEntity→JSON文字列
+	 * @return JSON文字列
+	 */
+	string toJsonString();
 
 	/**
 	 * QBasicVariableEntity→保存用JSONオブジェクト変換

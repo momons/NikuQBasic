@@ -9,8 +9,7 @@
 #ifndef QBasicNetFunctions_h
 #define QBasicNetFunctions_h
 
-#include <stdio.h>
-#include "QBNetFetcher.h"
+#include "QBasicFetchers.h"
 
 using namespace std;
 
@@ -19,7 +18,7 @@ class QBasicStatementEntity;
 class QBasicVariableEntity;
 
 /// スクリプト 通信操作サブ関数群
-class QBasicNetFunctions final: public QBNetFetcherDelegate {
+class QBasicNetFunctions final: public QBasicFetchersDelegate {
 public:
 
 	/// 通信中フラグ
@@ -39,9 +38,15 @@ public:
 	 *  @return 戻り値 (通信結果)
 	 */
 	/// ネット通信
-	static QBasicVariableEntity *net_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static inline vector<QBasicVariableEntity> net_params();
+	static inline QBasicVariableEntity net_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static inline void net_compile(QBasic *interpreter, const vector<QBasicVariableEntity> &arg, const int symbolOffset);
+	/// クエリパラメータ変換
+	static inline vector<QBasicVariableEntity> toQuaryParams_params();
+	static inline QBasicVariableEntity toQuaryParams_qb(QBasic *interpreter, vector<QBasicVariableEntity> &arg);
 	/// ブラウザ
-	static QBasicVariableEntity *browser_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
+	static inline vector<QBasicVariableEntity> browser_params();
+	static inline QBasicVariableEntity browser_qb(QBasic *interpreter, const vector<QBasicVariableEntity> &arg);
 
 	/**
 	 *  HTTPスタート
@@ -52,14 +57,19 @@ public:
 	
 	/**
 	 *  通信成功
-	 *  @param responseData レスポンスデータ
+	 *  @param fetcher    対象フェッチャー
+	 *  @param statusCode HTTPステータス
+	 *  @param response   レスポンスデータ
 	 */
-	void successNetFetcher(const string responseData);
+	void success(const QBasicFetchers *fetcher, const long statusCode, const QBasicVariableEntity &response) override;
 	
 	/**
 	 *  通信失敗
+	 *  @param fetcher     対象フェッチャー
+	 *  @param statusCode  HTTPステータス
+	 *  @param errorType   エラータイプ
 	 */
-	void failureNetFetcher();
+	void failure(const QBasicFetchers *fetcher, const long statusCode, const QBasicFetchersErrorType errorType) override;
 
 	/**
 	 *  コンストラクタ
@@ -74,7 +84,7 @@ public:
 private:
 	
 	/// ネット通信用
-	QBNetFetcher *netFetcher = nullptr;
+	QBasicFetchers *fetcher = nullptr;
 	
 	/// ネット通信返却用ポインタ
 	string *retNetValue = nullptr;

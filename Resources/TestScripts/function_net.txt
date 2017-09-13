@@ -1,0 +1,28 @@
+# test0 intをクエリに変換
+var a = toQuaryParams({ "a": 1 })
+========================
+# test1 floatをクエリに変換
+var a = toQuaryParams({ "a": 1.5 })
+========================
+# test2 strをクエリに変換
+var a = toQuaryParams({ "a": "anbcdefg" })
+========================
+# test3 boolをクエリに変換
+var a = toQuaryParams({ "a": true })
+========================
+# test4 listをクエリに変換
+var a = toQuaryParams({ "a": [ 1, 2, 3 ] })
+========================
+# test5 dictをクエリに変換 変換対象外
+var a = toQuaryParams({ "a": { "b": 1, "c": 2, "d": 3 } })
+========================
+# test6 複数をクエリに変換
+var a = toQuaryParams({ "a": 1, "b": 1.5, "c": "abc", "d": true, "e": [ 1, 2, 3 ] })
+========================
+# test7 マルチバイト文字列をクエリに変換
+var a = toQuaryParams({ "a": "あいうえお" })
+========================
+# test8 GET通信
+var a: dict<void>
+net("a", "http://yahoo.co.jp")
+========================

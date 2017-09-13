@@ -333,6 +333,28 @@ void QBasicVariableEntity::set(const bool value) {
 }
 
 /**
+ * list代入
+ * @param value 値
+ */
+void QBasicVariableEntity::set(const vector<QBasicVariableEntity> &value) {
+	types = { VariableType::List };
+	listValue = value;
+	types = getVariableTypes(*this);
+	isNil = false;
+}
+
+/**
+ * dict代入
+ * @param value 値
+ */
+void QBasicVariableEntity::set(const map<string, QBasicVariableEntity> &value) {
+	types = { VariableType::Dict };
+	dictValue = value;
+	types = getVariableTypes(*this);
+	isNil = false;
+}
+
+/**
  * 足し算
  * @param entity 変数entity
  * @return 結果
@@ -875,6 +897,29 @@ picojson::array QBasicVariableEntity::toJsonArray() {
 		}
 	}
 	return returnArray;
+}
+
+/**
+ * QBasicVariableEntity→JSON文字列
+ * @return JSON文字列
+ */
+string QBasicVariableEntity::toJsonString() {
+	picojson::value jsonValue;
+	switch (types[0]) {
+		case VariableType::List: {
+			auto jsonArray = toJsonArray();
+			jsonValue = picojson::value(jsonArray);
+			break;
+		}
+		case VariableType::Dict: {
+			auto jsonObject = toJsonObject();
+			jsonValue = picojson::value(jsonObject);
+			break;
+		}
+		default:
+			break;
+	}
+	return jsonValue.serialize();
 }
 
 /**
