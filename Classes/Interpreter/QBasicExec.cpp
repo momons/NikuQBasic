@@ -75,6 +75,14 @@ QBasicVariableEntity QBasicExec::expression(const bool run) {
 				value = value || valueDist;
 			}
 			
+		} else if (sym == "?") {
+			
+			auto value1 = expression(run);
+			match(":");
+			auto value2 = expression(run);
+			
+			value = value.boolValue ? value1 : value2;
+			
 		} else {
 			break;
 		}
