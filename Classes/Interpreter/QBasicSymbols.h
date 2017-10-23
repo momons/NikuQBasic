@@ -66,6 +66,17 @@ public:
 	 */
 	int offset();
 	
+	/**
+	 *  オフセットをスナップショットする
+	 */
+	void snapshot();
+	
+	/**
+	 *  スナップショットオフセット取得
+	 *  @return スナップショットオフセット
+	 */
+	int snapshotOffset();
+	
 private:
 	
 	/// プログラムソース
@@ -78,6 +89,9 @@ private:
 	/// 項数
 	int col;
 	
+	/// スナップショットオフセット
+	int snapshotExecOffset;
+
 	/// シンボル群
 	vector<QBasicSymbolEntity> symbols;
 	

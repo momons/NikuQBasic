@@ -87,6 +87,20 @@ int QBasicSymbols::offset() {
 	return execOffset;
 }
 
+/**
+ *  オフセットをスナップショットする
+ */
+void QBasicSymbols::snapshot() {
+	snapshotExecOffset = execOffset;
+}
+
+/**
+ *  スナップショットオフセット取得
+ *  @return スナップショットオフセット
+ */
+int QBasicSymbols::snapshotOffset() {
+	return snapshotExecOffset;
+}
 
 /**
  *  シンボルをビルド
@@ -99,6 +113,7 @@ void QBasicSymbols::buildSymbols(const string &source) {
 	execOffset = 0;
 	row = 0;
 	col = 0;
+	snapshotExecOffset = 0;
 	
 	while(true) {
 		QBasicSymbolEntity entity;

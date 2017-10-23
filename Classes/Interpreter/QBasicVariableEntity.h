@@ -34,6 +34,8 @@ enum class VariableType {
 	List,
 	/// 連想配列
 	Dict,
+	/// ファンクション
+	Func,
 	/// 不明
 	Unknown,
 };

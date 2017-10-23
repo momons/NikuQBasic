@@ -216,12 +216,11 @@ QBasicVariableEntity QBasicExec::factor(const bool run) {
 	if (interpreter->localVariables.find(sym) != interpreter->localVariables.end() ||
 		interpreter->variables.find(sym) != interpreter->variables.end()) {
 		auto operate = getSymbol();
+		pushBack(operate);
 		if (operate != "(") {
-			pushBack(operate);
 			auto variable = getVariable(run, sym);
 			return *variable;
 		}
-		pushBack(operate);
 	}
  
 	if (sym.length() == 1) {

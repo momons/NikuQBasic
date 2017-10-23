@@ -523,6 +523,45 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F59EC911F9E2E0300700053 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				2F3B56B51ECC80FF008F4678 /* QBasicErrors.cpp */,
+				2F3B56B41ECC80ED008F4678 /* QBasicErrors.h */,
+				2F3B56B81ECC8127008F4678 /* QBasicErrorEntity.cpp */,
+				2F3B56B71ECC811D008F4678 /* QBasicErrorEntity.h */,
+			);
+			name = Errors;
+			sourceTree = "<group>";
+		};
+		2F59EC921F9E2EF800700053 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */,
+				2FC9FB2E1EE75B4800D869AF /* QBasicBase.h */,
+				2FC9FB291EE75A0D00D869AF /* QBasicCompile.cpp */,
+				2FC9FB281EE75A0200D869AF /* QBasicCompile.h */,
+				2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */,
+				2FC9FB2B1EE75B2400D869AF /* QBasicExec.h */,
+				2F98EFEA1E9E5DC70057B6C9 /* QBasicVariableEntity.cpp */,
+				2F98EFEC1E9E5DDA0057B6C9 /* QBasicVariableEntity.h */,
+				2F56F0CF1EB6420F00EC9A92 /* QBasicPushBackEntity.cpp */,
+				2F56F0D11EB6422400EC9A92 /* QBasicPushBackEntity.h */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		2F59EC931F9E2F6C00700053 /* Storages */ = {
+			isa = PBXGroup;
+			children = (
+				2FF185761E23C47E00F97DBC /* QBasicStorages.cpp */,
+				2FF185771E23C47E00F97DBC /* QBasicStorages.h */,
+				2FF185781E23C47E00F97DBC /* QBasicPlists.cpp */,
+				2FF185791E23C47E00F97DBC /* QBasicPlists.h */,
+			);
+			name = Storages;
+			sourceTree = "<group>";
+		};
 		2F5CE3DF1E85416000EF0D65 /* NikuQBasic-mobileTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,22 +604,6 @@
 		2F98EFEF1E9EA8F40057B6C9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				2FF1855E1E23C0B300F97DBC /* QBasicStatementEntity.cpp */,
-				2FF1855F1E23C0B300F97DBC /* QBasicStatementEntity.h */,
-				2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */,
-				2FB4C2981E9BCD1200D283CF /* QBasicFunctionEntity.h */,
-				2F4573331EC507B90099D5DF /* QBasicForEntity.cpp */,
-				2F4573321EC507AC0099D5DF /* QBasicForEntity.h */,
-				2F5B12961EC5EC4E00D6F576 /* QBasicIfEntity.cpp */,
-				2F5B12981EC5EC5600D6F576 /* QBasicIfEntity.h */,
-				2F56F0CF1EB6420F00EC9A92 /* QBasicPushBackEntity.cpp */,
-				2F56F0D11EB6422400EC9A92 /* QBasicPushBackEntity.h */,
-				2F98EFEA1E9E5DC70057B6C9 /* QBasicVariableEntity.cpp */,
-				2F98EFEC1E9E5DDA0057B6C9 /* QBasicVariableEntity.h */,
-				2F9149161EB8C07800210232 /* QBasicSymbolEntity.cpp */,
-				2F9149181EB8C08000210232 /* QBasicSymbolEntity.h */,
-				2F3B56B81ECC8127008F4678 /* QBasicErrorEntity.cpp */,
-				2F3B56B71ECC811D008F4678 /* QBasicErrorEntity.h */,
 				2FF185651E23C46700F97DBC /* QBasicSetupNodeEntity.cpp */,
 				2FF185661E23C46700F97DBC /* QBasicSetupNodeEntity.h */,
 			);
@@ -633,28 +656,14 @@
 			children = (
 				2FF1855A1E23C0B300F97DBC /* QBasic.cpp */,
 				2FF1855B1E23C0B300F97DBC /* QBasic.h */,
-				2FC9FB2F1EE75B5400D869AF /* QBasicBase.cpp */,
-				2FC9FB2E1EE75B4800D869AF /* QBasicBase.h */,
-				2FC9FB291EE75A0D00D869AF /* QBasicCompile.cpp */,
-				2FC9FB281EE75A0200D869AF /* QBasicCompile.h */,
-				2FC9FB2C1EE75B3200D869AF /* QBasicExec.cpp */,
-				2FC9FB2B1EE75B2400D869AF /* QBasicExec.h */,
-				2FF1855C1E23C0B300F97DBC /* QBasicStatements.cpp */,
-				2FF1855D1E23C0B300F97DBC /* QBasicStatements.h */,
-				2F3B9B241EB2952400BB7A96 /* QBasicFunctions.cpp */,
-				2F3B9B261EB2952D00BB7A96 /* QBasicFunctions.h */,
-				2F4573301EC5079E0099D5DF /* QBasicFors.cpp */,
-				2F45732F1EC507930099D5DF /* QBasicFors.h */,
-				2F5B12941EC5EBE300D6F576 /* QBasicIfs.cpp */,
-				2F5B12931EC5EBD300D6F576 /* QBasicIfs.h */,
-				2F9149141EB8BFEA00210232 /* QBasicSymbols.cpp */,
-				2F9149131EB8BFDD00210232 /* QBasicSymbols.h */,
-				2F3B56B51ECC80FF008F4678 /* QBasicErrors.cpp */,
-				2F3B56B41ECC80ED008F4678 /* QBasicErrors.h */,
-				2FF185761E23C47E00F97DBC /* QBasicStorages.cpp */,
-				2FF185771E23C47E00F97DBC /* QBasicStorages.h */,
-				2FF185781E23C47E00F97DBC /* QBasicPlists.cpp */,
-				2FF185791E23C47E00F97DBC /* QBasicPlists.h */,
+				2F59EC921F9E2EF800700053 /* Main */,
+				2FF63E7D1F9E2D7D007CFC49 /* Statements */,
+				2FF63E7E1F9E2D8C007CFC49 /* Functions */,
+				2FF63E7C1F9E2D5F007CFC49 /* Fors */,
+				2FF63E7B1F9E2D49007CFC49 /* Ifs */,
+				2FF63E7A1F9E2D26007CFC49 /* Symbols */,
+				2F59EC911F9E2E0300700053 /* Errors */,
+				2F59EC931F9E2F6C00700053 /* Storages */,
 				2F32C86B1EF16EF400ED1C2D /* QBasicJsons.cpp */,
 				2F32C86A1EF16EE900ED1C2D /* QBasicJsons.h */,
 				2F4802821EFAA56D0090BA07 /* QBasicFetchers.cpp */,
@@ -664,7 +673,6 @@
 				2F4802891EFACEE80090BA07 /* QBasicUrlEncode.cpp */,
 				2F48028B1EFACEF20090BA07 /* QBasicUrlEncode.h */,
 				2F98EFEF1E9EA8F40057B6C9 /* Entity */,
-				2FA5D8841E7C6D3D0044BB85 /* Functions */,
 				2FF185671E23C46700F97DBC /* QBasicSubFunction.cpp */,
 				2FF185681E23C46700F97DBC /* QBasicSubFunction.h */,
 				2F5CE4251E857D0D00EF0D65 /* QBasicValidation.cpp */,
@@ -720,6 +728,62 @@
 				2FA5D88A1E7C73C60044BB85 /* StringUtil.h */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		2FF63E7A1F9E2D26007CFC49 /* Symbols */ = {
+			isa = PBXGroup;
+			children = (
+				2F9149141EB8BFEA00210232 /* QBasicSymbols.cpp */,
+				2F9149131EB8BFDD00210232 /* QBasicSymbols.h */,
+				2F9149161EB8C07800210232 /* QBasicSymbolEntity.cpp */,
+				2F9149181EB8C08000210232 /* QBasicSymbolEntity.h */,
+			);
+			name = Symbols;
+			sourceTree = "<group>";
+		};
+		2FF63E7B1F9E2D49007CFC49 /* Ifs */ = {
+			isa = PBXGroup;
+			children = (
+				2F5B12941EC5EBE300D6F576 /* QBasicIfs.cpp */,
+				2F5B12931EC5EBD300D6F576 /* QBasicIfs.h */,
+				2F5B12961EC5EC4E00D6F576 /* QBasicIfEntity.cpp */,
+				2F5B12981EC5EC5600D6F576 /* QBasicIfEntity.h */,
+			);
+			name = Ifs;
+			sourceTree = "<group>";
+		};
+		2FF63E7C1F9E2D5F007CFC49 /* Fors */ = {
+			isa = PBXGroup;
+			children = (
+				2F4573301EC5079E0099D5DF /* QBasicFors.cpp */,
+				2F45732F1EC507930099D5DF /* QBasicFors.h */,
+				2F4573331EC507B90099D5DF /* QBasicForEntity.cpp */,
+				2F4573321EC507AC0099D5DF /* QBasicForEntity.h */,
+			);
+			name = Fors;
+			sourceTree = "<group>";
+		};
+		2FF63E7D1F9E2D7D007CFC49 /* Statements */ = {
+			isa = PBXGroup;
+			children = (
+				2FF1855C1E23C0B300F97DBC /* QBasicStatements.cpp */,
+				2FF1855D1E23C0B300F97DBC /* QBasicStatements.h */,
+				2FF1855E1E23C0B300F97DBC /* QBasicStatementEntity.cpp */,
+				2FF1855F1E23C0B300F97DBC /* QBasicStatementEntity.h */,
+			);
+			name = Statements;
+			sourceTree = "<group>";
+		};
+		2FF63E7E1F9E2D8C007CFC49 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				2F3B9B241EB2952400BB7A96 /* QBasicFunctions.cpp */,
+				2F3B9B261EB2952D00BB7A96 /* QBasicFunctions.h */,
+				2FB4C2961E9BCCF700D283CF /* QBasicFunctionEntity.cpp */,
+				2FB4C2981E9BCD1200D283CF /* QBasicFunctionEntity.h */,
+				2FA5D8841E7C6D3D0044BB85 /* Functions */,
+			);
+			name = Functions;
 			sourceTree = "<group>";
 		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
@@ -863,7 +927,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = BJHQQ4D4GE;
@@ -1338,12 +1402,18 @@
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1387,12 +1457,18 @@
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

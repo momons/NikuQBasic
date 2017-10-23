@@ -25,7 +25,7 @@ public:
 	
 	/**
 	 *  コンストラクタ
-	 *  @param source プログラムソース
+	 *  @param symbols プログラムソース
 	 */
 	QBasicErrors(QBasicSymbols *symbols);
 	
